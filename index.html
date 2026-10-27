@@ -1,0 +1,1485 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Mejerda Sport, club sportif de Medjez el Bab depuis 1989 : gymnastique, basketball, kung-fu. Calendrier, actualités, inscription.">
+<meta name="theme-color" content="#0b2e21">
+<meta property="og:title" content="Mejerda Sport – Medjez el Bab">
+<meta property="og:description" content="Gymnastique, basketball et kung-fu à Medjez el Bab depuis 1989.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="img/b1.jpg">
+<link rel="icon" type="image/png" href="img/logo.png">
+<title>Mejerda Sport – Medjez el Bab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Source+Sans+3:wght@400;500;600;700&family=Cairo:wght@400;600;700;800&display=swap">
+<style>
+/* Layout: sticky nav with language switch, dark-green hero with a drawn bridge of Medjez el Bab and two glass cards, then light content bands; gold is the only accent. */
+:root{
+  --green-deep:#0b2e21; --green-mid:#17553a; --gold:#e3ad1c; --gold-ink:#2f2200;
+  --bg:#f1f5f2; --surface:#ffffff; --ink:#10201a; --muted:#51655b; --line:#d6e1d9;
+  --brand:#17553a; --soft:#e6efe9; --warn-bg:#fff4d6; --warn-ink:#5a4100; --danger:#b3261e;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"Source Sans 3","Segoe UI",Roboto,Arial,sans-serif;
+  --arabic:"Cairo","Segoe UI",Tahoma,sans-serif;
+  --r:14px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#09130e; --surface:#11211a; --ink:#e8f1ec; --muted:#9bb2a5; --line:#233a2e;
+  --brand:#6fd49a; --soft:#16291f; --warn-bg:#3a2d08; --warn-ink:#f1d98a; --danger:#ff9f95; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#09130e; --surface:#11211a; --ink:#e8f1ec; --muted:#9bb2a5; --line:#233a2e;
+  --brand:#6fd49a; --soft:#16291f; --warn-bg:#3a2d08; --warn-ink:#f1d98a; --danger:#ff9f95; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55}
+html[lang="ar"] body,html[lang="ar"] h1,html[lang="ar"] h2,html[lang="ar"] h3,html[lang="ar"] .brand,html[lang="ar"] .eyebrow,html[lang="ar"] .date,html[lang="ar"] .glass b,html[lang="ar"] input,html[lang="ar"] textarea,html[lang="ar"] button{font-family:var(--arabic)}
+html[lang="ar"] *{letter-spacing:0!important;text-transform:none!important}
+html[lang="ar"] body{line-height:1.8}
+html[lang="ar"] h1,html[lang="ar"] h2,html[lang="ar"] h3{line-height:1.3}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:1120px;margin-inline:auto;padding-inline:20px}
+h1,h2,h3{font-family:var(--display);line-height:1.05;margin:0;text-wrap:balance;letter-spacing:.01em}
+h2{font-size:clamp(2rem,5vw,3rem);color:var(--brand);text-transform:uppercase;font-weight:800}
+h3{font-size:1.5rem;font-weight:700}
+.eyebrow{font-family:var(--display);text-transform:uppercase;letter-spacing:.14em;font-weight:700;font-size:.95rem;color:var(--muted)}
+section{padding-block:72px;scroll-margin-top:72px}
+.lead{max-width:62ch;color:var(--muted);margin:0}
+.head{display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
+
+.preview{background:var(--warn-bg);color:var(--warn-ink);font-size:.9rem;padding:8px 20px;text-align:center}
+
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--green-deep);color:#fff;border-bottom:1px solid #ffffff1f}
+.nav{display:flex;align-items:center;gap:14px;min-height:68px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--display);font-weight:800;font-size:1.25rem;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.brand img{width:44px;height:44px;border-radius:50%}
+.links{display:flex;gap:4px;margin-inline-start:auto;align-items:center}
+.links a{text-decoration:none;padding:8px 10px;border-radius:999px;font-weight:600;font-size:.92rem;color:#e6f0ea;white-space:nowrap}
+.nav.wrap{max-width:1320px}
+.links a:hover{background:#ffffff1a}
+.links .cta{background:var(--gold);color:var(--gold-ink);margin-inline-start:8px;font-weight:700}
+.links .cta:hover{background:#f0bd35}
+.lang{display:flex;gap:2px;border:1px solid #ffffff44;border-radius:999px;padding:3px}
+.lang button{background:none;border:0;color:#e6f0ea;font:inherit;font-weight:700;font-size:.85rem;border-radius:999px;padding:5px 11px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--gold);color:var(--gold-ink)}
+.burger{display:none;background:none;border:1px solid #ffffff55;color:#fff;border-radius:10px;padding:8px 12px;font:inherit;font-weight:600;cursor:pointer}
+@media (max-width:1150px){
+  .burger{display:block}
+  .lang{margin-inline-start:auto}
+  .links{display:none;position:absolute;inset-inline:0;top:100%;background:var(--green-deep);flex-direction:column;align-items:stretch;padding:12px 20px 20px;border-bottom:1px solid #ffffff1f;gap:2px;margin:0}
+  .links.open{display:flex}
+  .links .cta{margin:8px 0 0;text-align:center}
+}
+@media (max-width:480px){.brand span{display:none}}
+
+.hero{background:radial-gradient(1200px 500px at 85% 20%,rgba(31,107,73,.75) 0%,transparent 60%),linear-gradient(160deg,rgba(11,46,33,.93),rgba(23,85,58,.84)),url("img/hero.jpg") center/cover;color:#fff;padding-block:56px 72px;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:32px;align-items:center}
+.hero-grid>*{min-width:0}
+.hero .badge{display:inline-flex;align-items:center;gap:10px;background:#ffffff1a;border:1px solid #ffffff33;border-radius:999px;padding:6px 6px;padding-inline-end:14px;font-size:.9rem;margin-bottom:22px}
+.hero .badge b{background:var(--gold);color:var(--gold-ink);border-radius:999px;padding:2px 10px;font-size:.8rem}
+.hero h1{font-size:clamp(3rem,9vw,5.6rem);font-weight:800;text-transform:uppercase}
+html[lang="ar"] .hero h1{font-size:clamp(2.6rem,8vw,4.8rem)}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.ar{font-family:var(--arabic);font-weight:700;font-size:1.35rem;color:#f4dc8c;margin:14px 0 6px}
+.hero p.sub{max-width:48ch;color:#d6e6dc;margin:10px 0 28px}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:13px 24px;font:inherit;font-weight:700;text-decoration:none;cursor:pointer;border:2px solid transparent}
+.btn.gold{background:var(--gold);color:var(--gold-ink)}
+.btn.gold:hover{background:#f0bd35}
+.btn.ghost{border-color:#ffffff66;color:#fff;background:transparent}
+.btn.ghost:hover{background:#ffffff1f}
+.art{max-width:520px;width:100%;justify-self:center}
+.art-img{position:relative;aspect-ratio:1/1;width:100%}
+.glass-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:-34px;position:relative}
+.art svg{width:100%;height:100%;display:block}
+.art .logo{position:absolute;left:50%;top:6%;transform:translateX(-50%);width:34%;border-radius:50%;box-shadow:0 12px 40px #0008}
+.glass{flex:1 1 200px;background:#ffffff1f;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid #ffffff44;border-radius:18px;padding:14px 16px;font-size:.9rem;text-decoration:none;color:#fff;transition:transform .2s}
+.glass:hover{transform:translateY(-4px)}
+.glass b{display:block;font-family:var(--display);font-size:1.25rem;text-transform:uppercase;letter-spacing:.03em;color:var(--gold)}
+@media (max-width:820px){.hero-grid{grid-template-columns:1fr}.art{max-width:380px}}
+
+.grid{display:grid;gap:16px}
+.g3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px;min-width:0}
+.card p{margin:8px 0 0;color:var(--muted)}
+.ico{width:44px;height:44px;border-radius:12px;background:var(--soft);display:grid;place-items:center;margin-bottom:14px;color:var(--brand)}
+.ico svg{width:24px;height:24px}
+.example{border-style:dashed}
+.tag{display:inline-block;font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:3px 10px;background:var(--warn-bg);color:var(--warn-ink)}
+.band{background:var(--surface);border-block:1px solid var(--line)}
+.band .card{background:var(--bg)}
+
+.tools{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;width:100%}
+.tools input{flex:1 1 240px;width:auto}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:9px 16px;font:inherit;font-weight:600;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--green-mid);border-color:var(--green-mid);color:#fff}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+
+.row{display:grid;grid-template-columns:76px 1fr auto;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.date{background:var(--green-mid);color:#fff;border-radius:12px;text-align:center;padding:8px 0;font-family:var(--display);line-height:1}
+.date b{display:block;font-size:1.9rem}
+.date span{font-size:.85rem;letter-spacing:.1em}
+.row h3{font-size:1.25rem}
+.row small{color:var(--muted)}
+@media (max-width:560px){.row{grid-template-columns:64px 1fr}.row .tag{grid-column:2;justify-self:start}}
+
+.gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.tile{aspect-ratio:4/3;border-radius:var(--r);background:linear-gradient(135deg,var(--green-mid),var(--green-deep));display:flex;align-items:flex-end;padding:14px;color:#dcebe2;font-size:.9rem;position:relative;overflow:hidden}
+.tile::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 22px,#ffffff10 22px 24px)}
+.tile span{position:relative}
+.tile:nth-child(2n){background:linear-gradient(135deg,#8a6a0e,#3a2d05)}
+
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;counter-reset:s}
+.step{position:relative;padding-top:64px}
+.step::before{counter-increment:s;content:counter(s);position:absolute;top:18px;inset-inline-start:22px;width:36px;height:36px;border-radius:50%;background:var(--gold);color:var(--gold-ink);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:1.3rem}
+
+details.card{padding:0}
+details.card summary{cursor:pointer;padding:18px 22px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:16px;align-items:center}
+details.card summary::-webkit-details-marker{display:none}
+details.card summary::after{content:"+";font-size:1.5rem;color:var(--brand);line-height:1}
+details[open].card summary::after{content:"–"}
+details.card p{margin:0;padding:0 22px 20px}
+.faq{display:grid;gap:12px;max-width:820px}
+
+form .field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+label,legend{font-weight:600;font-size:.95rem}
+fieldset{border:0;padding:0;margin:0 0 16px}
+.seg{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.seg input{position:absolute;opacity:0;width:1px;height:1px}
+.seg label{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:9px 16px;cursor:pointer}
+.seg input:checked+label{background:var(--green-mid);color:#fff;border-color:var(--green-mid)}
+.seg input:focus-visible+label{outline:3px solid var(--gold);outline-offset:2px}
+.err{color:var(--danger);font-size:.88rem;min-height:1.2em}
+.status{border-radius:12px;padding:14px 16px;background:var(--warn-bg);color:var(--warn-ink);margin-top:12px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+.two>*{min-width:0}
+@media (max-width:820px){.two{grid-template-columns:1fr}}
+ul.tick{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:10px}
+ul.tick li{padding-inline-start:28px;position:relative;color:var(--muted)}
+ul.tick li::before{content:"";position:absolute;inset-inline-start:0;top:.45em;width:14px;height:8px;border-inline-start:3px solid var(--gold);border-bottom:3px solid var(--gold);transform:rotate(-45deg)}
+html[dir="rtl"] ul.tick li::before{transform:rotate(45deg)}
+button[disabled]{opacity:.55;cursor:not-allowed}
+.btn.dark{background:var(--green-mid);color:#fff}
+.btn.dark:hover{background:var(--green-deep)}
+
+.contact{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.contact .val{font-weight:700;color:var(--ink);overflow-wrap:anywhere}
+.copy{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 14px;font:inherit;font-size:.85rem;font-weight:600;cursor:pointer}
+.copy:hover{border-color:var(--brand)}
+.masonry{column-width:250px;column-gap:12px}
+.ph{display:block;position:relative;width:100%;margin:0 0 12px;padding:0;border:0;background:var(--soft);cursor:zoom-in;break-inside:avoid;border-radius:var(--r);overflow:hidden}
+.ph img{width:100%;height:auto;display:block;transition:transform .3s}
+.ph:hover img{transform:scale(1.03)}
+.ph span{position:absolute;inset-inline:0;bottom:0;padding:30px 12px 10px;background:linear-gradient(transparent,#000c);color:#fff;font:inherit;font-size:.9rem;text-align:start}
+[hidden]{display:none!important}
+.lb{position:fixed;inset:0;z-index:50;background:#000d;display:grid;place-items:center;padding:20px}
+.lb img{max-width:100%;max-height:100%;border-radius:10px;object-fit:contain}
+.lbx{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));inset-inline-end:14px;width:44px;height:44px;border-radius:50%;border:0;background:#fff;color:#111;font-size:1.2rem;cursor:pointer}
+.card.link{display:block;text-decoration:none;color:inherit;transition:transform .2s,border-color .2s}
+.card.link:hover{transform:translateY(-3px);border-color:var(--brand)}
+.card.link h3::after{content:" →";color:var(--gold)}
+html[dir="rtl"] .card.link h3::after{content:" ←"}
+.links a[aria-current="page"]{background:#ffffff26}
+.links .cta[aria-current="page"]{background:var(--gold)}
+@media (max-width:1240px){.brand span{display:none}}
+main{min-height:60vh}
+.social{display:flex;flex-wrap:wrap;gap:8px}
+.social a{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 14px;text-decoration:none;font-weight:600;font-size:.9rem}
+.social a:hover{border-color:var(--brand)}
+.contact+.social{margin-top:0}
+.social.foot a{background:transparent;color:#e6f0ea;border-color:#ffffff44}
+.social.foot a:hover{border-color:var(--gold)}
+footer{background:var(--green-deep);color:#cfe0d6;padding-block:36px;font-size:.95rem}
+footer .wrap{display:flex;gap:20px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+footer img{width:48px;height:48px;border-radius:50%}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+.pl{white-space:pre-line}
+.adm-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.adm-top{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.adm-list{display:grid;gap:10px}
+.adm-row{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:12px 14px}
+.adm-row.nothumb{grid-template-columns:1fr auto}
+.adm-row img{width:64px;height:48px;object-fit:cover;border-radius:8px;display:block}
+.adm-row b{display:block;overflow-wrap:anywhere}
+.adm-row small{color:var(--muted)}
+.adm-acts{display:flex;gap:8px;flex-wrap:wrap}
+@media (max-width:560px){.adm-row{grid-template-columns:auto 1fr}.adm-row.nothumb{grid-template-columns:1fr}.adm-acts{grid-column:1/-1}}
+.btn.sm{padding:7px 16px;font-size:.9rem}
+.btn.outline{border-color:var(--line);background:var(--surface);color:var(--ink)}
+.btn.outline:hover{border-color:var(--brand)}
+.btn.danger{border-color:var(--danger);color:var(--danger);background:transparent}
+.btn.danger.confirm{background:var(--danger);color:var(--bg)}
+.adm-form{margin-bottom:16px}
+.adm-form .field{gap:8px}
+.adm-form .grp{display:grid;gap:8px}
+.row2{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.adm-bar{position:sticky;bottom:0;z-index:15;margin-top:22px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;box-shadow:0 -6px 20px rgba(0,0,0,.08)}
+.adm-state{margin-inline-end:auto;font-weight:600;color:var(--muted)}
+.adm-state.dirty{color:var(--warn-ink);background:var(--warn-bg);padding:3px 12px;border-radius:999px}
+.adm-msg{margin-top:12px;border-radius:12px;padding:12px 14px;background:var(--soft)}
+.adm-msg.bad{background:var(--warn-bg);color:var(--warn-ink)}
+.adm-prev{max-width:220px;border-radius:10px;margin-top:8px;display:block}
+.adm-export{width:100%;min-height:120px;font-family:monospace;font-size:.8rem;direction:ltr;text-align:left;margin-top:12px}
+.adm-note{color:var(--muted);font-size:.92rem;margin:0 0 14px}
+.sched{display:grid;gap:8px;margin-top:12px}
+.srow{display:grid;grid-template-columns:minmax(90px,auto) auto 1fr;gap:6px 14px;align-items:baseline;padding:8px 0;border-top:1px solid var(--line)}
+.srow:first-child{border-top:0}
+.srow span{color:var(--muted)}
+@media (max-width:560px){.srow{grid-template-columns:1fr auto}.srow span{grid-column:1/-1}}
+.person{display:flex;gap:14px;align-items:center}
+.person small{display:block;color:var(--muted)}
+.avatar{width:64px;height:64px;border-radius:50%;object-fit:cover;flex:none;background:var(--soft)}
+.avatar.ph0{display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:1.6rem;color:var(--brand)}
+pre.req{margin:10px 0 0;padding:12px;border-radius:10px;background:var(--surface);color:var(--ink);font:inherit;font-size:.92rem;overflow-wrap:anywhere}
+.hpw{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}.admlink{color:inherit;opacity:.8}.stat{text-align:start;cursor:pointer;font:inherit;color:var(--ink)}.stat b{display:block;font-family:var(--display);font-size:2.6rem;line-height:1;color:var(--brand)}.stat small{color:var(--muted)}.stat:hover{border-color:var(--brand)}.req-card.isnew{border-inline-start:4px solid var(--gold)}</style>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#accueil"><img src="img/logo.png" alt="Logo"><span data-t="brand">Mejerda Sport</span></a>
+    <nav class="links" id="links" data-t-aria="navAria" aria-label="Navigation principale">
+      <a href="#club" data-t="nClub">Le club</a><a href="#disciplines" data-t="nTeams">Disciplines</a><a href="#actus" data-t="nNews">Actualités</a><a href="#calendrier" data-t="nCal">Calendrier</a><a href="#galerie" data-t="nGal">Galerie</a><a href="#contact" data-t="nContact">Contact</a>
+      <a href="#espace" data-t="nSpace">Espace membres</a>
+      
+      <a class="cta" href="#inscription" data-t="nJoin">Inscription</a>
+    </nav>
+    <div class="lang" role="group" aria-label="Langue / اللغة / Language">
+      <button data-lang="ar" aria-pressed="false" lang="ar">ع</button>
+      <button data-lang="fr" aria-pressed="true">FR</button>
+      <button data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="links" data-t="menu">Menu</button>
+  </div>
+</header>
+
+<main>
+<div class="hero" id="accueil" data-page="home">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="badge"><b data-t="bTag">Club</b><span data-t="bText">Medjez el Bab · depuis 1989</span></div>
+      <h1 data-t="h1">Notre passion,<br>notre <em>fierté</em>,<br>notre avenir</h1>
+      <div class="ar" lang="ar" dir="rtl">مجردة الرياضية بمجاز الباب</div>
+      <p class="sub" data-t="heroSub">Mejerda Sport rassemble les jeunes, les familles et les supporters de Medjez el Bab autour du sport, de l'effort et de l'esprit d'équipe.</p>
+      <div class="btns">
+        <a class="btn gold" href="#inscription" data-t="btnJoin">Rejoindre le club →</a>
+        <a class="btn ghost" href="#calendrier" data-t="btnCal">Voir le calendrier</a>
+      </div>
+    </div>
+    <div class="art"><div class="art-img">
+      <svg viewBox="0 0 480 480" role="img" aria-label="Dessin du pont de Medjez el Bab sur la Medjerda">
+        <circle cx="240" cy="240" r="214" fill="none" stroke="#ffffff22" stroke-width="2"/>
+        <circle cx="240" cy="240" r="170" fill="none" stroke="#ffffff14" stroke-width="2"/>
+        <g fill="none" stroke="#e3ad1c" stroke-linecap="round">
+          <path d="M40 262 H440" stroke-width="12"/>
+          <path d="M40 246 H440" stroke-width="3" opacity=".6"/>
+          <path d="M70 262 V330 M200 262 V330 M280 262 V330 M410 262 V330" stroke-width="10"/>
+          <path d="M70 330 A65 65 0 0 1 200 330" stroke-width="10"/>
+          <path d="M280 330 A65 65 0 0 1 410 330" stroke-width="10"/>
+          <path d="M200 330 A40 55 0 0 1 280 330" stroke-width="10"/>
+        </g>
+        <g fill="none" stroke="#ffffff" stroke-linecap="round" opacity=".5" stroke-width="3">
+          <path d="M30 352 q22 -9 44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0"/>
+          <path d="M30 374 q22 -9 44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0" opacity=".8"/>
+          <path d="M30 396 q22 -9 44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0" opacity=".6"/>
+          <path d="M30 418 q22 -9 44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0" opacity=".4"/>
+        </g>
+      </svg>
+      <img class="logo" src="img/logo.png" alt="">
+      </div>
+      <div class="glass-row">
+      <a class="glass a" href="#calendrier"><b data-t="g1t">Prochain match</b><span id="g1d" data-t="g1d">Le calendrier sera publié ici.</span></a>
+      <a class="glass b" href="#inscription"><b data-t="g2t">Saison en cours</b><span data-t="g2d">Demandez votre inscription.</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="decouvrir" data-page="home">
+  <div class="wrap">
+    <div class="head"><span class="eyebrow" data-t="exEy">Découvrir</span><h2 data-t="exH">Explorer le site</h2></div>
+    <div class="grid g3">
+      <a class="card link" href="#club"><h3 data-t="nClub">Le club</h3><p data-t="xClub">Notre histoire, notre mission et nos infrastructures.</p></a>
+      <a class="card link" href="#disciplines"><h3 data-t="nTeams">Disciplines</h3><p data-t="xDisc">Gymnastique, basketball et kung-fu.</p></a>
+      <a class="card link" href="#actus"><h3 data-t="nNews">Actualités</h3><p data-t="xNews">Annonces, résultats et informations aux parents.</p></a>
+      <a class="card link" href="#calendrier"><h3 data-t="nCal">Calendrier</h3><p data-t="xCal">Matchs, entraînements et événements.</p></a>
+      <a class="card link" href="#galerie"><h3 data-t="nGal">Galerie</h3><p data-t="xGal">Photos de la salle et des compétitions.</p></a>
+      <a class="card link" href="#inscription"><h3 data-t="nJoin">Inscription</h3><p data-t="xJoin">Envoyez votre demande d'inscription.</p></a>
+      <a class="card link" href="#espace"><h3 data-t="nSpace">Espace membres</h3><p data-t="xSpace">Parents et athlètes, bientôt.</p></a>
+      <a class="card link" href="#contact"><h3 data-t="nContact">Contact</h3><p data-t="xContact">Adresse, téléphone et e-mail.</p></a>
+    </div>
+  </div>
+</section>
+
+<section id="club" data-page="club">
+  <div class="wrap">
+    <div class="head"><span class="eyebrow" data-t="clubEy">Le club</span><h2 data-t="clubH">Né d'un rêve, devenu une référence</h2>
+      <p class="lead" data-t="clubLead">Depuis 1989, Mejerda Sport est née du rêve commun de jeunes de Medjez el Bab, convaincus que le sport forme l'être humain et les champions. Sa devise : « Le sport, c'est l'éducation, l'engagement et l'excellence. »</p></div>
+    <div class="grid g3">
+      <div class="card"><h3 data-t="miT">Notre mission</h3>
+        <ul class="tick"><li data-t="mi1">Développer l'esprit sportif chez les jeunes</li><li data-t="mi2">Repérer les talents et les encadrer</li><li data-t="mi3">Former des champions qui honorent la Tunisie</li><li data-t="mi4">Développer les infrastructures sportives de la région</li><li data-t="mi5">Promouvoir la discipline, le travail d'équipe et la confiance en soi</li></ul></div>
+      <div class="card"><h3 data-t="infT">Infrastructures</h3><p data-t="infD">Une salle dédiée à la gymnastique, et le siège du club à Medjez el Bab avec un terrain de basketball, un terrain de volley-ball et des espaces d'entraînement.</p></div>
+      <div class="card"><h3 data-t="ambT">Nos ambitions</h3>
+        <ul class="tick"><li data-t="am1">Créer une académie sportive complète</li><li data-t="am2">S'ouvrir à des clubs arabes et européens</li><li data-t="am3">Organiser des festivals internationaux</li><li data-t="am4">Soutenir les sportifs les plus méritants par des bourses</li></ul></div>
+    </div>
+    <div id="teamBox"></div>
+    <div class="card example" id="todoCard" style="margin-top:16px"><span class="tag" data-t="todoTag">À compléter par le bureau</span><p data-t="todoTxt">Composition du bureau directeur, encadrement technique et photos des installations.</p></div>
+  </div>
+</section>
+
+<section id="equipes" data-page="disciplines" class="band">
+  <div class="wrap">
+    <div class="head"><span class="eyebrow" data-t="teamEy">Sections sportives</span><h2 data-t="teamH">Nos disciplines</h2>
+      <p class="lead" data-t="teamLead">Trois disciplines au club. Les catégories d'âge, les équipes, les entraîneurs et les horaires seront publiés par le bureau.</p></div>
+    <div class="grid g3" id="discGrid"></div>
+    <div class="empty" id="noDisc" hidden data-t="noDisc">Aucune discipline pour le moment.</div>
+    <div class="head" style="margin:56px 0 24px"><span class="eyebrow" data-t="schEy">Horaires</span><h2 data-t="schH">Horaires d'entraînement</h2></div>
+    <div class="grid g3" id="schedBox"></div>
+    <div class="empty" id="schedNone" hidden data-t="schNone">Les horaires seront publiés par le bureau.</div>
+  </div>
+</section>
+
+<section id="actus" data-page="actus">
+  <div class="wrap">
+    <div class="head"><span class="eyebrow" data-t="newsEy">Actualités</span><h2 data-t="newsH">Les nouvelles du club</h2></div>
+    <div class="tools">
+      <input id="q" type="search" data-t-ph="search" data-t-aria="search" placeholder="Rechercher une actualité" aria-label="Rechercher une actualité">
+      <div class="chips" role="group" data-t-aria="filterAria" aria-label="Filtrer par catégorie">
+        <button class="chip" data-cat="all" aria-pressed="true" data-t="cAll">Toutes</button>
+        <button class="chip" data-cat="annonce" aria-pressed="false" data-t="cAnn">Annonces</button>
+        <button class="chip" data-cat="resultat" aria-pressed="false" data-t="cRes">Résultats</button>
+        <button class="chip" data-cat="parents" aria-pressed="false" data-t="cPar">Parents</button>
+      </div>
+    </div>
+    <div class="grid g3" id="news"></div>
+    <div class="empty" id="noNews" hidden data-t="noNews">Aucune actualité ne correspond à votre recherche.</div>
+  </div>
+</section>
+
+<section id="calendrier" data-page="calendrier" class="band">
+  <div class="wrap">
+    <div class="head"><span class="eyebrow" data-t="calEy">Calendrier sportif</span><h2 data-t="calH">Matchs et événements</h2></div>
+    <div class="chips" role="group" data-t-aria="viewAria" aria-label="Type d'affichage" style="margin-bottom:12px">
+      <button class="chip" data-view="next" aria-pressed="true" data-t="vNext">À venir</button>
+      <button class="chip" data-view="past" aria-pressed="false" data-t="vPast">Résultats</button>
+    </div>
+    <div class="card">
+      <div id="next"></div>
+      <div id="past" hidden></div>
+      <div class="empty" id="noEv" hidden></div>
+    </div>
+  </div>
+</section>
+
+<section id="galerie" data-page="galerie">
+  <div class="wrap">
+    <div class="head"><span class="eyebrow" data-t="galEy">Galerie</span><h2 data-t="galH">Photos et vidéos</h2>
+      <p class="lead" data-t="galLead">Quelques moments de la vie du club. Les photos de mineurs sont publiées avec l'autorisation des parents.</p></div>
+    <div class="masonry" id="gal"></div>
+    <div class="empty" id="noGal" hidden></div>
+  </div>
+</section>
+
+<section id="etapes" data-page="inscription" class="band">
+  <div class="wrap">
+    <div class="head"><span class="eyebrow" data-t="stEy">Comment s'inscrire</span><h2 data-t="stH">Trois étapes</h2></div>
+    <div class="steps">
+      <div class="card step"><h3 data-t="s1t">Envoyez votre demande</h3><p data-t="s1d">Remplissez le formulaire ci-dessous avec vos informations.</p></div>
+      <div class="card step"><h3 data-t="s2t">Le club vous contacte</h3><p data-t="s2d">Le bureau confirme la section adaptée et les documents à fournir.</p></div>
+      <div class="card step"><h3 data-t="s3t">Rejoignez l'entraînement</h3><p data-t="s3d">Retrouvez votre équipe dès la première séance.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="adhesion" data-page="inscription">
+  <div class="wrap two">
+    <div>
+      <div class="head" style="margin-bottom:0"><span class="eyebrow" data-t="adEy">Rejoindre le club</span><h2 data-t="adH">Inscription, bénévolat, partenariat</h2>
+        <p class="lead" data-t="adLead">Une seule demande, trois façons de s'engager. Le club reviendra vers vous.</p></div>
+      <ul class="tick">
+        <li data-t="k1">Demande d'inscription à une section sportive</li>
+        <li data-t="k2">Proposition de bénévolat</li>
+        <li data-t="k3">Partenariat et sponsoring</li>
+      </ul>
+    </div>
+    <div class="card" style="background:var(--surface)">
+      <form id="form" novalidate>
+        <fieldset>
+          <legend data-t="fType">Type de demande</legend>
+          <div class="seg">
+            <input type="radio" name="type" id="t1" value="adhesion" checked><label for="t1" data-t="fT1">Inscription</label>
+            <input type="radio" name="type" id="t2" value="benevolat"><label for="t2" data-t="fT2">Bénévolat</label>
+            <input type="radio" name="type" id="t3" value="partenariat"><label for="t3" data-t="fT3">Partenariat</label>
+          </div>
+        </fieldset>
+        <div class="field"><label for="name" data-t="fName">Nom et prénom</label><input id="name" autocomplete="name"><div class="err" id="e-name"></div></div>
+        <div class="field"><label for="contact" data-t="fContact">Téléphone ou e-mail</label><input id="contact" autocomplete="off"><div class="err" id="e-contact"></div></div>
+        <div class="field" id="discField"><label for="disc" data-t="fDisc">Discipline souhaitée</label><select id="disc"></select></div>
+        <div class="field"><label for="msg" id="msgLabel" data-t="fMsg1">Précisions (âge de l'athlète, niveau, questions)</label><textarea id="msg" rows="3"></textarea></div>
+        <div class="hpw" aria-hidden="true"><label>Site web<input id="hp" name="website" tabindex="-1" autocomplete="off"></label></div>
+        <button class="btn dark" type="submit" data-t="fSend">Envoyer la demande</button>
+        <div class="status" id="status" role="status" hidden></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section id="faq" data-page="inscription" class="band">
+  <div class="wrap">
+    <div class="head"><span class="eyebrow" data-t="faqEy">Questions fréquentes</span><h2 data-t="faqH">Une question ?</h2></div>
+    <div class="faq">
+      <details class="card"><summary data-t="q1">Comment faire une demande d'inscription ?</summary><p data-t="a1">Remplissez le formulaire d'inscription de cette page. Le bureau vous contactera pour confirmer.</p></details>
+      <details class="card"><summary data-t="q2">Quels documents faut-il fournir ?</summary><p data-t="a2">La liste exacte sera publiée par le secrétariat du club une fois confirmée.</p></details>
+      <details class="card"><summary data-t="q3">Les photos de mon enfant sont-elles publiées ?</summary><p data-t="a3">Non, sauf avec l'autorisation préalable des parents.</p></details>
+      <details class="card"><summary data-t="q4">Comment contacter le club ?</summary><p data-t="a4">Par le formulaire ci-dessus, par téléphone ou par e-mail (voir la section Contact).</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="espace" data-page="espace">
+  <div class="wrap">
+    <div class="head"><span class="eyebrow" data-t="spEy">Espace membres</span><h2 data-t="spH">Parents et athlètes</h2>
+      <p class="lead" data-t="spLead">Les parents et l'équipe du club se connectent avec les identifiants remis par le club, dans l'application du club (SYNOX GYM). Aucun code n'est affiché sur cette page.</p></div>
+    <div class="grid g2">
+      <div class="card"><h3 data-t="pT">Espace parents</h3>
+        <p data-t="pDesc">Connectez-vous avec l\'identifiant remis par le club pour suivre vos enfants.</p>
+        <p style="margin-top:18px"><a class="btn dark app-link" target="_blank" rel="noopener" hidden data-t="appBtn">Ouvrir l'application du club</a><span class="adm-note app-soon" data-t="soon">Connexion bientôt disponible</span></p></div>
+      <div class="card"><h3 data-t="aT">Espace athlètes</h3>
+        <p data-t="aDesc">Les informations des athlètes passent par l\'application du club. Demandez votre accès au bureau.</p>
+        <p style="margin-top:18px"><a class="btn dark app-link" target="_blank" rel="noopener" hidden data-t="appBtn">Ouvrir l'application du club</a><span class="adm-note app-soon" data-t="soon">Connexion bientôt disponible</span></p></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" data-page="contact">
+  <div class="wrap">
+    <div class="head"><span class="eyebrow" data-t="coEy">Contact</span><h2 data-t="coH">Nous trouver</h2></div>
+    <div class="grid g3">
+      <div class="card"><h3 data-t="coA">Adresse</h3><p class="pl" id="addr"></p></div>
+      <div class="card"><h3 data-t="coP">Téléphone</h3><p class="contact"><bdi class="val" id="phoneVal" dir="ltr">29 495 848</bdi><button class="copy" type="button" data-copy="29495848" data-src="phoneVal" data-t="cpy">Copier</button></p></div>
+      <div class="card"><h3 data-t="coE">E-mail</h3><p class="contact"><bdi class="val" id="mailVal" dir="ltr">mejerdasport@gmail.com</bdi><button class="copy" type="button" data-copy="mejerdasport@gmail.com" data-src="mailVal" data-t="cpy">Copier</button></p></div>
+      <div class="card"><h3 data-t="coS">Réseaux sociaux</h3><p class="social" id="soc"></p></div>
+    </div>
+  </div>
+</section>
+<section id="admin" data-page="admin" hidden>
+  <div class="wrap" id="adminRoot"></div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div style="display:flex;gap:14px;align-items:center"><img src="img/logo.png" alt=""><div><b style="font-family:var(--display);font-size:1.2rem" data-t="brand">Mejerda Sport</b><br><span data-t="fLoc">Medjez el Bab · Tunisie</span></div></div>
+    <div class="social foot" id="socFoot"></div>
+    <div><a class="admlink" href="#admin" data-t="nAdmin">Administration</a> · <span data-t="copy">© 2026 Mejerda Sport. Tous droits réservés.</span></div>
+  </div>
+</footer>
+
+<div class="lb" id="lb" hidden><button class="lbx" id="lbx" type="button" data-t-aria="close" aria-label="Fermer">✕</button><img id="lbi" alt=""></div>
+
+<script type="application/json" id="defaults">{"v":1,"contact":{"phone":"29 495 848","email":"mejerdasport@gmail.com","address":{"fr":"Mejerda Sport\nMedjez el Bab, Tunisie","ar":"مجردة الرياضية\nمجاز الباب، تونس","en":"Mejerda Sport\nMedjez el Bab, Tunisia"},"appUrl":"https://mejerdasport.netlify.app","social":{"facebook":"https://www.facebook.com/mejerdasport1","instagram":"https://www.instagram.com/mejerda/","youtube":"https://www.youtube.com/@mejerda","tiktok":"https://www.tiktok.com/@mejerdasport"}},"disciplines":[{"id":"d1","title":{"fr":"Gymnastique","ar":"الجمباز","en":"Gymnastics"},"desc":{"fr":"Toutes les spécialités. Le sport phare du club, pratiqué dans une salle dédiée.","ar":"بجميع اختصاصاته. أبرز رياضة في الجمعية، وتُمارس في قاعة مخصصة.","en":"All specialities. The club's flagship sport, practised in a dedicated hall."}},{"id":"d2","title":{"fr":"Basketball","ar":"كرة السلة","en":"Basketball"},"desc":{"fr":"Entraîneur : Ali Gharbi. Entraînement sur le terrain du siège du club.","ar":"المدرب: علي الغربي. التدريب بملعب مقر الجمعية.","en":"Coach: Ali Gharbi. Training on the court at the club's headquarters."}},{"id":"d3","title":{"fr":"Kung-fu","ar":"الكونغ فو","en":"Kung fu"},"desc":{"fr":"Art martial qui travaille le corps et l'esprit.","ar":"فن قتالي ينمّي الجسد والعقل.","en":"A martial art that trains body and mind."}}],"news":[],"events":[],"schedule":[],"team":[],"links":[{"id":"l1","title":{"fr":"Application du club (SYNOX GYM)","ar":"تطبيق النادي (SYNOX GYM)","en":"Club app (SYNOX GYM)"},"url":"https://mejerdasport.netlify.app"}],"gallery":[{"id":"g1","src":"b1","cap":{"fr":"Compétition de gymnastique : coupe et médailles","ar":"منافسة في الجمباز: كأس وميداليات","en":"Gymnastics competition: trophy and medals"}},{"id":"g2","src":"b4","cap":{"fr":"Podium de gymnastique","ar":"منصة تتويج في الجمباز","en":"Gymnastics podium"}},{"id":"g3","src":"b5","cap":{"fr":"Séance d'entraînement","ar":"حصة تدريب","en":"Training session"}},{"id":"g4","src":"b2","cap":{"fr":"La salle de gymnastique","ar":"قاعة الجمباز","en":"The gymnastics hall"}},{"id":"g5","src":"b3","cap":{"fr":"Agrès et praticables","ar":"الأجهزة والبساط","en":"Apparatus and mats"}},{"id":"g6","src":"b6","cap":{"fr":"Entraîneurs et jeune gymnaste","ar":"مدربون ورياضي صغير","en":"Coaches and a young gymnast"}},{"id":"g7","src":"b7","cap":{"fr":"Jeunes gymnastes à l'entraînement","ar":"رياضيات صغيرات في التدريب","en":"Young gymnasts at training"}},{"id":"g8","src":"b8","cap":{"fr":"Un entraîneur à la salle","ar":"مدرّب بالقاعة","en":"A coach in the hall"}}]}</script>
+<script>
+(function(){
+  var $=function(s,c){return (c||document).querySelector(s)};
+  var $$=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
+
+  var EN={
+    preview:"Preview version, phase 1: the design is in place. Items marked “Example” will be replaced and the forms do not send anything to the club yet.",
+    brand:"Mejerda Sport",navAria:"Main navigation",nClub:"The club",nTeams:"Disciplines",nNews:"News",nCal:"Calendar",nGal:"Gallery",nContact:"Contact",nSpace:"Members area",menu:"Menu",
+    bTag:"Club",bText:"Medjez el Bab · since 1989",
+    h1:"Our passion,<br>our <em>pride</em>,<br>our future",
+    heroSub:"Mejerda Sport brings together the young people, families and supporters of Medjez el Bab around sport, effort and team spirit.",
+    btnJoin:"Join the club →",btnCal:"See the calendar",
+    g1t:"Next match",g1d:"The schedule will be published here.",g2t:"Current season",g2d:"Request your registration.",
+    clubEy:"The club",clubH:"Born from a dream, now a reference",
+    clubLead:"Since 1989, Mejerda Sport has grown from a shared dream among young people of Medjez el Bab who believed sport builds people and champions. Its motto: “Sport is education, commitment and excellence.”",
+    v1t:"Passion",v1d:"The joy of sport and the drive to improve at every training session.",
+    v2t:"Team spirit",v2d:"Playing together, respecting others, winning and losing with dignity.",
+    v3t:"Protecting young people",v3d:"Minors' data stays private and is never made public.",
+    todoTag:"To be completed by the board",todoTxt:"Board members, coaching staff and photos of the facilities.",
+    teamEy:"Sports sections",teamH:"Our disciplines",
+    teamLead:"Three disciplines at the club. Age categories, teams, coaches and schedules will be published by the board.",
+    ex:"Example",teamName:"Team name",teamMeta:"Discipline · age category<br>Coach: to be added",
+    newsEy:"News",newsH:"Club news",search:"Search the news",filterAria:"Filter by category",
+    cAll:"All",cAnn:"Announcements",cRes:"Results",cPar:"Parents",
+    n1t:"Title of an official announcement",n1d:"Board statement: date, content and attachments.",
+    n2t:"Match report",n2d:"Result, scorers, photos and next fixture.",
+    n3t:"Information for parents",n3d:"Schedule change, documents to provide, fee reminder.",
+    noNews:"No news matches your search.",
+    calEy:"Sports calendar",calH:"Matches and events",viewAria:"Display type",vNext:"Upcoming",vPast:"Results",dd:"DD",mm:"MON",
+    e1t:"Match, training or camp",e1d:"Place · time · category · opponent",
+    e2t:"Tournament or club event",e2d:"Place · time · category",
+    e3t:"Team A – Team B",e3d:"Score and report",
+    galEy:"Gallery",galH:"Photos and videos",galLead:"Moments from club life. Photos of minors are published with parental consent.",
+    t1:"Album: team photo",t2:"Album: training",t3:"Album: competitions",t4:"Album: club events",
+    stEy:"How to join",stH:"Three steps",
+    s1t:"Send your request",s1d:"Fill in the form below with your details.",
+    s2t:"The club contacts you",s2d:"The board confirms the right section and the documents needed.",
+    s3t:"Join the training",s3d:"Meet your team at the first session.",
+    adEy:"Join the club",adH:"Registration, volunteering, partnership",adLead:"One request, three ways to get involved. The club will get back to you.",
+    k1:"Registration request for a sports section",k2:"Volunteering offer",k3:"Partnership and sponsorship",
+    fType:"Type of request",fT1:"Registration",fT2:"Volunteering",fT3:"Partnership",
+    fName:"Full name",fContact:"Phone or e-mail",fMsg1:"Details (athlete's age, level, questions)",fSend:"Send request",
+    faqEy:"Frequently asked questions",faqH:"Have a question?",
+    q1:"How do I register?",a1:"Fill in the registration form on this page. The board will contact you to confirm.",
+    q2:"Which documents are required?",a2:"The exact list will be published by the club office once confirmed.",
+    q3:"Are my child's photos published?",a3:"No, unless the parents have given prior consent.",
+    q4:"How can I contact the club?",a4:"Use the form above, call or e-mail the club (see the Contact section).",
+    spEy:"Members area",spH:"Parents and athletes",
+    spLead:"Private areas need real accounts, roles and protection of minors' data. They will open with phase 5. No access code is shown on this page because everyone could read it.",
+    pT:"Parents area",p1:"Profile of each child linked to the parent",p2:"Schedules, training venues and call-ups",p3:"Documents to download and urgent announcements",
+    aT:"Athletes area",a_1:"Profile, team and category",a_2:"Call-ups and training schedules",a_3:"Documents and licence information",
+    soon:"Login coming soon",
+    paEy:"Partners",paH:"They support the club",paLead:"Partner logos and links will appear here. To support the club, use the partnership form above.",slot:"Logo slot",
+    coEy:"Contact",coH:"Find us",coA:"Address",coAd:"Mejerda Sport<br>Medjez el Bab, Tunisia<br><small>Exact address to be confirmed</small>",
+    coP:"Phone",coTbd:"To be provided by the board",coE:"E-mail",
+    fLoc:"Medjez el Bab · Tunisia",copy:"© 2026 Mejerda Sport. All rights reserved.",
+    miT:"Our mission",
+    mi1:"Develop sporting spirit among young people",
+    mi2:"Spot talent and coach it",
+    mi3:"Train champions who make Tunisia proud",
+    mi4:"Improve sports facilities in the region",
+    mi5:"Promote discipline, teamwork and self-confidence",
+    infT:"Facilities",
+    infD:"A hall dedicated to gymnastics, and the club's headquarters in Medjez el Bab with a basketball court, a volleyball court and training areas.",
+    ambT:"Our ambitions",
+    am1:"Create a full sports academy",
+    am2:"Partner with Arab and European clubs",
+    am3:"Host international festivals",
+    am4:"Support outstanding athletes with grants",
+    d1t:"Gymnastics",
+    d1d:"All specialities. The club's flagship sport, practised in a dedicated hall.",
+    d2t:"Basketball",
+    d2d:"Coach: Ali Gharbi. Training on the court at the club's headquarters.",
+    d3t:"Kung fu",
+    d3d:"A martial art that trains body and mind.",
+    fDisc:"Preferred discipline",
+    oAny:"Not decided yet",
+    cpy:"Copy",
+    gCup:"Gymnastics competition: trophy and medals",
+    gPodium:"Gymnastics podium",
+    gTrain:"Training session",
+    gHall:"The gymnastics hall",
+    gEquip:"Apparatus and mats",
+    gCoaches:"Coaches and a young gymnast",
+    gGirls:"Young gymnasts at training",
+    gCoach:"A coach in the hall",
+    close:"Close",
+    nJoin:"Registration",
+    exEy:"Discover",
+    exH:"Explore the site",
+    xClub:"Our story, mission and facilities.",
+    xDisc:"Gymnastics, basketball and kung fu.",
+    xNews:"Announcements, results and information for parents.",
+    xCal:"Matches, training and events.",
+    xGal:"Photos of the hall and competitions.",
+    xJoin:"Send your registration request.",
+    xSpace:"Parents and athletes, coming soon.",
+    xContact:"Address, phone and e-mail.",
+    coS:"Social media"
+  };
+  var AR={
+    preview:"نسخة تجريبية (المرحلة 1): التصميم جاهز. المحتويات المسمّاة «مثال» ستُستبدل بمعلوماتكم، والنماذج لا ترسل شيئًا إلى النادي بعد.",
+    brand:"مجردة الرياضية",navAria:"التنقل الرئيسي",nClub:"النادي",nTeams:"الاختصاصات",nNews:"الأخبار",nCal:"الروزنامة",nGal:"المعرض",nContact:"اتصل بنا",nSpace:"فضاء الأعضاء",menu:"القائمة",
+    bTag:"نادي",bText:"مجاز الباب · منذ 1989",
+    h1:"شغفنا،<br><em>فخرنا</em>،<br>مستقبلنا",
+    heroSub:"تجمع مجردة الرياضية شباب مجاز الباب وعائلاتهم ومحبّيهم حول الرياضة وروح الفريق وبذل الجهد.",
+    btnJoin:"انضمّ إلى النادي ←",btnCal:"اطّلع على الروزنامة",
+    g1t:"المباراة القادمة",g1d:"ستُنشر الروزنامة هنا.",g2t:"الموسم الحالي",g2d:"قدّم طلب اشتراكك.",
+    clubEy:"النادي",clubH:"من رحم الحلم وُلد المجد",
+    clubLead:"منذ سنة 1989، انطلقت جمعية مجردة الرياضية كحلم مشترك بين ثلة من أبناء مجاز الباب، آمنوا بأن الرياضة وسيلة حضارية لصناعة الإنسان وبناء الأبطال. شعارها: «الرياضة تربية، التزام، وتفوق».",
+    v1t:"الشغف",v1d:"متعة الرياضة والرغبة في التقدّم مع كل حصة تدريب.",
+    v2t:"روح الفريق",v2d:"اللعب معًا واحترام الآخرين والفوز والخسارة بكرامة.",
+    v3t:"حماية الشباب",v3d:"تبقى بيانات القاصرين خاصة ولا تُنشر أبدًا.",
+    todoTag:"يستكمله المكتب",todoTxt:"أعضاء المكتب المسيّر، الإطار الفني وصور المنشآت.",
+    teamEy:"الأقسام الرياضية",teamH:"اختصاصاتنا",
+    teamLead:"ثلاثة اختصاصات في النادي. سينشر المكتب الفئات العمرية والفرق والمدرّبين وأوقات التدريب.",
+    ex:"مثال",teamName:"اسم الفريق",teamMeta:"الاختصاص · الفئة العمرية<br>المدرّب: يُحدَّد لاحقًا",
+    newsEy:"الأخبار",newsH:"أخبار النادي",search:"ابحث في الأخبار",filterAria:"التصفية حسب الفئة",
+    cAll:"الكل",cAnn:"إعلانات",cRes:"نتائج",cPar:"الأولياء",
+    n1t:"عنوان إعلان رسمي",n1d:"بلاغ المكتب المسيّر: التاريخ والمحتوى والمرفقات.",
+    n2t:"ملخص مباراة",n2d:"النتيجة والهدّافون والصور والمباراة القادمة.",
+    n3t:"معلومة للأولياء",n3d:"تغيير في التوقيت، وثائق مطلوبة، تذكير بالاشتراك.",
+    noNews:"لا يوجد خبر مطابق لبحثكم.",
+    calEy:"الروزنامة الرياضية",calH:"المباريات والتظاهرات",viewAria:"نوع العرض",vNext:"القادمة",vPast:"النتائج",dd:"يوم",mm:"شهر",
+    e1t:"مباراة أو تدريب أو تربّص",e1d:"المكان · الساعة · الفئة · المنافس",
+    e2t:"بطولة أو تظاهرة للنادي",e2d:"المكان · الساعة · الفئة",
+    e3t:"الفريق أ – الفريق ب",e3d:"النتيجة والملخص",
+    galEy:"المعرض",galH:"صور وفيديوهات",galLead:"لحظات من حياة النادي. تُنشر صور القاصرين بإذن الأولياء.",
+    t1:"ألبوم: صورة الفريق",t2:"ألبوم: التدريبات",t3:"ألبوم: المنافسات",t4:"ألبوم: تظاهرات النادي",
+    stEy:"كيف تنضم",stH:"ثلاث خطوات",
+    s1t:"أرسل طلبك",s1d:"املأ النموذج أدناه بمعلوماتك.",
+    s2t:"يتصل بك النادي",s2d:"يؤكد المكتب القسم المناسب والوثائق المطلوبة.",
+    s3t:"ابدأ التدريب",s3d:"التحق بفريقك منذ الحصة الأولى.",
+    adEy:"انضمّ إلينا",adH:"اشتراك، تطوّع، شراكة",adLead:"طلب واحد وثلاث طرق للمشاركة. سيعود إليك النادي.",
+    k1:"طلب اشتراك في قسم رياضي",k2:"عرض تطوّع",k3:"شراكة ورعاية",
+    fType:"نوع الطلب",fT1:"اشتراك",fT2:"تطوّع",fT3:"شراكة",
+    fName:"الاسم واللقب",fContact:"الهاتف أو البريد الإلكتروني",fMsg1:"تفاصيل (سنّ الرياضي، المستوى، أسئلة)",fSend:"إرسال الطلب",
+    faqEy:"أسئلة شائعة",faqH:"هل لديك سؤال؟",
+    q1:"كيف أقدّم طلب اشتراك؟",a1:"املأ نموذج الاشتراك في هذه الصفحة. سيتصل بك المكتب للتأكيد.",
+    q2:"ما هي الوثائق المطلوبة؟",a2:"ستنشر كتابة النادي القائمة الدقيقة بعد تأكيدها.",
+    q3:"هل تُنشر صور ابني؟",a3:"لا، إلا بإذن مسبق من الأولياء.",
+    q4:"كيف أتصل بالنادي؟",a4:"عبر النموذج أعلاه، أو بالهاتف أو البريد الإلكتروني (انظر قسم اتصل بنا).",
+    spEy:"فضاء الأعضاء",spH:"الأولياء والرياضيون",
+    spLead:"تتطلب الفضاءات الخاصة حسابات حقيقية وصلاحيات وحماية لبيانات القاصرين، وستفتح في المرحلة 5. لا يظهر هنا أي رمز دخول لأن الجميع سيقرؤه.",
+    pT:"فضاء الأولياء",p1:"بطاقة كل طفل مرتبط بوليّه",p2:"التوقيت وأماكن التدريب والاستدعاءات",p3:"وثائق للتحميل وإعلانات عاجلة",
+    aT:"فضاء الرياضيين",a_1:"الملف والفريق والفئة",a_2:"الاستدعاءات وتوقيت التدريبات",a_3:"الوثائق ومعلومات الإجازة",
+    soon:"تسجيل الدخول قريبًا",
+    paEy:"الشركاء",paH:"يدعمون النادي",paLead:"ستظهر هنا شعارات الشركاء وروابطهم. لدعم النادي استعمل نموذج الشراكة أعلاه.",slot:"مكان الشعار",
+    coEy:"اتصل بنا",coH:"أين نجدنا",coA:"العنوان",coAd:"مجردة الرياضية<br>مجاز الباب، تونس<br><small>العنوان الدقيق يُؤكَّد لاحقًا</small>",
+    coP:"الهاتف",coTbd:"يحدده المكتب",coE:"البريد الإلكتروني",
+    fLoc:"مجاز الباب · تونس",copy:"© 2026 مجردة الرياضية. جميع الحقوق محفوظة.",
+    miT:"رسالتنا",
+    mi1:"تنمية الروح الرياضية في صفوف الناشئة والشباب",
+    mi2:"اكتشاف المواهب وتأطيرها علميًا وفنيًا",
+    mi3:"صناعة أبطال يشرفون تونس",
+    mi4:"تطوير البنية التحتية الرياضية بالجهة",
+    mi5:"تعزيز الانضباط والعمل الجماعي والثقة بالنفس",
+    infT:"البنية التحتية",
+    infD:"قاعة مخصصة للجمباز، ومقر الجمعية بمجاز الباب ويضم ملعبًا لكرة السلة وملعبًا للكرة الطائرة وفضاءات للتدريب.",
+    ambT:"طموحاتنا",
+    am1:"إنشاء أكاديمية رياضية متكاملة",
+    am2:"الانفتاح على نوادٍ عربية وأوروبية",
+    am3:"تنظيم مهرجانات دولية",
+    am4:"توفير منح ومساندة للرياضيين المتفوقين",
+    d1t:"الجمباز",
+    d1d:"بجميع اختصاصاته. أبرز رياضة في الجمعية، وتُمارس في قاعة مخصصة.",
+    d2t:"كرة السلة",
+    d2d:"المدرب: علي الغربي. التدريب بملعب مقر الجمعية.",
+    d3t:"الكونغ فو",
+    d3d:"فن قتالي ينمّي الجسد والعقل.",
+    fDisc:"الاختصاص المرغوب",
+    oAny:"لم أقرر بعد",
+    cpy:"نسخ",
+    gCup:"منافسة في الجمباز: كأس وميداليات",
+    gPodium:"منصة تتويج في الجمباز",
+    gTrain:"حصة تدريب",
+    gHall:"قاعة الجمباز",
+    gEquip:"الأجهزة والبساط",
+    gCoaches:"مدربون ورياضي صغير",
+    gGirls:"رياضيات صغيرات في التدريب",
+    gCoach:"مدرّب بالقاعة",
+    close:"إغلاق",
+    nJoin:"اشتراك",
+    exEy:"اكتشف",
+    exH:"تصفّح الموقع",
+    xClub:"تاريخنا ورسالتنا وبنيتنا التحتية.",
+    xDisc:"الجمباز وكرة السلة والكونغ فو.",
+    xNews:"إعلانات ونتائج ومعلومات للأولياء.",
+    xCal:"مباريات وتدريبات وتظاهرات.",
+    xGal:"صور القاعة والمنافسات.",
+    xJoin:"أرسل طلب اشتراكك.",
+    xSpace:"الأولياء والرياضيون، قريبًا.",
+    xContact:"العنوان والهاتف والبريد.",
+    coS:"الشبكات الاجتماعية"
+  };
+  var MSG={
+    fr:{eName:"Indiquez votre nom et prénom.",eContact:"Indiquez un téléphone ou un e-mail pour vous répondre.",ok:"Formulaire valide, mais cette version aperçu n'envoie rien au club. Il sera relié à une vraie base de données à la phase 3.",
+        m1:"Précisions (âge de l'athlète, niveau, questions)",m2:"Comment souhaitez-vous aider ?",m3:"Présentez votre entreprise ou votre projet",cp:"Copié"},
+    en:{eName:"Enter your full name.",eContact:"Enter a phone number or e-mail so the club can reply.",ok:"The form is valid, but this preview version sends nothing to the club. It will be linked to a real database in phase 3.",
+        m1:"Details (athlete's age, level, questions)",m2:"How would you like to help?",m3:"Tell us about your company or project",cp:"Copied"},
+    ar:{eName:"أدخل اسمك ولقبك.",eContact:"أدخل رقم هاتف أو بريدًا إلكترونيًا ليتمكن النادي من الرد.",ok:"النموذج صحيح، لكن هذه النسخة التجريبية لا ترسل شيئًا إلى النادي. سيُربط بقاعدة بيانات حقيقية في المرحلة 3.",
+        m1:"تفاصيل (سنّ الرياضي، المستوى، أسئلة)",m2:"كيف تودّ المساعدة؟",m3:"عرّف بشركتك أو مشروعك",cp:"تم النسخ"}
+  };
+
+  var FR={},FRP={},FRA={};
+  $$("[data-t]").forEach(function(el){var k=el.getAttribute("data-t");if(!(k in FR))FR[k]=el.innerHTML});
+  $$("[data-t-ph]").forEach(function(el){FRP[el.getAttribute("data-t-ph")]=el.getAttribute("placeholder")});
+  $$("[data-t-aria]").forEach(function(el){FRA[el.getAttribute("data-t-aria")]=el.getAttribute("aria-label")});
+  var DICT={fr:FR,en:EN,ar:AR},lang="fr";
+
+  function type(){var r=$("input[name=type]:checked");return r?r.id.slice(1):"1"}
+  function setLabel(){$("#msgLabel").textContent=MSG[lang]["m"+type()];$("#discField").hidden=type()!=="1"}
+
+  function apply(l){
+    lang=l;
+    var d=DICT[l];
+    document.documentElement.lang=l;
+    document.documentElement.dir=l==="ar"?"rtl":"ltr";
+    $$("[data-t]").forEach(function(el){var k=el.getAttribute("data-t");el.innerHTML=(k in d)?d[k]:FR[k]});
+    $$("[data-t-ph]").forEach(function(el){var k=el.getAttribute("data-t-ph");el.setAttribute("placeholder",(k in d)?d[k]:FRP[k])});
+    $$("[data-t-aria]").forEach(function(el){var k=el.getAttribute("data-t-aria");el.setAttribute("aria-label",(k in d)?d[k]:FRA[k])});
+    $$("[data-lang]").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.lang===l)});
+    setLabel();renderAll();
+    $("#e-name").textContent="";$("#e-contact").textContent="";$("#status").hidden=true;
+    try{localStorage.setItem("mejerda-lang",l)}catch(e){}
+  }
+  $$("[data-lang]").forEach(function(b){b.addEventListener("click",function(){apply(b.dataset.lang)})});
+
+  var burger=$("#burger"),links=$("#links");
+  burger.addEventListener("click",function(){
+    var o=links.classList.toggle("open");burger.setAttribute("aria-expanded",o);
+  });
+  $$("#links a").forEach(function(a){a.addEventListener("click",function(){links.classList.remove("open");burger.setAttribute("aria-expanded","false")})});
+
+  var cat="all",q=$("#q");
+  q.addEventListener("input",filterNews);
+  $$("[data-cat]").forEach(function(b){b.addEventListener("click",function(){
+    cat=b.dataset.cat;
+    $$("[data-cat]").forEach(function(x){x.setAttribute("aria-pressed",x===b)});
+    filterNews();
+  })});
+
+  $$("[data-view]").forEach(function(b){b.addEventListener("click",function(){setView(b.dataset.view)})});
+
+  $$("input[name=type]").forEach(function(r){r.addEventListener("change",setLabel)});
+
+  $("#form").addEventListener("submit",function(e){
+    e.preventDefault();
+    var n=$("#name").value.trim(),c=$("#contact").value.trim(),m=MSG[lang],s=$("#status");
+    $("#e-name").textContent=n?"":m.eName;
+    $("#e-contact").textContent=c?"":m.eContact;
+    if(!n||!c){s.hidden=true;return}
+    sendReq(s);
+  });
+
+  $$(".copy").forEach(function(b){b.addEventListener("click",function(){
+    var txt=b.dataset.copy,src=document.getElementById(b.dataset.src);
+    function done(){var d=DICT[lang],old=(b.getAttribute("data-t") in d)?d.cpy:FR.cpy;b.textContent=MSG[lang].cp;setTimeout(function(){b.textContent=(lang==="fr")?FR.cpy:d.cpy},1600)}
+    function fallback(){try{var r=document.createRange();r.selectNodeContents(src);var sel=window.getSelection();sel.removeAllRanges();sel.addRange(r)}catch(e){}}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,fallback)}else{fallback()}
+  })});
+
+  var lb=$("#lb"),lbi=$("#lbi");
+  function closeLb(){lb.hidden=true;lbi.removeAttribute("src")}
+  $("#gal").addEventListener("click",function(e){var b=e.target.closest(".ph");if(!b)return;lbi.src=b.querySelector("img").src;lb.hidden=false;$("#lbx").focus()});
+  $("#lbx").addEventListener("click",closeLb);
+  lb.addEventListener("click",function(e){if(e.target===lb)closeLb()});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!lb.hidden)closeLb()});
+
+  /* ====== Données, rendu et administration ====== */
+  var SB="https://zwaqrysuajepwuhuwcsl.supabase.co",KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3YXFyeXN1YWplcHd1aHV3Y3NsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE1MzQ1NDIsImV4cCI6MjEwNzExMDU0Mn0.EeKXLZ01KtEjZ-i3jjRJ3w5-3006mlmVJM56BrCaDSs";
+  var IMGS={b1:"%img/b1.jpg%",b2:"%img/b2.jpg%",b3:"%img/b3.jpg%",b4:"%img/b4.jpg%",b5:"%img/b5.jpg%",b6:"%img/b6.jpg%",b7:"%img/b7.jpg%",b8:"%img/b8.jpg%"};
+  var FRX={nAdmin:"Administration",nNone:"Aucune actualité pour le moment.",eNone:"Aucun événement à venir.",eNoneP:"Aucun résultat à afficher.",gNone:"Aucune photo pour le moment.",noDisc:"Aucune discipline pour le moment.",kMatch:"Match",kTraining:"Entraînement",kEvent:"Événement",kCamp:"Stage",
+    reqSending:"Envoi en cours…",reqSent:"Merci ! Votre demande a bien été envoyée au club. Nous vous contacterons.",
+    schEy:"Horaires",schH:"Horaires d'entraînement",schNone:"Les horaires seront publiés par le bureau.",tBoard:"Bureau directeur",tCoach:"Encadrement technique",
+    reqOk:"Votre demande est prête. Envoyez-la au club par WhatsApp ou copiez-la.",reqWa:"Envoyer par WhatsApp",reqCopy:"Copier la demande",
+    appBtn:"Ouvrir l'application du club",pDesc:"Connectez-vous avec l'identifiant remis par le club pour suivre vos enfants.",aDesc:"Les informations des athlètes passent par l'application du club. Demandez votre accès au bureau.",
+    spLead:"Les parents et l'équipe du club se connectent avec les identifiants remis par le club, dans l'application du club (SYNOX GYM). Aucun code n'est affiché sur cette page.",
+    preview:"Version aperçu : le site est en cours de finalisation. Les demandes se transmettent par WhatsApp ou par copie ; l'enregistrement automatique viendra avec la base de données."};
+  var ENX={nAdmin:"Administration",nNone:"No news yet.",eNone:"No upcoming events.",eNoneP:"No results to show.",gNone:"No photos yet.",noDisc:"No disciplines yet.",kMatch:"Match",kTraining:"Training",kEvent:"Event",kCamp:"Camp",
+    reqSending:"Sending…",reqSent:"Thank you! Your request has been sent to the club. We will contact you.",
+    schEy:"Schedule",schH:"Training schedule",schNone:"The schedule will be published by the board.",tBoard:"Board",tCoach:"Coaching staff",
+    reqOk:"Your request is ready. Send it to the club on WhatsApp or copy it.",reqWa:"Send on WhatsApp",reqCopy:"Copy the request",
+    appBtn:"Open the club app",pDesc:"Sign in with the login given by the club to follow your children.",aDesc:"Athlete information goes through the club app. Ask the board for access.",
+    spLead:"Parents and club staff sign in with the logins given by the club, in the club app (SYNOX GYM). No code is shown on this page.",
+    preview:"Preview version: the site is being finalised. Requests are passed on by WhatsApp or by copy; automatic saving will come with the database."};
+  var ARX={nAdmin:"الإدارة",nNone:"لا توجد أخبار حاليًا.",eNone:"لا توجد أحداث قادمة.",eNoneP:"لا توجد نتائج لعرضها.",gNone:"لا توجد صور حاليًا.",noDisc:"لا توجد اختصاصات حاليًا.",kMatch:"مباراة",kTraining:"تدريب",kEvent:"تظاهرة",kCamp:"تربّص",
+    reqSending:"جارٍ الإرسال…",reqSent:"شكرًا! تم إرسال طلبك إلى النادي وسنتصل بك.",
+    schEy:"التوقيت",schH:"أوقات التدريب",schNone:"سينشر المكتب أوقات التدريب.",tBoard:"المكتب المسيّر",tCoach:"الإطار الفني",
+    reqOk:"طلبك جاهز. أرسله إلى النادي عبر واتساب أو انسخه.",reqWa:"إرسال عبر واتساب",reqCopy:"نسخ الطلب",
+    appBtn:"فتح تطبيق النادي",pDesc:"سجّل الدخول بالمعرّف الذي يسلّمه لك النادي لمتابعة أبنائك.",aDesc:"معلومات الرياضيين تمرّ عبر تطبيق النادي. اطلب من المكتب فتح حسابك.",
+    spLead:"يدخل الأولياء وفريق النادي بالمعرّفات التي يسلّمها النادي، داخل تطبيق النادي (SYNOX GYM). لا يظهر هنا أي رمز دخول.",
+    preview:"نسخة تجريبية: الموقع قيد الاستكمال. تُنقل الطلبات عبر واتساب أو بالنسخ، وسيأتي الحفظ التلقائي مع قاعدة البيانات."};
+  Object.assign(FR,FRX);Object.assign(EN,ENX);Object.assign(AR,ARX);
+
+  function clone(o){return JSON.parse(JSON.stringify(o))}
+  function uid(){return "i"+Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+  function tt(k){var d=DICT[lang];return (k in d)?d[k]:(FR[k]||"")}
+  function ml(o){if(!o)return "";if(typeof o==="string")return o;return o[lang]||o.fr||o.ar||o.en||""}
+  function h(tag,a,c){
+    var e=document.createElement(tag);
+    if(a)for(var k in a){var v=a[k];
+      if(k==="text")e.textContent=v;
+      else if(k==="class")e.className=v;
+      else if(k==="on"){for(var ev in v)e.addEventListener(ev,v[ev])}
+      else if(k.indexOf("aria-")===0)e.setAttribute(k,String(v));
+      else if(v===true)e.setAttribute(k,"");
+      else if(v!==false&&v!=null)e.setAttribute(k,v);
+    }
+    (c||[]).forEach(function(x){if(x==null)return;e.appendChild(typeof x==="string"?document.createTextNode(x):x)});
+    return e;
+  }
+  function pad(n){return (n<10?"0":"")+n}
+  function today(){var d=new Date();return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
+  function isDate(s){return typeof s==="string"&&/^\d{4}-\d{2}-\d{2}$/.test(s)}
+  function loc(){return lang==="ar"?"ar-TN-u-nu-latn":lang}
+  function fmt(iso,opt,fb){if(!isDate(iso))return fb||"";try{return new Intl.DateTimeFormat(loc(),opt).format(new Date(iso+"T12:00:00"))}catch(e){return iso}}
+  function imgSrc(s){
+    if(IMGS[s])return IMGS[s];
+    return (typeof s==="string"&&s.indexOf(SB+"/storage/v1/object/public/site-media/")===0)?s:"";
+  }
+  function safeUrl(u){return (typeof u==="string"&&/^https?:\/\//i.test(u))?u:""}
+
+  var DEF=JSON.parse($("#defaults").textContent);
+  function normalize(d){
+    ["schedule","team","links"].forEach(function(k){if(!Array.isArray(d[k]))d[k]=clone(DEF[k])});
+    if(!("appUrl" in d.contact))d.contact.appUrl=DEF.contact.appUrl;
+    if(!d.texts||typeof d.texts!=="object"||Array.isArray(d.texts))d.texts={};
+    return d;
+  }
+  var DATA=normalize(clone(DEF));
+  try{var cc=JSON.parse(localStorage.getItem("mejerda-cache")||"null");if(validData(cc))DATA=normalize(cc)}catch(e){}
+  var TEXT_GROUPS=[["tx_home",["bText","heroSub"]],["tx_club",["clubLead","mi1","mi2","mi3","mi4","mi5","infD","am1","am2","am3","am4"]],["tx_disc",["teamLead","galLead"]],["tx_join",["adLead","k1","k2","k3","s1t","s1d","s2t","s2d","s3t","s3d"]],["tx_faq",["q1","a1","q2","a2","q3","a3","q4","a4"]],["tx_other",["spLead","copy"]]];
+  var TEXT_KEYS=[].concat.apply([],TEXT_GROUPS.map(function(g){return g[1]}));
+  var BASE={};["fr","en","ar"].forEach(function(l){BASE[l]={};TEXT_KEYS.forEach(function(k){BASE[l][k]=DICT[l][k]})});
+  function plain(html){var t=document.createElement("div");t.innerHTML=String(html==null?"":html).replace(/<br\s*\/?>/gi,"\n");return t.textContent}
+  function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br>")}
+  function applyTexts(){
+    var T=DATA.texts||{};
+    ["fr","en","ar"].forEach(function(l){TEXT_KEYS.forEach(function(k){var o=T[k]&&T[k][l];DICT[l][k]=o?esc(o):BASE[l][k]})});
+    var d=DICT[lang];
+    $$("[data-t]").forEach(function(el){var k=el.getAttribute("data-t");if(TEXT_KEYS.indexOf(k)>-1)el.innerHTML=(k in d)?d[k]:(FR[k]||"")});
+  }
+  var RQ={fr:{h:"Demande envoyée depuis le site Mejerda Sport",t:"Type",n:"Nom",c:"Contact",d:"Discipline",m:"Précisions"},en:{h:"Request sent from the Mejerda Sport website",t:"Type",n:"Name",c:"Contact",d:"Discipline",m:"Details"},ar:{h:"طلب مُرسَل من موقع مجردة الرياضية",t:"النوع",n:"الاسم",c:"الاتصال",d:"الاختصاص",m:"تفاصيل"}};
+  function waNumber(){var p=(DATA.contact.phone||"").replace(/\D/g,"");if(p.length===8)p="216"+p;return p}
+  function showReq(s){
+    var r=RQ[lang]||RQ.fr,ty=$("label[for=t"+type()+"]").textContent,ds=$("#disc");
+    var lines=[r.h,"",r.t+": "+ty,r.n+": "+$("#name").value.trim(),r.c+": "+$("#contact").value.trim()];
+    if(type()==="1"&&ds.value)lines.push(r.d+": "+ds.options[ds.selectedIndex].text);
+    var m=$("#msg").value.trim();if(m)lines.push(r.m+": "+m);
+    var text=lines.join("\n"),num=waNumber();
+    s.textContent="";s.hidden=false;
+    s.appendChild(h("p",{text:tt("reqOk")}));
+    s.appendChild(h("pre",{class:"pl req",text:text}));
+    var acts=h("div",{class:"row2"});
+    if(num)acts.appendChild(h("a",{class:"btn dark sm",href:"https://wa.me/"+num+"?text="+encodeURIComponent(text),target:"_blank",rel:"noopener",text:tt("reqWa")}));
+    var cb=h("button",{class:"btn outline sm",type:"button",text:tt("reqCopy")});
+    cb.addEventListener("click",function(){try{navigator.clipboard.writeText(text).then(function(){cb.textContent=MSG[lang].cp},function(){})}catch(e){}});
+    acts.appendChild(cb);s.appendChild(acts);
+  }
+  var dirty=false,canEd=undefined,art=null,DK="mejerda-draft",curPage="home";
+  var CATS=["annonce","resultat","parents"],CATK={annonce:"cAnn",resultat:"cRes",parents:"cPar"};
+  var KINDS=["match","training","event","camp"],KINDK={match:"kMatch",training:"kTraining",event:"kEvent",camp:"kCamp"};
+  var NETS=[["facebook","Facebook"],["instagram","Instagram"],["youtube","YouTube"],["tiktok","TikTok"]];
+
+  function upcoming(){
+    var t=today();
+    return DATA.events.filter(function(e){return e.date>=t}).sort(function(a,b){return (a.date+(a.time||"")).localeCompare(b.date+(b.time||""))});
+  }
+  function renderDisc(){
+    var C=$("#discGrid");C.textContent="";
+    DATA.disciplines.forEach(function(d){
+      C.appendChild(h("div",{class:"card"},[h("h3",{text:ml(d.title)}),ml(d.desc)?h("p",{class:"pl",text:ml(d.desc)}):null]));
+    });
+    $("#noDisc").hidden=DATA.disciplines.length>0;
+    var sel=$("#disc"),old=sel.value;sel.textContent="";
+    sel.appendChild(h("option",{value:"",text:tt("oAny")}));
+    DATA.disciplines.forEach(function(d){sel.appendChild(h("option",{value:d.id,text:ml(d.title)}))});
+    sel.value=old;
+  }
+  var newsTotal=0;
+  function renderNews(){
+    var C=$("#news");C.textContent="";
+    var list=DATA.news.slice().sort(function(a,b){return (b.date||"").localeCompare(a.date||"")});
+    newsTotal=list.length;
+    list.forEach(function(n){
+      var cat=CATK[n.cat]?n.cat:"annonce";
+      var tag=tt(CATK[cat])+(isDate(n.date)?" · "+fmt(n.date,{day:"numeric",month:"long",year:"numeric"}):"");
+      C.appendChild(h("article",{class:"card","data-cat":cat},[
+        h("span",{class:"tag",text:tag}),
+        h("h3",{style:"margin-top:12px",text:ml(n.title)}),
+        ml(n.body)?h("p",{class:"pl",text:ml(n.body)}):null]));
+    });
+    filterNews();
+  }
+  function filterNews(){
+    var term=q.value.trim().toLowerCase(),shown=0;
+    $$("#news article").forEach(function(a){
+      var ok=(cat==="all"||a.dataset.cat===cat)&&(!term||a.textContent.toLowerCase().indexOf(term)>-1);
+      a.hidden=!ok;if(ok)shown++;
+    });
+    var nn=$("#noNews");
+    if(newsTotal===0){nn.hidden=false;nn.setAttribute("data-t","nNone");nn.innerHTML=tt("nNone")}
+    else{nn.hidden=shown>0;nn.setAttribute("data-t","noNews");nn.innerHTML=tt("noNews")}
+  }
+  var evView="next";
+  function setView(v){
+    evView=v;
+    $$("[data-view]").forEach(function(x){x.setAttribute("aria-pressed",x.dataset.view===v)});
+    renderEvents();
+  }
+  function evRow(e,past){
+    var meta=[e.time,e.place,past&&e.result?e.result:ml(e.note)].filter(Boolean).join(" · ");
+    return h("div",{class:"row"},[
+      h("div",{class:"date"},[h("b",{text:isDate(e.date)?String(parseInt(e.date.slice(8),10)):"–"}),h("span",{text:fmt(e.date,{month:"short"})})]),
+      h("div",null,[h("h3",{text:ml(e.title)}),meta?h("small",{class:"pl",text:meta}):null]),
+      h("span",{class:"tag",text:tt(KINDK[e.kind]||"kEvent")})]);
+  }
+  function renderEvents(){
+    var t=today(),nx=upcoming(),ps=DATA.events.filter(function(e){return e.date<t}).sort(function(a,b){return b.date.localeCompare(a.date)});
+    var nb=$("#next"),pb=$("#past");nb.textContent="";pb.textContent="";
+    var list=evView==="next"?nx:ps,box=evView==="next"?nb:pb;
+    nb.hidden=evView!=="next";pb.hidden=evView!=="past";
+    list.forEach(function(e){box.appendChild(evRow(e,evView==="past"))});
+    var ne=$("#noEv");ne.hidden=list.length>0;ne.textContent=tt(evView==="next"?"eNone":"eNoneP");
+    var g=$("#g1d");
+    if(nx[0]){g.removeAttribute("data-t");g.textContent=ml(nx[0].title)+" · "+fmt(nx[0].date,{day:"numeric",month:"long"})}
+    else{g.setAttribute("data-t","g1d");g.innerHTML=tt("g1d")}
+  }
+  function renderGallery(){
+    var C=$("#gal");C.textContent="";var n=0;
+    DATA.gallery.forEach(function(p){
+      var s=imgSrc(p.src);if(!s)return;n++;
+      C.appendChild(h("button",{class:"ph",type:"button"},[h("img",{src:s,alt:ml(p.cap),loading:"lazy"}),ml(p.cap)?h("span",{text:ml(p.cap)}):null]));
+    });
+    var ng=$("#noGal");ng.hidden=n>0;ng.textContent=tt("gNone");
+  }
+  function renderSocial(box){
+    box.textContent="";
+    NETS.forEach(function(n){var u=safeUrl(DATA.contact.social&&DATA.contact.social[n[0]]);if(u)box.appendChild(h("a",{href:u,target:"_blank",rel:"noopener",text:n[1]}))});
+  }
+  function renderContact(){
+    var c=DATA.contact;
+    $("#phoneVal").textContent=c.phone||"—";
+    $('[data-src="phoneVal"]').dataset.copy=(c.phone||"").replace(/\s+/g,"");
+    $("#mailVal").textContent=c.email||"—";
+    $('[data-src="mailVal"]').dataset.copy=c.email||"";
+    $("#addr").textContent=ml(c.address);
+    renderSocial($("#soc"));renderSocial($("#socFoot"));
+  }
+  function dayName(i){return fmt("2024-01-"+pad(1+(+i||0)),{weekday:"long"},"")}
+  function renderSchedule(){
+    var C=$("#schedBox");C.textContent="";
+    var ids=DATA.disciplines.map(function(d){return d.id});
+    var items=DATA.schedule.slice().sort(function(a,b){return (a.day-b.day)||String(a.from||"").localeCompare(String(b.from||""))});
+    var groups=ids.concat(["_"]);
+    groups.forEach(function(id){
+      var list=items.filter(function(x){return id==="_"?ids.indexOf(x.disc)<0:x.disc===id});
+      if(!list.length)return;
+      var d=DATA.disciplines.filter(function(o){return o.id===id})[0];
+      var card=h("div",{class:"card"},[h("h3",{text:d?ml(d.title):"—"})]);
+      var box=h("div",{class:"sched"});
+      list.forEach(function(x){
+        box.appendChild(h("div",{class:"srow"},[h("b",{text:dayName(x.day)}),h("bdi",{dir:"ltr",text:x.from+(x.to?" – "+x.to:"")}),h("span",{text:[x.place,x.group].filter(Boolean).join(" · ")})]));
+      });
+      card.appendChild(box);C.appendChild(card);
+    });
+    $("#schedNone").hidden=items.length>0;
+  }
+  function personCard(p){
+    var av=imgSrc(p.photo);
+    return h("div",{class:"card person"},[
+      av?h("img",{class:"avatar",src:av,alt:""}):h("span",{class:"avatar ph0","aria-hidden":"true",text:(p.name||"?").trim().charAt(0).toUpperCase()}),
+      h("div",null,[h("b",{text:p.name||""}),ml(p.role)?h("small",{text:ml(p.role)}):null])]);
+  }
+  function renderTeam(){
+    var C=$("#teamBox");C.textContent="";
+    [["board","tBoard"],["coach","tCoach"]].forEach(function(g){
+      var list=DATA.team.filter(function(p){return (p.grp||"coach")===g[0]});
+      if(!list.length)return;
+      C.appendChild(h("h3",{style:"margin:28px 0 14px",text:tt(g[1])}));
+      var grid=h("div",{class:"grid g3"});list.forEach(function(p){grid.appendChild(personCard(p))});C.appendChild(grid);
+    });
+    $("#todoCard").hidden=true;
+  }
+  function renderMembers(){
+    var u=safeUrl(DATA.contact.appUrl);
+    $$(".app-link").forEach(function(a){a.hidden=!u;if(u)a.href=u});
+    $$(".app-soon").forEach(function(x){x.hidden=!!u});
+  }
+  function renderAll(){
+    applyTexts();
+    renderDisc();renderNews();renderEvents();renderGallery();renderContact();renderSchedule();renderTeam();renderMembers();
+    if(curPage==="admin")renderAdmin();
+  }
+
+  /* ---- administration ---- */
+  var LN={ar:"العربية",fr:"Français",en:"English"},LC=["ar","fr","en"];
+  var XT={
+  fr:{eyebrow:"Espace réservé",title:"Administration",intro:"Ajoutez, modifiez ou supprimez les actualités, événements, disciplines, photos et coordonnées. Les changements s'affichent tout de suite, puis deviennent publics quand vous cliquez sur « Publier ».",
+    locked:"Cette page est réservée aux personnes autorisées à modifier le site.",loading:"Chargement…",
+    localNote:"Mode hors ligne : vous pouvez tout modifier et copier le contenu, mais la publication directe n'est pas disponible ici.",
+    tnews:"Actualités",tevents:"Calendrier",tdisciplines:"Disciplines",tgallery:"Galerie",tcontact:"Contact",
+    add:"+ Ajouter",edit:"Modifier",del:"Supprimer",sure:"Confirmer la suppression",cancel:"Annuler",save:"Valider",none:"Rien à afficher pour le moment.",
+    fDate:"Date",fTime:"Heure",fPlace:"Lieu",fCat:"Catégorie",fKind:"Type",fTitle:"Titre",fBody:"Texte",fNote:"Précisions",fResult:"Résultat (après le match)",fDesc:"Description",fPhoto:"Photo",fCap:"Légende",fPhone:"Téléphone",fEmail:"E-mail",fAddr:"Adresse",
+    minors:"Ne publiez une photo d'un mineur qu'avec l'autorisation de ses parents.",
+    eTitle:"Saisissez au moins un titre (dans une langue).",eDate:"Choisissez une date.",ePhoto:"Choisissez une photo.",ePhotoRead:"Impossible de lire cette image.",eMail:"Adresse e-mail non valide.",eUrl:"Les liens doivent commencer par https://",
+    dirtyTxt:"Modifications non publiées",cleanTxt:"Tout est publié",publish:"Publier",publishing:"Publication…",published:"Enregistré et publié. Les visiteurs voient déjà les changements.",copy:"Copier le contenu",copied:"Contenu affiché ci-dessous (copiez-le si besoin).",
+    cNotWriter:"Session expirée ou droit insuffisant. Reconnectez-vous.",cDisabled:"La publication n'est pas disponible ici (lien partagé publiquement ou lecture seule). Copiez le contenu et envoyez-le à la personne qui gère le site.",cConflict:"Quelqu'un a publié avant vous : la page va se recharger. Vos changements sont gardés en brouillon.",cRate:"Trop de publications d'affilée. Attendez un instant.",cOther:"La publication a échoué.",
+    draft:"Un brouillon non publié a été retrouvé.",restore:"Le restaurer",ignore:"Ignorer",thome:"Tableau de bord",trequests:"Demandes",ttexts:"Textes",taccount:"Mon compte",
+    loginT:"Connexion",fEmailL:"E-mail",fPw:"Mot de passe",loginBtn:"Se connecter",logout:"Se déconnecter",eLogin:"E-mail ou mot de passe incorrect.",notEditor:"Ce compte n'est pas autorisé à modifier le site. Demandez au club de l'ajouter.",netErr:"Pas de connexion. Réessayez.",signedAs:"Connecté :",
+    dNews:"Actualités",dEvents:"Événements à venir",dReq:"Nouvelles demandes",dPhotos:"Photos",dTeam:"Personnes dans l'équipe",qNews:"+ Actualité",qEvent:"+ Événement",qPhoto:"+ Photo",
+    rNew:"Nouvelle",rContacted:"Contactée",rAccepted:"Acceptée",rDeclined:"Refusée",rNone:"Aucune demande pour le moment.",rExport:"Exporter (Excel)",rRefresh:"Actualiser",rLoadErr:"Impossible de charger les demandes.",rStatus:"Statut",
+    txIntro:"Modifiez les textes du site dans les trois langues. Si vous ne changez rien, le texte d'origine reste.",txReset:"Rétablir l'original",tx_home:"Accueil",tx_club:"Le club",tx_disc:"Disciplines et galerie",tx_join:"Inscription",tx_faq:"Questions fréquentes",tx_other:"Autres",
+    uploading:"Envoi de la photo…",eUpload:"Échec de l'envoi de la photo.",pwNew:"Nouveau mot de passe (8 caractères minimum)",pwSave:"Changer le mot de passe",pwDone:"Mot de passe changé.",pwErr:"Mot de passe trop court ou refusé.",tschedule:"Horaires",tteam:"Équipe",tlinks:"Liens du bureau",fSDisc:"Discipline",fDay:"Jour",fFrom:"De",fTo:"À",fGroup:"Groupe / catégorie",fName:"Nom",fRole:"Fonction",fSection:"Section",fUrl:"Lien (https://…)",fApp:"Lien de l'application des membres",open:"Ouvrir",eName:"Saisissez un nom.",eDisc:"Choisissez une discipline.",eTime:"Saisissez l'heure de début.",linksNote:"Liens réservés au bureau (application du club, outils). N'y mettez jamais de mot de passe."},
+  en:{eyebrow:"Restricted area",title:"Administration",intro:"Add, edit or delete news, events, disciplines, photos and contact details. Changes show up right away and become public when you click “Publish”.",
+    locked:"This page is reserved for people allowed to edit the site.",loading:"Loading…",
+    localNote:"Offline mode: you can edit everything and copy the content, but direct publishing is not available here.",
+    tnews:"News",tevents:"Calendar",tdisciplines:"Disciplines",tgallery:"Gallery",tcontact:"Contact",
+    add:"+ Add",edit:"Edit",del:"Delete",sure:"Confirm deletion",cancel:"Cancel",save:"Apply",none:"Nothing to show yet.",
+    fDate:"Date",fTime:"Time",fPlace:"Place",fCat:"Category",fKind:"Type",fTitle:"Title",fBody:"Text",fNote:"Details",fResult:"Result (after the match)",fDesc:"Description",fPhoto:"Photo",fCap:"Caption",fPhone:"Phone",fEmail:"E-mail",fAddr:"Address",
+    minors:"Only publish a photo of a minor with the parents' permission.",
+    eTitle:"Enter at least one title (in any language).",eDate:"Pick a date.",ePhoto:"Choose a photo.",ePhotoRead:"This image cannot be read.",eMail:"Invalid e-mail address.",eUrl:"Links must start with https://",
+    dirtyTxt:"Unpublished changes",cleanTxt:"Everything is published",publish:"Publish",publishing:"Publishing…",published:"Saved and published. Visitors already see the changes.",copy:"Copy content",copied:"Content shown below (copy it if needed).",
+    cNotWriter:"Session expired or not allowed. Sign in again.",cDisabled:"Publishing is not available here (publicly shared link or read-only view). Copy the content and send it to whoever manages the site.",cConflict:"Someone published before you: the page will reload. Your changes are kept as a draft.",cRate:"Too many publishes in a row. Wait a moment.",cOther:"Publishing failed.",
+    draft:"An unpublished draft was found.",restore:"Restore it",ignore:"Ignore",thome:"Dashboard",trequests:"Requests",ttexts:"Texts",taccount:"My account",
+    loginT:"Sign in",fEmailL:"E-mail",fPw:"Password",loginBtn:"Sign in",logout:"Sign out",eLogin:"Wrong e-mail or password.",notEditor:"This account is not allowed to edit the site. Ask the club to add it.",netErr:"No connection. Try again.",signedAs:"Signed in:",
+    dNews:"News",dEvents:"Upcoming events",dReq:"New requests",dPhotos:"Photos",dTeam:"People in the team",qNews:"+ News",qEvent:"+ Event",qPhoto:"+ Photo",
+    rNew:"New",rContacted:"Contacted",rAccepted:"Accepted",rDeclined:"Declined",rNone:"No requests yet.",rExport:"Export (Excel)",rRefresh:"Refresh",rLoadErr:"Could not load the requests.",rStatus:"Status",
+    txIntro:"Edit the site texts in all three languages. If you change nothing, the original text stays.",txReset:"Restore original",tx_home:"Home",tx_club:"The club",tx_disc:"Disciplines and gallery",tx_join:"Registration",tx_faq:"FAQ",tx_other:"Other",
+    uploading:"Uploading the photo…",eUpload:"Photo upload failed.",pwNew:"New password (8 characters minimum)",pwSave:"Change password",pwDone:"Password changed.",pwErr:"Password too short or refused.",tschedule:"Schedule",tteam:"Team",tlinks:"Office links",fSDisc:"Discipline",fDay:"Day",fFrom:"From",fTo:"To",fGroup:"Group / category",fName:"Name",fRole:"Role",fSection:"Section",fUrl:"Link (https://…)",fApp:"Members app link",open:"Open",eName:"Enter a name.",eDisc:"Choose a discipline.",eTime:"Enter the start time.",linksNote:"Links for the board (club app, tools). Never put a password here."},
+  ar:{eyebrow:"فضاء محجوز",title:"لوحة الإدارة",intro:"أضِف أو عدّل أو احذف الأخبار والأحداث والاختصاصات والصور وبيانات الاتصال. تظهر التغييرات فورًا، وتصبح عامة عند الضغط على «نشر».",
+    locked:"هذه الصفحة مخصصة للأشخاص المخوّل لهم تعديل الموقع.",loading:"جارٍ التحميل…",
+    localNote:"وضع غير متصل: يمكنك تعديل كل شيء ونسخ المحتوى، لكن النشر المباشر غير متاح هنا.",
+    tnews:"الأخبار",tevents:"الروزنامة",tdisciplines:"الاختصاصات",tgallery:"المعرض",tcontact:"الاتصال",
+    add:"+ إضافة",edit:"تعديل",del:"حذف",sure:"تأكيد الحذف",cancel:"إلغاء",save:"اعتماد",none:"لا يوجد شيء للعرض حاليًا.",
+    fDate:"التاريخ",fTime:"الساعة",fPlace:"المكان",fCat:"الفئة",fKind:"النوع",fTitle:"العنوان",fBody:"النص",fNote:"تفاصيل",fResult:"النتيجة (بعد المباراة)",fDesc:"الوصف",fPhoto:"الصورة",fCap:"التعليق",fPhone:"الهاتف",fEmail:"البريد الإلكتروني",fAddr:"العنوان",
+    minors:"لا تنشر صورة قاصر إلا بإذن وليّه.",
+    eTitle:"أدخل عنوانًا واحدًا على الأقل (بأي لغة).",eDate:"اختر تاريخًا.",ePhoto:"اختر صورة.",ePhotoRead:"تعذّرت قراءة هذه الصورة.",eMail:"بريد إلكتروني غير صالح.",eUrl:"يجب أن تبدأ الروابط بـ https://",
+    dirtyTxt:"تعديلات غير منشورة",cleanTxt:"كل شيء منشور",publish:"نشر",publishing:"جارٍ النشر…",published:"تم الحفظ والنشر. يرى الزوّار التغييرات الآن.",copy:"نسخ المحتوى",copied:"المحتوى معروض أدناه (انسخه عند الحاجة).",
+    cNotWriter:"انتهت الجلسة أو لا تملك الصلاحية. سجّل الدخول من جديد.",cDisabled:"النشر غير متاح هنا (رابط مشارك علنًا أو عرض للقراءة فقط). انسخ المحتوى وأرسله إلى من يدير الموقع.",cConflict:"نشر شخص آخر قبلك: ستُعاد تحميل الصفحة. تعديلاتك محفوظة كمسودّة.",cRate:"نشر متكرر جدًا. انتظر قليلًا.",cOther:"فشل النشر.",
+    draft:"تم العثور على مسودّة غير منشورة.",restore:"استرجاعها",ignore:"تجاهل",thome:"لوحة القيادة",trequests:"الطلبات",ttexts:"النصوص",taccount:"حسابي",
+    loginT:"تسجيل الدخول",fEmailL:"البريد الإلكتروني",fPw:"كلمة السر",loginBtn:"دخول",logout:"خروج",eLogin:"بريد أو كلمة سر غير صحيحة.",notEditor:"هذا الحساب غير مخوّل لتعديل الموقع. اطلب من النادي إضافته.",netErr:"لا يوجد اتصال. أعد المحاولة.",signedAs:"مسجَّل باسم:",
+    dNews:"الأخبار",dEvents:"أحداث قادمة",dReq:"طلبات جديدة",dPhotos:"الصور",dTeam:"أفراد الفريق",qNews:"+ خبر",qEvent:"+ حدث",qPhoto:"+ صورة",
+    rNew:"جديد",rContacted:"تم الاتصال",rAccepted:"مقبول",rDeclined:"مرفوض",rNone:"لا توجد طلبات حاليًا.",rExport:"تصدير (Excel)",rRefresh:"تحديث",rLoadErr:"تعذّر تحميل الطلبات.",rStatus:"الحالة",
+    txIntro:"عدّل نصوص الموقع بالثلاث لغات. إن لم تغيّر شيئًا يبقى النص الأصلي.",txReset:"استرجاع الأصل",tx_home:"الرئيسية",tx_club:"النادي",tx_disc:"الاختصاصات والمعرض",tx_join:"الاشتراك",tx_faq:"أسئلة شائعة",tx_other:"أخرى",
+    uploading:"جارٍ رفع الصورة…",eUpload:"فشل رفع الصورة.",pwNew:"كلمة سر جديدة (8 أحرف على الأقل)",pwSave:"تغيير كلمة السر",pwDone:"تم تغيير كلمة السر.",pwErr:"كلمة السر قصيرة أو مرفوضة.",tschedule:"التوقيت",tteam:"الفريق",tlinks:"روابط الإدارة",fSDisc:"الاختصاص",fDay:"اليوم",fFrom:"من",fTo:"إلى",fGroup:"المجموعة / الفئة",fName:"الاسم",fRole:"الصفة",fSection:"القسم",fUrl:"الرابط (https://…)",fApp:"رابط تطبيق الأعضاء",open:"فتح",eName:"أدخل اسمًا.",eDisc:"اختر اختصاصًا.",eTime:"أدخل ساعة البداية.",linksNote:"روابط خاصة بالإدارة (تطبيق النادي وأدواته). لا تضع هنا أي كلمة سر."}
+  };
+  function X(k){var t=XT[lang]||XT.fr;return (k in t)?t[k]:XT.fr[k]||k}
+  var SCHEMA={
+    news:[["date","date"],["cat","cat"],["title","ml"],["body","mlarea"]],
+    events:[["date","date"],["time","text"],["place","text"],["kind","kind"],["title","ml"],["note","mlarea"],["result","text"]],
+    disciplines:[["title","ml"],["desc","mlarea"]],
+    gallery:[["src","photo"],["cap","ml"]],
+    schedule:[["disc","disc"],["day","day"],["from","time"],["to","time"],["place","text"],["group","text"]],
+    team:[["name","text"],["role","ml"],["grp","grp"],["photo","photo"]],
+    links:[["title","ml"],["url","url"]]
+  };
+  var LABEL={date:"fDate",time:"fTime",place:"fPlace",cat:"fCat",kind:"fKind",title:"fTitle",body:"fBody",note:"fNote",result:"fResult",desc:"fDesc",src:"fPhoto",cap:"fCap",disc:"fSDisc",day:"fDay",from:"fFrom",to:"fTo",group:"fGroup",name:"fName",role:"fRole",grp:"fSection",photo:"fPhoto",url:"fUrl"};
+  var aTab="home",aEdit=null,aDel=null,aMsg="",aBad=false,aBusy=false,aExport="",aDraft=null,aErr="";
+
+  function readPhoto(file,ok,bad,M){
+    var fr=new FileReader();
+    fr.onload=function(){
+      var im=new Image();
+      im.onload=function(){
+        M=M||1000;var k=Math.min(1,M/Math.max(im.width,im.height)),cv=document.createElement("canvas");
+        cv.width=Math.max(1,Math.round(im.width*k));cv.height=Math.max(1,Math.round(im.height*k));
+        try{cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);cv.toBlob(function(b){b?ok(b):bad()},"image/jpeg",.8)}catch(e){bad()}
+      };
+      im.onerror=bad;im.src=fr.result;
+    };
+    fr.onerror=bad;fr.readAsDataURL(file);
+  }
+  function uploadPhoto(blob){
+    var name=uid()+".jpg";
+    return aapi("/storage/v1/object/site-media/"+name,{method:"POST",body:blob,headers:{"Content-Type":"image/jpeg"}}).then(function(){return SB+"/storage/v1/object/public/site-media/"+name});
+  }
+  function markDirty(){
+    dirty=true;aMsg="";
+    try{sessionStorage.setItem(DK,JSON.stringify(DATA))}catch(e){}
+    renderAll();
+  }
+  function discTitle(id){var d=DATA.disciplines.filter(function(o){return o.id===id})[0];return d?ml(d.title):""}
+  function itemTitle(kind,it){
+    if(kind==="gallery")return ml(it.cap)||"—";
+    if(kind==="team")return it.name||"—";
+    if(kind==="schedule")return dayName(it.day)+" "+it.from+(it.to?" – "+it.to:"");
+    return ml(it.title)||"—";
+  }
+  function thumbOf(kind,it){return kind==="gallery"?imgSrc(it.src):kind==="team"?imgSrc(it.photo):""}
+  function itemMeta(kind,it){
+    if(kind==="news")return [tt(CATK[it.cat]||"cAnn"),fmt(it.date,{day:"numeric",month:"long",year:"numeric"},it.date)].join(" · ");
+    if(kind==="events")return [tt(KINDK[it.kind]||"kEvent"),fmt(it.date,{day:"numeric",month:"long",year:"numeric"},it.date),it.time,it.place].filter(Boolean).join(" · ");
+    if(kind==="schedule")return [discTitle(it.disc),it.place,it.group].filter(Boolean).join(" · ");
+    if(kind==="team")return [tt(it.grp==="board"?"tBoard":"tCoach"),ml(it.role)].filter(Boolean).join(" · ");
+    if(kind==="links")return it.url||"";
+    return "";
+  }
+  function buildForm(kind,item){
+    var d=item?clone(item):{},pending=null,G={};
+    var form=h("form",{class:"card adm-form",novalidate:true});
+    var err=h("div",{class:"err",role:"alert"});
+    SCHEMA[kind].forEach(function(f){
+      var k=f[0],t=f[1],lab=X(LABEL[k]),w=h("div",{class:"field"});
+      if(t==="ml"||t==="mlarea"){
+        w.appendChild(h("label",{text:lab}));var g={};
+        LC.forEach(function(c){
+          var i=h(t==="ml"?"input":"textarea",{dir:c==="ar"?"rtl":"ltr",lang:c,placeholder:LN[c],"aria-label":lab+" ("+LN[c]+")"});
+          if(t==="mlarea")i.rows=3;
+          i.value=(d[k]&&d[k][c])||"";w.appendChild(i);g[c]=i;
+        });
+        G[k]=function(){var o={};LC.forEach(function(c){var v=g[c].value.trim();if(v)o[c]=v});return o};
+      }else if(t==="photo"){
+        var fid="af_"+k,fi=h("input",{type:"file",id:fid,accept:"image/*"}),pv=h("img",{class:"adm-prev",alt:""});
+        pv.hidden=!imgSrc(d[k]);if(imgSrc(d[k]))pv.src=imgSrc(d[k]);
+        w.appendChild(h("label",{for:fid,text:lab}));w.appendChild(fi);w.appendChild(pv);
+        w.appendChild(h("small",{class:"adm-note",text:X("minors")}));
+        fi.addEventListener("change",function(){
+          var fl=fi.files&&fi.files[0];if(!fl)return;
+          readPhoto(fl,function(b){
+            pv.src=URL.createObjectURL(b);pv.hidden=false;err.textContent=X("uploading");pending=null;
+            uploadPhoto(b).then(function(u){pending=u;err.textContent=""},function(){err.textContent=X("eUpload")});
+          },function(){err.textContent=X("ePhotoRead")},kind==="team"?500:1000);
+        });
+        G[k]=function(){return pending||d[k]||""};
+      }else if(t==="cat"||t==="kind"){
+        var opts=t==="cat"?CATS:KINDS,mp=t==="cat"?CATK:KINDK,fid2="af_"+k,sel=h("select",{id:fid2});
+        opts.forEach(function(o){sel.appendChild(h("option",{value:o,text:tt(mp[o])}))});
+        sel.value=d[k]||opts[0];
+        w.appendChild(h("label",{for:fid2,text:lab}));w.appendChild(sel);
+        G[k]=function(){return sel.value};
+      }else if(t==="disc"||t==="day"||t==="grp"){
+        var fid4="af_"+k,sl=h("select",{id:fid4});
+        if(t==="disc")DATA.disciplines.forEach(function(o){sl.appendChild(h("option",{value:o.id,text:ml(o.title)}))});
+        else if(t==="day")for(var di=0;di<7;di++)sl.appendChild(h("option",{value:String(di),text:dayName(di)}));
+        else[["board","tBoard"],["coach","tCoach"]].forEach(function(o){sl.appendChild(h("option",{value:o[0],text:tt(o[1])}))});
+        if(d[k]!=null&&d[k]!=="")sl.value=String(d[k]);
+        w.appendChild(h("label",{for:fid4,text:lab}));w.appendChild(sl);
+        G[k]=function(){return t==="day"?parseInt(sl.value,10):sl.value};
+      }else{
+        var fid3="af_"+k,i2=h("input",{id:fid3,type:t==="date"?"date":t==="time"?"time":"text"});
+        if(t==="url"||t==="time")i2.setAttribute("dir","ltr");
+        i2.value=d[k]||"";
+        w.appendChild(h("label",{for:fid3,text:lab}));w.appendChild(i2);
+        G[k]=function(){return i2.value.trim()};
+      }
+      form.appendChild(w);
+    });
+    form.appendChild(err);
+    form.appendChild(h("div",{class:"row2"},[
+      h("button",{class:"btn dark sm",type:"submit",text:X("save")}),
+      h("button",{class:"btn outline sm",type:"button",text:X("cancel"),on:{click:function(){aEdit=null;renderAdmin()}}})]));
+    form.addEventListener("submit",function(e){
+      e.preventDefault();
+      var v={};SCHEMA[kind].forEach(function(f){v[f[0]]=G[f[0]]()});
+      if(kind==="gallery"){if(!v.src){err.textContent=X("ePhoto");return}}
+      else if(kind==="team"){if(!v.name){err.textContent=X("eName");return}}
+      else if(kind==="schedule"){if(!v.disc){err.textContent=X("eDisc");return}if(!v.from){err.textContent=X("eTime");return}}
+      else{
+        var tl=v.title||{};if(!tl.ar&&!tl.fr&&!tl.en){err.textContent=X("eTitle");return}
+        if((kind==="news"||kind==="events")&&!isDate(v.date)){err.textContent=X("eDate");return}
+        if(kind==="links"&&!safeUrl(v.url)){err.textContent=X("eUrl");return}
+      }
+      v.id=item?item.id:uid();
+      var arr=DATA[kind],ix=-1;arr.forEach(function(o,n){if(o.id===v.id)ix=n});
+      if(ix>=0)arr[ix]=v;else arr.push(v);
+      aEdit=null;markDirty();
+    });
+    return form;
+  }
+  function buildContactForm(){
+    var c=DATA.contact,G={},form=h("form",{class:"card adm-form",novalidate:true}),err=h("div",{class:"err",role:"alert"});
+    function txt(key,lab,type,val){var id="ac_"+key,i=h("input",{id:id,type:type||"text"});i.value=val||"";form.appendChild(h("div",{class:"field"},[h("label",{for:id,text:lab}),i]));return i}
+    var ph=txt("phone",X("fPhone"),"text",c.phone),em=txt("email",X("fEmail"),"text",c.email);
+    em.setAttribute("dir","ltr");ph.setAttribute("dir","ltr");
+    var w=h("div",{class:"field"},[h("label",{text:X("fAddr")})]),ag={};
+    LC.forEach(function(l){var i=h("textarea",{rows:2,dir:l==="ar"?"rtl":"ltr",lang:l,placeholder:LN[l],"aria-label":X("fAddr")+" ("+LN[l]+")"});i.value=(c.address&&c.address[l])||"";w.appendChild(i);ag[l]=i});
+    form.appendChild(w);
+    var ap=txt("appUrl",X("fApp"),"text",c.appUrl);ap.setAttribute("dir","ltr");ap.setAttribute("placeholder","https://");
+    var so={};NETS.forEach(function(n){var i=txt("s_"+n[0],n[1],"text",(c.social&&c.social[n[0]])||"");i.setAttribute("dir","ltr");i.setAttribute("placeholder","https://");so[n[0]]=i});
+    form.appendChild(err);
+    form.appendChild(h("div",{class:"row2"},[h("button",{class:"btn dark sm",type:"submit",text:X("save")})]));
+    form.addEventListener("submit",function(e){
+      e.preventDefault();
+      var mail=em.value.trim();
+      if(mail&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)){err.textContent=X("eMail");return}
+      var soc={};
+      for(var k in so){var u=so[k].value.trim();if(u&&!safeUrl(u)){err.textContent=X("eUrl");return}soc[k]=u}
+      var ad={};LC.forEach(function(l){var v=ag[l].value.trim();if(v)ad[l]=v});
+      var au=ap.value.trim();if(au&&!safeUrl(au)){err.textContent=X("eUrl");return}
+      DATA.contact={phone:ph.value.trim(),email:mail,address:ad,social:soc,appUrl:au};
+      err.textContent="";markDirty();
+    });
+    return form;
+  }
+  function renderAdmin(){
+    var R=$("#adminRoot");if(!R)return;R.textContent="";
+    R.appendChild(h("div",{class:"head"},[h("span",{class:"eyebrow",text:X("eyebrow")}),h("h2",{text:X("title")}),h("p",{class:"lead",text:canEd===false?X("locked"):X("intro")})]));
+    if(canEd===undefined){R.appendChild(h("p",{text:X("loading")}));return}
+    if(canEd==="login"){R.appendChild(buildLogin());return}
+    if(canEd===false){R.appendChild(h("div",{class:"card"},[h("p",{text:X("notEditor")}),h("button",{class:"btn outline sm",type:"button",text:X("logout"),on:{click:logout}})]));return}
+    if(aDraft){
+      R.appendChild(h("div",{class:"adm-msg bad"},[X("draft")+" ",
+        h("button",{class:"btn outline sm",type:"button",text:X("restore"),on:{click:function(){DATA=normalize(aDraft);aDraft=null;dirty=true;renderAll()}}})," ",
+        h("button",{class:"btn outline sm",type:"button",text:X("ignore"),on:{click:function(){aDraft=null;try{sessionStorage.removeItem(DK)}catch(e){}renderAdmin()}}})]));
+    }
+    var tabs=h("div",{class:"adm-tabs",role:"group"});
+    ["home","requests","news","events","schedule","disciplines","team","gallery","texts","contact","links","account"].forEach(function(t){
+      var nn=t==="requests"&&REQS?REQS.filter(function(r){return r.status==="new"}).length:0;
+      tabs.appendChild(h("button",{class:"chip",type:"button","aria-pressed":aTab===t,text:X("t"+t)+(nn?" ("+nn+")":""),on:{click:function(){aTab=t;aEdit=null;aDel=null;if(t==="requests"||t==="home")loadReqs();renderAdmin()}}}));
+    });
+    R.appendChild(tabs);
+    if(aTab==="home"){R.appendChild(buildDash())}
+    else if(aTab==="requests"){R.appendChild(buildReqs())}
+    else if(aTab==="texts"){R.appendChild(buildTexts())}
+    else if(aTab==="account"){R.appendChild(buildAccount())}
+    else if(aTab==="contact"){R.appendChild(buildContactForm())}
+    else{
+      R.appendChild(h("div",{class:"adm-top"},[h("span"),h("button",{class:"btn dark sm",type:"button",text:X("add"),on:{click:function(){aEdit={kind:aTab,id:null};renderAdmin()}}})]));
+      if(aEdit&&aEdit.kind===aTab&&aEdit.id===null)R.appendChild(buildForm(aTab,null));
+      var arr=DATA[aTab].slice();
+      if(aTab==="schedule")arr.sort(function(a,b){return (a.day-b.day)||String(a.from).localeCompare(String(b.from))});
+      if(aTab==="news"||aTab==="events")arr.sort(function(a,b){return (b.date||"").localeCompare(a.date||"")});
+      var list=h("div",{class:"adm-list"});
+      if(aTab==="links")R.appendChild(h("p",{class:"adm-note",text:X("linksNote")}));
+      if(!arr.length)list.appendChild(h("p",{class:"adm-note",text:X("none")}));
+      arr.forEach(function(it){
+        if(aEdit&&aEdit.kind===aTab&&aEdit.id===it.id){list.appendChild(buildForm(aTab,it));return}
+        var key=aTab+":"+it.id,conf=aDel===key,thumb=thumbOf(aTab,it);
+        var meta=itemMeta(aTab,it);
+        list.appendChild(h("div",{class:"card adm-row"+(thumb?"":" nothumb")},[
+          thumb?h("img",{src:thumb,alt:""}):null,
+          h("div",null,[h("b",{text:itemTitle(aTab,it)}),meta?h("small",{text:meta}):null]),
+          h("div",{class:"adm-acts"},[
+            aTab==="links"&&safeUrl(it.url)?h("a",{class:"btn dark sm",href:safeUrl(it.url),target:"_blank",rel:"noopener",text:X("open")}):null,
+            h("button",{class:"btn outline sm",type:"button",text:X("edit"),on:{click:function(){aEdit={kind:aTab,id:it.id};aDel=null;renderAdmin()}}}),
+            h("button",{class:"btn danger sm"+(conf?" confirm":""),type:"button",text:conf?X("sure"):X("del"),on:{click:function(){
+              if(!conf){aDel=key;renderAdmin();return}
+              DATA[aTab]=DATA[aTab].filter(function(o){return o.id!==it.id});aDel=null;markDirty();
+            }}})])]));
+      });
+      R.appendChild(list);
+    }
+    var bar=h("div",{class:"adm-bar"},[
+      h("span",{class:"adm-state"+(dirty?" dirty":""),text:dirty?X("dirtyTxt"):X("cleanTxt")}),
+      h("button",{class:"btn outline sm",type:"button",text:X("copy"),on:{click:function(){
+        aExport=JSON.stringify(DATA,null,1);aMsg=X("copied");aBad=false;
+        try{if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(aExport).catch(function(){})}catch(e){}
+        renderAdmin();
+      }}}),
+      h("button",{class:"btn dark sm",type:"button",text:aBusy?X("publishing"):X("publish"),disabled:!dirty||aBusy,on:{click:save}})]);
+    if(aTab!=="requests")R.appendChild(bar);
+    if(aMsg)R.appendChild(h("div",{class:"adm-msg"+(aBad?" bad":""),role:"status",text:aMsg}));
+    if(aExport&&aTab!=="requests"){var ta=h("textarea",{class:"adm-export",readonly:true,"aria-label":"content.json"});ta.value=aExport;ta.addEventListener("focus",function(){ta.select()});R.appendChild(ta)}
+  }
+  /* ---- accès à Supabase (API REST, sans bibliothèque) ---- */
+  var SESS=null,SK="mejerda-sess",REQS=null,REQERR=false;
+  function api(path,o){
+    o=o||{};var hd={apikey:KEY};
+    if(o.auth&&SESS)hd.Authorization="Bearer "+SESS.access_token;
+    if(o.json)hd["Content-Type"]="application/json";
+    if(o.prefer)hd.Prefer=o.prefer;
+    if(o.headers)for(var k in o.headers)hd[k]=o.headers[k];
+    return fetch(SB+path,{method:o.method||"GET",headers:hd,body:o.json?JSON.stringify(o.json):o.body,cache:"no-store"}).then(function(r){
+      return r.text().then(function(t){
+        var d=null;try{d=t?JSON.parse(t):null}catch(e){}
+        if(!r.ok){var e=new Error((d&&(d.message||d.msg||d.error_description))||("HTTP "+r.status));e.status=r.status;throw e}
+        return d;
+      });
+    });
+  }
+  function setSess(d){
+    SESS={access_token:d.access_token,refresh_token:d.refresh_token,exp:Date.now()+Math.max(30,(d.expires_in||3600)-60)*1000,user:d.user?{id:d.user.id,email:d.user.email}:(SESS&&SESS.user)};
+    try{localStorage.setItem(SK,JSON.stringify(SESS))}catch(e){}
+    return SESS;
+  }
+  function ensureSess(){
+    if(!SESS)return Promise.reject(Object.assign(new Error("no session"),{status:401}));
+    if(Date.now()<SESS.exp)return Promise.resolve();
+    return api("/auth/v1/token?grant_type=refresh_token",{method:"POST",json:{refresh_token:SESS.refresh_token}}).then(setSess);
+  }
+  function aapi(path,o){
+    return ensureSess().then(function(){o=o||{};o.auth=true;return api(path,o)});
+  }
+  function errMsg(e){return (e&&(e.status===401||e.status===403))?X("cNotWriter"):(e&&e.status?X("cOther"):X("netErr"))}
+  function login(email,pw){
+    return api("/auth/v1/token?grant_type=password",{method:"POST",json:{email:email,password:pw}}).then(setSess).then(checkEditor);
+  }
+  function checkEditor(){
+    return aapi("/rest/v1/site_editors?select=user_id").then(function(r){
+      canEd=!!(r&&r.length);
+      if(canEd){try{var s=sessionStorage.getItem(DK);if(s){var d=JSON.parse(s);if(validData(d))aDraft=d}}catch(e){}loadReqs()}
+    });
+  }
+  function logout(){
+    SESS=null;canEd="login";aDraft=null;REQS=null;try{localStorage.removeItem(SK)}catch(e){}
+    renderAdmin();
+  }
+  function buildLogin(){
+    var f=h("form",{class:"card adm-form",novalidate:true}),err=h("div",{class:"err",role:"alert"});
+    var em=h("input",{id:"lg_e",type:"email",autocomplete:"username",dir:"ltr"}),pw=h("input",{id:"lg_p",type:"password",autocomplete:"current-password",dir:"ltr"});
+    f.appendChild(h("h3",{text:X("loginT")}));
+    f.appendChild(h("div",{class:"field"},[h("label",{for:"lg_e",text:X("fEmailL")}),em]));
+    f.appendChild(h("div",{class:"field"},[h("label",{for:"lg_p",text:X("fPw")}),pw]));
+    f.appendChild(err);
+    f.appendChild(h("div",{class:"row2"},[h("button",{class:"btn dark sm",type:"submit",text:X("loginBtn")})]));
+    f.addEventListener("submit",function(e){
+      e.preventDefault();err.textContent="";
+      if(!em.value.trim()||!pw.value){err.textContent=X("eLogin");return}
+      login(em.value.trim(),pw.value).then(function(){renderAdmin()},function(x){err.textContent=(x&&x.status&&x.status<500&&x.status!==429)?X("eLogin"):X("netErr")});
+    });
+    return f;
+  }
+  function buildAccount(){
+    var box=h("div");
+    box.appendChild(h("div",{class:"card"},[h("p",{text:X("signedAs")+" "+((SESS&&SESS.user&&SESS.user.email)||"")}),
+      h("div",{class:"row2"},[h("button",{class:"btn outline sm",type:"button",text:X("logout"),on:{click:logout}})])]));
+    var f=h("form",{class:"card adm-form",style:"margin-top:16px",novalidate:true}),err=h("div",{class:"err",role:"status"});
+    var pw=h("input",{id:"pw_n",type:"password",autocomplete:"new-password",dir:"ltr"});
+    f.appendChild(h("div",{class:"field"},[h("label",{for:"pw_n",text:X("pwNew")}),pw]));
+    f.appendChild(err);
+    f.appendChild(h("div",{class:"row2"},[h("button",{class:"btn dark sm",type:"submit",text:X("pwSave")})]));
+    f.addEventListener("submit",function(e){
+      e.preventDefault();
+      if(pw.value.length<8){err.textContent=X("pwErr");return}
+      aapi("/auth/v1/user",{method:"PUT",json:{password:pw.value}}).then(function(){pw.value="";err.textContent=X("pwDone")},function(){err.textContent=X("pwErr")});
+    });
+    box.appendChild(f);return box;
+  }
+
+  /* ---- enregistrement ---- */
+  function save(){
+    if(canEd!==true||aBusy||!dirty)return;
+    aBusy=true;aMsg=X("publishing");aBad=false;renderAdmin();
+    aapi("/rest/v1/site_content?key=eq.content",{method:"PATCH",json:{data:DATA},prefer:"return=representation"}).then(function(rows){
+      if(!rows||!rows.length)throw Object.assign(new Error("denied"),{status:403});
+      dirty=false;try{sessionStorage.removeItem(DK);localStorage.setItem("mejerda-cache",JSON.stringify(DATA))}catch(e){}
+      aMsg=X("published");aBad=false;
+    }).catch(function(e){aMsg=errMsg(e);aBad=true}).then(function(){aBusy=false;renderAdmin()});
+  }
+  function validData(d){
+    return d&&d.v===1&&Array.isArray(d.news)&&Array.isArray(d.events)&&Array.isArray(d.disciplines)&&Array.isArray(d.gallery)&&d.contact&&typeof d.contact==="object";
+  }
+  function loadContent(){
+    api("/rest/v1/site_content?key=eq.content&select=data").then(function(r){
+      var d=r&&r[0]&&r[0].data;
+      if(validData(d)&&!dirty){DATA=normalize(d);try{localStorage.setItem("mejerda-cache",JSON.stringify(DATA))}catch(e){}renderAll()}
+    }).catch(function(){});
+  }
+  function initAdmin(){
+    try{SESS=JSON.parse(localStorage.getItem(SK)||"null")}catch(e){SESS=null}
+    if(!SESS||!SESS.refresh_token){canEd="login";if(curPage==="admin")renderAdmin();return}
+    checkEditor().catch(function(e){
+      if(e&&e.status===400||e&&e.status===401||e&&e.status===403){SESS=null;try{localStorage.removeItem(SK)}catch(x){}}
+      canEd="login";
+    }).then(function(){if(curPage==="admin")renderAdmin()});
+  }
+
+  /* ---- tableau de bord ---- */
+  function buildDash(){
+    var box=h("div");
+    var n=REQS?REQS.filter(function(r){return r.status==="new"}).length:"…";
+    function stat(v,l,go){return h("button",{class:"card stat",type:"button",on:{click:function(){aTab=go;aEdit=null;if(go==="requests")loadReqs();renderAdmin()}}},[h("b",{text:String(v)}),h("small",{text:l})])}
+    box.appendChild(h("div",{class:"grid g3"},[
+      stat(n,X("dReq"),"requests"),stat(upcoming().length,X("dEvents"),"events"),stat(DATA.news.length,X("dNews"),"news"),
+      stat(DATA.gallery.length,X("dPhotos"),"gallery"),stat(DATA.team.length,X("dTeam"),"team")]));
+    function quick(txt,tab){return h("button",{class:"btn dark sm",type:"button",text:txt,on:{click:function(){aTab=tab;aEdit={kind:tab,id:null};renderAdmin()}}})}
+    box.appendChild(h("div",{class:"row2",style:"margin-top:18px"},[quick(X("qNews"),"news"),quick(X("qEvent"),"events"),quick(X("qPhoto"),"gallery")]));
+    return box;
+  }
+
+  /* ---- demandes ---- */
+  function loadReqs(){
+    return aapi("/rest/v1/site_requests?select=*&order=created_at.desc&limit=500").then(function(r){REQS=r||[];REQERR=false},function(){REQERR=true}).then(function(){if(curPage==="admin"&&canEd===true)renderAdmin()});
+  }
+  var ST=["new","contacted","accepted","declined"],STK={new:"rNew",contacted:"rContacted",accepted:"rAccepted",declined:"rDeclined"},KIND3={adhesion:"fT1",benevolat:"fT2",partenariat:"fT3"};
+  function csvCell(v){v=String(v==null?"":v).replace(/"/g,'""');return '"'+v+'"'}
+  function exportCsv(){
+    var rows=[["date","type","name","contact","discipline","message","status"]].concat((REQS||[]).map(function(r){return [r.created_at,r.kind,r.name,r.contact,r.discipline,r.message,r.status]}));
+    var txt="﻿"+rows.map(function(r){return r.map(csvCell).join(",")}).join("\r\n");
+    var u=URL.createObjectURL(new Blob([txt],{type:"text/csv;charset=utf-8"})),a=h("a",{href:u,download:"demandes-mejerda-sport.csv"});
+    document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},1000);
+  }
+  function buildReqs(){
+    var box=h("div");
+    box.appendChild(h("div",{class:"adm-top"},[h("span"),h("div",{class:"row2",style:"margin:0"},[
+      h("button",{class:"btn outline sm",type:"button",text:X("rRefresh"),on:{click:function(){loadReqs()}}}),
+      h("button",{class:"btn outline sm",type:"button",text:X("rExport"),disabled:!(REQS&&REQS.length),on:{click:exportCsv}})])]));
+    if(REQERR)box.appendChild(h("p",{class:"adm-note",text:X("rLoadErr")}));
+    else if(REQS===null)box.appendChild(h("p",{class:"adm-note",text:X("loading")}));
+    else if(!REQS.length)box.appendChild(h("p",{class:"adm-note",text:X("rNone")}));
+    var list=h("div",{class:"adm-list"});
+    (REQS||[]).forEach(function(r){
+      var key="req:"+r.id,conf=aDel===key;
+      var sel=h("select",{"aria-label":X("rStatus")});
+      ST.forEach(function(s){sel.appendChild(h("option",{value:s,text:X(STK[s])}))});sel.value=r.status;
+      sel.addEventListener("change",function(){
+        aapi("/rest/v1/site_requests?id=eq."+encodeURIComponent(r.id),{method:"PATCH",json:{status:sel.value},prefer:"return=minimal"}).then(function(){r.status=sel.value;renderAdmin()},function(e){aMsg=errMsg(e);aBad=true;renderAdmin()});
+      });
+      list.appendChild(h("div",{class:"card req-card"+(r.status==="new"?" isnew":"")},[
+        h("div",{class:"adm-top",style:"margin:0"},[h("b",{text:r.name}),h("small",{text:tt(KIND3[r.kind]||"fT1")+" · "+fmt((r.created_at||"").slice(0,10),{day:"numeric",month:"long",year:"numeric"},(r.created_at||"").slice(0,10))})]),
+        h("p",{class:"pl",style:"margin:6px 0"},[h("bdi",{dir:"ltr",text:r.contact})]),
+        r.discipline?h("small",{text:r.discipline}):null,
+        r.message?h("p",{class:"pl",style:"margin:6px 0",text:r.message}):null,
+        h("div",{class:"adm-acts",style:"margin-top:10px"},[sel,
+          h("button",{class:"btn danger sm"+(conf?" confirm":""),type:"button",text:conf?X("sure"):X("del"),on:{click:function(){
+            if(!conf){aDel=key;renderAdmin();return}
+            aapi("/rest/v1/site_requests?id=eq."+encodeURIComponent(r.id),{method:"DELETE",prefer:"return=minimal"}).then(function(){REQS=REQS.filter(function(x){return x.id!==r.id});aDel=null;renderAdmin()},function(e){aMsg=errMsg(e);aBad=true;renderAdmin()});
+          }}})])]));
+    });
+    box.appendChild(list);
+    if(aMsg)box.appendChild(h("div",{class:"adm-msg bad",role:"status",text:aMsg}));
+    return box;
+  }
+
+  /* ---- textes modifiables ---- */
+  function buildTextForm(key){
+    var T=DATA.texts[key]||{},G={};
+    var f=h("form",{class:"card adm-form",novalidate:true}),err=h("div",{class:"err",role:"alert"});
+    LC.forEach(function(l){
+      var i=h("textarea",{rows:4,dir:l==="ar"?"rtl":"ltr",lang:l,"aria-label":LN[l]});
+      i.value=T[l]!=null?T[l]:plain(BASE[l][key]);
+      f.appendChild(h("div",{class:"field"},[h("label",{text:LN[l]}),i]));G[l]=i;
+    });
+    f.appendChild(err);
+    f.appendChild(h("div",{class:"row2"},[
+      h("button",{class:"btn dark sm",type:"submit",text:X("save")}),
+      h("button",{class:"btn outline sm",type:"button",text:X("txReset"),on:{click:function(){delete DATA.texts[key];aEdit=null;markDirty()}}}),
+      h("button",{class:"btn outline sm",type:"button",text:X("cancel"),on:{click:function(){aEdit=null;renderAdmin()}}})]));
+    f.addEventListener("submit",function(e){
+      e.preventDefault();var o={},any=false;
+      LC.forEach(function(l){var v=G[l].value.trim();if(v&&v!==plain(BASE[l][key]).trim()){o[l]=v;any=true}});
+      if(any)DATA.texts[key]=o;else delete DATA.texts[key];
+      aEdit=null;markDirty();
+    });
+    return f;
+  }
+  function buildTexts(){
+    var box=h("div");box.appendChild(h("p",{class:"adm-note",text:X("txIntro")}));
+    TEXT_GROUPS.forEach(function(g){
+      box.appendChild(h("h3",{style:"margin:22px 0 10px;font-size:1.2rem",text:X(g[0])}));
+      var list=h("div",{class:"adm-list"});
+      g[1].forEach(function(k){
+        if(aEdit&&aEdit.kind==="texts"&&aEdit.id===k){list.appendChild(buildTextForm(k));return}
+        var cur=plain(DICT[lang][k]!=null?DICT[lang][k]:BASE.fr[k]),mod=!!DATA.texts[k];
+        list.appendChild(h("div",{class:"card adm-row nothumb"},[
+          h("div",null,[h("b",{text:cur.length>140?cur.slice(0,140)+"…":cur}),mod?h("small",{text:"✎"}):null]),
+          h("div",{class:"adm-acts"},[h("button",{class:"btn outline sm",type:"button",text:X("edit"),on:{click:function(){aEdit={kind:"texts",id:k};renderAdmin()}}})])]));
+      });
+      box.appendChild(list);
+    });
+    return box;
+  }
+
+  /* ---- envoi du formulaire d'inscription ---- */
+  var lastSend=0;
+  function sendReq(s){
+    var kinds=["adhesion","benevolat","partenariat"],ds=$("#disc"),hp=$("#hp");
+    s.hidden=false;s.textContent=tt("reqSending");
+    if(hp&&hp.value){s.textContent=tt("reqSent");return}
+    if(Date.now()-lastSend<20000){s.textContent=tt("reqSent");return}
+    var p={kind:kinds[type()-1],name:$("#name").value.trim().slice(0,120),contact:$("#contact").value.trim().slice(0,160),lang:lang};
+    if(type()==="1"&&ds.value)p.discipline=ds.options[ds.selectedIndex].text.slice(0,80);
+    var m=$("#msg").value.trim();if(m)p.message=m.slice(0,2000);
+    lastSend=Date.now();
+    api("/rest/v1/site_requests",{method:"POST",json:p,prefer:"return=minimal"}).then(function(){
+      s.textContent=tt("reqSent");$("#name").value="";$("#contact").value="";$("#msg").value="";
+    },function(){lastSend=0;showReq(s)});
+  }
+
+  var PAGES=["home","club","disciplines","actus","calendrier","galerie","inscription","espace","contact","admin"];
+  function route(){
+    var h=(location.hash||"").slice(1);
+    if(h==="accueil"||PAGES.indexOf(h)<0)h="home";
+    curPage=h;
+    $$("[data-page]").forEach(function(e){e.hidden=e.dataset.page!==h});
+    if(h==="admin")renderAdmin();
+    $$("#links a").forEach(function(a){
+      var t=(a.getAttribute("href")||"").slice(1);
+      if(t===h)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");
+    });
+    try{window.scrollTo(0,0)}catch(e){}
+  }
+  window.addEventListener("hashchange",route);
+  route();
+
+  var start="fr";
+  try{start=localStorage.getItem("mejerda-lang")||""}catch(e){}
+  if(!DICT[start]){
+    var nl=((navigator.language||"fr")+"").slice(0,2).toLowerCase();
+    start=DICT[nl]?nl:"fr";
+  }
+  if(start!=="fr")apply(start);
+  renderAll();loadContent();initAdmin();
+})();
+</script>
+
+</body>
+</html>
