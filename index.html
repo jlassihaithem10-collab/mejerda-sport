@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Mejerda Sport, club sportif de Medjez el Bab depuis 1989 : gymnastique, basketball, kung-fu. Calendrier, actualités, inscription.">
-<meta name="theme-color" content="#0b2e21">
+<meta name="theme-color" content="#00204f">
 <meta property="og:title" content="Mejerda Sport – Medjez el Bab">
 <meta property="og:description" content="Gymnastique, basketball et kung-fu à Medjez el Bab depuis 1989.">
 <meta property="og:type" content="website">
@@ -17,20 +17,20 @@
 <style>
 /* Layout: sticky nav with language switch, dark-green hero with a drawn bridge of Medjez el Bab and two glass cards, then light content bands; gold is the only accent. */
 :root{
-  --green-deep:#0b2e21; --green-mid:#17553a; --gold:#e3ad1c; --gold-ink:#2f2200;
-  --bg:#f1f5f2; --surface:#ffffff; --ink:#10201a; --muted:#51655b; --line:#d6e1d9;
-  --brand:#17553a; --soft:#e6efe9; --warn-bg:#fff4d6; --warn-ink:#5a4100; --danger:#b3261e;
+  --green-deep:#00204f; --green-mid:#0b7d45; --gold:#f5c518; --gold-ink:#2a2000; --head:#00307a;
+  --bg:#f2f6fa; --surface:#ffffff; --ink:#0c1a33; --muted:#4e6175; --line:#d2deea;
+  --brand:#0b7d45; --soft:#e3eef0; --warn-bg:#fff4d6; --warn-ink:#5a4100; --danger:#b3261e;
   --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
   --body:"Source Sans 3","Segoe UI",Roboto,Arial,sans-serif;
   --arabic:"Cairo","Segoe UI",Tahoma,sans-serif;
   --r:14px;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#09130e; --surface:#11211a; --ink:#e8f1ec; --muted:#9bb2a5; --line:#233a2e;
-  --brand:#6fd49a; --soft:#16291f; --warn-bg:#3a2d08; --warn-ink:#f1d98a; --danger:#ff9f95; color-scheme:dark}}
+  --bg:#07101f; --surface:#0e1b30; --ink:#e8eef7; --muted:#9db0c9; --line:#1d2f4a;
+  --brand:#4fd18f; --soft:#12233b; --head:#9fe0bd; --warn-bg:#3a2d08; --warn-ink:#f1d98a; --danger:#ff9f95; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#09130e; --surface:#11211a; --ink:#e8f1ec; --muted:#9bb2a5; --line:#233a2e;
-  --brand:#6fd49a; --soft:#16291f; --warn-bg:#3a2d08; --warn-ink:#f1d98a; --danger:#ff9f95; color-scheme:dark}
+  --bg:#07101f; --surface:#0e1b30; --ink:#e8eef7; --muted:#9db0c9; --line:#1d2f4a;
+  --brand:#4fd18f; --soft:#12233b; --head:#9fe0bd; --warn-bg:#3a2d08; --warn-ink:#f1d98a; --danger:#ff9f95; color-scheme:dark}
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -43,7 +43,7 @@ a{color:inherit}
 :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .wrap{max-width:1120px;margin-inline:auto;padding-inline:20px}
 h1,h2,h3{font-family:var(--display);line-height:1.05;margin:0;text-wrap:balance;letter-spacing:.01em}
-h2{font-size:clamp(2rem,5vw,3rem);color:var(--brand);text-transform:uppercase;font-weight:800}
+h2{font-size:clamp(2rem,5vw,3rem);color:var(--head);text-transform:uppercase;font-weight:800}
 h3{font-size:1.5rem;font-weight:700}
 .eyebrow{font-family:var(--display);text-transform:uppercase;letter-spacing:.14em;font-weight:700;font-size:.95rem;color:var(--muted)}
 section{padding-block:72px;scroll-margin-top:72px}
@@ -75,7 +75,7 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:va
 }
 @media (max-width:480px){.brand span{display:none}}
 
-.hero{background:radial-gradient(1200px 500px at 85% 20%,rgba(31,107,73,.75) 0%,transparent 60%),linear-gradient(160deg,rgba(11,46,33,.93),rgba(23,85,58,.84)),url("img/hero.jpg") center/cover;color:#fff;padding-block:56px 72px;overflow:hidden}
+.hero{background:radial-gradient(1200px 500px at 85% 20%,rgba(11,125,69,.65) 0%,transparent 60%),linear-gradient(160deg,rgba(0,32,79,.94),rgba(0,70,95,.84)),url("img/hero.jpg") center/cover;color:#fff;padding-block:56px 72px;overflow:hidden}
 .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:32px;align-items:center}
 .hero-grid>*{min-width:0}
 .hero .badge{display:inline-flex;align-items:center;gap:10px;background:#ffffff1a;border:1px solid #ffffff33;border-radius:999px;padding:6px 6px;padding-inline-end:14px;font-size:.9rem;margin-bottom:22px}
@@ -279,17 +279,17 @@ pre.req{margin:10px 0 0;padding:12px;border-radius:10px;background:var(--surface
  body>*:not(#printRoot){display:none!important}
  #printRoot{display:block!important;color:#000;background:#fff;font:11pt/1.4 system-ui,"Segoe UI",Arial,sans-serif}
  #printRoot *{animation:none!important;transition:none!important}
- .pr-head{display:flex;align-items:center;gap:14px;border-bottom:3px solid #17553a;padding-bottom:10px;margin-bottom:14px}
+ .pr-head{display:flex;align-items:center;gap:14px;border-bottom:3px solid #0b7d45;padding-bottom:10px;margin-bottom:14px}
  .pr-head img{width:66px;height:66px;border-radius:50%}
- .pr-head h1{margin:0;font-size:18pt;color:#17553a;line-height:1.1}
+ .pr-head h1{margin:0;font-size:18pt;color:#0b7d45;line-height:1.1}
  .pr-head b{font-size:13pt}
  .pr-meta{margin:0 0 10px;color:#333}
- .pr-h{margin:18px 0 6px;font-size:12pt;color:#17553a}
+ .pr-h{margin:18px 0 6px;font-size:12pt;color:#0b7d45}
  table.pr{width:100%;border-collapse:collapse;margin-bottom:6px}
  table.pr th,table.pr td{border:1px solid #555;padding:7px 9px;text-align:start;vertical-align:top}
  table.pr.kv th{width:32%;background:#eef2ef;font-weight:600}
  table.pr.kv td{min-height:26px;height:26px}
- table.pr thead th{background:#17553a;color:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ table.pr thead th{background:#0b7d45;color:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
  table.pr.big td{font-size:12.5pt;padding:10px}
  table.pr.att td,table.pr.att th{padding:8px 4px;font-size:9pt}
  table.pr.att td:nth-child(2),table.pr.att th:nth-child(2){min-width:44mm}
@@ -309,7 +309,7 @@ h3.md-h{font-size:1.25rem}
 .card.long{grid-column:1/-1}
 .card.long .nbody{max-width:78ch}
 .card .more{margin-top:12px}
-.hpw{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}.admlink{color:inherit;opacity:.8}.stat{text-align:start;cursor:pointer;font:inherit;color:var(--ink)}.stat b{display:block;font-family:var(--display);font-size:2.6rem;line-height:1;color:var(--brand)}.stat small{color:var(--muted)}.stat:hover{border-color:var(--brand)}.req-card.isnew{border-inline-start:4px solid var(--gold)}#sprog{position:fixed;top:0;inset-inline:0;height:3px;z-index:60;background:var(--gold);transform:scaleX(0);transform-origin:0 50%;pointer-events:none}
+.hpw{position:absolute;top:0;inset-inline-start:0;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none;clip-path:inset(50%)}#form{position:relative}html,body{overflow-x:clip}.admlink{color:inherit;opacity:.8}.stat{text-align:start;cursor:pointer;font:inherit;color:var(--ink)}.stat b{display:block;font-family:var(--display);font-size:2.6rem;line-height:1;color:var(--brand)}.stat small{color:var(--muted)}.stat:hover{border-color:var(--brand)}.req-card.isnew{border-inline-start:4px solid var(--gold)}#sprog{position:fixed;top:0;inset-inline:0;height:3px;z-index:60;background:var(--gold);transform:scaleX(0);transform-origin:0 50%;pointer-events:none}
 [dir=rtl] #sprog{transform-origin:100% 50%}
 header{transition:box-shadow .25s,background .25s}
 header.scrolled{box-shadow:0 6px 24px rgba(0,0,0,.28)}
@@ -319,8 +319,9 @@ header.scrolled{box-shadow:0 6px 24px rgba(0,0,0,.28)}
 @keyframes pg{from{opacity:0}to{opacity:1}}
 @keyframes floaty{50%{translate:0 -10px}}
 @keyframes bob{50%{transform:translateY(5px)}}
-@keyframes ring{0%,100%{box-shadow:0 0 0 0 rgba(227,173,28,.55)}60%{box-shadow:0 0 0 14px rgba(227,173,28,0)}}
+@keyframes ring{0%,100%{box-shadow:0 0 0 0 rgba(245,197,24,.55)}60%{box-shadow:0 0 0 14px rgba(245,197,24,0)}}
 @keyframes spin{to{transform:rotate(360deg)}}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
 [data-page]:not([hidden]){animation:pg .45s ease}
 .hero .badge{animation:up .7s .05s both}
 .hero h1{animation:up .8s .15s both}
@@ -332,17 +333,19 @@ header.scrolled{box-shadow:0 6px 24px rgba(0,0,0,.28)}
 .hero .glass.b{animation:up .8s .9s both}
 .hero .art .logo{animation:floaty 6s 1.2s ease-in-out infinite}
 .hero .art svg>circle:first-of-type{transform-origin:240px 240px;stroke-dasharray:10 14;animation:spin 90s linear infinite}
-.hero .art svg g:last-of-type path{animation:bob 4.5s ease-in-out infinite}
-.hero .art svg g:last-of-type path:nth-child(2){animation-delay:-1.1s}
-.hero .art svg g:last-of-type path:nth-child(3){animation-delay:-2.2s}
-.hero .art svg g:last-of-type path:nth-child(4){animation-delay:-3.3s}
+.hero .art svg .waves path{animation:bob 4.5s ease-in-out infinite}
+.hero .art svg .waves path:nth-child(2){animation-delay:-1.1s}
+.hero .art svg .waves path:nth-child(3){animation-delay:-2.2s}
+.hero .art svg .waves path:nth-child(4){animation-delay:-3.3s}
+.hero .brline path{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.8s .5s cubic-bezier(.4,0,.2,1) forwards}
+.hero .brline g:nth-of-type(1) path:nth-child(odd){animation-delay:.7s}
 .hero .btn.gold{animation:up .8s .54s both,ring 2.8s 2.2s ease-in-out infinite}
 .btn{transition:transform .18s,box-shadow .2s,background .2s,color .2s,border-color .2s}
 .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.18)}
 .btn:active{transform:translateY(0) scale(.98)}
 .glass:hover{transform:translateY(-4px)}
 main .card{transition:transform .25s,box-shadow .25s,border-color .25s}
-main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(11,46,33,.12);border-color:var(--brand)}
+main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(0,32,79,.12);border-color:var(--brand)}
 #admin .card:hover{transform:none!important;box-shadow:none!important}
 .links a{transition:color .2s,background .2s}
 .rv{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s cubic-bezier(.2,.8,.2,1);transition-delay:var(--d,0ms)}
@@ -383,22 +386,20 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
       </div>
     </div>
     <div class="art"><div class="art-img">
-      <svg viewBox="0 0 480 480" role="img" aria-label="Dessin du pont de Medjez el Bab sur la Medjerda">
+      <svg viewBox="0 0 480 480" role="img" aria-label="Le pont de la Medjerda à Medjez el Bab">
+        <defs><linearGradient id="brGold" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="480" y2="0"><stop offset="0" stop-color="#f5c518"/><stop offset=".5" stop-color="#ffe27a"/><stop offset="1" stop-color="#f5c518"/></linearGradient></defs>
         <circle cx="240" cy="240" r="214" fill="none" stroke="#ffffff22" stroke-width="2"/>
         <circle cx="240" cy="240" r="170" fill="none" stroke="#ffffff14" stroke-width="2"/>
-        <g fill="none" stroke="#e3ad1c" stroke-linecap="round">
-          <path d="M40 262 H440" stroke-width="12"/>
-          <path d="M40 246 H440" stroke-width="3" opacity=".6"/>
-          <path d="M70 262 V330 M200 262 V330 M280 262 V330 M410 262 V330" stroke-width="10"/>
-          <path d="M70 330 A65 65 0 0 1 200 330" stroke-width="10"/>
-          <path d="M280 330 A65 65 0 0 1 410 330" stroke-width="10"/>
-          <path d="M200 330 A40 55 0 0 1 280 330" stroke-width="10"/>
+        <g class="brline" fill="none" stroke="url(#brGold)" stroke-linecap="round" stroke-linejoin="round">
+          <path pathLength="1" d="M22 262Q240 190 458 262" stroke-width="4.5"/>
+          <path pathLength="1" d="M22 262V336M458 262V336" stroke-width="3.5"/>
+          <g stroke-width="3.2"><path pathLength="1" d="M47.0 336V288.5A17.0 17.0 0 0 1 81.0 288.5V336"/><path pathLength="1" d="M92.0 336V281.2A21.0 21.0 0 0 1 134.0 281.2V336"/><path pathLength="1" d="M145.0 336V277.6A26.0 26.0 0 0 1 197.0 277.6V336"/><path pathLength="1" d="M208.0 336V280.0A32.0 32.0 0 0 1 272.0 280.0V336"/><path pathLength="1" d="M283.0 336V277.6A26.0 26.0 0 0 1 335.0 277.6V336"/><path pathLength="1" d="M346.0 336V281.2A21.0 21.0 0 0 1 388.0 281.2V336"/><path pathLength="1" d="M399.0 336V288.5A17.0 17.0 0 0 1 433.0 288.5V336"/></g><path pathLength="1" d="M86.5 247.8V336" opacity=".35" stroke-width="1.5"/><path pathLength="1" d="M139.5 237.7V336" opacity=".35" stroke-width="1.5"/><path pathLength="1" d="M202.5 231.1V336" opacity=".35" stroke-width="1.5"/><path pathLength="1" d="M277.5 231.1V336" opacity=".35" stroke-width="1.5"/><path pathLength="1" d="M340.5 237.7V336" opacity=".35" stroke-width="1.5"/><path pathLength="1" d="M393.5 247.8V336" opacity=".35" stroke-width="1.5"/>
         </g>
-        <g fill="none" stroke="#ffffff" stroke-linecap="round" opacity=".5" stroke-width="3">
-          <path d="M30 352 q22 -9 44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0"/>
-          <path d="M30 374 q22 -9 44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0" opacity=".8"/>
-          <path d="M30 396 q22 -9 44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0" opacity=".6"/>
-          <path d="M30 418 q22 -9 44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0" opacity=".4"/>
+        <g class="waves" fill="none" stroke="#ffffff" stroke-linecap="round" opacity=".6" stroke-width="3">
+          <path d="M30 346 q22 -9 44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0"/>
+          <path d="M30 368 q22 -9 44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0" opacity=".75"/>
+          <path d="M30 390 q22 -9 44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0" opacity=".5"/>
+          <path d="M30 412 q22 -9 44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0" opacity=".3"/>
         </g>
       </svg>
       <img class="logo" src="img/logo.png" alt="">
