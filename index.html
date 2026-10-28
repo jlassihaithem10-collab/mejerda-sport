@@ -62,13 +62,10 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:va
 .links a:hover{background:#ffffff1a}
 .links .cta{background:var(--gold);color:var(--gold-ink);margin-inline-start:8px;font-weight:700}
 .links .cta:hover{background:#f0bd35}
-.lang{display:flex;gap:2px;border:1px solid #ffffff44;border-radius:999px;padding:3px}
-.lang button{background:none;border:0;color:#e6f0ea;font:inherit;font-weight:700;font-size:.85rem;border-radius:999px;padding:5px 11px;cursor:pointer}
-.lang button[aria-pressed="true"]{background:var(--gold);color:var(--gold-ink)}
 .burger{display:none;background:none;border:1px solid #ffffff55;color:#fff;border-radius:10px;padding:8px 12px;font:inherit;font-weight:600;cursor:pointer}
 @media (max-width:1150px){
   .burger{display:block}
-  .lang{margin-inline-start:auto}
+  .tools{margin-inline-start:auto}
   .links{display:none;position:absolute;inset-inline:0;top:100%;background:var(--green-deep);flex-direction:column;align-items:stretch;padding:12px 20px 20px;border-bottom:1px solid #ffffff1f;gap:2px;margin:0}
   .links.open{display:flex}
   .links .cta{margin:8px 0 0;text-align:center}
@@ -309,6 +306,57 @@ h3.md-h{font-size:1.25rem}
 .card.long{grid-column:1/-1}
 .card.long .nbody{max-width:78ch}
 .card .more{margin-top:12px}
+/* chip météo / prochain entraînement */
+.live{display:flex;flex-direction:column;gap:6px;align-items:flex-start;margin:0 0 20px;padding:12px 16px;border-radius:16px;background:#ffffff14;border:1px solid #ffffff33;max-width:520px;font-size:.95rem;line-height:1.45}
+.live[hidden]{display:none}
+.live .l1{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-weight:700}
+.live .l1 .sep{opacity:.5}
+.live .l1 .ic{font-size:1.25rem;line-height:1}
+.live .l2,.live .l3{color:#ffffffd9}
+.live .l3 b{color:var(--gold)}
+/* partenaires */
+#soutiens.empty{display:none!important}
+.spo{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-items:stretch}
+.spo .sp{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-width:150px;max-width:220px;flex:1 1 150px;padding:16px;background:#fff;border:1px solid var(--line);border-radius:var(--r);text-decoration:none;color:#0c1a33;transition:transform .2s,box-shadow .2s}
+.spo .sp img{max-width:100%;height:64px;object-fit:contain;filter:grayscale(1);opacity:.85;transition:filter .2s,opacity .2s}
+.spo .sp span{font-weight:700;text-align:center;font-size:.95rem}
+.spo a.sp:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,32,79,.14)}
+.spo a.sp:hover img,.spo .sp:hover img{filter:none;opacity:1}
+.spo-cta{text-align:center;margin-top:22px}
+/* en-tête : outils */
+.tools{display:flex;align-items:center;gap:8px;position:relative}
+.wxw,.langdd{position:relative}
+.wxbtn,.langbtn{display:inline-flex;align-items:center;gap:6px;background:#ffffff14;border:1px solid #ffffff44;color:#fff;font:inherit;font-weight:700;font-size:.9rem;border-radius:999px;padding:5px 11px;cursor:pointer;min-height:36px}
+.wxbtn[hidden]{display:none}
+.wxbtn .ic{font-size:1.1rem;line-height:1}
+.wxbtn:hover,.langbtn:hover{background:#ffffff26}
+.flag{width:22px;height:15px;border-radius:3px;box-shadow:0 0 0 1px #00000033;flex:none;display:block}
+.langbtn .car{font-size:.7rem;opacity:.8}
+.langmenu{position:absolute;inset-inline-end:0;top:calc(100% + 8px);min-width:170px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:6px;box-shadow:0 14px 36px rgba(0,16,40,.28);z-index:80}
+.langmenu[hidden]{display:none}
+.langmenu button{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;color:var(--ink);font:inherit;font-weight:600;padding:9px 10px;border-radius:10px;cursor:pointer;text-align:start}
+.langmenu button:hover{background:var(--soft)}
+.langmenu button[aria-pressed="true"]{background:var(--gold);color:var(--gold-ink)}
+.wxcard{position:absolute;inset-inline-end:0;top:calc(100% + 8px);width:min(340px,calc(100vw - 32px));background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 14px 36px rgba(0,16,40,.28);z-index:80;display:flex;flex-direction:column;gap:12px}
+.wxcard[hidden]{display:none}
+.wxh{display:flex;align-items:center;gap:10px}.wxh b{flex:1}.wxh bdi{color:var(--muted);font-weight:600}
+.wxx{background:none;border:0;color:var(--muted);font-size:1rem;cursor:pointer;padding:4px 8px;border-radius:8px}.wxx:hover{background:var(--soft)}
+.wxm{display:flex;align-items:center;gap:14px}.wxm .big{font-size:3rem;line-height:1}.wxm .deg{font-size:2.6rem;font-weight:800;font-family:var(--display)}
+.wxd{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px}
+.wxd div{background:var(--bg);border-radius:12px;padding:8px 10px;display:flex;flex-direction:column;gap:2px}.wxd small{color:var(--muted)}.wxd bdi{font-weight:700}
+.wxt{background:var(--soft);border-radius:12px;padding:10px 12px}.wxt small{display:block;color:var(--muted);font-weight:700;margin-bottom:3px}.wxt p{margin:0;line-height:1.5}
+.wxt.kid{background:var(--warn-bg);color:var(--warn-ink)}.wxt.kid small{color:inherit;opacity:.8}
+.wxn{font-size:.92rem;color:var(--muted)}.wxn b{color:var(--ink)}
+.wrap.nav{position:relative}
+.tools{position:static}.wxw{position:static}
+.wxcard{width:min(340px,100%)}
+@media (max-width:380px){.wxbtn,.langbtn{padding:4px 8px;font-size:.8rem;min-height:32px}.langbtn .car{display:none}.tools{gap:5px}.flag{width:20px;height:13px}}
+/* effet verre */
+.wxcard,.langmenu{background:color-mix(in srgb,var(--surface) 90%,transparent);-webkit-backdrop-filter:blur(20px) saturate(1.5);backdrop-filter:blur(20px) saturate(1.5);border-color:color-mix(in srgb,var(--line) 70%,transparent)}
+.wxd div{background:color-mix(in srgb,var(--bg) 60%,transparent)}
+.wxt{background:color-mix(in srgb,var(--soft) 70%,transparent)}
+.wxt.kid{background:color-mix(in srgb,var(--warn-bg) 75%,transparent)}
+@supports not (background:color-mix(in srgb,red,blue)){.wxcard,.langmenu{background:var(--surface)}}
 .hpw{position:absolute;top:0;inset-inline-start:0;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none;clip-path:inset(50%)}#form{position:relative}html,body{overflow-x:clip}.admlink{color:inherit;opacity:.8}.stat{text-align:start;cursor:pointer;font:inherit;color:var(--ink)}.stat b{display:block;font-family:var(--display);font-size:2.6rem;line-height:1;color:var(--brand)}.stat small{color:var(--muted)}.stat:hover{border-color:var(--brand)}.req-card.isnew{border-inline-start:4px solid var(--gold)}#sprog{position:fixed;top:0;inset-inline:0;height:3px;z-index:60;background:var(--gold);transform:scaleX(0);transform-origin:0 50%;pointer-events:none}
 [dir=rtl] #sprog{transform-origin:100% 50%}
 header{transition:box-shadow .25s,background .25s}
@@ -363,10 +411,15 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
       
       <a class="cta" href="#inscription" data-t="nJoin">Inscription</a>
     </nav>
-    <div class="lang" role="group" aria-label="Langue / اللغة / Language">
-      <button data-lang="ar" aria-pressed="false" lang="ar">ع</button>
-      <button data-lang="fr" aria-pressed="true">FR</button>
-      <button data-lang="en" aria-pressed="false">EN</button>
+    <div class="tools">
+      <div class="wxw"><button class="wxbtn" id="wxBtn" type="button" aria-expanded="false" aria-controls="wxCard" hidden></button>
+        <div class="wxcard" id="wxCard" role="dialog" aria-label="Météo" hidden></div></div>
+      <div class="langdd"><button class="langbtn" id="langBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="langMenu" aria-label="Langue / اللغة / Language"></button>
+        <div class="langmenu" id="langMenu" role="group" hidden>
+          <button data-lang="ar" aria-pressed="false" lang="ar"><svg class="flag" viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#e70013"/><circle cx="15" cy="10" r="6" fill="#fff"/><circle cx="15" cy="10" r="4.4" fill="#e70013"/><circle cx="16.1" cy="10" r="3.5" fill="#fff"/><path fill="#e70013" d="M16.9 7.9l.7 1.9 2-.1-1.6 1.2.6 1.9-1.7-1.1-1.6 1.2.5-1.9-1.6-1.2 2 0z"/></svg><span>العربية</span></button>
+          <button data-lang="fr" aria-pressed="true"><svg class="flag" viewBox="0 0 30 20" aria-hidden="true"><rect width="10" height="20" fill="#0055a4"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#ef4135"/></svg><span>Français</span></button>
+          <button data-lang="en" aria-pressed="false"><svg class="flag" viewBox="0 0 60 40" aria-hidden="true"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="8"/><path d="M0 0L60 40M60 0L0 40" stroke="#c8102e" stroke-width="3"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="13"/><path d="M30 0V40M0 20H60" stroke="#c8102e" stroke-width="8"/></svg><span>English</span></button>
+        </div></div>
     </div>
     <button class="burger" id="burger" aria-expanded="false" aria-controls="links" data-t="menu">Menu</button>
   </div>
@@ -425,6 +478,15 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
       <a class="card link" href="#espace"><h3 data-t="nSpace">Espace membres</h3><p data-t="xSpace">Parents et athlètes, bientôt.</p></a>
       <a class="card link" href="#contact"><h3 data-t="nContact">Contact</h3><p data-t="xContact">Adresse, téléphone et e-mail.</p></a>
     </div>
+  </div>
+</section>
+
+<section id="soutiens" data-page="home" class="band empty">
+  <div class="wrap">
+    <div class="head"><span class="eyebrow" data-t="spoEy">Ils nous soutiennent</span><h2 data-t="spoH">Nos partenaires et soutiens</h2>
+      <p class="lead" data-t="spoLead">Merci aux entreprises et aux personnes qui font vivre le club.</p></div>
+    <div class="spo" id="spoBox"></div>
+    <div class="spo-cta"><a class="btn outline sm" href="#inscription" data-t="spoCta">Devenir partenaire</a></div>
   </div>
 </section>
 
@@ -615,7 +677,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
 
 <div class="lb" id="lb" hidden><button class="lbx" id="lbx" type="button" data-t-aria="close" aria-label="Fermer">✕</button><img id="lbi" alt=""></div>
 
-<script type="application/json" id="defaults">{"v":1,"contact":{"phone":"29 495 848","email":"mejerdasport@gmail.com","address":{"fr":"Mejerda Sport\nMedjez el Bab, Tunisie","ar":"مجردة الرياضية\nمجاز الباب، تونس","en":"Mejerda Sport\nMedjez el Bab, Tunisia"},"appUrl":"https://mejerdasport.netlify.app","social":{"facebook":"https://www.facebook.com/mejerdasport1","instagram":"https://www.instagram.com/mejerda/","youtube":"https://www.youtube.com/@mejerda","tiktok":"https://www.tiktok.com/@mejerdasport"}},"disciplines":[{"id":"d1","title":{"fr":"Gymnastique","ar":"الجمباز","en":"Gymnastics"},"desc":{"fr":"Toutes les spécialités. Le sport phare du club, pratiqué dans une salle dédiée.","ar":"بجميع اختصاصاته. أبرز رياضة في الجمعية، وتُمارس في قاعة مخصصة.","en":"All specialities. The club's flagship sport, practised in a dedicated hall."}},{"id":"d2","title":{"fr":"Basketball","ar":"كرة السلة","en":"Basketball"},"desc":{"fr":"Entraîneur : Ali Gharbi. Entraînement sur le terrain du siège du club.","ar":"المدرب: علي الغربي. التدريب بملعب مقر الجمعية.","en":"Coach: Ali Gharbi. Training on the court at the club's headquarters."}},{"id":"d3","title":{"fr":"Kung-fu","ar":"الكونغ فو","en":"Kung fu"},"desc":{"fr":"Art martial qui travaille le corps et l'esprit.","ar":"فن قتالي ينمّي الجسد والعقل.","en":"A martial art that trains body and mind."}}],"news":[],"events":[],"schedule":[],"team":[],"links":[{"id":"l1","title":{"fr":"Application du club (SYNOX GYM)","ar":"تطبيق النادي (SYNOX GYM)","en":"Club app (SYNOX GYM)"},"url":"https://mejerdasport.netlify.app"}],"gallery":[{"id":"g1","src":"b1","cap":{"fr":"Compétition de gymnastique : coupe et médailles","ar":"منافسة في الجمباز: كأس وميداليات","en":"Gymnastics competition: trophy and medals"}},{"id":"g2","src":"b4","cap":{"fr":"Podium de gymnastique","ar":"منصة تتويج في الجمباز","en":"Gymnastics podium"}},{"id":"g3","src":"b5","cap":{"fr":"Séance d'entraînement","ar":"حصة تدريب","en":"Training session"}},{"id":"g4","src":"b2","cap":{"fr":"La salle de gymnastique","ar":"قاعة الجمباز","en":"The gymnastics hall"}},{"id":"g5","src":"b3","cap":{"fr":"Agrès et praticables","ar":"الأجهزة والبساط","en":"Apparatus and mats"}},{"id":"g6","src":"b6","cap":{"fr":"Entraîneurs et jeune gymnaste","ar":"مدربون ورياضي صغير","en":"Coaches and a young gymnast"}},{"id":"g7","src":"b7","cap":{"fr":"Jeunes gymnastes à l'entraînement","ar":"رياضيات صغيرات في التدريب","en":"Young gymnasts at training"}},{"id":"g8","src":"b8","cap":{"fr":"Un entraîneur à la salle","ar":"مدرّب بالقاعة","en":"A coach in the hall"}}]}</script>
+<script type="application/json" id="defaults">{"v":1,"contact":{"phone":"29 495 848","email":"mejerdasport@gmail.com","address":{"fr":"Mejerda Sport\nMedjez el Bab, Tunisie","ar":"مجردة الرياضية\nمجاز الباب، تونس","en":"Mejerda Sport\nMedjez el Bab, Tunisia"},"appUrl":"https://mejerdasport.netlify.app","social":{"facebook":"https://www.facebook.com/mejerdasport1","instagram":"https://www.instagram.com/mejerda/","youtube":"https://www.youtube.com/@mejerda","tiktok":"https://www.tiktok.com/@mejerdasport"}},"disciplines":[{"id":"d1","title":{"fr":"Gymnastique","ar":"الجمباز","en":"Gymnastics"},"desc":{"fr":"Toutes les spécialités. Le sport phare du club, pratiqué dans une salle dédiée.","ar":"بجميع اختصاصاته. أبرز رياضة في الجمعية، وتُمارس في قاعة مخصصة.","en":"All specialities. The club's flagship sport, practised in a dedicated hall."}},{"id":"d2","title":{"fr":"Basketball","ar":"كرة السلة","en":"Basketball"},"desc":{"fr":"Entraîneur : Ali Gharbi. Entraînement sur le terrain du siège du club.","ar":"المدرب: علي الغربي. التدريب بملعب مقر الجمعية.","en":"Coach: Ali Gharbi. Training on the court at the club's headquarters."}},{"id":"d3","title":{"fr":"Kung-fu","ar":"الكونغ فو","en":"Kung fu"},"desc":{"fr":"Art martial qui travaille le corps et l'esprit.","ar":"فن قتالي ينمّي الجسد والعقل.","en":"A martial art that trains body and mind."}}],"news":[],"events":[],"schedule":[],"team":[],"sponsors":[],"links":[{"id":"l1","title":{"fr":"Application du club (SYNOX GYM)","ar":"تطبيق النادي (SYNOX GYM)","en":"Club app (SYNOX GYM)"},"url":"https://mejerdasport.netlify.app"}],"gallery":[{"id":"g1","src":"b1","cap":{"fr":"Compétition de gymnastique : coupe et médailles","ar":"منافسة في الجمباز: كأس وميداليات","en":"Gymnastics competition: trophy and medals"}},{"id":"g2","src":"b4","cap":{"fr":"Podium de gymnastique","ar":"منصة تتويج في الجمباز","en":"Gymnastics podium"}},{"id":"g3","src":"b5","cap":{"fr":"Séance d'entraînement","ar":"حصة تدريب","en":"Training session"}},{"id":"g4","src":"b2","cap":{"fr":"La salle de gymnastique","ar":"قاعة الجمباز","en":"The gymnastics hall"}},{"id":"g5","src":"b3","cap":{"fr":"Agrès et praticables","ar":"الأجهزة والبساط","en":"Apparatus and mats"}},{"id":"g6","src":"b6","cap":{"fr":"Entraîneurs et jeune gymnaste","ar":"مدربون ورياضي صغير","en":"Coaches and a young gymnast"}},{"id":"g7","src":"b7","cap":{"fr":"Jeunes gymnastes à l'entraînement","ar":"رياضيات صغيرات في التدريب","en":"Young gymnasts at training"}},{"id":"g8","src":"b8","cap":{"fr":"Un entraîneur à la salle","ar":"مدرّب بالقاعة","en":"A coach in the hall"}}]}</script>
 <script>
 (function(){
   var $=function(s,c){return (c||document).querySelector(s)};
@@ -907,21 +969,21 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
   var IMGS={b1:"%img/b1.jpg%",b2:"%img/b2.jpg%",b3:"%img/b3.jpg%",b4:"%img/b4.jpg%",b5:"%img/b5.jpg%",b6:"%img/b6.jpg%",b7:"%img/b7.jpg%",b8:"%img/b8.jpg%"};
   var FRX={readMore:"Lire la suite",readLess:"Réduire",fNameA:"Nom et prénom de l'athlète",fBd:"Date de naissance de l'athlète",fSex:"Sexe",fSexM:"Garçon / homme",fSexF:"Fille / femme",fCity:"Ville ou quartier",fGname:"Nom du parent ou tuteur",fGrel:"Lien avec l'athlète",fRelM:"Mère",fRelF:"Père",fRelT:"Tuteur",fExp:"Pratique sportive antérieure",fExp0:"Débutant",fExp1:"A déjà pratiqué",fExp2:"Déjà inscrit dans un club",fCert:"Certificat médical",fCertY:"Disponible",fCertL:"Je l'apporterai",fCertN:"Pas encore",fCC:"J'accepte que le club me contacte au sujet de cette demande.",fCP:"J'autorise la publication de photos de l'athlète prises lors des activités du club (facultatif).",oSel:"Choisir",eBd:"Indiquez une date de naissance valide.",eGname:"Indiquez le nom du parent ou tuteur.",eCons:"Cochez cette case pour envoyer la demande.",nAdmin:"Administration",nNone:"Aucune actualité pour le moment.",eNone:"Aucun événement à venir.",eNoneP:"Aucun résultat à afficher.",gNone:"Aucune photo pour le moment.",noDisc:"Aucune discipline pour le moment.",kMatch:"Match",kTraining:"Entraînement",kEvent:"Événement",kCamp:"Stage",
     reqSending:"Envoi en cours…",reqSent:"Merci ! Votre demande a bien été envoyée au club. Nous vous contacterons.",
-    schEy:"Horaires",schH:"Horaires d'entraînement",schNone:"Les horaires seront publiés par le bureau.",tBoard:"Bureau directeur",tCoach:"Encadrement technique",
+    spoEy:"Ils nous soutiennent",spoH:"Nos partenaires et soutiens",spoLead:"Merci aux entreprises et aux personnes qui font vivre le club.",spoCta:"Devenir partenaire",schEy:"Horaires",schH:"Horaires d'entraînement",schNone:"Les horaires seront publiés par le bureau.",tBoard:"Bureau directeur",tCoach:"Encadrement technique",
     reqOk:"Votre demande est prête. Envoyez-la au club par WhatsApp ou copiez-la.",reqWa:"Envoyer par WhatsApp",reqCopy:"Copier la demande",
     appBtn:"Ouvrir l'application du club",pDesc:"Connectez-vous avec l'identifiant remis par le club pour suivre vos enfants.",aDesc:"Les informations des athlètes passent par l'application du club. Demandez votre accès au bureau.",
     spLead:"Les parents et l'équipe du club se connectent avec les identifiants remis par le club, dans l'application du club (SYNOX GYM). Aucun code n'est affiché sur cette page.",
     preview:"Version aperçu : le site est en cours de finalisation. Les demandes se transmettent par WhatsApp ou par copie ; l'enregistrement automatique viendra avec la base de données."};
   var ENX={readMore:"Read more",readLess:"Show less",fNameA:"Athlete's full name",fBd:"Athlete's date of birth",fSex:"Sex",fSexM:"Boy / man",fSexF:"Girl / woman",fCity:"Town or neighbourhood",fGname:"Parent or guardian name",fGrel:"Relationship to the athlete",fRelM:"Mother",fRelF:"Father",fRelT:"Guardian",fExp:"Previous sports practice",fExp0:"Beginner",fExp1:"Has practised before",fExp2:"Already registered in a club",fCert:"Medical certificate",fCertY:"Available",fCertL:"I will bring it",fCertN:"Not yet",fCC:"I agree that the club may contact me about this request.",fCP:"I allow photos of the athlete taken during club activities to be published (optional).",oSel:"Choose",eBd:"Enter a valid date of birth.",eGname:"Enter the parent or guardian name.",eCons:"Tick this box to send the request.",nAdmin:"Administration",nNone:"No news yet.",eNone:"No upcoming events.",eNoneP:"No results to show.",gNone:"No photos yet.",noDisc:"No disciplines yet.",kMatch:"Match",kTraining:"Training",kEvent:"Event",kCamp:"Camp",
     reqSending:"Sending…",reqSent:"Thank you! Your request has been sent to the club. We will contact you.",
-    schEy:"Schedule",schH:"Training schedule",schNone:"The schedule will be published by the board.",tBoard:"Board",tCoach:"Coaching staff",
+    spoEy:"They support us",spoH:"Our partners and supporters",spoLead:"Thank you to the companies and people who keep the club alive.",spoCta:"Become a partner",schEy:"Schedule",schH:"Training schedule",schNone:"The schedule will be published by the board.",tBoard:"Board",tCoach:"Coaching staff",
     reqOk:"Your request is ready. Send it to the club on WhatsApp or copy it.",reqWa:"Send on WhatsApp",reqCopy:"Copy the request",
     appBtn:"Open the club app",pDesc:"Sign in with the login given by the club to follow your children.",aDesc:"Athlete information goes through the club app. Ask the board for access.",
     spLead:"Parents and club staff sign in with the logins given by the club, in the club app (SYNOX GYM). No code is shown on this page.",
     preview:"Preview version: the site is being finalised. Requests are passed on by WhatsApp or by copy; automatic saving will come with the database."};
   var ARX={readMore:"اقرأ المزيد",readLess:"عرض أقل",fNameA:"اسم الرياضي ولقبه",fBd:"تاريخ ميلاد الرياضي",fSex:"الجنس",fSexM:"ذكر",fSexF:"أنثى",fCity:"المدينة أو الحي",fGname:"اسم الولي أو الوصي",fGrel:"صلته بالرياضي",fRelM:"الأم",fRelF:"الأب",fRelT:"الوصي",fExp:"ممارسة رياضية سابقة",fExp0:"مبتدئ",fExp1:"سبق له ممارسة الرياضة",fExp2:"سبق أن كان مشتركًا في نادٍ",fCert:"الشهادة الطبية",fCertY:"متوفرة",fCertL:"سأحضرها لاحقًا",fCertN:"ليست متوفرة بعد",fCC:"أوافق على أن يتصل بي النادي بخصوص هذا الطلب.",fCP:"أسمح بنشر صور الرياضي أثناء أنشطة النادي (اختياري).",oSel:"اختر",eBd:"أدخل تاريخ ميلاد صحيحًا.",eGname:"أدخل اسم الولي أو الوصي.",eCons:"ضع علامة في هذه الخانة لإرسال الطلب.",nAdmin:"الإدارة",nNone:"لا توجد أخبار حاليًا.",eNone:"لا توجد أحداث قادمة.",eNoneP:"لا توجد نتائج لعرضها.",gNone:"لا توجد صور حاليًا.",noDisc:"لا توجد اختصاصات حاليًا.",kMatch:"مباراة",kTraining:"تدريب",kEvent:"تظاهرة",kCamp:"تربّص",
     reqSending:"جارٍ الإرسال…",reqSent:"شكرًا! تم إرسال طلبك إلى النادي وسنتصل بك.",
-    schEy:"التوقيت",schH:"أوقات التدريب",schNone:"سينشر المكتب أوقات التدريب.",tBoard:"المكتب المسيّر",tCoach:"الإطار الفني",
+    spoEy:"يدعموننا",spoH:"شركاؤنا وداعمونا",spoLead:"شكرًا للشركات والأشخاص الذين يساندون النادي.",spoCta:"كن شريكًا",schEy:"التوقيت",schH:"أوقات التدريب",schNone:"سينشر المكتب أوقات التدريب.",tBoard:"المكتب المسيّر",tCoach:"الإطار الفني",
     reqOk:"طلبك جاهز. أرسله إلى النادي عبر واتساب أو انسخه.",reqWa:"إرسال عبر واتساب",reqCopy:"نسخ الطلب",
     appBtn:"فتح تطبيق النادي",pDesc:"سجّل الدخول بالمعرّف الذي يسلّمه لك النادي لمتابعة أبنائك.",aDesc:"معلومات الرياضيين تمرّ عبر تطبيق النادي. اطلب من المكتب فتح حسابك.",
     spLead:"يدخل الأولياء وفريق النادي بالمعرّفات التي يسلّمها النادي، داخل تطبيق النادي (SYNOX GYM). لا يظهر هنا أي رمز دخول.",
@@ -958,7 +1020,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
 
   var DEF=JSON.parse($("#defaults").textContent);
   function normalize(d){
-    ["schedule","team","links"].forEach(function(k){if(!Array.isArray(d[k]))d[k]=clone(DEF[k])});
+    ["schedule","team","links","sponsors"].forEach(function(k){if(!Array.isArray(d[k]))d[k]=clone(DEF[k]||[])});
     if(!("appUrl" in d.contact))d.contact.appUrl=DEF.contact.appUrl;
     if(!d.texts||typeof d.texts!=="object"||Array.isArray(d.texts))d.texts={};
     return d;
@@ -1145,9 +1207,152 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     $$(".app-link").forEach(function(a){a.hidden=!u;if(u)a.href=u});
     $$(".app-soon").forEach(function(x){x.hidden=!!u});
   }
+
+  function renderSponsors(){
+    var sec=$("#soutiens");if(!sec)return;
+    var C=$("#spoBox");C.textContent="";
+    var list=(DATA.sponsors||[]);
+    sec.classList.toggle("empty",!list.length);
+    list.forEach(function(o){
+      var lg=imgSrc(o.logo),nm=ml(o.title),u=safeUrl(o.url);
+      var kids=[];
+      if(lg)kids.push(h("img",{src:lg,alt:nm,loading:"lazy"}));
+      if(nm&&(!lg||true))kids.push(h("span",{text:nm}));
+      var el=u?h("a",{class:"sp",href:u,target:"_blank",rel:"noopener sponsored"},kids):h("div",{class:"sp"},kids);
+      C.appendChild(el);
+    });
+  }
+  /* ---- chip : heure, météo, conseil, prochain entraînement ---- */
+  var WX=null,WXT=0,WXBUSY=false;
+  var LV={
+    fr:{city:"Medjez el Bab",today:"aujourd'hui",tom:"demain",next:"Prochain entraînement",
+      rain:"Il pleut : pensez au parapluie ou à un imperméable ☔",storm:"Orage : soyez prudents sur le trajet ⛈️",hot:"Forte chaleur : apportez une gourde d'eau 💧",cold:"Il fait froid : habillez-vous chaudement 🧥",wind:"Vent fort : couvrez-vous bien 🌬️",mild:"Belle journée pour s'entraîner ☀️"},
+    en:{city:"Medjez el Bab",today:"today",tom:"tomorrow",next:"Next training",
+      rain:"It's raining: bring an umbrella or a raincoat ☔",storm:"Storm: be careful on the way ⛈️",hot:"Very hot: bring a water bottle 💧",cold:"It's cold: dress warmly 🧥",wind:"Strong wind: dress well 🌬️",mild:"A great day to train ☀️"},
+    ar:{city:"مجاز الباب",today:"اليوم",tom:"غدًا",next:"التدريب القادم",
+      rain:"الجو ماطر: خذوا مظلة أو معطفًا واقيًا من المطر ☔",storm:"عاصفة رعدية: انتبهوا في الطريق ⛈️",hot:"حرّ شديد: أحضروا قارورة ماء 💧",cold:"الجو بارد: ارتدوا ملابس دافئة 🧥",wind:"رياح قوية: احرصوا على التدفئة 🌬️",mild:"يوم جميل للتدريب ☀️"}
+  };
+  function wxIcon(c,day){
+    if(c===0)return day?"☀️":"🌙";
+    if(c<=2)return day?"🌤️":"☁️";
+    if(c===3)return "☁️";
+    if(c===45||c===48)return "🌫️";
+    if(c>=95)return "⛈️";
+    if((c>=51&&c<=67)||(c>=80&&c<=82))return "🌧️";
+    if(c>=71&&c<=77)return "❄️";
+    return "🌤️";
+  }
+  function wxTip(w){
+    var c=w.code,t=w.temp,L=LV[lang]||LV.fr;
+    if(c>=95)return L.storm;
+    if((c>=51&&c<=67)||(c>=80&&c<=82))return L.rain;
+    if(t>=33)return L.hot;
+    if(t<=10)return L.cold;
+    if(w.wind>=40)return L.wind;
+    return L.mild;
+  }
+  function tunisNow(){
+    var p={};
+    try{new Intl.DateTimeFormat("en-GB",{timeZone:"Africa/Tunis",hour12:false,weekday:"short",hour:"2-digit",minute:"2-digit"}).formatToParts(new Date()).forEach(function(x){p[x.type]=x.value})}catch(e){var d=new Date();return {dow:(d.getDay()+6)%7,min:d.getHours()*60+d.getMinutes(),hh:pad(d.getHours()),mm:pad(d.getMinutes())}}
+    var dw={Mon:0,Tue:1,Wed:2,Thu:3,Fri:4,Sat:5,Sun:6}[p.weekday];
+    var hh=p.hour==="24"?"00":p.hour;
+    return {dow:dw,min:(+hh)*60+(+p.minute),hh:hh,mm:p.minute};
+  }
+  function nextTraining(now){
+    var best=null;
+    (DATA.schedule||[]).forEach(function(x){
+      var m=/^(\d{1,2}):(\d{2})/.exec(x.from||"");if(!m||x.day==null)return;
+      var st=(+m[1])*60+(+m[2]),diff=((+x.day-now.dow+7)%7)*1440+st-now.min;
+      if(diff<0)diff+=7*1440;
+      if(!best||diff<best.diff)best={diff:diff,x:x,st:m[1].padStart(2,"0")+":"+m[2]};
+    });
+    return best;
+  }
+  var TIPS={
+    fr:{rain:["Prévoyez un imperméable et des chaussures de rechange ; partez un peu plus tôt.","Mets ton imperméable, et pas de flaques avant l'entraînement 😄"],
+      storm:["Orage : restez prudents sur la route et attendez que ça passe avant de déposer les enfants.","Reste au sec et écoute bien tes parents ⛈️"],
+      hot:["Pensez à l'eau, à la crème solaire et à une tenue légère.","Bois de l'eau souvent et mets une casquette en venant 🧢"],
+      cold:["Habillez les enfants en couches : une veste à enlever après l'échauffement.","Mets un pull chaud et des chaussettes bien chaudes 🧦"],
+      wind:["Vent fort : prévoyez une veste coupe-vent.","Attention au vent, mets bien ta veste 🌬️"],
+      mild:["Conditions idéales : belle séance en perspective !","Super météo : en route pour t'entraîner ! 💪"]},
+    en:{rain:["Pack a raincoat and spare shoes, and leave a little earlier.","Wear your raincoat, and no puddle jumping before training 😄"],
+      storm:["Storm: take care on the road and wait for it to pass before dropping the kids off.","Stay dry and listen to your parents ⛈️"],
+      hot:["Bring water, sunscreen and light clothes.","Drink water often and wear a cap on the way 🧢"],
+      cold:["Dress the kids in layers: a jacket to take off after the warm-up.","Wear a warm sweater and warm socks 🧦"],
+      wind:["Strong wind: bring a windbreaker.","Watch out for the wind, wear your jacket 🌬️"],
+      mild:["Ideal conditions: a great session ahead!","Great weather: off to training! 💪"]},
+    ar:{rain:["جهّزوا معطفًا واقيًا من المطر وحذاءً بديلًا، واخرجوا مبكرًا قليلًا.","البس معطف المطر، ولا تقفز في البرك قبل التدريب 😄"],
+      storm:["عاصفة: انتبهوا في الطريق وانتظروا حتى تهدأ قبل إحضار الأطفال.","ابقَ جافًّا وأصغِ جيدًا لوالديك ⛈️"],
+      hot:["لا تنسوا الماء والواقي من الشمس والملابس الخفيفة.","اشرب الماء كثيرًا وضع قبعة في الطريق 🧢"],
+      cold:["ألبسوا الأطفال طبقات: سترة تُخلع بعد الإحماء.","البس سترة دافئة وجوارب دافئة 🧦"],
+      wind:["رياح قوية: جهّزوا سترة تقي من الريح.","انتبه للريح وارتدِ سترتك 🌬️"],
+      mild:["ظروف مثالية: حصة تدريب رائعة تنتظركم!","طقس رائع: هيّا إلى التدريب! 💪"]}};
+  var LX={fr:{par:"Conseil aux parents",kid:"Conseil aux enfants",wind:"Vent",hum:"Humidité",feel:"Ressenti",close:"Fermer",lang:"Langue"},
+    en:{par:"Tip for parents",kid:"Tip for kids",wind:"Wind",hum:"Humidity",feel:"Feels like",close:"Close",lang:"Language"},
+    ar:{par:"نصيحة للأولياء",kid:"نصيحة للأطفال",wind:"الرياح",hum:"الرطوبة",feel:"الإحساس",close:"إغلاق",lang:"اللغة"}};
+  function wxKind(w){var c=w.code,t=w.temp;
+    if(c>=95)return "storm";if((c>=51&&c<=67)||(c>=80&&c<=82))return "rain";
+    if(t>=33)return "hot";if(t<=10)return "cold";if(w.wind>=40)return "wind";return "mild"}
+  var FLAGS={};
+  function syncLang(){
+    var btn=$("#langBtn");if(!btn)return;
+    var src=$('#langMenu [data-lang="'+lang+'"]');
+    btn.textContent="";
+    if(src){var fl=src.querySelector(".flag");if(fl)btn.appendChild(fl.cloneNode(true))}
+    btn.appendChild(h("span",{text:lang.toUpperCase()}));
+    btn.appendChild(h("span",{class:"car","aria-hidden":"true",text:"▾"}));
+  }
+  function renderLive(){
+    var btn=$("#wxBtn"),card=$("#wxCard");if(!btn||!card)return;
+    syncLang();
+    var L=LV[lang]||LV.fr,X2=LX[lang]||LX.fr,now=tunisNow(),nt=nextTraining(now),day=now.min>=6*60&&now.min<20*60;
+    if(!WX){btn.hidden=true;card.hidden=true;btn.setAttribute("aria-expanded","false");return}
+    var ic=wxIcon(WX.code,day),t=Math.round(WX.temp)+"°";
+    btn.textContent="";btn.hidden=false;
+    btn.appendChild(h("span",{class:"ic","aria-hidden":"true",text:ic}));
+    btn.appendChild(h("bdi",{dir:"ltr",text:t}));
+    btn.setAttribute("aria-label",L.city+" "+t+" — "+wxTip(WX));
+    var k=wxKind(WX),tp=(TIPS[lang]||TIPS.fr)[k];
+    card.textContent="";
+    card.appendChild(h("div",{class:"wxh"},[h("b",{text:L.city}),h("bdi",{dir:"ltr",text:now.hh+":"+now.mm}),
+      h("button",{class:"wxx",type:"button","aria-label":X2.close,text:"✕",on:{click:function(){wxOpen(false)}}})]));
+    card.appendChild(h("div",{class:"wxm"},[h("span",{class:"big","aria-hidden":"true",text:ic}),h("bdi",{class:"deg",dir:"ltr",text:t})]));
+    var det=[];
+    if(typeof WX.feel==="number")det.push([X2.feel,Math.round(WX.feel)+"°"]);
+    det.push([X2.wind,Math.round(WX.wind)+" km/h"]);
+    if(typeof WX.hum==="number")det.push([X2.hum,Math.round(WX.hum)+"%"]);
+    card.appendChild(h("div",{class:"wxd"},det.map(function(d){return h("div",null,[h("small",{text:d[0]}),h("bdi",{dir:"ltr",text:d[1]})])})));
+    card.appendChild(h("div",{class:"wxt"},[h("small",{text:"👨‍👩‍👧 "+X2.par}),h("p",{text:tp[0]})]));
+    card.appendChild(h("div",{class:"wxt kid"},[h("small",{text:"🧒 "+X2.kid}),h("p",{text:tp[1]})]));
+    if(nt){
+      var when=nt.diff<1440&&(nt.x.day==now.dow)?L.today:(Math.floor((now.min+nt.diff)/1440)===1?L.tom:dayName(nt.x.day));
+      card.appendChild(h("div",{class:"wxn"},[L.next+" : ",h("b",{text:discTitle(nt.x.disc)||"—"})," — "+when+" ",h("bdi",{dir:"ltr",text:nt.st})]));
+    }
+  }
+  function wxOpen(v){var btn=$("#wxBtn"),card=$("#wxCard");if(!btn||!card||btn.hidden)return;card.hidden=!v;btn.setAttribute("aria-expanded",String(!!v));if(v)langOpen(false)}
+  function langOpen(v){var b=$("#langBtn"),m=$("#langMenu");if(!b||!m)return;m.hidden=!v;b.setAttribute("aria-expanded",String(!!v));if(v)wxOpen(false)}
+  (function(){
+    var wb=$("#wxBtn"),lb=$("#langBtn");if(!wb||!lb)return;
+    wb.addEventListener("click",function(e){e.stopPropagation();wxOpen($("#wxCard").hidden)});
+    lb.addEventListener("click",function(e){e.stopPropagation();langOpen($("#langMenu").hidden)});
+    $("#langMenu").addEventListener("click",function(e){if(e.target.closest("[data-lang]"))langOpen(false)});
+    $("#wxCard").addEventListener("click",function(e){e.stopPropagation()});
+    document.addEventListener("click",function(){wxOpen(false);langOpen(false)});
+    document.addEventListener("keydown",function(e){if(e.key==="Escape"){wxOpen(false);langOpen(false)}});
+  })();
+  function loadWeather(){
+    if(WXBUSY||(WX&&Date.now()-WXT<15*60*1000))return;
+    WXBUSY=true;
+    var ctl=window.AbortController?new AbortController():null,to=setTimeout(function(){if(ctl)ctl.abort()},8000);
+    fetch("https://api.open-meteo.com/v1/forecast?latitude=36.65&longitude=9.61&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m&timezone=Africa%2FTunis",ctl?{signal:ctl.signal}:{}).then(function(r){return r.ok?r.json():Promise.reject()}).then(function(j){
+      var c=j&&j.current;
+      if(c&&typeof c.temperature_2m==="number"){WX={temp:c.temperature_2m,feel:typeof c.apparent_temperature==="number"?c.apparent_temperature:null,hum:typeof c.relative_humidity_2m==="number"?c.relative_humidity_2m:null,code:+c.weather_code||0,wind:+c.wind_speed_10m||0};WXT=Date.now();renderLive()}
+    }).catch(function(){}).then(function(){clearTimeout(to);WXBUSY=false});
+  }
+  setInterval(function(){renderLive();loadWeather()},30000);
   function renderAll(){
     applyTexts();
-    renderDisc();renderNews();renderEvents();renderGallery();renderContact();renderSchedule();renderTeam();renderMembers();
+    renderDisc();renderNews();renderEvents();renderGallery();renderContact();renderSchedule();renderTeam();renderMembers();renderSponsors();renderLive();loadWeather();
     if(curPage==="admin")renderAdmin();
   }
 
@@ -1169,7 +1374,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     dNews:"Actualités",dEvents:"Événements à venir",dReq:"Nouvelles demandes",dPhotos:"Photos",dTeam:"Personnes dans l'équipe",qNews:"+ Actualité",qEvent:"+ Événement",qPhoto:"+ Photo",
     rNew:"Nouvelle",rContacted:"Contactée",rAccepted:"Acceptée",rDeclined:"Refusée",rNone:"Aucune demande pour le moment.",rExport:"Exporter (Excel)",rRefresh:"Actualiser",rLoadErr:"Impossible de charger les demandes.",rStatus:"Statut",
     txIntro:"Modifiez les textes du site dans les trois langues. Si vous ne changez rien, le texte d'origine reste.",txReset:"Rétablir l'original",tx_home:"Accueil",tx_club:"Le club",tx_disc:"Disciplines et galerie",tx_join:"Inscription",tx_faq:"Questions fréquentes",tx_other:"Autres",
-    uploading:"Envoi de la photo…",eUpload:"Échec de l'envoi de la photo.",pwNew:"Nouveau mot de passe (8 caractères minimum)",pwSave:"Changer le mot de passe",pwDone:"Mot de passe changé.",pwErr:"Mot de passe trop court ou refusé.",tschedule:"Horaires",tteam:"Équipe",tlinks:"Liens du bureau",fSDisc:"Discipline",fDay:"Jour",fFrom:"De",fTo:"À",fGroup:"Groupe / catégorie",fName:"Nom",fRole:"Fonction",fSection:"Section",fUrl:"Lien (https://…)",fApp:"Lien de l'application des membres",open:"Ouvrir",eName:"Saisissez un nom.",eDisc:"Choisissez une discipline.",eTime:"Saisissez l'heure de début.",linksNote:"Liens réservés au bureau (application du club, outils). N'y mettez jamais de mot de passe."},
+    uploading:"Envoi de la photo…",eUpload:"Échec de l'envoi de la photo.",pwNew:"Nouveau mot de passe (8 caractères minimum)",pwSave:"Changer le mot de passe",pwDone:"Mot de passe changé.",pwErr:"Mot de passe trop court ou refusé.",tsponsors:"Partenaires",fLogo:"Logo",sponsorsNote:"Ne publiez le logo d'une entreprise qu'avec son accord. La section reste masquée tant qu'il n'y a aucun partenaire.",tschedule:"Horaires",tteam:"Équipe",tlinks:"Liens du bureau",fSDisc:"Discipline",fDay:"Jour",fFrom:"De",fTo:"À",fGroup:"Groupe / catégorie",fName:"Nom",fRole:"Fonction",fSection:"Section",fUrl:"Lien (https://…)",fApp:"Lien de l'application des membres",open:"Ouvrir",eName:"Saisissez un nom.",eDisc:"Choisissez une discipline.",eTime:"Saisissez l'heure de début.",linksNote:"Liens réservés au bureau (application du club, outils). N'y mettez jamais de mot de passe."},
   en:{eyebrow:"Restricted area",title:"Administration",intro:"Add, edit or delete news, events, disciplines, photos and contact details. Changes show up right away and become public when you click “Publish”.",
     locked:"This page is reserved for people allowed to edit the site.",loading:"Loading…",
     localNote:"Offline mode: you can edit everything and copy the content, but direct publishing is not available here.",
@@ -1185,7 +1390,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     dNews:"News",dEvents:"Upcoming events",dReq:"New requests",dPhotos:"Photos",dTeam:"People in the team",qNews:"+ News",qEvent:"+ Event",qPhoto:"+ Photo",
     rNew:"New",rContacted:"Contacted",rAccepted:"Accepted",rDeclined:"Declined",rNone:"No requests yet.",rExport:"Export (Excel)",rRefresh:"Refresh",rLoadErr:"Could not load the requests.",rStatus:"Status",
     txIntro:"Edit the site texts in all three languages. If you change nothing, the original text stays.",txReset:"Restore original",tx_home:"Home",tx_club:"The club",tx_disc:"Disciplines and gallery",tx_join:"Registration",tx_faq:"FAQ",tx_other:"Other",
-    uploading:"Uploading the photo…",eUpload:"Photo upload failed.",pwNew:"New password (8 characters minimum)",pwSave:"Change password",pwDone:"Password changed.",pwErr:"Password too short or refused.",tschedule:"Schedule",tteam:"Team",tlinks:"Office links",fSDisc:"Discipline",fDay:"Day",fFrom:"From",fTo:"To",fGroup:"Group / category",fName:"Name",fRole:"Role",fSection:"Section",fUrl:"Link (https://…)",fApp:"Members app link",open:"Open",eName:"Enter a name.",eDisc:"Choose a discipline.",eTime:"Enter the start time.",linksNote:"Links for the board (club app, tools). Never put a password here."},
+    uploading:"Uploading the photo…",eUpload:"Photo upload failed.",pwNew:"New password (8 characters minimum)",pwSave:"Change password",pwDone:"Password changed.",pwErr:"Password too short or refused.",tsponsors:"Partners",fLogo:"Logo",sponsorsNote:"Only publish a company logo with its agreement. The section stays hidden while there are no partners.",tschedule:"Schedule",tteam:"Team",tlinks:"Office links",fSDisc:"Discipline",fDay:"Day",fFrom:"From",fTo:"To",fGroup:"Group / category",fName:"Name",fRole:"Role",fSection:"Section",fUrl:"Link (https://…)",fApp:"Members app link",open:"Open",eName:"Enter a name.",eDisc:"Choose a discipline.",eTime:"Enter the start time.",linksNote:"Links for the board (club app, tools). Never put a password here."},
   ar:{eyebrow:"فضاء محجوز",title:"لوحة الإدارة",intro:"أضِف أو عدّل أو احذف الأخبار والأحداث والاختصاصات والصور وبيانات الاتصال. تظهر التغييرات فورًا، وتصبح عامة عند الضغط على «نشر».",
     locked:"هذه الصفحة مخصصة للأشخاص المخوّل لهم تعديل الموقع.",loading:"جارٍ التحميل…",
     localNote:"وضع غير متصل: يمكنك تعديل كل شيء ونسخ المحتوى، لكن النشر المباشر غير متاح هنا.",
@@ -1201,7 +1406,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     dNews:"الأخبار",dEvents:"أحداث قادمة",dReq:"طلبات جديدة",dPhotos:"الصور",dTeam:"أفراد الفريق",qNews:"+ خبر",qEvent:"+ حدث",qPhoto:"+ صورة",
     rNew:"جديد",rContacted:"تم الاتصال",rAccepted:"مقبول",rDeclined:"مرفوض",rNone:"لا توجد طلبات حاليًا.",rExport:"تصدير (Excel)",rRefresh:"تحديث",rLoadErr:"تعذّر تحميل الطلبات.",rStatus:"الحالة",
     txIntro:"عدّل نصوص الموقع بالثلاث لغات. إن لم تغيّر شيئًا يبقى النص الأصلي.",txReset:"استرجاع الأصل",tx_home:"الرئيسية",tx_club:"النادي",tx_disc:"الاختصاصات والمعرض",tx_join:"الاشتراك",tx_faq:"أسئلة شائعة",tx_other:"أخرى",
-    uploading:"جارٍ رفع الصورة…",eUpload:"فشل رفع الصورة.",pwNew:"كلمة سر جديدة (8 أحرف على الأقل)",pwSave:"تغيير كلمة السر",pwDone:"تم تغيير كلمة السر.",pwErr:"كلمة السر قصيرة أو مرفوضة.",tschedule:"التوقيت",tteam:"الفريق",tlinks:"روابط الإدارة",fSDisc:"الاختصاص",fDay:"اليوم",fFrom:"من",fTo:"إلى",fGroup:"المجموعة / الفئة",fName:"الاسم",fRole:"الصفة",fSection:"القسم",fUrl:"الرابط (https://…)",fApp:"رابط تطبيق الأعضاء",open:"فتح",eName:"أدخل اسمًا.",eDisc:"اختر اختصاصًا.",eTime:"أدخل ساعة البداية.",linksNote:"روابط خاصة بالإدارة (تطبيق النادي وأدواته). لا تضع هنا أي كلمة سر."}
+    uploading:"جارٍ رفع الصورة…",eUpload:"فشل رفع الصورة.",pwNew:"كلمة سر جديدة (8 أحرف على الأقل)",pwSave:"تغيير كلمة السر",pwDone:"تم تغيير كلمة السر.",pwErr:"كلمة السر قصيرة أو مرفوضة.",tsponsors:"الداعمون",fLogo:"الشعار",sponsorsNote:"لا تنشر شعار شركة إلا بموافقتها. يبقى القسم مخفيًا ما دام لا يوجد داعمون.",tschedule:"التوقيت",tteam:"الفريق",tlinks:"روابط الإدارة",fSDisc:"الاختصاص",fDay:"اليوم",fFrom:"من",fTo:"إلى",fGroup:"المجموعة / الفئة",fName:"الاسم",fRole:"الصفة",fSection:"القسم",fUrl:"الرابط (https://…)",fApp:"رابط تطبيق الأعضاء",open:"فتح",eName:"أدخل اسمًا.",eDisc:"اختر اختصاصًا.",eTime:"أدخل ساعة البداية.",linksNote:"روابط خاصة بالإدارة (تطبيق النادي وأدواته). لا تضع هنا أي كلمة سر."}
   };
   function X(k){var t=XT[lang]||XT.fr;return (k in t)?t[k]:XT.fr[k]||k}
   var SCHEMA={
@@ -1211,9 +1416,10 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     gallery:[["src","photo"],["cap","ml"]],
     schedule:[["disc","disc"],["day","day"],["from","time"],["to","time"],["place","text"],["group","text"]],
     team:[["name","text"],["role","ml"],["grp","grp"],["photo","photo"]],
-    links:[["title","ml"],["url","url"]]
+    links:[["title","ml"],["url","url"]],
+    sponsors:[["title","ml"],["url","url"],["logo","photo"]]
   };
-  var LABEL={date:"fDate",time:"fTime",place:"fPlace",cat:"fCat",kind:"fKind",title:"fTitle",body:"fBody",note:"fNote",result:"fResult",desc:"fDesc",src:"fPhoto",cap:"fCap",disc:"fSDisc",day:"fDay",from:"fFrom",to:"fTo",group:"fGroup",name:"fName",role:"fRole",grp:"fSection",photo:"fPhoto",url:"fUrl"};
+  var LABEL={date:"fDate",time:"fTime",place:"fPlace",cat:"fCat",kind:"fKind",title:"fTitle",body:"fBody",note:"fNote",result:"fResult",desc:"fDesc",src:"fPhoto",cap:"fCap",disc:"fSDisc",day:"fDay",from:"fFrom",to:"fTo",group:"fGroup",name:"fName",role:"fRole",grp:"fSection",photo:"fPhoto",url:"fUrl",logo:"fLogo"};
   var aTab="home",aEdit=null,aDel=null,aMsg="",aBad=false,aBusy=false,aExport="",aDraft=null,aErr="";
 
   function readPhoto(file,ok,bad,M){
@@ -1223,7 +1429,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
       im.onload=function(){
         M=M||1000;var k=Math.min(1,M/Math.max(im.width,im.height)),cv=document.createElement("canvas");
         cv.width=Math.max(1,Math.round(im.width*k));cv.height=Math.max(1,Math.round(im.height*k));
-        try{cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);cv.toBlob(function(b){b?ok(b):bad()},"image/jpeg",.8)}catch(e){bad()}
+        try{var cx=cv.getContext("2d");cx.fillStyle="#fff";cx.fillRect(0,0,cv.width,cv.height);cx.drawImage(im,0,0,cv.width,cv.height);cv.toBlob(function(b){b?ok(b):bad()},"image/jpeg",.8)}catch(e){bad()}
       };
       im.onerror=bad;im.src=fr.result;
     };
@@ -1245,13 +1451,13 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     if(kind==="schedule")return dayName(it.day)+" "+it.from+(it.to?" – "+it.to:"");
     return ml(it.title)||"—";
   }
-  function thumbOf(kind,it){return kind==="gallery"?imgSrc(it.src):kind==="team"?imgSrc(it.photo):""}
+  function thumbOf(kind,it){return kind==="gallery"?imgSrc(it.src):kind==="team"?imgSrc(it.photo):kind==="sponsors"?imgSrc(it.logo):""}
   function itemMeta(kind,it){
     if(kind==="news")return [tt(CATK[it.cat]||"cAnn"),fmt(it.date,{day:"numeric",month:"long",year:"numeric"},it.date)].join(" · ");
     if(kind==="events")return [tt(KINDK[it.kind]||"kEvent"),fmt(it.date,{day:"numeric",month:"long",year:"numeric"},it.date),it.time,it.place].filter(Boolean).join(" · ");
     if(kind==="schedule")return [discTitle(it.disc),it.place,it.group].filter(Boolean).join(" · ");
     if(kind==="team")return [tt(it.grp==="board"?"tBoard":"tCoach"),ml(it.role)].filter(Boolean).join(" · ");
-    if(kind==="links")return it.url||"";
+    if(kind==="links"||kind==="sponsors")return it.url||"";
     return "";
   }
   function buildForm(kind,item){
@@ -1272,13 +1478,13 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
         var fid="af_"+k,fi=h("input",{type:"file",id:fid,accept:"image/*"}),pv=h("img",{class:"adm-prev",alt:""});
         pv.hidden=!imgSrc(d[k]);if(imgSrc(d[k]))pv.src=imgSrc(d[k]);
         w.appendChild(h("label",{for:fid,text:lab}));w.appendChild(fi);w.appendChild(pv);
-        w.appendChild(h("small",{class:"adm-note",text:X("minors")}));
+        if(kind!=="sponsors")w.appendChild(h("small",{class:"adm-note",text:X("minors")}));
         fi.addEventListener("change",function(){
           var fl=fi.files&&fi.files[0];if(!fl)return;
           readPhoto(fl,function(b){
             pv.src=URL.createObjectURL(b);pv.hidden=false;err.textContent=X("uploading");pending=null;
             uploadPhoto(b).then(function(u){pending=u;err.textContent=""},function(){err.textContent=X("eUpload")});
-          },function(){err.textContent=X("ePhotoRead")},kind==="team"?500:1000);
+          },function(){err.textContent=X("ePhotoRead")},kind==="team"||kind==="sponsors"?500:1000);
         });
         G[k]=function(){return pending||d[k]||""};
       }else if(t==="cat"||t==="kind"){
@@ -1318,6 +1524,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
         var tl=v.title||{};if(!tl.ar&&!tl.fr&&!tl.en){err.textContent=X("eTitle");return}
         if((kind==="news"||kind==="events")&&!isDate(v.date)){err.textContent=X("eDate");return}
         if(kind==="links"&&!safeUrl(v.url)){err.textContent=X("eUrl");return}
+        if(kind==="sponsors"&&v.url&&!safeUrl(v.url)){err.textContent=X("eUrl");return}
       }
       v.id=item?item.id:uid();
       var arr=DATA[kind],ix=-1;arr.forEach(function(o,n){if(o.id===v.id)ix=n});
@@ -1363,9 +1570,9 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
         h("button",{class:"btn outline sm",type:"button",text:X("restore"),on:{click:function(){DATA=normalize(aDraft);aDraft=null;dirty=true;renderAll()}}})," ",
         h("button",{class:"btn outline sm",type:"button",text:X("ignore"),on:{click:function(){aDraft=null;try{sessionStorage.removeItem(DK)}catch(e){}renderAdmin()}}})]));
     }
-    var ICON={print:"M7 8V3h10v5M7 17H4v-7h16v7h-3M7 14h10v7H7z",home:"M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z",requests:"M4 4h16v12H5.2L4 17.2zM8 9h8M8 12h5",news:"M5 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V5zM8 8h8M8 12h8M8 16h4",events:"M4 6h16v14H4zM4 10h16M9 3v5M15 3v5",schedule:"M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2",disciplines:"M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3",team:"M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c0-3.3 2.9-5.5 6.5-5.5s6.5 2.2 6.5 5.5M17 11a3 3 0 1 0 0-6M18 14.7c2 .6 3.5 2.3 3.5 5.3",gallery:"M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4M9 9.5a1 1 0 1 0 0-.01",texts:"M5 5h14M12 5v14M9 19h6",contact:"M4 5h16v14H4zM4 7l8 6 8-6",links:"M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1",account:"M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"};
+    var ICON={print:"M7 8V3h10v5M7 17H4v-7h16v7h-3M7 14h10v7H7z",home:"M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z",requests:"M4 4h16v12H5.2L4 17.2zM8 9h8M8 12h5",news:"M5 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V5zM8 8h8M8 12h8M8 16h4",events:"M4 6h16v14H4zM4 10h16M9 3v5M15 3v5",schedule:"M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2",disciplines:"M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3",team:"M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c0-3.3 2.9-5.5 6.5-5.5s6.5 2.2 6.5 5.5M17 11a3 3 0 1 0 0-6M18 14.7c2 .6 3.5 2.3 3.5 5.3",gallery:"M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4M9 9.5a1 1 0 1 0 0-.01",texts:"M5 5h14M12 5v14M9 19h6",contact:"M4 5h16v14H4zM4 7l8 6 8-6",sponsors:"M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z",links:"M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1",account:"M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"};
     function ico(t){var sp=document.createElement("span");sp.className="sico";sp.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="'+ICON[t]+'"/></svg>';return sp}
-    var GROUPS=[["gOv",["home","requests","print"]],["gCt",["news","events","schedule","disciplines","team","gallery"]],["gSt",["texts","contact","links"]],["gAc",["account"]]];
+    var GROUPS=[["gOv",["home","requests","print"]],["gCt",["news","events","schedule","disciplines","team","sponsors","gallery"]],["gSt",["texts","contact","links"]],["gAc",["account"]]];
     var shell=h("div",{class:"adm-shell"+(navOpen?" open":"")}),side=h("aside",{class:"adm-side",id:"admSide"}),M=h("div",{class:"adm-main"});
     var nNew=REQS?REQS.filter(function(r){return r.status==="new"}).length:0;
     GROUPS.forEach(function(g){
@@ -1397,6 +1604,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
       if(aTab==="news"||aTab==="events")arr.sort(function(a,b){return (b.date||"").localeCompare(a.date||"")});
       var list=h("div",{class:"adm-list"});
       if(aTab==="links")M.appendChild(h("p",{class:"adm-note",text:X("linksNote")}));
+      if(aTab==="sponsors")M.appendChild(h("p",{class:"adm-note",text:X("sponsorsNote")}));
       if(!arr.length)list.appendChild(h("p",{class:"adm-note",text:X("none")}));
       arr.forEach(function(it){
         if(aEdit&&aEdit.kind===aTab&&aEdit.id===it.id){list.appendChild(buildForm(aTab,it));return}
@@ -1406,7 +1614,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
           thumb?h("img",{src:thumb,alt:""}):null,
           h("div",null,[h("b",{text:itemTitle(aTab,it)}),meta?h("small",{text:meta}):null]),
           h("div",{class:"adm-acts"},[
-            aTab==="links"&&safeUrl(it.url)?h("a",{class:"btn dark sm",href:safeUrl(it.url),target:"_blank",rel:"noopener",text:X("open")}):null,
+            (aTab==="links"||aTab==="sponsors")&&safeUrl(it.url)?h("a",{class:"btn dark sm",href:safeUrl(it.url),target:"_blank",rel:"noopener",text:X("open")}):null,
             h("button",{class:"btn outline sm",type:"button",text:X("edit"),on:{click:function(){aEdit={kind:aTab,id:it.id};aDel=null;renderAdmin()}}}),
             h("button",{class:"btn danger sm"+(conf?" confirm":""),type:"button",text:conf?X("sure"):X("del"),on:{click:function(){
               if(!conf){aDel=key;renderAdmin();return}
