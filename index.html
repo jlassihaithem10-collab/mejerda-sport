@@ -65,7 +65,7 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:va
 .burger{display:none;background:none;border:1px solid #ffffff55;color:#fff;border-radius:10px;padding:8px 12px;font:inherit;font-weight:600;cursor:pointer}
 @media (max-width:1150px){
   .burger{display:block}
-  .tools{margin-inline-start:auto}
+  .hdrtools{margin-inline-start:auto}
   .links{display:none;position:absolute;inset-inline:0;top:100%;background:var(--green-deep);flex-direction:column;align-items:stretch;padding:12px 20px 20px;border-bottom:1px solid #ffffff1f;gap:2px;margin:0}
   .links.open{display:flex}
   .links .cta{margin:8px 0 0;text-align:center}
@@ -324,7 +324,7 @@ h3.md-h{font-size:1.25rem}
 .spo a.sp:hover img,.spo .sp:hover img{filter:none;opacity:1}
 .spo-cta{text-align:center;margin-top:22px}
 /* en-tête : outils */
-.tools{display:flex;align-items:center;gap:8px;position:relative}
+.hdrtools{display:flex;align-items:center;gap:8px;position:relative}
 .wxw,.langdd{position:relative}
 .wxbtn,.langbtn{display:inline-flex;align-items:center;gap:6px;background:#ffffff14;border:1px solid #ffffff44;color:#fff;font:inherit;font-weight:700;font-size:.9rem;border-radius:999px;padding:5px 11px;cursor:pointer;min-height:36px}
 .wxbtn[hidden]{display:none}
@@ -348,9 +348,9 @@ h3.md-h{font-size:1.25rem}
 .wxt.kid{background:var(--warn-bg);color:var(--warn-ink)}.wxt.kid small{color:inherit;opacity:.8}
 .wxn{font-size:.92rem;color:var(--muted)}.wxn b{color:var(--ink)}
 .wrap.nav{position:relative}
-.tools{position:static}.wxw{position:static}
+.hdrtools{position:static}.wxw{position:static}
 .wxcard{width:min(340px,100%)}
-@media (max-width:380px){.wxbtn,.langbtn{padding:4px 8px;font-size:.8rem;min-height:32px}.langbtn .car{display:none}.tools{gap:5px}.flag{width:20px;height:13px}}
+@media (max-width:380px){.wxbtn,.langbtn{padding:4px 8px;font-size:.8rem;min-height:32px}.langbtn .car{display:none}.hdrtools{gap:5px}.flag{width:20px;height:13px}}
 /* effet verre */
 .wxcard,.langmenu{background:color-mix(in srgb,var(--surface) 90%,transparent);-webkit-backdrop-filter:blur(20px) saturate(1.5);backdrop-filter:blur(20px) saturate(1.5);border-color:color-mix(in srgb,var(--line) 70%,transparent)}
 .wxd div{background:color-mix(in srgb,var(--bg) 60%,transparent)}
@@ -411,7 +411,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
       
       <a class="cta" href="#inscription" data-t="nJoin">Inscription</a>
     </nav>
-    <div class="tools">
+    <div class="hdrtools">
       <div class="wxw"><button class="wxbtn" id="wxBtn" type="button" aria-expanded="false" aria-controls="wxCard" hidden></button>
         <div class="wxcard" id="wxCard" role="dialog" aria-label="Météo" hidden></div></div>
       <div class="langdd"><button class="langbtn" id="langBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="langMenu" aria-label="Langue / اللغة / Language"></button>
@@ -458,7 +458,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
       <img class="logo" src="img/logo.png" alt="">
       </div>
       <div class="glass-row">
-      <a class="glass a" href="#calendrier"><b data-t="g1t">Prochain match</b><span id="g1d" data-t="g1d">Le calendrier sera publié ici.</span></a>
+      <a class="glass a" href="#calendrier"><b data-t="g1t">Prochain rendez-vous</b><span id="g1d" data-t="g1d">Le calendrier sera publié ici.</span></a>
       <a class="glass b" href="#inscription"><b data-t="g2t">Saison en cours</b><span data-t="g2d">Demandez votre inscription.</span></a>
       </div>
     </div>
@@ -690,7 +690,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     h1:"Our passion,<br>our <em>pride</em>,<br>our future",
     heroSub:"Mejerda Sport brings together the young people, families and supporters of Medjez el Bab around sport, effort and team spirit.",
     btnJoin:"Join the club →",btnCal:"See the calendar",
-    g1t:"Next match",g1d:"The schedule will be published here.",g2t:"Current season",g2d:"Request your registration.",
+    g1t:"Next date",g1d:"The schedule will be published here.",g2t:"Current season",g2d:"Request your registration.",
     clubEy:"The club",clubH:"Born from a dream, now a reference",
     clubLead:"Since 1989, Mejerda Sport has grown from a shared dream among young people of Medjez el Bab who believed sport builds people and champions. Its motto: “Sport is education, commitment and excellence.”",
     v1t:"Passion",v1d:"The joy of sport and the drive to improve at every training session.",
@@ -785,7 +785,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     h1:"شغفنا،<br><em>فخرنا</em>،<br>مستقبلنا",
     heroSub:"تجمع مجردة الرياضية شباب مجاز الباب وعائلاتهم ومحبّيهم حول الرياضة وروح الفريق وبذل الجهد.",
     btnJoin:"انضمّ إلى النادي ←",btnCal:"اطّلع على الروزنامة",
-    g1t:"المباراة القادمة",g1d:"ستُنشر الروزنامة هنا.",g2t:"الموسم الحالي",g2d:"قدّم طلب اشتراكك.",
+    g1t:"الموعد القادم",g1d:"ستُنشر الروزنامة هنا.",g2t:"الموسم الحالي",g2d:"قدّم طلب اشتراكك.",
     clubEy:"النادي",clubH:"من رحم الحلم وُلد المجد",
     clubLead:"منذ سنة 1989، انطلقت جمعية مجردة الرياضية كحلم مشترك بين ثلة من أبناء مجاز الباب، آمنوا بأن الرياضة وسيلة حضارية لصناعة الإنسان وبناء الأبطال. شعارها: «الرياضة تربية، التزام، وتفوق».",
     v1t:"الشغف",v1d:"متعة الرياضة والرغبة في التقدّم مع كل حصة تدريب.",
