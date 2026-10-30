@@ -228,6 +228,19 @@ button.pa-card{font:inherit;cursor:pointer}
 .chk[aria-pressed="true"] .box{background:#FF6A13;border-color:#FF6A13}.chk .box svg{width:16px;height:16px}
 label.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer}
 .pill svg{width:14px;height:14px}.btn svg{flex-shrink:0}
+.wk{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface)}
+.wk-hd{display:grid;grid-template-columns:38px repeat(7,minmax(0,1fr));border-bottom:1px solid var(--line);font-size:11px;text-align:center}
+.wk-hd>span{display:flex;flex-direction:column;padding:6px 0;color:var(--muted)}.wk-hd>span b{font-weight:600}.wk-hd>span.td{color:var(--accent-text)}
+.wk-bd{display:grid;grid-template-columns:38px repeat(7,minmax(0,1fr));position:relative}
+.wk-hr>span{display:block;font-size:10px;color:var(--muted);text-align:center;border-top:1px dashed var(--line);box-sizing:border-box;padding-top:2px}
+.wk-col{position:relative;border-inline-start:1px solid var(--line)}.wk-col.td{background:var(--accent-soft)}
+.wk-b{position:absolute;inset-inline:2px;border-radius:8px;background:var(--accent);color:var(--accent-ink);font-size:10px;line-height:1.2;padding:3px;overflow:hidden;display:flex;flex-direction:column;gap:1px}
+.wk-b b{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.wk-b.off{background:var(--bad-soft);color:var(--bad-text);text-decoration:line-through}.wk-b.mv{background:var(--info-soft);color:var(--info-text)}
+.mc{border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:8px}
+.mc-hd,.mc-bd{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;text-align:center}.mc-hd span{font-size:12px;color:var(--muted);padding:4px 0}
+.mc-d{min-height:46px;border-radius:12px;border:1px solid transparent;background:transparent;color:var(--fg);font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer}
+.mc-d.out{opacity:.3}.mc-d.td{border-color:var(--accent)}.mc-d.sel{background:var(--accent);color:var(--accent-ink);font-weight:700}
+.mc-dots{display:flex;gap:2px;height:6px}.mc-dots i{width:5px;height:5px;border-radius:3px;background:var(--accent)}.mc-d.sel .mc-dots i{background:var(--accent-ink)}.mc-dots i.x{background:var(--bad)}
 </style>
 
 </head>
@@ -477,13 +490,14 @@ async function loadCoach(){
 }
 function offlineBanner(){return S.cachedAt?'<div class="banner warn">'+I.wifiOff+'<span>'+t('cachedData')+' '+esc(new Date(S.cachedAt).toLocaleString(locale(),{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}))+'</span></div>':''}
 function reqFor(gid,date){var l=(S.weekReq||[]).filter(function(q){return q.group_id===gid&&q.sess_date===date});return l[l.length-1]||null}
-function coachSeg(){return '<div class="seg" role="group"><button data-a="ctab" data-v="day" aria-pressed="'+(S.coachTab!=='week')+'">'+t('dayView')+'</button><button data-a="ctab" data-v="week" aria-pressed="'+(S.coachTab==='week')+'">'+t('weekView')+'</button></div>'}
+function coachSeg(){var c=S.coachTab||'day';return '<div class="seg three" role="group">'+[['day','dayView'],['week','weekView'],['month','monthView']].map(function(x){return '<button data-a="ctab" data-v="'+x[0]+'" aria-pressed="'+(c===x[0])+'">'+t(x[1])+'</button>'}).join('')+'</div>'}
 function placeOf(x){return x.room?esc(x.room):t('hall')}
 function vToday(){
   var name=(S.me&&(S.me.coach_name||S.me.full_name))||'';
   var h=header(t('hello')+' '+t('coach')+' '+esc(name.split(' ')[0]))+errCard()+offlineBanner()+newsBanner()+coachSeg();
   if(!S.groups.length&&!S.err)return wrap(h+'<div class="card empty">'+t('noGroups')+'</div>')+tabs('today');
   var now=new Date(),nowM=now.getHours()*60+now.getMinutes(),ty=todayY();
+  if(S.coachTab==='week'||S.coachTab==='month')return wrap(h+(S.coachTab==='week'?vWeekGrid():vMonthCal()))+tabs('today');
   if(S.coachTab==='week'){
     var any=false;
     for(var i=0;i<7;i++){
@@ -555,7 +569,7 @@ function vGroups(){
   if(!S.groups.length)return wrap(h+'<div class="card empty">'+t('noGroups')+'</div>')+tabs('groups');
   if(!S.grp){vGroupsLoad(S.groups[0].id);return wrap(h+loadingCard())+tabs('groups')}
   h+='<div class="chips" role="group">'+S.groups.map(function(g){return '<button data-a="grp" data-id="'+g.id+'" aria-pressed="'+(g.id===S.grp)+'">'+esc(g.name)+'</button>'}).join('')+'</div>';
-  h+='<button class="btn ghost" data-a="go" data-v="notes">'+starsRow(3,16)+' '+t('notesT')+'</button>';
+  h+='<div class="grid2"><button class="btn ghost" data-a="go" data-v="notes">'+starsRow(3,16)+' '+t('notesT')+'</button><button class="btn ghost" data-a="go" data-v="c-meas">'+t('measT')+'</button></div>';
   if(!S.hist)return wrap(h+loadingCard())+tabs('groups');
   var hs=S.hist.hist,tot=0,ok=0;
   var rows=S.hist.roster.map(function(m){var seq=hs.map(function(s){return (s.marks||{})[m.id]||'a'}),k=0,st=0;seq.forEach(function(v){tot++;if(v==='p'||v==='l'){ok++;k++}});for(var i=seq.length-1;i>=0&&seq[i]==='a';i--)st++;return {m:m,seq:seq,pct:seq.length?Math.round(k/seq.length*100):null,streak:st}});
@@ -958,6 +972,7 @@ function vPaProg(){
   var bs=badges(c),got=bs.filter(function(x){return x.on}).length;
   h+='<div class="between"><h2 style="font-size:16px">'+t('badgesT')+'</h2><span class="small muted">'+got+' / '+bs.length+'</span></div><div class="pa-badges">'+bs.map(function(x){return '<div class="col" style="align-items:center;gap:6px;text-align:center"><span class="pa-badge'+(x.on?' on':'')+'">'+x.icon+'</span><span style="font-size:12px;line-height:1.3;'+(x.on?'font-weight:600':'color:var(--muted)')+'">'+t(x.key)+'</span></div>'}).join('')+'</div>';
   h+='<button class="btn ghost" data-a="go" data-v="pa-att">'+t('attAndNotice')+'</button>';
+  if(S.meas&&S.meas[c.id])h+=measBlock(S.meas[c.id],c.id,false);
   return wrap(h)+tabs('pa-prog');
 }
 function vPaAch(){
@@ -1088,6 +1103,7 @@ async function loadChildExtra(id){
   try{S.notes[id]=await rpc('sx_child_notes',{mid:id})}catch(e){S.notes[id]=[]}
   try{S.ups[id]=await rpc('sx_child_uploads',{mid:id})}catch(e){S.ups[id]=[]}
   try{S.cinj=S.cinj||{};S.cinj[id]=await rpc('sx_child_injuries',{mid:id})}catch(e){}
+  try{S.meas=S.meas||{};S.meas[id]=await rpc('sx_measures_get',{mid:id})}catch(e){}
 }
 async function loadConvP(){try{S.conv=await rpc('sx_child_convocations')}catch(e){S.conv=[]}}
 function childConv(c){return (S.conv||[]).filter(function(x){return x.member_id===c.id})}
@@ -1350,7 +1366,7 @@ function athBadges(m){var x=extOf(m.id),b='';if(x.health)b+='<span class="pill b
 
 /* ----- بطاقة الرياضي ----- */
 async function openAth(id,from){S.athId=id;S.athFrom=from||S.view;S.ath=null;S.view='c-ath';window.scrollTo(0,0);render();
-  try{S.ath=await rpc('sx_athlete_card',{mid:id});var pg=S.ath.progress||{};if(pg.has_photo&&S.photo[id]===undefined){S.photo[id]=null;rpc('sx_athlete_photo',{mid:id}).then(function(ph){S.photo[id]=ph||'';render()},function(){S.photo[id]=''})}}
+  try{S.ath=await rpc('sx_athlete_card',{mid:id});loadMeas(id);var pg=S.ath.progress||{};if(pg.has_photo&&S.photo[id]===undefined){S.photo[id]=null;rpc('sx_athlete_photo',{mid:id}).then(function(ph){S.photo[id]=ph||'';render()},function(){S.photo[id]=''})}}
   catch(e){S.ath={err:isNet(e)?t('netErr'):need18(e)}}render()}
 function cardStreak(att){var cur=0,best=0;att.forEach(function(x){if(x.st==='e')return;if(x.st==='a'){cur=0;return}cur++;if(cur>best)best=cur});return cur}
 function vCAth(){
@@ -1369,6 +1385,7 @@ function vCAth(){
     h+='<div class="card tight"><div class="between"><h3>'+t('levelT')+'</h3><span class="small muted">'+esc(dname(tr))+'</span></div>'+(ls.length?'<div class="row" style="gap:6px" role="img" aria-label="'+esc(lv)+'">'+ls.map(function(l,i){return '<span style="flex:1;height:8px;border-radius:4px;background:'+(i<pos?'var(--ok)':i===pos?'var(--accent)':'var(--surface2)')+'"></span>'}).join('')+'</div>':'')+
       (last?'<div class="kv"><span>'+t('lastTest')+'</span><span style="font-weight:600;color:'+(last.passed===false?'var(--warn-text)':'var(--ok-text)')+'">'+(last.passed===false?t('notYet'):t('passedT'))+(last.score!=null?' · '+esc(String(last.score)):'')+'</span></div>':'')+
       (tr.next_test?'<div class="kv"><span>'+t('nextTest')+'</span><span>'+esc(fmtDate(tr.next_test,{day:'numeric',month:'long'}))+'</span></div>':'')+'</div>'}
+  h+=measBlock((S.meas||{})[a.id],a.id,true);
   var n=(a.notes||[])[0],myG=(a.groups||[]).filter(function(x){return x.mine})[0];
   h+='<div class="card tight"><div class="between"><h3>'+t('lastNote')+(n?' · '+esc(fmtYm(n.ym)):'')+'</h3>'+(n?starsRow(Math.round(noteAvg(n)),16):'')+'</div>'+(n?'<div class="pa-quote">«'+esc(n.body)+'»</div><span class="small muted">'+esc(n.coach||'')+'</span>':'<div class="small muted">'+t('noNoteYet')+'</div>')+(S.role==='coach'&&myG?'<button class="link small" data-a="athNote" data-g="'+myG.id+'" data-id="'+a.id+'" style="align-self:flex-start">'+t('writeNote')+'</button>':'')+'</div>';
   if((a.injuries||[]).length)h+='<div class="card tight"><h3>'+t('injuriesT')+'</h3>'+a.injuries.map(function(i){return '<div class="between"><span>'+esc(partL(i.part))+' · <span class="small muted">'+esc(fmtDate(String(i.at).slice(0,10),{day:'numeric',month:'short'}))+'</span></span>'+sevPill(i.severity)+'</div>'}).join('')+'</div>';
@@ -1420,7 +1437,7 @@ function vCDash(){
 /* ----- الإدارة: الإصابات، المتابعة، التنبيهات الصحية ----- */
 async function loadInj(){try{S.il=await rpc('sx_injuries_list');S.ilErr=''}catch(e){S.ilErr=need18(e)}render()}
 function officeTeamCard(){if(S.role!=='manager'&&S.role!=='president')return '';var op=S.il&&S.il.injuries?S.il.injuries.filter(function(i){return i.status==='open'}).length:0;
-  return '<div class="card tight"><h3>'+t('teamT')+'</h3><div class="list" style="margin:0"><button class="item between" data-a="go" data-v="o-inj"><span>'+t('injuriesT')+'</span>'+(op?'<span class="pill bad">'+op+' '+t('openInj')+'</span>':'<span class="muted">'+I.arrow+'</span>')+'</button><button class="item between" data-a="go" data-v="o-coach"><span>'+t('followT')+'</span><span class="muted">'+I.arrow+'</span></button><button class="item between" data-a="go" data-v="o-health"><span>'+t('healthT')+'</span><span class="muted">'+I.arrow+'</span></button></div></div>'}
+  return '<div class="card tight"><h3>'+t('teamT')+'</h3><div class="list" style="margin:0"><button class="item between" data-a="go" data-v="o-inj"><span>'+t('injuriesT')+'</span>'+(op?'<span class="pill bad">'+op+' '+t('openInj')+'</span>':'<span class="muted">'+I.arrow+'</span>')+'</button><button class="item between" data-a="go" data-v="o-coach"><span>'+t('followT')+'</span><span class="muted">'+I.arrow+'</span></button><button class="item between" data-a="go" data-v="o-health"><span>'+t('healthT')+'</span><span class="muted">'+I.arrow+'</span></button><button class="item between" data-a="go" data-v="o-sizes"><span>'+t('sizesT')+'</span><span class="muted">'+I.arrow+'</span></button></div></div>'}
 function vOInj(){
   var h='<div class="row">'+backBtn('p-home')+'<h1 style="flex:1">'+t('injuriesT')+'</h1></div>';
   if(S.ilErr)return wrap(h+'<div class="card empty">'+esc(S.ilErr)+'</div>')+tabs('p-home');
@@ -1494,8 +1511,145 @@ function input18(id,val){
   if(S.hf&&id==='hf_m'){S.hf.mid=val}
 }
 
+/* ---------- 019: أوقاتي (يوم/أسبوع/شهر) + القياسات ---------- */
+Object.assign(T,{
+ monthView:['الشهر','Mois'], need019:['هذه الخاصية تحتاج تشغيل الملف 019 على الخادم.','Cette fonction nécessite le fichier 019 sur le serveur.'],
+ thisWeek:['هذا الأسبوع','Cette semaine'], weekSum:['حصص هذا الأسبوع','séances cette semaine'], hoursShort:['س','h'],
+ cancelledL:['ملغاة','Annulée'], movedTo:['أُجّلت إلى','Reportée au'], noSessDay:['لا حصص في هذا اليوم.','Pas de séance ce jour.'],
+ measT:['القياسات','Mensurations'], heightT:['الطول','Taille'], weightT:['الوزن','Poids'], spanT:['الذراعان','Envergure'], bmiT:['مؤشر كتلة الجسم','IMC'],
+ cmU:['سم','cm'], kgU:['كغ','kg'], newMeas:['قياس جديد','Nouvelle mesure'], measDate:['تاريخ القياس','Date de la mesure'], measNote:['ملاحظة (اختياري)','Note (facultatif)'],
+ noMeas:['لا توجد قياسات بعد.','Pas encore de mesures.'], measDue:['حان وقت القياس','Mesure à faire'], lastMeas:['آخر قياس','Dernière mesure'],
+ pctl:['النسبة المئوية','percentile'], whoRef:['حسب مراجع منظمة الصحة العالمية للعمر والجنس','Selon les références OMS (âge et sexe)'], adultRef:['حسب سلّم البالغين','Selon l’échelle adulte'],
+ noSex:['حدّد جنس الرياضي في البرنامج لحساب التقييم.','Indiquez le sexe de l’athlète dans le programme pour l’évaluation.'],
+ bmi_sthin:['نحافة شديدة','Maigreur sévère'], bmi_thin:['نحافة','Maigreur'], bmi_normal:['وزن طبيعي','Poids normal'], bmi_risk:['خطر زيادة الوزن','Risque de surpoids'], bmi_over:['زيادة في الوزن','Surpoids'], bmi_obese:['سمنة','Obésité'],
+ profT:['معلومات ثابتة','Informations fixes'], handT:['اليد المفضّلة','Main dominante'], footT:['الرجل المفضّلة','Pied dominant'], rightT:['اليمنى','Droite'], leftT:['اليسرى','Gauche'], bothT:['الاثنتان','Les deux'],
+ clothT:['مقاس اللباس','Taille de tenue'], shoeT:['مقاس الحذاء','Pointure'], editProf:['تعديل','Modifier'], eMeas:['اكتب قياساً واحداً على الأقل.','Indiquez au moins une mesure.'],
+ eMeasDate:['التاريخ غير صحيح.','Date invalide.'], tMeas:['حُفظ القياس.','Mesure enregistrée.'], groupMeas:['قياسات المجموعة','Mensurations du groupe'],
+ measHelp:['يُنصح بالقياس كل 3 أشهر. المس الاسم لإضافة قياس.','Mesure conseillée tous les 3 mois. Touchez le nom pour ajouter.'], neverMeas:['لم يُقَس','Jamais mesuré'],
+ sizesT:['مقاسات الملابس','Tailles des tenues'], noSizes:['لا توجد مقاسات مسجّلة.','Aucune taille enregistrée.'], growthT:['النمو','Croissance'], delMeas:['حذف هذا القياس','Supprimer cette mesure']
+});
+/* WHO_BMI: جداول LMS لمنظمة الصحة العالمية، مؤشر الكتلة حسب العمر (24 إلى 228 شهراً) */
+var WHO_BMI={from:24,to:228,b:[-0.6473,15.7356,0.07771,-0.584,15.9799,0.07792,-0.5501,15.9418,0.07799,-0.5164,15.9034,0.07809,-0.4853,15.867,0.07818,-0.4549,15.8303,0.07829,-0.4275,15.7954,0.07841,-0.4013,15.7601,0.07854,-0.3782,15.7267,0.07867,-0.3575,15.6939,0.07882,-0.3388,15.6609,0.07897,-0.3233,15.6297,0.07913,-0.31,15.5986,0.07931,-0.3,15.5695,0.07949,-0.2927,15.5406,0.07969,-0.2884,15.5141,0.0799,-0.2869,15.4881,0.08013,-0.2881,15.4645,0.08036,-0.2918,15.4423,0.08061,-0.2982,15.4209,0.08087,-0.3066,15.4015,0.08114,-0.3175,15.3825,0.08144,-0.3302,15.3652,0.08174,-0.3455,15.3483,0.08206,-0.3622,15.3326,0.08238,-0.3808,15.3176,0.08272,-0.402,15.3029,0.08307,-0.4243,15.2892,0.08343,-0.449,15.2758,0.08381,-0.4745,15.2634,0.08418,-0.5022,15.2513,0.08457,-0.5302,15.24,0.08496,-0.5594,15.2293,0.08535,-0.5906,15.2188,0.08577,-0.6219,15.2092,0.08617,-0.6554,15.2,0.08659,-0.6889,15.1917,0.08699,-0.7387,15.2641,0.0839,-0.7621,15.2616,0.08414,-0.7856,15.2604,0.08439,-0.8089,15.2605,0.08464,-0.8322,15.2619,0.0849,-0.8554,15.2645,0.08516,-0.8785,15.2684,0.08543,-0.9015,15.2737,0.0857,-0.9243,15.2801,0.08597,-0.9471,15.2877,0.08625,-0.9697,15.2965,0.08653,-0.9921,15.3062,0.08682,-1.0144,15.3169,0.08711,-1.0365,15.3285,0.08741,-1.0584,15.3408,0.08771,-1.0801,15.354,0.08802,-1.1017,15.3679,0.08833,-1.123,15.3825,0.08865,-1.1441,15.3978,0.08898,-1.1649,15.4137,0.08931,-1.1856,15.4302,0.08964,-1.206,15.4473,0.08998,-1.2261,15.465,0.09033,-1.246,15.4832,0.09068,-1.2656,15.5019,0.09103,-1.2849,15.521,0.09139,-1.304,15.5407,0.09176,-1.3228,15.5608,0.09213,-1.3414,15.5814,0.09251,-1.3596,15.6023,0.09289,-1.3776,15.6237,0.09327,-1.3953,15.6455,0.09366,-1.4126,15.6677,0.09406,-1.4297,15.6903,0.09445,-1.4464,15.7133,0.09486,-1.4629,15.7368,0.09526,-1.479,15.7606,0.09567,-1.4947,15.7848,0.09609,-1.5101,15.8094,0.09651,-1.5252,15.8344,0.09693,-1.5399,15.8597,0.09735,-1.5542,15.8855,0.09778,-1.5681,15.9116,0.09821,-1.5817,15.9381,0.09864,-1.5948,15.9651,0.09907,-1.6076,15.9925,0.09951,-1.6199,16.0205,0.09994,-1.6318,16.049,0.10038,-1.6433,16.0781,0.10082,-1.6544,16.1078,0.10126,-1.6651,16.1381,0.1017,-1.6753,16.1692,0.10214,-1.6851,16.2009,0.10259,-1.6944,16.2333,0.10303,-1.7032,16.2665,0.10347,-1.7116,16.3004,0.10391,-1.7196,16.3351,0.10435,-1.7271,16.3704,0.10478,-1.7341,16.4065,0.10522,-1.7407,16.4433,0.10566,-1.7468,16.4807,0.10609,-1.7525,16.5189,0.10652,-1.7578,16.5578,0.10695,-1.7626,16.5974,0.10738,-1.767,16.6376,0.1078,-1.771,16.6786,0.10823,-1.7745,16.7203,0.10865,-1.7777,16.7628,0.10906,-1.7804,16.8059,0.10948,-1.7828,16.8497,0.10989,-1.7847,16.8941,0.1103,-1.7862,16.9392,0.1107,-1.7873,16.985,0.1111,-1.7881,17.0314,0.1115,-1.7884,17.0784,0.11189,-1.7884,17.1262,0.11228,-1.788,17.1746,0.11266,-1.7873,17.2236,0.11304,-1.7861,17.2734,0.11342,-1.7846,17.324,0.11379,-1.7828,17.3752,0.11415,-1.7806,17.4272,0.11451,-1.778,17.4799,0.11487,-1.7751,17.5334,0.11522,-1.7719,17.5877,0.11556,-1.7684,17.6427,0.1159,-1.7645,17.6985,0.11623,-1.7604,17.7551,0.11656,-1.7559,17.8124,0.11688,-1.7511,17.8704,0.1172,-1.7461,17.9292,0.11751,-1.7408,17.9887,0.11781,-1.7352,18.0488,0.11811,-1.7293,18.1096,0.11841,-1.7232,18.171,0.11869,-1.7168,18.233,0.11898,-1.7102,18.2955,0.11925,-1.7033,18.3586,0.11952,-1.6962,18.4221,0.11979,-1.6888,18.486,0.12005,-1.6811,18.5502,0.1203,-1.6732,18.6148,0.12055,-1.6651,18.6795,0.12079,-1.6568,18.7445,0.12102,-1.6482,18.8095,0.12125,-1.6394,18.8746,0.12148,-1.6304,18.9398,0.1217,-1.6211,19.005,0.12191,-1.6116,19.0701,0.12212,-1.602,19.1351,0.12233,-1.5921,19.2,0.12253,-1.5821,19.2648,0.12272,-1.5719,19.3294,0.12291,-1.5615,19.3937,0.1231,-1.551,19.4578,0.12328,-1.5403,19.5217,0.12346,-1.5294,19.5853,0.12363,-1.5185,19.6486,0.1238,-1.5074,19.7117,0.12396,-1.4961,19.7744,0.12412,-1.4848,19.8367,0.12428,-1.4733,19.8987,0.12443,-1.4617,19.9603,0.12458,-1.45,20.0215,0.12473,-1.4382,20.0823,0.12487,-1.4263,20.1427,0.12501,-1.4143,20.2026,0.12514,-1.4022,20.2621,0.12528,-1.39,20.3211,0.12541,-1.3777,20.3796,0.12554,-1.3653,20.4376,0.12567,-1.3529,20.4951,0.12579,-1.3403,20.5521,0.12591,-1.3277,20.6085,0.12603,-1.3149,20.6644,0.12615,-1.3021,20.7197,0.12627,-1.2892,20.7745,0.12638,-1.2762,20.8287,0.1265,-1.2631,20.8824,0.12661,-1.2499,20.9355,0.12672,-1.2366,20.9881,0.12683,-1.2233,21.04,0.12694,-1.2098,21.0914,0.12704,-1.1962,21.1423,0.12715,-1.1826,21.1925,0.12726,-1.1688,21.2423,0.12736,-1.155,21.2914,0.12746,-1.141,21.34,0.12756,-1.127,21.388,0.12767,-1.1129,21.4354,0.12777,-1.0986,21.4822,0.12787,-1.0843,21.5285,0.12797,-1.0699,21.5742,0.12807,-1.0553,21.6193,0.12816,-1.0407,21.6638,0.12826,-1.026,21.7077,0.12836,-1.0112,21.751,0.12845,-0.9962,21.7937,0.12855,-0.9812,21.8358,0.12864,-0.9661,21.8773,0.12874,-0.9509,21.9182,0.12883,-0.9356,21.9585,0.12893,-0.9202,21.9982,0.12902,-0.9048,22.0374,0.12911,-0.8892,22.076,0.1292,-0.8735,22.114,0.1293,-0.8578,22.1514,0.12939,-0.8419,22.1883,0.12948],g:[-0.5989,15.4052,0.08545,-0.5684,15.6589,0.08452,-0.5684,15.6311,0.08449,-0.5684,15.6036,0.08446,-0.5684,15.5779,0.08444,-0.5684,15.5521,0.08443,-0.5684,15.5277,0.08444,-0.5684,15.503,0.08448,-0.5684,15.4798,0.08455,-0.5684,15.4575,0.08467,-0.5684,15.4355,0.08484,-0.5684,15.4157,0.08506,-0.5684,15.3966,0.08535,-0.5684,15.3797,0.08569,-0.5684,15.3636,0.08609,-0.5684,15.3493,0.08654,-0.5684,15.3356,0.08704,-0.5684,15.3233,0.08757,-0.5684,15.3117,0.08813,-0.5684,15.3006,0.08872,-0.5684,15.2906,0.08931,-0.5684,15.2813,0.08992,-0.5684,15.2732,0.0905,-0.5684,15.266,0.0911,-0.5684,15.2602,0.09168,-0.5684,15.2557,0.09227,-0.5684,15.2523,0.09287,-0.5684,15.2503,0.09345,-0.5684,15.2496,0.09404,-0.5684,15.2502,0.0946,-0.5684,15.2519,0.09516,-0.5684,15.2543,0.09567,-0.5684,15.2575,0.09617,-0.5684,15.2612,0.09665,-0.5684,15.2653,0.09708,-0.5684,15.2698,0.0975,-0.5684,15.2747,0.09789,-0.8886,15.2441,0.09692,-0.9068,15.2434,0.09738,-0.9248,15.2433,0.09783,-0.9427,15.2438,0.09829,-0.9605,15.2448,0.09875,-0.978,15.2464,0.0992,-0.9954,15.2487,0.09966,-1.0126,15.2516,0.10012,-1.0296,15.2551,0.10058,-1.0464,15.2592,0.10104,-1.063,15.2641,0.10149,-1.0794,15.2697,0.10195,-1.0956,15.276,0.10241,-1.1115,15.2831,0.10287,-1.1272,15.2911,0.10333,-1.1427,15.2998,0.10379,-1.1579,15.3095,0.10425,-1.1728,15.32,0.10471,-1.1875,15.3314,0.10517,-1.2019,15.3439,0.10562,-1.216,15.3572,0.10608,-1.2298,15.3717,0.10654,-1.2433,15.3871,0.107,-1.2565,15.4036,0.10746,-1.2693,15.4211,0.10792,-1.2819,15.4397,0.10837,-1.2941,15.4593,0.10883,-1.306,15.4798,0.10929,-1.3175,15.5014,0.10974,-1.3287,15.524,0.1102,-1.3395,15.5476,0.11065,-1.3499,15.5723,0.1111,-1.36,15.5979,0.11156,-1.3697,15.6246,0.11201,-1.379,15.6523,0.11246,-1.388,15.681,0.11291,-1.3966,15.7107,0.11335,-1.4047,15.7415,0.1138,-1.4125,15.7732,0.11424,-1.4199,15.8058,0.11469,-1.427,15.8394,0.11513,-1.4336,15.8738,0.11557,-1.4398,15.909,0.11601,-1.4456,15.9451,0.11644,-1.4511,15.9818,0.11688,-1.4561,16.0194,0.11731,-1.4607,16.0575,0.11774,-1.465,16.0964,0.11816,-1.4688,16.1358,0.11859,-1.4723,16.1759,0.11901,-1.4753,16.2166,0.11943,-1.478,16.258,0.11985,-1.4803,16.2999,0.12026,-1.4823,16.3425,0.12067,-1.4838,16.3858,0.12108,-1.485,16.4298,0.12148,-1.4859,16.4746,0.12188,-1.4864,16.52,0.12228,-1.4866,16.5663,0.12268,-1.4864,16.6133,0.12307,-1.4859,16.6612,0.12346,-1.4851,16.71,0.12384,-1.4839,16.7595,0.12422,-1.4825,16.81,0.1246,-1.4807,16.8614,0.12497,-1.4787,16.9136,0.12534,-1.4763,16.9667,0.12571,-1.4737,17.0208,0.12607,-1.4708,17.0757,0.12643,-1.4677,17.1316,0.12678,-1.4642,17.1883,0.12713,-1.4606,17.2459,0.12748,-1.4567,17.3044,0.12782,-1.4526,17.3637,0.12816,-1.4482,17.4238,0.12849,-1.4436,17.4847,0.12882,-1.4389,17.5464,0.12914,-1.4339,17.6088,0.12946,-1.4288,17.6719,0.12978,-1.4235,17.7357,0.13009,-1.418,17.8001,0.1304,-1.4123,17.8651,0.1307,-1.4065,17.9306,0.13099,-1.4006,17.9966,0.13129,-1.3945,18.063,0.13158,-1.3883,18.1297,0.13186,-1.3819,18.1967,0.13214,-1.3755,18.2639,0.13241,-1.3689,18.3312,0.13268,-1.3621,18.3986,0.13295,-1.3553,18.466,0.13321,-1.3483,18.5333,0.13347,-1.3413,18.6006,0.13372,-1.3341,18.6677,0.13397,-1.3269,18.7346,0.13421,-1.3195,18.8012,0.13445,-1.3121,18.8675,0.13469,-1.3046,18.9335,0.13492,-1.297,18.9991,0.13514,-1.2894,19.0642,0.13537,-1.2816,19.1289,0.13559,-1.2739,19.1931,0.1358,-1.2661,19.2567,0.13601,-1.2583,19.3197,0.13622,-1.2504,19.382,0.13642,-1.2425,19.4437,0.13662,-1.2345,19.5045,0.13681,-1.2266,19.5647,0.137,-1.2186,19.624,0.13719,-1.2107,19.6824,0.13738,-1.2027,19.74,0.13756,-1.1947,19.7966,0.13774,-1.1867,19.8523,0.13791,-1.1788,19.907,0.13808,-1.1708,19.9607,0.13825,-1.1629,20.0133,0.13841,-1.1549,20.0648,0.13858,-1.147,20.1152,0.13873,-1.139,20.1644,0.13889,-1.1311,20.2125,0.13904,-1.1232,20.2595,0.1392,-1.1153,20.3053,0.13934,-1.1074,20.3499,0.13949,-1.0996,20.3934,0.13963,-1.0917,20.4357,0.13977,-1.0838,20.4769,0.13991,-1.076,20.517,0.14005,-1.0681,20.556,0.14018,-1.0603,20.5938,0.14031,-1.0525,20.6306,0.14044,-1.0447,20.6663,0.14057,-1.0368,20.7008,0.1407,-1.029,20.7344,0.14082,-1.0212,20.7668,0.14094,-1.0134,20.7982,0.14106,-1.0055,20.8286,0.14118,-0.9977,20.858,0.1413,-0.9898,20.8863,0.14142,-0.9819,20.9137,0.14153,-0.974,20.9401,0.14164,-0.9661,20.9656,0.14176,-0.9582,20.9901,0.14187,-0.9503,21.0138,0.14198,-0.9423,21.0367,0.14208,-0.9344,21.0587,0.14219,-0.9264,21.0801,0.1423,-0.9184,21.1007,0.1424,-0.9104,21.1206,0.1425,-0.9024,21.1399,0.14261,-0.8944,21.1586,0.14271,-0.8863,21.1768,0.14281,-0.8783,21.1944,0.14291,-0.8703,21.2116,0.14301,-0.8623,21.2282,0.14311,-0.8542,21.2444,0.1432,-0.8462,21.2603,0.1433,-0.8382,21.2757,0.1434,-0.8301,21.2908,0.14349,-0.8221,21.3055,0.14359,-0.814,21.32,0.14368,-0.806,21.3341,0.14377,-0.798,21.348,0.14386,-0.7899,21.3617,0.14396,-0.7819,21.3752,0.14405,-0.7738,21.3884,0.14414,-0.7658,21.4014,0.14423,-0.7577,21.4143,0.14432,-0.7496,21.4269,0.14441]};
+function normCdf(z){var t=1/(1+0.2316419*Math.abs(z)),d=0.3989423*Math.exp(-z*z/2),p=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return z>0?1-p:p}
+function bmiInfo(sex,bd,date,h,w){
+  if(!h||!w)return null;var b=w/Math.pow(h/100,2),r={bmi:Math.round(b*10)/10};
+  if(!bd)return r;var am=Math.floor((parseYmd(date)-parseYmd(bd))/(30.4375*864e5));r.months=am;
+  if(am>228){r.cat=b<18.5?'thin':b<25?'normal':b<30?'over':'obese';r.adult=true;return r}
+  if(am<WHO_BMI.from)return r;
+  var sx=String(sex||'').toUpperCase();if(sx!=='M'&&sx!=='F'){r.nosex=true;return r}
+  var a=sx==='M'?WHO_BMI.b:WHO_BMI.g,i=(am-WHO_BMI.from)*3,L=a[i],M=a[i+1],Sd=a[i+2],z=L?(Math.pow(b/M,L)-1)/(L*Sd):Math.log(b/M)/Sd;
+  r.z=Math.round(z*100)/100;r.pct=Math.max(1,Math.min(99,Math.round(normCdf(z)*100)));
+  if(am>=61)r.cat=z<-3?'sthin':z<-2?'thin':z>2?'obese':z>1?'over':'normal';
+  else r.cat=z<-3?'sthin':z<-2?'thin':z>3?'obese':z>2?'over':z>1?'risk':'normal';
+  return r;
+}
+function bmiPill(c){if(!c)return '';var tone=c==='normal'?'ok':(c==='obese'||c==='sthin')?'bad':'warn';return '<span class="pill '+tone+'">'+t('bmi_'+c)+'</span>'}
+function spark(list,key,unit,color){var pts=list.filter(function(x){return x[key]!=null});if(!pts.length)return '';var vs=pts.map(function(x){return +x[key]}),mn=Math.min.apply(null,vs),mx=Math.max.apply(null,vs),W=140,H=44,rg=(mx-mn)||1;
+  var path=pts.length>1?pts.map(function(x,i){return (i?'L':'M')+(4+i*(W-8)/(pts.length-1)).toFixed(1)+' '+(H-4-((+x[key]-mn)/rg)*(H-8)).toFixed(1)}).join(' '):'';
+  var last=vs[vs.length-1],first=vs[0],d=Math.round((last-first)*10)/10;
+  return '<div class="col" style="gap:4px;flex:1;min-width:0"><span class="small muted">'+t(key==='h'?'heightT':'weightT')+'</span><b class="num">'+last+' <span class="small muted">'+unit+'</span></b>'+(path?'<svg width="100%" height="'+H+'" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" role="img" aria-label="'+esc(t(key==='h'?'heightT':'weightT')+': '+first+' → '+last)+'"><path d="'+path+'" fill="none" stroke="'+color+'" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="small muted num">'+(d>0?'+':'')+d+' '+unit+'</span>':'')+'</div>'}
+function measBlock(m,mid,editable){
+  if(!m)return '<div class="card tight"><h3>'+t('measT')+'</h3>'+loadingCard()+'</div>';
+  if(m.err)return '<div class="card tight"><h3>'+t('measT')+'</h3><div class="small muted">'+esc(m.err)+'</div></div>';
+  var l=m.list||[],x=l[l.length-1],h='<div class="card tight"><div class="between"><h3>'+t('measT')+'</h3>'+(x?'<span class="small muted">'+esc(fmtDate(x.d,{day:'numeric',month:'short',year:'numeric'}))+'</span>':'')+'</div>';
+  if(!x)h+='<div class="small muted">'+t('noMeas')+'</div>';
+  else{var bi=bmiInfo(m.sex,m.birth_date,x.d,+x.h,+x.w),due=daysTo(addDays(x.d,90))<0;
+    h+='<div class="grid2" style="gap:8px">'+[[t('heightT'),x.h,t('cmU')],[t('weightT'),x.w,t('kgU')],[t('spanT'),x.s,t('cmU')]].filter(function(r){return r[1]!=null}).map(function(r){return '<div class="kv"><span>'+r[0]+'</span><b class="num">'+(+r[1])+' <span class="small muted">'+r[2]+'</span></b></div>'}).join('')+'</div>';
+    if(bi){h+='<div class="between" style="flex-wrap:wrap;gap:6px"><span>'+t('bmiT')+' <b class="num">'+bi.bmi+'</b>'+(bi.pct!=null?' · <span class="small muted">'+t('pctl')+' '+bi.pct+'</span>':'')+'</span>'+bmiPill(bi.cat)+'</div><div class="small muted">'+(bi.nosex?t('noSex'):bi.adult?t('adultRef'):bi.cat?t('whoRef'):'')+'</div>'}
+    if(l.length>1)h+='<div class="row" style="gap:16px">'+spark(l,'h',t('cmU'),'var(--info)')+spark(l,'w',t('kgU'),'var(--accent)')+'</div>';
+    if(due&&editable)h+='<span class="pill warn" style="align-self:flex-start">'+I.clock+t('measDue')+'</span>';}
+  var p=m.profile||{},hl={r:t('rightT'),l:t('leftT'),b:t('bothT')};
+  if(p.hand||p.foot||p.cloth||p.shoe)h+='<div class="col" style="gap:6px;border-top:1px solid var(--line);padding-top:10px">'+[[t('handT'),hl[p.hand]],[t('footT'),hl[p.foot]],[t('clothT'),p.cloth],[t('shoeT'),p.shoe!=null?+p.shoe:null]].filter(function(r){return r[1]!=null&&r[1]!==''}).map(function(r){return '<div class="kv"><span>'+r[0]+'</span><span>'+esc(String(r[1]))+'</span></div>'}).join('')+'</div>';
+  if(editable&&m.can_edit)h+='<div class="row" style="gap:16px"><button class="link small" data-a="measNew" data-id="'+mid+'">'+I.plus+t('newMeas')+'</button><button class="link small" data-a="profEdit" data-id="'+mid+'">'+t('profT')+'</button></div>';
+  return h+'</div>';
+}
+async function loadMeas(id){S.meas=S.meas||{};try{S.meas[id]=await rpc('sx_measures_get',{mid:id})}catch(e){S.meas[id]={err:/does not exist|Could not find|PGRST202/i.test(e.message||'')?t('need019'):isNet(e)?t('netErr'):errMsg(e)}}render()}
+function vMeasModal(){var f=S.mf||{};return '<div class="modal" data-a="closeModal"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="mft"><div class="grab"></div><div class="between"><h2 id="mft">'+t('newMeas')+'</h2><button class="link" data-a="closeModal">'+t('cancel')+'</button></div>'+
+  '<div class="field"><label for="ms_d">'+t('measDate')+'</label><input class="input" id="ms_d" type="date" max="'+todayY()+'" value="'+esc(f.d||todayY())+'"></div>'+
+  '<div class="grid2"><div class="field"><label for="ms_h">'+t('heightT')+' ('+t('cmU')+')</label><input class="input num" id="ms_h" inputmode="decimal" value="'+esc(f.h||'')+'"></div><div class="field"><label for="ms_w">'+t('weightT')+' ('+t('kgU')+')</label><input class="input num" id="ms_w" inputmode="decimal" value="'+esc(f.w||'')+'"></div></div>'+
+  '<div class="field"><label for="ms_s">'+t('spanT')+' ('+t('cmU')+')</label><input class="input num" id="ms_s" inputmode="decimal" value="'+esc(f.s||'')+'"></div>'+
+  '<div class="field"><label for="ms_n">'+t('measNote')+'</label><input class="input" id="ms_n" maxlength="200" value="'+esc(f.n||'')+'"></div>'+
+  (S.formErr?'<div class="err" role="alert">'+esc(S.formErr)+'</div>':'')+'<button class="btn" data-a="measSave"'+(S.busy?' disabled':'')+'>'+t('saveT')+'</button></div></div>'}
+function vProfModal(){var f=S.pf||{},seg=function(k,v){return '<div class="seg three" role="group">'+['r','l','b'].map(function(x){return '<button data-a="pfSet" data-k="'+k+'" data-v="'+x+'" aria-pressed="'+(v===x)+'">'+t(x==='r'?'rightT':x==='l'?'leftT':'bothT')+'</button>'}).join('')+'</div>'};
+  var sizes=['4','6','8','10','12','14','XS','S','M','L','XL','XXL'];
+  return '<div class="modal" data-a="closeModal"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="pft"><div class="grab"></div><div class="between"><h2 id="pft">'+t('profT')+'</h2><button class="link" data-a="closeModal">'+t('cancel')+'</button></div>'+
+  '<b>'+t('handT')+'</b>'+seg('hand',f.hand)+'<b>'+t('footT')+'</b>'+seg('foot',f.foot)+
+  '<div class="grid2"><div class="field"><label for="pf_c">'+t('clothT')+'</label><select class="input" id="pf_c"><option value="">—</option>'+sizes.map(function(s){return '<option'+(f.cloth===s?' selected':'')+'>'+s+'</option>'}).join('')+'</select></div><div class="field"><label for="pf_s">'+t('shoeT')+'</label><input class="input num" id="pf_s" inputmode="decimal" value="'+esc(f.shoe!=null?f.shoe:'')+'"></div></div>'+
+  (S.formErr?'<div class="err" role="alert">'+esc(S.formErr)+'</div>':'')+'<button class="btn" data-a="pfSave"'+(S.busy?' disabled':'')+'>'+t('saveT')+'</button></div></div>'}
+function num(v){var x=parseFloat(String(v==null?'':v).replace(',','.'));return isNaN(x)?null:x}
+
+/* ----- قياسات المجموعة (المدرب) ----- */
+async function loadGM(){var g=S.grp||(S.groups[0]&&S.groups[0].id);if(!g)return;try{S.gm={g:g,rows:await rpc('sx_group_measures',{g:g})}}catch(e){S.gm={g:g,err:/does not exist|Could not find|PGRST202/i.test(e.message||'')?t('need019'):isNet(e)?t('netErr'):errMsg(e)}}render()}
+function vCMeas(){
+  var g=S.grp||(S.groups[0]&&S.groups[0].id),gg=(S.groups||[]).filter(function(x){return x.id===g})[0]||{},h='<div class="row">'+backBtn('groups')+'<h1 style="flex:1">'+t('groupMeas')+'</h1></div><div class="small muted">'+esc(gg.name||'')+' · '+t('measHelp')+'</div>';
+  if(!S.gm||S.gm.g!==g){loadGM();return wrap(h+loadingCard())+tabs('groups')}
+  if(S.gm.err)return wrap(h+'<div class="card empty">'+esc(S.gm.err)+'</div>')+tabs('groups');
+  h+='<div class="col" style="gap:8px">'+(S.gm.rows||[]).map(function(r){var x=r.last,due=!x||daysTo(addDays(x.d,90))<0,bi=x?bmiInfo(r.sex,r.birth_date,x.d,+x.h,+x.w):null;
+    return '<button class="athlete" data-a="ath" data-id="'+r.member_id+'" style="flex-direction:row;align-items:center;justify-content:space-between;border:1px solid var(--line);color:var(--fg);font:inherit;text-align:start;width:100%;cursor:pointer"><div class="col" style="gap:2px;min-width:0"><b>'+esc(pname(r))+'</b><span class="small muted">'+(x?esc(fmtDate(x.d,{day:'numeric',month:'short'}))+' · '+[x.h!=null?(+x.h)+' '+t('cmU'):'',x.w!=null?(+x.w)+' '+t('kgU'):''].filter(Boolean).join(' · '):t('neverMeas'))+'</span></div><span class="col" style="gap:4px;align-items:flex-end">'+(bi&&bi.cat?bmiPill(bi.cat):'')+(due?'<span class="pill warn">'+t('measDue')+'</span>':'')+'</span></button>'}).join('')+'</div>';
+  return wrap(h)+tabs('groups');
+}
+async function loadSizes(){try{S.sz=await rpc('sx_sizes_list')}catch(e){S.sz={err:/does not exist|Could not find|PGRST202/i.test(e.message||'')?t('need019'):errMsg(e)}}render()}
+function vOSizes(){var h='<div class="row">'+backBtn('p-home')+'<h1 style="flex:1">'+t('sizesT')+'</h1></div>';
+  if(!S.sz){loadSizes();return wrap(h+loadingCard())+tabs('p-home')}
+  if(S.sz.err)return wrap(h+'<div class="card empty">'+esc(S.sz.err)+'</div>')+tabs('p-home');
+  if(!S.sz.length)return wrap(h+'<div class="card empty">'+t('noSizes')+'</div>')+tabs('p-home');
+  var cnt={};S.sz.forEach(function(x){if(x.cloth)cnt[x.cloth]=(cnt[x.cloth]||0)+1});
+  h+='<div class="row" style="flex-wrap:wrap;gap:6px">'+Object.keys(cnt).map(function(k){return '<span class="pill accent">'+esc(k)+' · <span class="num">'+cnt[k]+'</span></span>'}).join('')+'</div>';
+  h+='<div class="list">'+S.sz.map(function(x){return '<div><span>'+esc(pname(x))+' <span class="small muted">· '+esc(x.group||'')+'</span></span><span class="num">'+esc([x.cloth,x.shoe!=null?+x.shoe:''].filter(function(v){return v!==''&&v!=null}).join(' · '))+'</span></div>'}).join('')+'</div>';
+  return wrap(h)+tabs('p-home');
+}
+
+/* ----- أوقاتي: أسبوع وشهر ----- */
+function monday(d){var x=parseYmd(d),dw=(x.getDay()+6)%7;return addDays(d,-dw)}
+async function loadRange(a,b){var k=a+'|'+b;S.rq=S.rq||{};if(S.rq[k])return;S.rq[k]='loading';try{S.rq[k]=await rpc('sx_coach_requests',{from_d:a,to_d:b})}catch(e){S.rq[k]=S.weekReq||[]}render()}
+function rangeMoves(a,b){var k=a+'|'+b,v=(S.rq||{})[k];if(!v){loadRange(a,b);return S.weekReq||[]}return v==='loading'?(S.weekReq||[]):v}
+function sessStatus(x,moves){if(x.moved)return {moved:true};var q=moves.filter(function(r){return r.group_id===x.g.id&&r.sess_date===x.date&&r.status==='approved'})[0];if(!q)return {};return q.kind==='cancel'?{cancel:true}:{postponed:q.new_date,time:String(q.new_time||'').slice(0,5)}}
+function vWeekGrid(){
+  var off=S.pwk||0,d0=addDays(monday(todayY()),off*7),d6=addDays(d0,6),mv=rangeMoves(d0,d6),days=[],lo=24*60,hi=0,tot=0,tm=0;
+  for(var i=0;i<7;i++){var dt=addDays(d0,i),l=sessionsOn(dt,S.groups,mv).map(function(x){x.st=sessStatus(x,mv);return x});days.push({d:dt,l:l});l.forEach(function(x){lo=Math.min(lo,mins(x.start));hi=Math.max(hi,mins(x.end));if(!x.st.cancel&&!x.st.postponed){tot++;tm+=x.mins}})}
+  if(hi<=lo){lo=15*60;hi=20*60}lo=Math.floor(lo/60)*60;hi=Math.ceil(hi/60)*60;var PH=46,Ht=(hi-lo)/60*PH;
+  var h='<div class="between"><button class="icon-btn" data-a="pwk" data-v="-1" aria-label="-1" style="'+(L()?'transform:scaleX(-1)':'')+'">'+I.arrow+'</button><b>'+(off===0?t('thisWeek'):esc(fmtDate(d0,{day:'numeric',month:'short'})+' – '+fmtDate(d6,{day:'numeric',month:'short'})))+'</b><button class="icon-btn" data-a="pwk" data-v="1" aria-label="+1" style="'+(L()?'':'transform:scaleX(-1)')+'">'+I.arrow+'</button></div>';
+  h+='<div class="wk"><div class="wk-hd"><span></span>'+days.map(function(x){var td=x.d===todayY();return '<span class="'+(td?'td':'')+'"><b>'+esc(fmtDate(x.d,{weekday:'short'}))+'</b><span class="num">'+parseYmd(x.d).getDate()+'</span></span>'}).join('')+'</div><div class="wk-bd" style="height:'+Ht+'px"><div class="wk-hr">';
+  for(var m=lo;m<hi;m+=60)h+='<span style="height:'+PH+'px" class="num">'+hhmm(m)+'</span>';
+  h+='</div>'+days.map(function(x){var td=x.d===todayY();return '<div class="wk-col'+(td?' td':'')+'">'+x.l.map(function(s){var top=(mins(s.start)-lo)/60*PH,hg=Math.max(22,(mins(s.end)-mins(s.start))/60*PH-2),cls=s.st.cancel||s.st.postponed?' off':s.moved?' mv':'';
+    return '<div class="wk-b'+cls+'" style="top:'+top+'px;height:'+hg+'px" title="'+esc(s.g.name+' · '+timesOf(s)+(s.room?' · '+s.room:''))+'"><b>'+esc(s.g.name)+'</b><span class="num">'+esc(s.start)+'</span></div>'}).join('')+'</div>'}).join('')+'</div></div>';
+  h+='<div class="between small"><span class="muted">'+t('weekSum')+'</span><b class="num">'+tot+' · '+(Math.round(tm/6)/10)+' '+t('hoursShort')+'</b></div>';
+  var ch=[];days.forEach(function(x){x.l.forEach(function(s){if(s.st.cancel)ch.push('<div class="kv"><span>'+esc(fmtDate(x.d,{weekday:'short',day:'numeric'}))+' · '+esc(s.g.name)+'</span><span class="pill bad">'+t('cancelledL')+'</span></div>');else if(s.moved)ch.push('<div class="kv"><span>'+esc(fmtDate(x.d,{weekday:'short',day:'numeric'}))+' · '+esc(s.g.name)+' <span class="num ltr">'+esc(s.start)+'</span></span><span class="pill info">'+t('movedFrom')+' '+esc(fmtDate(s.from,{weekday:'short',day:'numeric'}))+'</span></div>');else if(s.st.postponed)ch.push('<div class="kv"><span>'+esc(fmtDate(x.d,{weekday:'short',day:'numeric'}))+' · '+esc(s.g.name)+'</span><span class="pill info">'+t('movedTo')+' '+esc(fmtDate(s.st.postponed,{weekday:'short',day:'numeric'}))+' <span class="num ltr">'+esc(s.st.time)+'</span></span></div>')})});
+  if(ch.length)h+='<div class="card tight">'+ch.join('')+'</div>';
+  return h;
+}
+function vMonthCal(){
+  var ym=S.pmo||ymNow(),d0=ym+'-01',end=addDays(ymAdd(ym,1)+'-01',-1),g0=monday(d0),mv=rangeMoves(d0,end),sel=S.pday&&S.pday.slice(0,7)===ym?S.pday:(ym===ymNow()?todayY():d0);
+  var h='<div class="between"><button class="icon-btn" data-a="pmo" data-v="-1" aria-label="-1" style="'+(L()?'transform:scaleX(-1)':'')+'">'+I.arrow+'</button><b>'+esc(fmtYm(ym))+'</b><button class="icon-btn" data-a="pmo" data-v="1" aria-label="+1" style="'+(L()?'':'transform:scaleX(-1)')+'">'+I.arrow+'</button></div>';
+  h+='<div class="mc"><div class="mc-hd">'+[0,1,2,3,4,5,6].map(function(i){return '<span>'+esc(fmtDate(addDays(g0,i),{weekday:'narrow'}))+'</span>'}).join('')+'</div><div class="mc-bd">';
+  var tot=0;for(var i=0;i<42;i++){var dt=addDays(g0,i);if(i>=35&&dt>end)break;var inM=dt.slice(0,7)===ym,l=inM?sessionsOn(dt,S.groups,mv).map(function(x){x.st=sessStatus(x,mv);return x}):[],ok=l.filter(function(x){return !x.st.cancel&&!x.st.postponed}).length,cx=l.length-ok;tot+=ok;
+    h+='<button class="mc-d'+(inM?'':' out')+(dt===todayY()?' td':'')+(dt===sel?' sel':'')+'" data-a="pday" data-v="'+dt+'"'+(inM?'':' disabled')+' aria-label="'+esc(fmtDate(dt,DF)+(l.length?' · '+nSess(ok):''))+'"><span class="num">'+parseYmd(dt).getDate()+'</span><span class="mc-dots">'+(ok?'<i></i>'.repeat(Math.min(ok,3)):'')+(cx?'<i class="x"></i>':'')+'</span></button>'}
+  h+='</div></div><div class="between small"><span class="muted">'+esc(fmtYm(ym))+'</span><b class="num">'+nSess(tot)+'</b></div>';
+  var sl=sessionsOn(sel,S.groups,mv).map(function(x){x.st=sessStatus(x,mv);return x});
+  h+='<div class="daylbl">'+esc(fmtDate(sel,DF))+'</div>'+(sl.length?'<div class="list">'+sl.map(function(x){var off=x.st.cancel||x.st.postponed;return '<div style="padding-block:10px;align-items:flex-start"><div class="col" style="gap:3px"><span style="font-weight:600'+(off?';text-decoration:line-through;color:var(--muted)':'')+'">'+esc(x.g.name)+'</span><span class="small muted"><span class="num ltr">'+esc(timesOf(x))+'</span> · '+placeOf(x)+'</span></div>'+(x.st.cancel?'<span class="pill bad">'+t('cancelledL')+'</span>':x.st.postponed?'<span class="pill info">'+t('movedTo')+' '+esc(fmtDate(x.st.postponed,{day:'numeric',month:'short'}))+'</span>':x.moved?'<span class="pill info">'+t('movedFrom')+' '+esc(fmtDate(x.from,{day:'numeric',month:'short'}))+'</span>':'')+'</div>'}).join('')+'</div>':'<div class="small muted">'+t('noSessDay')+'</div>');
+  return h;
+}
+
+/* ----- الأحداث ----- */
+async function act19(a,el,id,v){
+  if(a==='pwk'){S.pwk=(S.pwk||0)+(+v);return true}
+  if(a==='pmo'){S.pmo=ymAdd(S.pmo||ymNow(),+v);S.pday=null;return true}
+  if(a==='pday'){S.pday=v;return true}
+  if(a==='measNew'){S.mf={mid:id,d:todayY(),h:'',w:'',s:'',n:''};S.formErr='';S.modal='meas';return true}
+  if(a==='measSave'){var f=S.mf,hh=num(f.h),ww=num(f.w),ss=num(f.s);if(hh==null&&ww==null&&ss==null){S.formErr=t('eMeas');return true}if(!f.d||f.d>todayY()){S.formErr=t('eMeasDate');return true}
+    S.busy=true;render();try{await rpc('sx_measure_save',{mid:f.mid,d:f.d,h:hh,w:ww,sp:ss,note:f.n||''});S.busy=false;S.modal=null;S.formErr='';toast(t('tMeas'));S.gm=null;await loadMeas(f.mid)}catch(e){S.busy=false;S.formErr=/bad_date/.test(e.message||'')?t('eMeasDate'):/check/i.test(e.message||'')?t('eMeas'):errMsg(e)}return true}
+  if(a==='profEdit'){var p=((S.meas||{})[id]||{}).profile||{};S.pf={mid:id,hand:p.hand||'',foot:p.foot||'',cloth:p.cloth||'',shoe:p.shoe!=null?p.shoe:''};S.formErr='';S.modal='prof';return true}
+  if(a==='pfSet'){S.pf[el.getAttribute('data-k')]=v;return true}
+  if(a==='pfSave'){var q=S.pf;S.busy=true;render();try{await rpc('sx_profile_save',{mid:q.mid,hand:q.hand||'',foot:q.foot||'',cloth:q.cloth||'',shoe:num(q.shoe)});S.busy=false;S.modal=null;toast(t('tDone'));await loadMeas(q.mid)}catch(e){S.busy=false;S.formErr=errMsg(e)}return true}
+  return false;
+}
+function input19(id,val){
+  if(S.mf){if(id==='ms_d')S.mf.d=val;else if(id==='ms_h')S.mf.h=val;else if(id==='ms_w')S.mf.w=val;else if(id==='ms_s')S.mf.s=val;else if(id==='ms_n')S.mf.n=val}
+  if(S.pf){if(id==='pf_c')S.pf.cloth=val;else if(id==='pf_s')S.pf.shoe=val}
+}
+
 var root=document.getElementById('root');
-var VIEWS={'c-ath':vCAth,'c-inj':vCInj,'c-dash':vCDash,'o-inj':vOInj,'o-coach':vOCoach,'o-health':vOHealth,'pa-conv':vPaConv,'pa-note':vPaNote,notes:vNotes,'o-conv':vOConv,'o-convnew':vOConvNew,'o-docs':vODocs,'pa-prog':vPaProg,'pa-ach':vPaAch,'pa-card':vPaCard,'b-home':vBHome,'b-req':vBReq,'h-home':vHHome,'h-act':vHAct,'p-home':vPHome,'p-log':vPLog,'t-cash':vTCash,'t-chq':vTChq,login:vLogin,activate:vActivate,norole:vNoRole,today:vToday,attend:vAttend,groups:vGroups,requests:vRequests,'pa-home':vPaHome,'pa-notifs':vPaNotifs,'pa-att':vPaAtt,'pa-sub':vPaSub,'pa-docs':vPaDocs,account:vAccount};
+var VIEWS={'c-meas':vCMeas,'o-sizes':vOSizes,'c-ath':vCAth,'c-inj':vCInj,'c-dash':vCDash,'o-inj':vOInj,'o-coach':vOCoach,'o-health':vOHealth,'pa-conv':vPaConv,'pa-note':vPaNote,notes:vNotes,'o-conv':vOConv,'o-convnew':vOConvNew,'o-docs':vODocs,'pa-prog':vPaProg,'pa-ach':vPaAch,'pa-card':vPaCard,'b-home':vBHome,'b-req':vBReq,'h-home':vHHome,'h-act':vHAct,'p-home':vPHome,'p-log':vPLog,'t-cash':vTCash,'t-chq':vTChq,login:vLogin,activate:vActivate,norole:vNoRole,today:vToday,attend:vAttend,groups:vGroups,requests:vRequests,'pa-home':vPaHome,'pa-notifs':vPaNotifs,'pa-att':vPaAtt,'pa-sub':vPaSub,'pa-docs':vPaDocs,account:vAccount};
 function render(){
   applyPrefs();
   if(S.view==='boot'){root.innerHTML='<div class="sx-splash"><div></div><div class="col" style="align-items:center;gap:20px">'+I.sxAnim+'<div class="s-text col" style="align-items:center;gap:6px"><div class="sx-name">SYNOX <span>GYM</span></div><div class="sx-ar">سينوكس جيم</div></div></div><div class="col" style="align-items:center;gap:14px"><div class="sx-track"><div class="s-bar"></div></div><div class="sx-club">Mejerda Sport · Medjez El Bab</div></div></div>';return}
@@ -1505,6 +1659,8 @@ function render(){
   if(S.modal==='news')html+=vNewsModal();
   if(S.modal==='note')html+=vNoteModal();
   if(S.modal==='emerg')html+=vEmergModal();
+  if(S.modal==='meas')html+=vMeasModal();
+  if(S.modal==='prof')html+=vProfModal();
   if(S.toast)html+='<div class="toast" role="status">'+esc(S.toast)+'</div>';
   document.body.classList.toggle('locked',!!S.modal);
   root.innerHTML=html;
@@ -1514,8 +1670,8 @@ function render(){
 root.addEventListener('input',function(e){var id=e.target.id;
   if(S.draft&&id==='note')S.draft.note=e.target.value;if(S.draft&&id==='place')S.draft.place=e.target.value;
   if(S.req&&id==='r_why')S.req.why=e.target.value;if(S.req&&id==='r_nd')S.req.nd=e.target.value;if(S.req&&id==='r_nt')S.req.nt=e.target.value;
-  if(id==='nreason')S.noticeReason=e.target.value;if(S.nf&&id==='nf_t')S.nf.t=e.target.value;if(S.nf&&id==='nf_b')S.nf.b=e.target.value;if(id==='rj'&&S.dec)S.dec.why=e.target.value;if(id==='bopWhy'&&S.bop)S.bop.why=e.target.value;if(id==='rcvAmt'&&S.rcv)S.rcv.amt=e.target.value;if(id==='rcvWhy'&&S.rcv)S.rcv.why=e.target.value;if(id){input17(id,e.target.value);input18(id,e.target.value)}});
-root.addEventListener('change',async function(e){var dt=e.target.getAttribute&&e.target.getAttribute('data-up');if(dt){var fl=e.target.files&&e.target.files[0];e.target.value='';if(!fl)return;if(!/^image\//.test(fl.type||'')){toast(t('eImg'));return}try{var d=await shrinkImg(fl);await sendDoc(S.childId,dt,d)}catch(err){S.upBusy=null;toast(t('eImg'))}return}if(e.target.id){input17(e.target.id,e.target.value);input18(e.target.id,e.target.value)}});
+  if(id==='nreason')S.noticeReason=e.target.value;if(S.nf&&id==='nf_t')S.nf.t=e.target.value;if(S.nf&&id==='nf_b')S.nf.b=e.target.value;if(id==='rj'&&S.dec)S.dec.why=e.target.value;if(id==='bopWhy'&&S.bop)S.bop.why=e.target.value;if(id==='rcvAmt'&&S.rcv)S.rcv.amt=e.target.value;if(id==='rcvWhy'&&S.rcv)S.rcv.why=e.target.value;if(id){input17(id,e.target.value);input18(id,e.target.value);input19(id,e.target.value)}});
+root.addEventListener('change',async function(e){var dt=e.target.getAttribute&&e.target.getAttribute('data-up');if(dt){var fl=e.target.files&&e.target.files[0];e.target.value='';if(!fl)return;if(!/^image\//.test(fl.type||'')){toast(t('eImg'));return}try{var d=await shrinkImg(fl);await sendDoc(S.childId,dt,d)}catch(err){S.upBusy=null;toast(t('eImg'))}return}if(e.target.id){input17(e.target.id,e.target.value);input18(e.target.id,e.target.value);input19(e.target.id,e.target.value)}});
 root.addEventListener('submit',async function(e){
   e.preventDefault();var id=e.target.id,v=function(x){var el=document.getElementById(x);return el?el.value:''};
   if(id==='loginForm'){S.lastId=v('u').trim();var em=idToEmail(v('u')),pw=v('p');if(!em||!pw){S.formErr=t('eFields');render();return}S.formErr='';S.busy=true;render();var r=await sb.auth.signInWithPassword({email:em,password:pw});S.busy=false;if(r.error){S.formErr=(/fetch|network/i.test(r.error.message)?t('netErr'):t('loginErr'))+' ['+(r.error.status||'')+' '+r.error.message+']';render();return}S.email=r.data.user.email;await afterLogin();return}
@@ -1546,9 +1702,10 @@ root.addEventListener('click',async function(e){
   var a=el.getAttribute('data-a'),v=el.getAttribute('data-v'),id=el.getAttribute('data-id'),gid=el.getAttribute('data-g');
   if(await act17(a,el,id,v)){render();return}
   if(await act18(a,el,id,v)){render();return}
+  if(await act19(a,el,id,v)){render();return}
   if(a==='theme'){prefs.theme=isDark()?'light':'dark';store('sxm-prefs',prefs)}
   else if(a==='lang'){prefs.lang=v;store('sxm-prefs',prefs)}
-  else if(a==='go'){S.view=v;S.formErr='';S.code=null;window.scrollTo(0,0);if(['requests','p-home','p-log','t-cash','t-chq'].indexOf(v)>=0){render();await loadOffice()}if(v==='b-home'||v==='b-req'){render();await loadBranch()}if(v==='h-home'||v==='h-act'){render();await loadBoard()}if(v==='today'){await loadCoach()}if(v==='account'&&S.role==='coach'){render();await loadCoachMonth()}if(v==='groups'&&S.role==='coach'){render();loadConvList()}if(v==='notes'){S.gn=null}if(v==='o-conv'){render();await loadConvList()}if(v==='o-convnew'){S.formErr=''}if(v==='o-docs'){S.dr=null;render();await loadDocPend()}if(v==='c-dash'){S.cs=null}if(v==='o-inj'){S.il=null;S.ic=null}if(v==='o-health'){S.hl=null;S.hf=null;S.formErr=''}if(v==='o-coach'){S.fu=null}if(v==='pa-conv'){render();await loadConvP()}if((v==='pa-docs'||v==='pa-note')&&S.childId){render();await loadChildExtra(S.childId)}}
+  else if(a==='go'){S.view=v;S.formErr='';S.code=null;window.scrollTo(0,0);if(['requests','p-home','p-log','t-cash','t-chq'].indexOf(v)>=0){render();await loadOffice()}if(v==='b-home'||v==='b-req'){render();await loadBranch()}if(v==='h-home'||v==='h-act'){render();await loadBoard()}if(v==='today'){await loadCoach()}if(v==='account'&&S.role==='coach'){render();await loadCoachMonth()}if(v==='groups'&&S.role==='coach'){render();loadConvList()}if(v==='notes'){S.gn=null}if(v==='o-conv'){render();await loadConvList()}if(v==='o-convnew'){S.formErr=''}if(v==='o-docs'){S.dr=null;render();await loadDocPend()}if(v==='c-dash'){S.cs=null}if(v==='o-inj'){S.il=null;S.ic=null}if(v==='o-health'){S.hl=null;S.hf=null;S.formErr=''}if(v==='o-coach'){S.fu=null}if(v==='c-meas'){S.gm=null}if(v==='o-sizes'){S.sz=null}if(v==='pa-conv'){render();await loadConvP()}if((v==='pa-docs'||v==='pa-note')&&S.childId){render();await loadChildExtra(S.childId)}}
   else if(a==='reload'){S.err='';if(S.role==='coach')await loadCoach();else if(S.role==='parent'){S.catt={};S.prog={};await loadParent()}else if(S.role==='branch_head')await loadBranch();else if(S.role==='board')await loadBoard();else await loadOffice()}
   else if(a==='ctab'){S.coachTab=v}
   else if(a==='open'){openSession(gid,v);return}
