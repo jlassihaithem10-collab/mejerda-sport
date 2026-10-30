@@ -16,7 +16,7 @@
 <meta property="og:locale:alternate" content="en_US">
 <meta property="og:image" content="https://mejerdasport.com/img/hero.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"SportsClub","name":"Mejerda Sport","alternateName":["مجردة الرياضية","Mejerda Sport Medjez el Bab"],"url":"https://mejerdasport.com/","logo":"https://mejerdasport.com/img/logo.png","image":"https://mejerdasport.com/img/hero.jpg","description":"Club sportif de Medjez el Bab depuis 1989 : gymnastique, basketball, kung-fu.","foundingDate":"1989","sport":["Gymnastics","Basketball","Kung fu"],"telephone":"+21629495848","email":"contact@mejerdasport.com","address":{"@type":"PostalAddress","addressLocality":"Medjez el Bab","addressCountry":"TN"},"sameAs":["https://www.facebook.com/mejerdasport1","https://www.instagram.com/mejerda/"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SportsClub","name":"Mejerda Sport","alternateName":["مجردة الرياضية","Mejerda Sport Medjez el Bab"],"url":"https://mejerdasport.com/","logo":"https://mejerdasport.com/img/logo.png","image":"https://mejerdasport.com/img/hero.jpg","description":"Club sportif de Medjez el Bab depuis 1989 : gymnastique, basketball, kung-fu.","foundingDate":"1989","sport":["Gymnastics","Basketball","Kung fu"],"telephone":"+21629495848","email":"contact@mejerdasport.com","geo":{"@type":"GeoCoordinates","latitude":36.6508797,"longitude":9.6106862},"address":{"@type":"PostalAddress","addressLocality":"Medjez el Bab","addressCountry":"TN"},"sameAs":["https://www.facebook.com/mejerdasport1","https://www.instagram.com/mejerda/"]}</script>
 <link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png">
 <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -367,6 +367,26 @@ h3.md-h{font-size:1.25rem}
 .wxt{background:color-mix(in srgb,var(--soft) 70%,transparent)}
 .wxt.kid{background:color-mix(in srgb,var(--warn-bg) 75%,transparent)}
 @supports not (background:color-mix(in srgb,red,blue)){.wxcard,.langmenu{background:var(--surface)}}
+/* contact : actions + cartes */
+.qa{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 6px}
+.maps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px;margin-top:16px}
+.card.map h3{margin-top:0}
+.mapframe{border-radius:14px;overflow:hidden;background:var(--soft);min-height:260px;display:flex}
+.mapframe iframe{border:0;width:100%;height:300px;display:block}
+.mapph{margin:auto;text-align:center;padding:20px;display:flex;flex-direction:column;gap:12px;align-items:center}
+.mapph p{margin:0;color:var(--muted)}
+.mapbtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+/* version simple */
+.qa{display:none}
+.maps{display:block;margin-top:22px}
+.mapone{border:0;width:100%;height:360px;border-radius:var(--r);display:block;background:var(--soft)}
+.mapnote{margin:10px 0 0;color:var(--muted);font-size:.92rem}
+.mapnote a{color:var(--brand);font-weight:600}
+/* message */
+.msgbox{margin-top:26px;position:relative;max-width:760px}
+.msgbox h3{margin:4px 0 6px}
+.msgbox .lead{margin:0 0 14px}
+.status.bad{background:var(--warn-bg);color:var(--warn-ink)}
 .hpw{position:absolute;top:0;inset-inline-start:0;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none;clip-path:inset(50%)}#form{position:relative}html,body{overflow-x:clip}.admlink{color:inherit;opacity:.8}.stat{text-align:start;cursor:pointer;font:inherit;color:var(--ink)}.stat b{display:block;font-family:var(--display);font-size:2.6rem;line-height:1;color:var(--brand)}.stat small{color:var(--muted)}.stat:hover{border-color:var(--brand)}.req-card.isnew{border-inline-start:4px solid var(--gold)}#sprog{position:fixed;top:0;inset-inline:0;height:3px;z-index:60;background:var(--gold);transform:scaleX(0);transform-origin:0 50%;pointer-events:none}
 [dir=rtl] #sprog{transform-origin:100% 50%}
 header{transition:box-shadow .25s,background .25s}
@@ -670,6 +690,23 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
       <div class="card"><h3 data-t="coP">Téléphone</h3><p class="contact"><bdi class="val" id="phoneVal" dir="ltr">29 495 848</bdi><button class="copy" type="button" data-copy="29495848" data-src="phoneVal" data-t="cpy">Copier</button></p></div>
       <div class="card"><h3 data-t="coE">E-mail</h3><p class="contact"><bdi class="val" id="mailVal" dir="ltr">mejerdasport@gmail.com</bdi><button class="copy" type="button" data-copy="mejerdasport@gmail.com" data-src="mailVal" data-t="cpy">Copier</button></p></div>
       <div class="card"><h3 data-t="coS">Réseaux sociaux</h3><p class="social" id="soc"></p></div>
+    </div>
+    <div class="qa" id="qaBox"></div>
+    <div class="maps" id="mapBox"></div>
+    <div class="msgbox card">
+      <span class="eyebrow" data-t="msgEy">Votre avis</span>
+      <h3 data-t="msgH">Un avis, une suggestion, une demande ?</h3>
+      <p class="lead" data-t="msgLead">Écrivez-nous. Le club lit tous les messages.</p>
+      <form id="msgForm" novalidate>
+        <div class="hpw" aria-hidden="true"><label>Site web<input id="mfHp" tabindex="-1" autocomplete="off"></label></div>
+        <div class="fgrid">
+          <div class="field"><label for="mfName" data-t="msgName">Nom (facultatif)</label><input id="mfName" autocomplete="name"></div>
+          <div class="field"><label for="mfContact" data-t="msgContact">Téléphone ou e-mail</label><input id="mfContact" autocomplete="off" dir="ltr"></div>
+        </div>
+        <div class="field"><label for="mfText" data-t="msgText">Votre message</label><textarea id="mfText" rows="4" maxlength="2000"></textarea></div>
+        <button class="btn dark" type="submit" data-t="msgSend">Envoyer le message</button>
+        <div class="status" id="msgStatus" role="status" hidden></div>
+      </form>
     </div>
   </div>
 </section>
@@ -980,21 +1017,21 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
   var IMGS={b1:"%img/b1.jpg%",b2:"%img/b2.jpg%",b3:"%img/b3.jpg%",b4:"%img/b4.jpg%",b5:"%img/b5.jpg%",b6:"%img/b6.jpg%",b7:"%img/b7.jpg%",b8:"%img/b8.jpg%"};
   var FRX={readMore:"Lire la suite",readLess:"Réduire",fNameA:"Nom et prénom de l'athlète",fBd:"Date de naissance de l'athlète",fSex:"Sexe",fSexM:"Garçon / homme",fSexF:"Fille / femme",fCity:"Ville ou quartier",fGname:"Nom du parent ou tuteur",fGrel:"Lien avec l'athlète",fRelM:"Mère",fRelF:"Père",fRelT:"Tuteur",fExp:"Pratique sportive antérieure",fExp0:"Débutant",fExp1:"A déjà pratiqué",fExp2:"Déjà inscrit dans un club",fCert:"Certificat médical",fCertY:"Disponible",fCertL:"Je l'apporterai",fCertN:"Pas encore",fCC:"J'accepte que le club me contacte au sujet de cette demande.",fCP:"J'autorise la publication de photos de l'athlète prises lors des activités du club (facultatif).",oSel:"Choisir",eBd:"Indiquez une date de naissance valide.",eGname:"Indiquez le nom du parent ou tuteur.",eCons:"Cochez cette case pour envoyer la demande.",nAdmin:"Administration",nNone:"Aucune actualité pour le moment.",eNone:"Aucun événement à venir.",eNoneP:"Aucun résultat à afficher.",gNone:"Aucune photo pour le moment.",noDisc:"Aucune discipline pour le moment.",kMatch:"Match",kTraining:"Entraînement",kEvent:"Événement",kCamp:"Stage",
     reqSending:"Envoi en cours…",reqSent:"Merci ! Votre demande a bien été envoyée au club. Nous vous contacterons.",
-    spoEy:"Ils nous soutiennent",spoH:"Nos partenaires et soutiens",spoLead:"Merci aux entreprises et aux personnes qui font vivre le club.",spoCta:"Devenir partenaire",schEy:"Horaires",schH:"Horaires d'entraînement",schNone:"Les horaires seront publiés par le bureau.",tBoard:"Bureau directeur",tCoach:"Encadrement technique",
+    fT4:"Message",msgEy:"Votre avis",msgH:"Un avis, une suggestion, une demande ?",msgLead:"Écrivez-nous. Le club lit tous les messages.",msgName:"Nom (facultatif)",msgContact:"Téléphone ou e-mail (facultatif, pour vous répondre)",msgText:"Votre message",msgSend:"Envoyer le message",msgOk:"Merci ! Votre message a bien été envoyé au club.",msgErr:"Le message n'a pas pu être envoyé. Réessayez ou écrivez-nous sur WhatsApp.",msgNeed:"Écrivez votre message (au moins quelques mots).",spoEy:"Ils nous soutiennent",spoH:"Nos partenaires et soutiens",spoLead:"Merci aux entreprises et aux personnes qui font vivre le club.",spoCta:"Devenir partenaire",schEy:"Horaires",schH:"Horaires d'entraînement",schNone:"Les horaires seront publiés par le bureau.",tBoard:"Bureau directeur",tCoach:"Encadrement technique",
     reqOk:"Votre demande est prête. Envoyez-la au club par WhatsApp ou copiez-la.",reqWa:"Envoyer par WhatsApp",reqCopy:"Copier la demande",
     appBtn:"Ouvrir l'application du club",pDesc:"Connectez-vous avec l'identifiant remis par le club pour suivre vos enfants.",aDesc:"Les informations des athlètes passent par l'application du club. Demandez votre accès au bureau.",
     spLead:"Les parents et l'équipe du club se connectent avec les identifiants remis par le club, dans l'application du club (SYNOX GYM). Aucun code n'est affiché sur cette page.",
     preview:"Version aperçu : le site est en cours de finalisation. Les demandes se transmettent par WhatsApp ou par copie ; l'enregistrement automatique viendra avec la base de données."};
   var ENX={readMore:"Read more",readLess:"Show less",fNameA:"Athlete's full name",fBd:"Athlete's date of birth",fSex:"Sex",fSexM:"Boy / man",fSexF:"Girl / woman",fCity:"Town or neighbourhood",fGname:"Parent or guardian name",fGrel:"Relationship to the athlete",fRelM:"Mother",fRelF:"Father",fRelT:"Guardian",fExp:"Previous sports practice",fExp0:"Beginner",fExp1:"Has practised before",fExp2:"Already registered in a club",fCert:"Medical certificate",fCertY:"Available",fCertL:"I will bring it",fCertN:"Not yet",fCC:"I agree that the club may contact me about this request.",fCP:"I allow photos of the athlete taken during club activities to be published (optional).",oSel:"Choose",eBd:"Enter a valid date of birth.",eGname:"Enter the parent or guardian name.",eCons:"Tick this box to send the request.",nAdmin:"Administration",nNone:"No news yet.",eNone:"No upcoming events.",eNoneP:"No results to show.",gNone:"No photos yet.",noDisc:"No disciplines yet.",kMatch:"Match",kTraining:"Training",kEvent:"Event",kCamp:"Camp",
     reqSending:"Sending…",reqSent:"Thank you! Your request has been sent to the club. We will contact you.",
-    spoEy:"They support us",spoH:"Our partners and supporters",spoLead:"Thank you to the companies and people who keep the club alive.",spoCta:"Become a partner",schEy:"Schedule",schH:"Training schedule",schNone:"The schedule will be published by the board.",tBoard:"Board",tCoach:"Coaching staff",
+    fT4:"Message",msgEy:"Your feedback",msgH:"A comment, a suggestion, a request?",msgLead:"Write to us. The club reads every message.",msgName:"Name (optional)",msgContact:"Phone or e-mail (optional, so we can reply)",msgText:"Your message",msgSend:"Send the message",msgOk:"Thank you! Your message has been sent to the club.",msgErr:"The message could not be sent. Try again or write to us on WhatsApp.",msgNeed:"Please write your message (a few words at least).",spoEy:"They support us",spoH:"Our partners and supporters",spoLead:"Thank you to the companies and people who keep the club alive.",spoCta:"Become a partner",schEy:"Schedule",schH:"Training schedule",schNone:"The schedule will be published by the board.",tBoard:"Board",tCoach:"Coaching staff",
     reqOk:"Your request is ready. Send it to the club on WhatsApp or copy it.",reqWa:"Send on WhatsApp",reqCopy:"Copy the request",
     appBtn:"Open the club app",pDesc:"Sign in with the login given by the club to follow your children.",aDesc:"Athlete information goes through the club app. Ask the board for access.",
     spLead:"Parents and club staff sign in with the logins given by the club, in the club app (SYNOX GYM). No code is shown on this page.",
     preview:"Preview version: the site is being finalised. Requests are passed on by WhatsApp or by copy; automatic saving will come with the database."};
   var ARX={readMore:"اقرأ المزيد",readLess:"عرض أقل",fNameA:"اسم الرياضي ولقبه",fBd:"تاريخ ميلاد الرياضي",fSex:"الجنس",fSexM:"ذكر",fSexF:"أنثى",fCity:"المدينة أو الحي",fGname:"اسم الولي أو الوصي",fGrel:"صلته بالرياضي",fRelM:"الأم",fRelF:"الأب",fRelT:"الوصي",fExp:"ممارسة رياضية سابقة",fExp0:"مبتدئ",fExp1:"سبق له ممارسة الرياضة",fExp2:"سبق أن كان مشتركًا في نادٍ",fCert:"الشهادة الطبية",fCertY:"متوفرة",fCertL:"سأحضرها لاحقًا",fCertN:"ليست متوفرة بعد",fCC:"أوافق على أن يتصل بي النادي بخصوص هذا الطلب.",fCP:"أسمح بنشر صور الرياضي أثناء أنشطة النادي (اختياري).",oSel:"اختر",eBd:"أدخل تاريخ ميلاد صحيحًا.",eGname:"أدخل اسم الولي أو الوصي.",eCons:"ضع علامة في هذه الخانة لإرسال الطلب.",nAdmin:"الإدارة",nNone:"لا توجد أخبار حاليًا.",eNone:"لا توجد أحداث قادمة.",eNoneP:"لا توجد نتائج لعرضها.",gNone:"لا توجد صور حاليًا.",noDisc:"لا توجد اختصاصات حاليًا.",kMatch:"مباراة",kTraining:"تدريب",kEvent:"تظاهرة",kCamp:"تربّص",
     reqSending:"جارٍ الإرسال…",reqSent:"شكرًا! تم إرسال طلبك إلى النادي وسنتصل بك.",
-    spoEy:"يدعموننا",spoH:"شركاؤنا وداعمونا",spoLead:"شكرًا للشركات والأشخاص الذين يساندون النادي.",spoCta:"كن شريكًا",schEy:"التوقيت",schH:"أوقات التدريب",schNone:"سينشر المكتب أوقات التدريب.",tBoard:"المكتب المسيّر",tCoach:"الإطار الفني",
+    fT4:"رسالة",msgEy:"رأيك يهمّنا",msgH:"رأي أو اقتراح أو طلب؟",msgLead:"اكتب لنا، يقرأ النادي كل الرسائل.",msgName:"الاسم (اختياري)",msgContact:"الهاتف أو البريد (اختياري، لنتمكّن من الرد عليك)",msgText:"رسالتك",msgSend:"إرسال الرسالة",msgOk:"شكرًا! وصلت رسالتك إلى النادي.",msgErr:"تعذّر إرسال الرسالة. أعد المحاولة أو راسلنا عبر واتساب.",msgNeed:"اكتب رسالتك (بضع كلمات على الأقل).",spoEy:"يدعموننا",spoH:"شركاؤنا وداعمونا",spoLead:"شكرًا للشركات والأشخاص الذين يساندون النادي.",spoCta:"كن شريكًا",schEy:"التوقيت",schH:"أوقات التدريب",schNone:"سينشر المكتب أوقات التدريب.",tBoard:"المكتب المسيّر",tCoach:"الإطار الفني",
     reqOk:"طلبك جاهز. أرسله إلى النادي عبر واتساب أو انسخه.",reqWa:"إرسال عبر واتساب",reqCopy:"نسخ الطلب",
     appBtn:"فتح تطبيق النادي",pDesc:"سجّل الدخول بالمعرّف الذي يسلّمه لك النادي لمتابعة أبنائك.",aDesc:"معلومات الرياضيين تمرّ عبر تطبيق النادي. اطلب من المكتب فتح حسابك.",
     spLead:"يدخل الأولياء وفريق النادي بالمعرّفات التي يسلّمها النادي، داخل تطبيق النادي (SYNOX GYM). لا يظهر هنا أي رمز دخول.",
@@ -1361,9 +1398,52 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     }).catch(function(){}).then(function(){clearTimeout(to);WXBUSY=false});
   }
   setInterval(function(){renderLive();loadWeather()},30000);
+
+  /* ---- contact : actions rapides + cartes ---- */
+  var PLACES=[
+    {id:"hall",lat:36.6508797,lng:9.6106862,name:{fr:"Salle de gymnastique",ar:"قاعة الجمباز",en:"Gymnastics hall"}},
+    {id:"parc",lat:36.6501491,lng:9.6058998,name:{fr:"Siège du club et terrains",ar:"مقر النادي والملاعب",en:"Club headquarters and courts"}}];
+  var MT={
+    fr:{call:"Appeler",wa:"WhatsApp",waMsg:"Bonjour, je souhaite des informations sur l'inscription à Mejerda Sport.",show:"Afficher la carte",hint:"La carte Google se charge seulement si vous le demandez.",dir:"Itinéraire",open:"Ouvrir dans Maps",waze:"Waze",ttl:"Où nous trouver"},
+    en:{call:"Call",wa:"WhatsApp",waMsg:"Hello, I would like information about registering at Mejerda Sport.",show:"Show the map",hint:"The Google map loads only if you ask for it.",dir:"Directions",open:"Open in Maps",waze:"Waze",ttl:"Where to find us"},
+    ar:{call:"اتصال",wa:"واتساب",waMsg:"السلام عليكم، أودّ الاستفسار عن الاشتراك في مجردة الرياضية.",show:"عرض الخريطة",hint:"لا تُحمَّل خريطة Google إلا إذا طلبتَ ذلك.",dir:"الاتجاهات",open:"فتح في الخرائط",waze:"Waze",ttl:"أين تجدنا"}};
+  var mapsLang="";
+  function renderMaps(){
+    var qa=$("#qaBox"),mb=$("#mapBox");if(!qa||!mb||mapsLang===lang)return;
+    mapsLang=lang;
+    var T=MT[lang]||MT.fr,ph=waNumber(),raw=(DATA.contact.phone||"").replace(/[^\d+]/g,""),hall=PLACES[0],parc=PLACES[1];
+    var q=hall.lat+","+hall.lng;
+    qa.textContent="";mb.textContent="";
+    mb.appendChild(h("iframe",{class:"mapone",src:"https://maps.google.com/maps?q="+q+"&z=17&output=embed",title:hall.name[lang]||hall.name.fr,loading:"lazy",referrerpolicy:"no-referrer-when-downgrade"}));
+    var row=h("div",{class:"mapbtns"},[
+      h("a",{class:"btn dark sm",href:"https://www.google.com/maps/dir/?api=1&destination="+q,target:"_blank",rel:"noopener",text:"🧭 "+T.dir})]);
+    if(raw)row.appendChild(h("a",{class:"btn outline sm",href:"tel:"+(raw.charAt(0)==="+"?raw:(raw.length===8?"+216"+raw:raw)),text:"📞 "+T.call}));
+    if(ph)row.appendChild(h("a",{class:"btn gold sm",href:"https://wa.me/"+ph+"?text="+encodeURIComponent(T.waMsg),target:"_blank",rel:"noopener",text:"💬 "+T.wa}));
+    mb.appendChild(row);
+    mb.appendChild(h("p",{class:"mapnote"},[(hall.name[lang]||hall.name.fr)+" · ",h("a",{href:"https://www.google.com/maps/search/?api=1&query="+parc.lat+","+parc.lng,target:"_blank",rel:"noopener",text:(parc.name[lang]||parc.name.fr)+" ↗"})]));
+  }
+
+  var lastMsg=0;
+  function initMsgForm(){
+    var f=$("#msgForm");if(!f)return;
+    f.addEventListener("submit",function(e){
+      e.preventDefault();
+      var st=$("#msgStatus"),txt=$("#mfText").value.trim();
+      st.hidden=false;st.classList.remove("bad");
+      if(txt.length<5){st.textContent=tt("msgNeed");st.classList.add("bad");return}
+      if($("#mfHp").value){st.textContent=tt("msgOk");return}
+      if(Date.now()-lastMsg<20000){st.textContent=tt("msgOk");return}
+      var nm=$("#mfName").value.trim().slice(0,120),ct=$("#mfContact").value.trim().slice(0,160);
+      var p={kind:"message",name:nm.length>=2?nm:"Anonyme",contact:ct.length>=3?ct:"n/a",lang:lang,message:txt.slice(0,2000),consent_contact:ct.length>=3};
+      lastMsg=Date.now();st.textContent=tt("reqSending");
+      api("/rest/v1/site_requests",{method:"POST",json:p,prefer:"return=minimal"}).then(function(){
+        st.textContent=tt("msgOk");$("#mfText").value="";$("#mfName").value="";$("#mfContact").value="";
+      },function(){lastMsg=0;st.textContent=tt("msgErr");st.classList.add("bad")});
+    });
+  }
   function renderAll(){
     applyTexts();
-    renderDisc();renderNews();renderEvents();renderGallery();renderContact();renderSchedule();renderTeam();renderMembers();renderSponsors();renderLive();loadWeather();
+    renderDisc();renderNews();renderEvents();renderGallery();renderContact();renderSchedule();renderTeam();renderMembers();renderSponsors();renderLive();loadWeather();renderMaps();
     if(curPage==="admin")renderAdmin();
   }
 
@@ -1385,7 +1465,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     dNews:"Actualités",dEvents:"Événements à venir",dReq:"Nouvelles demandes",dPhotos:"Photos",dTeam:"Personnes dans l'équipe",qNews:"+ Actualité",qEvent:"+ Événement",qPhoto:"+ Photo",
     rNew:"Nouvelle",rContacted:"Contactée",rAccepted:"Acceptée",rDeclined:"Refusée",rNone:"Aucune demande pour le moment.",rExport:"Exporter (Excel)",rRefresh:"Actualiser",rLoadErr:"Impossible de charger les demandes.",rStatus:"Statut",
     txIntro:"Modifiez les textes du site dans les trois langues. Si vous ne changez rien, le texte d'origine reste.",txReset:"Rétablir l'original",tx_home:"Accueil",tx_club:"Le club",tx_disc:"Disciplines et galerie",tx_join:"Inscription",tx_faq:"Questions fréquentes",tx_other:"Autres",
-    uploading:"Envoi de la photo…",eUpload:"Échec de l'envoi de la photo.",pwNew:"Nouveau mot de passe (8 caractères minimum)",pwSave:"Changer le mot de passe",pwDone:"Mot de passe changé.",pwErr:"Mot de passe trop court ou refusé.",tsponsors:"Partenaires",fLogo:"Logo",sponsorsNote:"Ne publiez le logo d'une entreprise qu'avec son accord. La section reste masquée tant qu'il n'y a aucun partenaire.",tschedule:"Horaires",tteam:"Équipe",tlinks:"Liens du bureau",fSDisc:"Discipline",fDay:"Jour",fFrom:"De",fTo:"À",fGroup:"Groupe / catégorie",fName:"Nom",fRole:"Fonction",fSection:"Section",fUrl:"Lien (https://…)",fApp:"Lien de l'application des membres",open:"Ouvrir",eName:"Saisissez un nom.",eDisc:"Choisissez une discipline.",eTime:"Saisissez l'heure de début.",linksNote:"Liens réservés au bureau (application du club, outils). N'y mettez jamais de mot de passe."},
+    uploading:"Envoi de la photo…",eUpload:"Échec de l'envoi de la photo.",pwNew:"Nouveau mot de passe (8 caractères minimum)",pwSave:"Changer le mot de passe",pwDone:"Mot de passe changé.",pwErr:"Mot de passe trop court ou refusé.",thome:"Tableau de bord",tsponsors:"Partenaires",fLogo:"Logo",sponsorsNote:"Ne publiez le logo d'une entreprise qu'avec son accord. La section reste masquée tant qu'il n'y a aucun partenaire.",tschedule:"Horaires",tteam:"Équipe",tlinks:"Liens du bureau",fSDisc:"Discipline",fDay:"Jour",fFrom:"De",fTo:"À",fGroup:"Groupe / catégorie",fName:"Nom",fRole:"Fonction",fSection:"Section",fUrl:"Lien (https://…)",fApp:"Lien de l'application des membres",open:"Ouvrir",eName:"Saisissez un nom.",eDisc:"Choisissez une discipline.",eTime:"Saisissez l'heure de début.",linksNote:"Liens réservés au bureau (application du club, outils). N'y mettez jamais de mot de passe."},
   en:{eyebrow:"Restricted area",title:"Administration",intro:"Add, edit or delete news, events, disciplines, photos and contact details. Changes show up right away and become public when you click “Publish”.",
     locked:"This page is reserved for people allowed to edit the site.",loading:"Loading…",
     localNote:"Offline mode: you can edit everything and copy the content, but direct publishing is not available here.",
@@ -1401,7 +1481,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     dNews:"News",dEvents:"Upcoming events",dReq:"New requests",dPhotos:"Photos",dTeam:"People in the team",qNews:"+ News",qEvent:"+ Event",qPhoto:"+ Photo",
     rNew:"New",rContacted:"Contacted",rAccepted:"Accepted",rDeclined:"Declined",rNone:"No requests yet.",rExport:"Export (Excel)",rRefresh:"Refresh",rLoadErr:"Could not load the requests.",rStatus:"Status",
     txIntro:"Edit the site texts in all three languages. If you change nothing, the original text stays.",txReset:"Restore original",tx_home:"Home",tx_club:"The club",tx_disc:"Disciplines and gallery",tx_join:"Registration",tx_faq:"FAQ",tx_other:"Other",
-    uploading:"Uploading the photo…",eUpload:"Photo upload failed.",pwNew:"New password (8 characters minimum)",pwSave:"Change password",pwDone:"Password changed.",pwErr:"Password too short or refused.",tsponsors:"Partners",fLogo:"Logo",sponsorsNote:"Only publish a company logo with its agreement. The section stays hidden while there are no partners.",tschedule:"Schedule",tteam:"Team",tlinks:"Office links",fSDisc:"Discipline",fDay:"Day",fFrom:"From",fTo:"To",fGroup:"Group / category",fName:"Name",fRole:"Role",fSection:"Section",fUrl:"Link (https://…)",fApp:"Members app link",open:"Open",eName:"Enter a name.",eDisc:"Choose a discipline.",eTime:"Enter the start time.",linksNote:"Links for the board (club app, tools). Never put a password here."},
+    uploading:"Uploading the photo…",eUpload:"Photo upload failed.",pwNew:"New password (8 characters minimum)",pwSave:"Change password",pwDone:"Password changed.",pwErr:"Password too short or refused.",thome:"Dashboard",tsponsors:"Partners",fLogo:"Logo",sponsorsNote:"Only publish a company logo with its agreement. The section stays hidden while there are no partners.",tschedule:"Schedule",tteam:"Team",tlinks:"Office links",fSDisc:"Discipline",fDay:"Day",fFrom:"From",fTo:"To",fGroup:"Group / category",fName:"Name",fRole:"Role",fSection:"Section",fUrl:"Link (https://…)",fApp:"Members app link",open:"Open",eName:"Enter a name.",eDisc:"Choose a discipline.",eTime:"Enter the start time.",linksNote:"Links for the board (club app, tools). Never put a password here."},
   ar:{eyebrow:"فضاء محجوز",title:"لوحة الإدارة",intro:"أضِف أو عدّل أو احذف الأخبار والأحداث والاختصاصات والصور وبيانات الاتصال. تظهر التغييرات فورًا، وتصبح عامة عند الضغط على «نشر».",
     locked:"هذه الصفحة مخصصة للأشخاص المخوّل لهم تعديل الموقع.",loading:"جارٍ التحميل…",
     localNote:"وضع غير متصل: يمكنك تعديل كل شيء ونسخ المحتوى، لكن النشر المباشر غير متاح هنا.",
@@ -1417,7 +1497,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     dNews:"الأخبار",dEvents:"أحداث قادمة",dReq:"طلبات جديدة",dPhotos:"الصور",dTeam:"أفراد الفريق",qNews:"+ خبر",qEvent:"+ حدث",qPhoto:"+ صورة",
     rNew:"جديد",rContacted:"تم الاتصال",rAccepted:"مقبول",rDeclined:"مرفوض",rNone:"لا توجد طلبات حاليًا.",rExport:"تصدير (Excel)",rRefresh:"تحديث",rLoadErr:"تعذّر تحميل الطلبات.",rStatus:"الحالة",
     txIntro:"عدّل نصوص الموقع بالثلاث لغات. إن لم تغيّر شيئًا يبقى النص الأصلي.",txReset:"استرجاع الأصل",tx_home:"الرئيسية",tx_club:"النادي",tx_disc:"الاختصاصات والمعرض",tx_join:"الاشتراك",tx_faq:"أسئلة شائعة",tx_other:"أخرى",
-    uploading:"جارٍ رفع الصورة…",eUpload:"فشل رفع الصورة.",pwNew:"كلمة سر جديدة (8 أحرف على الأقل)",pwSave:"تغيير كلمة السر",pwDone:"تم تغيير كلمة السر.",pwErr:"كلمة السر قصيرة أو مرفوضة.",tsponsors:"الداعمون",fLogo:"الشعار",sponsorsNote:"لا تنشر شعار شركة إلا بموافقتها. يبقى القسم مخفيًا ما دام لا يوجد داعمون.",tschedule:"التوقيت",tteam:"الفريق",tlinks:"روابط الإدارة",fSDisc:"الاختصاص",fDay:"اليوم",fFrom:"من",fTo:"إلى",fGroup:"المجموعة / الفئة",fName:"الاسم",fRole:"الصفة",fSection:"القسم",fUrl:"الرابط (https://…)",fApp:"رابط تطبيق الأعضاء",open:"فتح",eName:"أدخل اسمًا.",eDisc:"اختر اختصاصًا.",eTime:"أدخل ساعة البداية.",linksNote:"روابط خاصة بالإدارة (تطبيق النادي وأدواته). لا تضع هنا أي كلمة سر."}
+    uploading:"جارٍ رفع الصورة…",eUpload:"فشل رفع الصورة.",pwNew:"كلمة سر جديدة (8 أحرف على الأقل)",pwSave:"تغيير كلمة السر",pwDone:"تم تغيير كلمة السر.",pwErr:"كلمة السر قصيرة أو مرفوضة.",thome:"لوحة القيادة",tsponsors:"الداعمون",fLogo:"الشعار",sponsorsNote:"لا تنشر شعار شركة إلا بموافقتها. يبقى القسم مخفيًا ما دام لا يوجد داعمون.",tschedule:"التوقيت",tteam:"الفريق",tlinks:"روابط الإدارة",fSDisc:"الاختصاص",fDay:"اليوم",fFrom:"من",fTo:"إلى",fGroup:"المجموعة / الفئة",fName:"الاسم",fRole:"الصفة",fSection:"القسم",fUrl:"الرابط (https://…)",fApp:"رابط تطبيق الأعضاء",open:"فتح",eName:"أدخل اسمًا.",eDisc:"اختر اختصاصًا.",eTime:"أدخل ساعة البداية.",linksNote:"روابط خاصة بالإدارة (تطبيق النادي وأدواته). لا تضع هنا أي كلمة سر."}
   };
   function X(k){var t=XT[lang]||XT.fr;return (k in t)?t[k]:XT.fr[k]||k}
   var SCHEMA={
@@ -1893,7 +1973,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     g.appendChild(row(X("pList"),X("pListD"),ss,function(){listPrint(ss.value)}));
     box.appendChild(g);return box;
   }
-  var ST=["new","contacted","accepted","declined"],STK={new:"rNew",contacted:"rContacted",accepted:"rAccepted",declined:"rDeclined"},KIND3={adhesion:"fT1",benevolat:"fT2",partenariat:"fT3"};
+  var ST=["new","contacted","accepted","declined"],STK={new:"rNew",contacted:"rContacted",accepted:"rAccepted",declined:"rDeclined"},KIND3={adhesion:"fT1",benevolat:"fT2",partenariat:"fT3",message:"fT4"};
   function csvCell(v){v=String(v==null?"":v).replace(/"/g,'""');return '"'+v+'"'}
   function exportCsv(){
     var rows=[["date","type","name","birth_date","sex","city","guardian","guardian_rel","contact","discipline","experience","certificate","consent_contact","consent_photo","message","status"]].concat((REQS||[]).map(function(r){return [r.created_at,r.kind,r.name,r.birth_date,r.sex,r.city,r.guardian,r.guardian_rel,r.contact,r.discipline,r.experience,r.certificate,r.consent_contact,r.consent_photo,r.message,r.status]}));
@@ -2026,7 +2106,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     start=DICT[nl]?nl:"fr";
   }
   if(start!=="fr")apply(start);
-  renderAll();loadContent();initAdmin();
+  renderAll();loadContent();initAdmin();initMsgForm();
 })();
 </script>
 
