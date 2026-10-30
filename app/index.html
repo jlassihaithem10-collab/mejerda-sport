@@ -227,6 +227,7 @@ button.pa-card{font:inherit;cursor:pointer}
 .chk .box{flex:none;width:24px;height:24px;border-radius:7px;border:2px solid var(--muted);display:inline-flex;align-items:center;justify-content:center;color:#fff}
 .chk[aria-pressed="true"] .box{background:#FF6A13;border-color:#FF6A13}.chk .box svg{width:16px;height:16px}
 label.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer}
+.pill svg{width:14px;height:14px}.btn svg{flex-shrink:0}
 </style>
 
 </head>
@@ -407,7 +408,7 @@ function errCard(){return S.err?'<div class="banner bad" role="alert"><span>'+es
 function reqPill(q){if(!q)return '';if(q.status==='pending')return '<span class="pill warn">'+I.clock+t('rq_pending')+'</span>';if(q.status==='rejected')return '<span class="pill">'+t('rq_rejected')+'</span>';if(q.kind==='cancel')return '<span class="pill bad">'+t('rq_cancel')+'</span>';return '<span class="pill info">'+t('rq_moved')+' '+esc(fmtDate(q.new_date,{weekday:'short',day:'numeric',month:'short'}))+' <span class="num ltr">'+esc(String(q.new_time||'').slice(0,5))+'</span></span>'}
 function tabs(cur){
   var items;
-  if(S.role==='coach')items=[['today',I.cal,'navToday'],['groups',I.users,'navGroups'],['account',I.user,'navAccount']];
+  if(S.role==='coach')items=[['today',I.cal,'navToday'],['groups',I.users,'navGroups'],['c-dash',I.bars,'navDash'],['account',I.user,'navAccount']];
   else if(S.role==='parent')items=[['pa-home',I.home,'navHome'],['pa-prog',I.chart,'navProg'],['pa-ach',I.medal,'navAch'],['account',I.user,'navAccount']];
   else if(S.role==='president')items=[['p-home',I.home,'navHome'],['requests',I.approve,'navApprove',apCount()],['p-log',I.listI,'navLog'],['account',I.user,'navAccount']];
   else if(S.role==='manager')items=[['p-home',I.home,'navHome'],['requests',I.approve,'navReq',apCount()],['t-cash',I.coins,'navCash'],['t-chq',I.doc,'navCheques',S.od?chqSoon():0],['account',I.user,'navAccount']];
@@ -443,7 +444,7 @@ async function afterLogin(){
   S.err='';
   try{S.me=await rpc('sx_coach_me');}catch(e){S.me=null;var cc=coachCache();if(isNet(e)&&cc)S.me=cc.me}
   S.role=S.me&&S.me.role||null;
-  if(S.role==='coach'){S.view='today';await loadCoach()}
+  if(S.role==='coach'){S.view='today';await loadCoach();await loadExt()}
   else if(S.role==='parent'){S.view='pa-home';await loadParent()}
   else if(isOffice()){S.view='p-home';await loadOffice()}
   else if(S.role==='branch_head'){S.view='b-home';await loadBranch()}
@@ -466,7 +467,7 @@ async function loadCoach(){
     for(var i=0;i<today.length;i++){var g=today[i].g;if(info[g.id])continue;try{info[g.id]=await rpc('sx_session_get',{g:g.id,d:ty})}catch(e){}}
     S.todayInfo=info;S.err='';S.cachedAt=null;
     store('sxm-coach',{email:S.email,me:S.me,groups:S.groups,weekReq:S.weekReq,day:ty,todayInfo:info,at:Date.now()});
-    cacheRosters();
+    cacheRosters().then(function(){if(S.view==='today')render()});
     try{S.news=await rpc('sx_news')}catch(e){}
   }catch(e){
     var c=coachCache();
@@ -503,6 +504,7 @@ function vToday(){
     var marks=inf.marks||{},present=Object.keys(marks).filter(function(k){return marks[k]==='p'||marks[k]==='l'}).length;
     h+='<div class="card'+(live&&!done&&!blocked?' hot':'')+'"><div class="between" style="align-items:flex-start"><div class="col"><div style="font-size:17px;font-weight:700">'+esc(x.g.name)+'</div><div class="small muted">'+esc(dname(x.g.discipline))+' · '+(x.g.count||0)+' '+t('athletes')+'</div></div><div style="font-weight:600;color:'+(live?'var(--accent-text)':'var(--muted)')+';text-align:end"><span class="num ltr">'+(x.times||[x.start+' – '+x.end]).map(esc).join('<br>')+'</span></div></div>';
     h+='<div class="row" style="flex-wrap:wrap;gap:8px"><span class="pill">'+I.pin+placeOf(x)+'</span>'+(live&&!done&&!blocked?'<span class="pill accent">'+t('now')+'</span>':'')+reqPill(q)+(done?'<span class="pill ok">'+I.check+t('recorded')+' · <span class="num">'+present+'</span>'+(inf.queued?' · '+t('pending'):'')+'</span>':'')+(x.moved?'<span class="pill info">'+t('movedFrom')+' '+esc(fmtDate(x.from,{weekday:'short',day:'numeric',month:'short'}))+'</span>':'')+(x.slots>1?'<span class="pill">'+t('twoSlots')+'</span>':'')+'</div>';
+    if(!done&&!blocked)h+=briefFor(x.g);
     if(!blocked){h+=done?'<button class="btn ghost" data-a="open" data-g="'+x.g.id+'" data-v="'+ty+'">'+t('review')+'</button>':'<button class="btn" data-a="open" data-g="'+x.g.id+'" data-v="'+ty+'">'+I.check+t('take')+'</button>';
       if(!past&&!done&&!x.moved&&(!q||q.status==='rejected'))h+='<div class="row" style="justify-content:center"><button class="link small" data-a="newReq" data-g="'+x.g.id+'" data-v="'+ty+'">'+t('reqChange')+'</button></div>'}
     h+='</div>';
@@ -537,9 +539,9 @@ function vAttend(){
   h+='<div class="counts" aria-live="polite">'+['p','a','l','e'].map(function(k){return '<div class="count c-'+k+'"><b class="num">'+c[k]+'</b><span>'+t(k)+'</span></div>'}).join('')+'</div>';
   h+='<div class="between"><span class="small muted">'+(left?(L()?left+' sans statut':'بقي '+left+' دون تسجيل'):t('allDone'))+'</span>'+(ro?'':'<button class="btn okline" data-a="all">'+I.dbl+t('allPresent')+'</button>')+'</div><div class="col" style="gap:8px">';
   d.roster.forEach(function(m){
-    var v=d.marks[m.id],b='';if(d.orig[m.id]==='e'&&!d.done)b+='<span class="pill info" style="min-height:22px;font-size:12px">'+t('noticedByParent')+'</span>';if(!m.sub_ok)b+='<span class="badge">'+t('subExpired')+'</span>';if(!m.med_ok)b+='<span class="badge">'+t('medMissing')+'</span>';
+    var v=d.marks[m.id],b='';if(d.orig[m.id]==='e'&&!d.done)b+='<span class="pill info" style="min-height:22px;font-size:12px">'+t('noticedByParent')+'</span>';if(!m.sub_ok)b+='<span class="badge">'+t('subExpired')+'</span>';if(!m.med_ok)b+='<span class="badge">'+t('medMissing')+'</span>';b+=athBadges(m);
     var ini=(m.first_name||'').charAt(0)+(m.last_name||'').charAt(0);
-    h+='<div class="athlete"><div class="row"><div class="avatar">'+esc(ini)+'</div><div class="col" style="flex:1;gap:3px"><div style="font-weight:600">'+esc(pname(m))+'</div>'+(b?'<div class="row" style="gap:6px;flex-wrap:wrap">'+b+'</div>':'')+'</div></div><div class="marks" role="group" aria-label="'+esc(pname(m))+'">'+['p','a','l','e'].map(function(k){return '<button class="m-'+k+'" data-a="mark" data-m="'+m.id+'" data-v="'+k+'" aria-pressed="'+(v===k)+'" aria-label="'+t(k)+' — '+esc(pname(m))+'"'+(ro?' disabled':'')+'>'+t('s'+k)+'</button>'}).join('')+'</div></div>';
+    h+='<div class="athlete"><div class="row"><div class="avatar">'+esc(ini)+'</div><div class="col" style="flex:1;gap:3px"><button class="link" data-a="ath" data-id="'+m.id+'" style="font-weight:600;color:inherit;text-align:start;padding:0;font-size:inherit;min-height:0">'+esc(pname(m))+'</button>'+(b?'<div class="row" style="gap:6px;flex-wrap:wrap">'+b+'</div>':'')+'</div></div><div class="marks" role="group" aria-label="'+esc(pname(m))+'">'+['p','a','l','e'].map(function(k){return '<button class="m-'+k+'" data-a="mark" data-m="'+m.id+'" data-v="'+k+'" aria-pressed="'+(v===k)+'" aria-label="'+t(k)+' — '+esc(pname(m))+'"'+(ro?' disabled':'')+'>'+t('s'+k)+'</button>'}).join('')+'</div></div>';
   });
   h+='</div><div class="field"><label for="note">'+t('note')+'</label><textarea class="input" id="note" rows="2" placeholder="'+t('notePh')+'"'+(ro?' disabled':'')+'>'+esc(d.note)+'</textarea></div>';
   var bar='';
@@ -561,7 +563,7 @@ function vGroups(){
   rows.filter(function(r){return r.streak>=3}).forEach(function(r){h+='<div class="banner bad"><span style="color:var(--bad-text)">'+I.warn+'</span><span><b>'+esc(pname(r.m))+'</b> · <span class="num">'+r.streak+'</span> '+t('consec')+'</span></div>'});
   if(!hs.length)h+='<div class="card empty">'+t('noHistory')+'</div>';
   else{h+='<div class="legend">'+['p','a','l','e'].map(function(k){return '<span><i class="s-'+k+'"></i>'+t(k)+'</span>'}).join('')+'</div><div class="col" style="gap:8px">';
-    rows.sort(function(a,b){return (a.pct==null?101:a.pct)-(b.pct==null?101:b.pct)}).forEach(function(r){var col=r.pct==null?'var(--muted)':r.pct>=80?'var(--ok-text)':r.pct>=60?'var(--warn-text)':'var(--bad-text)';h+='<div class="athlete" style="gap:8px"><div class="between"><span style="font-weight:600">'+esc(pname(r.m))+'</span><b class="num" style="color:'+col+'">'+(r.pct==null?'—':r.pct+'%')+'</b></div><div class="dots" role="img" aria-label="'+r.seq.map(function(x){return t(x)}).join('، ')+'">'+r.seq.map(function(x){return '<span class="s-'+x+'"></span>'}).join('')+'</div></div>'});h+='</div>'}
+    rows.sort(function(a,b){return (a.pct==null?101:a.pct)-(b.pct==null?101:b.pct)}).forEach(function(r){var col=r.pct==null?'var(--muted)':r.pct>=80?'var(--ok-text)':r.pct>=60?'var(--warn-text)':'var(--bad-text)';h+='<div class="athlete" style="gap:8px"><div class="between"><button class="link" data-a="ath" data-id="'+r.m.id+'" style="font-weight:600;color:inherit;text-align:start;padding:0;font-size:inherit;min-height:0">'+esc(pname(r.m))+'</button><b class="num" style="color:'+col+'">'+(r.pct==null?'—':r.pct+'%')+'</b></div><div class="dots" role="img" aria-label="'+r.seq.map(function(x){return t(x)}).join('، ')+'">'+r.seq.map(function(x){return '<span class="s-'+x+'"></span>'}).join('')+'</div></div>'});h+='</div>'}
   h+=coachConvBlock();
   return wrap(h)+tabs('groups');
 }
@@ -596,7 +598,7 @@ function apCount(){if(!S.od)return S.pending?S.pending.length:0;return (S.pendin
 function rcNo(p){return p.doc_no||(p.receipt_seq?'N° '+p.receipt_seq:'')}
 function bars(items,color){var max=Math.max.apply(null,items.map(function(x){return x.v}).concat([1]));return '<div class="bars">'+items.map(function(x){return '<div class="bar-row"><div class="between small"><span>'+esc(x.label)+'</span><span class="num">'+x.text+'</span></div><div class="bar-track"><div class="bar-fill" style="width:'+Math.round(x.v/max*100)+'%;background:'+(x.color||color)+'"></div></div></div>'}).join('')+'</div>'}
 async function loadOffice(){
-  try{var r=await Promise.all([rpc('sx_office_data'),(S.role==='president'||S.role==='manager')?rpc('sx_pending_requests'):Promise.resolve([])]);S.od=r[0];S.pending=r[1];S.err='';try{S.news=await rpc('sx_news')}catch(e){S.news=null}if(S.role==='manager'||S.role==='president')loadConvList();if(S.role==='manager')loadDocPend()}
+  try{var r=await Promise.all([rpc('sx_office_data'),(S.role==='president'||S.role==='manager')?rpc('sx_pending_requests'):Promise.resolve([])]);S.od=r[0];S.pending=r[1];S.err='';try{S.news=await rpc('sx_news')}catch(e){S.news=null}if(S.role==='manager'||S.role==='president'){loadConvList();loadInj()}if(S.role==='manager')loadDocPend()}
   catch(e){S.err=/sx_office_data|function|does not exist/i.test(e.message||'')?t('need012'):errMsg(e)}
 }
 function discStats(ym){
@@ -629,7 +631,7 @@ function vPHome(){
     h+='</button>';
   }
   if(S.role==='treasurer'){var rp=rcvPend().length,cs=chqSoon();h+='<button class="card'+(rp||cs?' hot':'')+'" data-a="go" data-v="'+(rp||!cs?'t-cash':'t-chq')+'" style="text-align:start;width:100%"><div class="between"><h3>'+t('toDo')+'</h3><span class="pill '+(rp+cs?'warn':'ok')+' num">'+(rp+cs)+'</span></div><div class="small muted">'+(rp+cs?[rp?rp+' '+t('tdRcv'):'',cs?cs+' '+t('tdChq'):''].filter(Boolean).join(' · '):t('nothingToDo'))+'</div></button>'}
-  h+=officeConvCard()+officeDocsCard();
+  h+=officeConvCard()+officeDocsCard()+officeTeamCard();
   h+=officeNewsCard();
   h+=monthNav();
   h+='<div class="stats two"><div class="stat"><b class="amt in">'+money(inc)+'</b><span>'+t('income')+'</span></div><div class="stat"><b class="amt out">'+money(exp)+'</b><span>'+t('expenses')+'</span></div><div class="stat"><b class="amt">'+money(inc-exp)+'</b><span>'+t('net')+'</span></div><div class="stat"><b class="amt out">'+money(debtT)+'</b><span>'+t('debts')+' · <span class="num">'+debtors.length+'</span></span></div><div class="stat"><b class="num">'+act.length+'</b><span>'+t('activeMembers')+'</span></div><div class="stat"><b class="num">'+(rate==null?'—':rate+'%')+'</b><span>'+t('rate')+'</span></div></div>';
@@ -866,6 +868,7 @@ function notifs(){
   (S.conv||[]).forEach(function(x){var c=byId[x.member_id];if(!c||x.event_date<todayY())return;var op=convOpen(x);out.push({id:'conv_'+x.id+'_'+x.member_id+(x.reply||''),c:c,date:op?todayY():String(x.at||'').slice(0,10),tone:op?'warn':'info',view:'pa-conv',text:t('nConv')+': <b>'+esc(x.title)+'</b> · '+esc(fmtDate(x.event_date,{day:'numeric',month:'long'}))+' · '+esc(pname(c))+(op?'<br><span class="small muted">'+t('convReplyBy')+' '+esc(fmtDate(x.reply_by,{day:'numeric',month:'long'}))+'</span>':'')})});
   cs.forEach(function(c){var n=notesOf(c)[0];if(n&&n.ym>=ymAdd(ymNow(),-1))out.push({id:'note_'+c.id+'_'+n.ym,c:c,date:String(n.at||'').slice(0,10),tone:'info',view:'pa-note',text:t('nNote')+' '+esc(fmtYm(n.ym))+' · '+esc(pname(c))});
     ((S.ups&&S.ups[c.id])||[]).forEach(function(u){if(u.status==='pending'||!u.reviewed_at||String(u.reviewed_at).slice(0,10)<addDays(todayY(),-30))return;var dt=docTypeOf(u.doc_type);out.push({id:'up_'+c.id+'_'+u.doc_type+'_'+u.status+'_'+String(u.reviewed_at).slice(0,16),c:c,date:String(u.reviewed_at).slice(0,10),tone:u.status==='accepted'?'ok':'bad',view:'pa-docs',text:t(u.status==='accepted'?'nDocOk':'nDocNo')+' · '+esc(L()?dt[2]:dt[1])+' · '+esc(pname(c))+(u.reason?'<br><span class="small muted">'+esc(u.reason)+'</span>':'')})})});
+  cs.forEach(function(c){((S.cinj&&S.cinj[c.id])||[]).forEach(function(i){var cl=i.status==='closed';out.push({id:'inj_'+i.id+'_'+i.status,c:c,date:String(i.at||'').slice(0,10),tone:i.severity===2?'bad':'warn',view:'pa-notifs',text:'<b>'+t(cl?'nInjClosed':'nInjury')+'</b> · '+esc(pname(c))+' · '+esc(partL(i.part))+' ('+sevL(i.severity)+')'+(i.body?'<br><span class="small">'+esc(i.body)+'</span>':'')+(i.close_note?'<br><span class="small">'+esc(i.close_note)+'</span>':'')+(i.need_cert?'<br><span class="small">'+t('needCert')+'</span>':'')})})});
   newsList().forEach(function(a){out.push({id:'news_'+a.id,c:cs[0]||{id:''},date:String(a.at||'').slice(0,10),tone:'accent',view:'pa-notifs',text:'<b>'+esc(a.title)+'</b><br>'+esc(a.body)})});
   return out.sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:0});
 }
@@ -1084,6 +1087,7 @@ async function loadChildExtra(id){
   if(!id)return;S.notes=S.notes||{};S.ups=S.ups||{};
   try{S.notes[id]=await rpc('sx_child_notes',{mid:id})}catch(e){S.notes[id]=[]}
   try{S.ups[id]=await rpc('sx_child_uploads',{mid:id})}catch(e){S.ups[id]=[]}
+  try{S.cinj=S.cinj||{};S.cinj[id]=await rpc('sx_child_injuries',{mid:id})}catch(e){}
 }
 async function loadConvP(){try{S.conv=await rpc('sx_child_convocations')}catch(e){S.conv=[]}}
 function childConv(c){return (S.conv||[]).filter(function(x){return x.member_id===c.id})}
@@ -1277,8 +1281,221 @@ function input17(id,val){
   if(S.cr&&id==='cr_why'){S.cr.why=val}
 }
 
+/* ---------- 018: المدرب المحترف + متابعة الإدارة ---------- */
+Object.assign(T,{
+ need018:['هذه الخاصية تحتاج تشغيل الملف 018 على الخادم.','Cette fonction nécessite le fichier 018 sur le serveur.'],
+ navDash:['لوحتي','Mon tableau'], briefT:['قبل أن تبدأ','Avant de commencer'], bNotice:['أعلم الولي بالغياب','absence(s) prévenue(s)'],
+ bHealth:['تنبيه صحي','Alerte santé'], bSub:['اشتراك منتهٍ','abonnement expiré'], bBday:['عيد ميلاد','Anniversaire'],
+ bdayToday:['عيد ميلاده اليوم','Anniversaire aujourd’hui'], athCard:['بطاقة الرياضي','Fiche de l’athlète'], yearsOld:['سنة','ans'],
+ since:['منذ','depuis'], attRate:['المواظبة','Assiduité'], inRow:['حصة متتالية','séances de suite'], medalsN:['ميداليات','médailles'],
+ levelT:['المستوى','Niveau'], lastTest:['آخر اختبار','Dernier test'], passedT:['نجح','Réussi'], notYet:['لم ينجح بعد','Pas encore'],
+ nextTest:['الاختبار القادم','Prochain test'], lastNote:['آخر رأي','Dernier avis'], writeNote:['كتابة رأي الشهر','Écrire l’avis du mois'],
+ noNoteYet:['لا يوجد رأي بعد.','Pas encore d’avis.'], injuriesT:['الإصابات','Blessures'], emergency:['اتصال طارئ','Appel d’urgence'],
+ injuryReport:['تقرير إصابة','Rapport de blessure'], emNote:['الاتصال الطارئ يُظهر رقم الولي، ويُسجَّل في سجل النادي من اطّلع ومتى.','L’appel d’urgence affiche le numéro du parent ; chaque consultation est enregistrée.'],
+ emConfirm:['إظهار رقم الولي','Afficher le numéro du parent'], emQ:['هل هي حالة طارئة؟ سيُسجَّل اطلاعك على الرقم.','Est-ce une urgence ? Votre consultation sera enregistrée.'],
+ guardian:['الولي','Parent'], callNow:['اتصال','Appeler'], athletePhone:['هاتف الرياضي','Téléphone de l’athlète'], emField:['للطوارئ','Urgence'],
+ noPhone:['لا يوجد رقم مسجّل. اتصل بالإدارة.','Aucun numéro enregistré. Appelez l’administration.'],
+ injWhere:['أين الإصابة؟','Où est la blessure ?'], injSev:['الخطورة','Gravité'], injDid:['ماذا فعلت؟','Qu’avez-vous fait ?'],
+ injWhat:['ماذا حدث؟ (جملة واحدة تكفي)','Que s’est-il passé ? (une phrase suffit)'], injSend:['إرسال للمدير وللولي','Envoyer au gérant et au parent'],
+ injSent:['أُرسل التقرير','Rapport envoyé'], injSentSub:['أُعلم المدير والولي. يبقى التقرير في ملف الرياضي.','Le gérant et le parent sont informés. Le rapport reste dans le dossier.'],
+ inj190:['إن كانت الحالة خطيرة: اتصل بالإسعاف 190 أولاً.','Si c’est grave : appelez d’abord le SAMU (190).'], eInjPart:['اختر مكان الإصابة.','Choisissez l’endroit de la blessure.'],
+ sev0:['خفيفة','Légère'], sev1:['متوسطة','Moyenne'], sev2:['تحتاج طبيباً','Médecin nécessaire'],
+ pHead:['الرأس','Tête'], pShoulder:['الكتف','Épaule'], pElbow:['المرفق','Coude'], pWrist:['المعصم','Poignet'], pBack:['الظهر','Dos'], pKnee:['الركبة','Genou'], pAnkle:['الكاحل','Cheville'], pOther:['أخرى','Autre'],
+ aIce:['ثلج وراحة','Glace et repos'], aStop:['توقّف عن التمرين','Arrêt de l’entraînement'], aParent:['اتصلت بالولي','Parent appelé'], aDoctor:['نُقل إلى الطبيب','Conduit chez le médecin'],
+ seasonT:['موسم','Saison'], sessDone:['حصة منجزة','séances faites'], hoursT:['ساعة تدريب','heures d’entraînement'], levelsPassed:['نجحوا في المستوى التالي','ont réussi le niveau suivant'],
+ medalsAth:['ميداليات لرياضيّيك','médailles de vos athlètes'], rankBadge:['مجموعتك الأولى في المواظبة هذا الشهر','Votre groupe est le plus assidu ce mois-ci'],
+ rankOf:['من','sur'], rankT:['ترتيب مجموعتك في المواظبة هذا الشهر','Classement de votre groupe en assiduité ce mois-ci'], monthsAtt:['المواظبة شهراً بشهر','Assiduité mois par mois'],
+ clubAvg:['معدّل النادي','Moyenne du club'], todoMonth:['ما ينتظرك هذا الشهر','À faire ce mois-ci'], notesMonth:['آراء الشهر للأولياء','Avis du mois pour les parents'],
+ written:['مكتوب','écrits'], noMoney:['الأرقام تُحسب تلقائياً من الحضور والاختبارات. لا مبالغ مالية في هذه الصفحة.','Chiffres calculés automatiquement. Aucun montant financier ici.'],
+ convUp:['استدعاءات قادمة','Convocations à venir'], agreedN:['وافقوا','oui'], waitingN:['ينتظر','en attente'],
+ teamT:['فريق التدريب','Équipe d’encadrement'], openInj:['مفتوحة','ouvertes'], followT:['متابعة المدربين','Suivi des entraîneurs'], healthT:['التنبيهات الصحية','Alertes santé'],
+ injClose:['إغلاق بعد المتابعة','Clôturer après suivi'], injCloseNote:['ملاحظة المتابعة (اختياري)','Note de suivi (facultatif)'], needCert:['تُطلب شهادة طبية قبل العودة','Certificat médical requis avant le retour'],
+ closedBy:['أُغلق','Clôturé'], openS:['مفتوح','Ouvert'], callsT:['سجل الاتصال الطارئ (90 يوماً)','Journal des appels d’urgence (90 j)'], noInj:['لا توجد إصابات مسجّلة.','Aucune blessure enregistrée.'],
+ noCalls:['لا يوجد اطلاع على أرقام الأولياء.','Aucune consultation de numéro.'], byT:['بواسطة','par'],
+ sessLogged:['حصص مسجّلة','séances saisies'], sessMissing:['حصص بلا تسجيل','séances non saisies'], lateLog:['سُجّلت متأخرة','saisies en retard'],
+ notesW:['آراء الشهر','avis du mois'], athletesN:['رياضي','athlètes'], noCoaches:['لا يوجد مدربون بمجموعات.','Aucun entraîneur avec groupe.'],
+ healthHelp:['تُكتب بموافقة الولي، ولا يراها إلا مدرب مجموعة الرياضي.','Saisie avec l’accord du parent ; visible seulement par l’entraîneur du groupe.'],
+ healthAdd:['إضافة تنبيه','Ajouter une alerte'], pickAth:['اختر الرياضي','Choisir l’athlète'], healthNote:['التنبيه (مثال: ربو خفيف، البخّاخ في الحقيبة)','Alerte (ex. : asthme léger, inhalateur dans le sac)'],
+ saveT:['حفظ','Enregistrer'], edit:['تعديل','Modifier'], removeT:['حذف','Supprimer'], noHealth:['لا توجد تنبيهات صحية.','Aucune alerte santé.'], eHealth:['اختر الرياضي واكتب التنبيه.','Choisissez l’athlète et écrivez l’alerte.'],
+ nInjury:['تقرير إصابة','Rapport de blessure'], nInjClosed:['تمت متابعة الإصابة','Blessure suivie'], tapCard:['المس الاسم لبطاقة الرياضي','Touchez le nom pour la fiche']
+});
+var PARTS=['pHead','pShoulder','pElbow','pWrist','pBack','pKnee','pAnkle','pOther'],ACTS=['aIce','aStop','aParent','aDoctor'];
+I.heart=svg('<path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10z"/><path d="M12 9v4M10 11h4"/>');
+I.cake=svg('<path d="M4 21h16v-8H4zM4 16c2 1 4 1 6 0s4-1 6 0 3 1 4 0M12 13V9M12 6v.01"/>');
+I.phone=svg('<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>');
+I.plus=svg('<path d="M12 5v14M5 12h14"/>');I.trophy=svg('<path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>');I.bars=svg('<path d="M4 20V11M10 20V5M16 20v-8M21 20H3"/>');
+function need18(e){return /does not exist|Could not find the function|PGRST202/i.test((e&&e.message)||'')?t('need018'):errMsg(e)}
+function sevL(n){return t('sev'+n)}
+function sevPill(n){return '<span class="pill '+(n===2?'bad':n===1?'warn':'ok')+'">'+sevL(n)+'</span>'}
+function partL(k){return PARTS.indexOf(k)>=0?t(k):k}
+function actL(k){return ACTS.indexOf(k)>=0?t(k):k}
+
+/* ----- المدرب: معلومات إضافية محفوظة في الهاتف ----- */
+async function loadExt(){try{S.ext=await rpc('sx_coach_extras');store('sxm-ext',{email:S.email,ext:S.ext})}catch(e){var c=load('sxm-ext');S.ext=c&&c.email===S.email?c.ext:(S.ext||{})}}
+function extOf(id){return (S.ext||{})[id]||{}}
+function isBday(id){var b=extOf(id).bmd;return !!b&&b===todayY().slice(5)}
+function briefFor(g){
+  var ro=(load('sxm-rosters')||{})[g.id]||[],inf=(S.todayInfo||{})[g.id]||{},mk=inf.marks||{};
+  var notice=Object.keys(mk).filter(function(k){return mk[k]==='e'}).length;
+  var hl=ro.filter(function(m){return extOf(m.id).health}),sub=ro.filter(function(m){return !m.sub_ok}),bd=ro.filter(function(m){return isBday(m.id)});
+  var ch=[];
+  if(notice)ch.push('<span class="pill info">'+notice+' '+t('bNotice')+'</span>');
+  hl.forEach(function(m){ch.push('<button class="pill bad" data-a="ath" data-id="'+m.id+'" style="border:0;font:inherit;font-size:13px">'+I.heart+esc(m.first_name)+'</button>')});
+  if(sub.length)ch.push('<span class="pill warn">'+sub.length+' '+t('bSub')+'</span>');
+  bd.forEach(function(m){ch.push('<span class="pill accent">'+I.cake+t('bBday')+' · '+esc(m.first_name)+'</span>')});
+  if(!ch.length)return '';
+  return '<div class="col" style="gap:6px"><span class="small muted" style="font-weight:600">'+t('briefT')+'</span><div class="row" style="flex-wrap:wrap;gap:6px">'+ch.join('')+'</div></div>';
+}
+function athBadges(m){var x=extOf(m.id),b='';if(x.health)b+='<span class="pill bad" style="min-height:22px;font-size:12px">'+I.heart+esc(x.health)+'</span>';if(isBday(m.id))b+='<span class="pill accent" style="min-height:22px;font-size:12px">'+I.cake+t('bdayToday')+'</span>';return b}
+
+/* ----- بطاقة الرياضي ----- */
+async function openAth(id,from){S.athId=id;S.athFrom=from||S.view;S.ath=null;S.view='c-ath';window.scrollTo(0,0);render();
+  try{S.ath=await rpc('sx_athlete_card',{mid:id});var pg=S.ath.progress||{};if(pg.has_photo&&S.photo[id]===undefined){S.photo[id]=null;rpc('sx_athlete_photo',{mid:id}).then(function(ph){S.photo[id]=ph||'';render()},function(){S.photo[id]=''})}}
+  catch(e){S.ath={err:isNet(e)?t('netErr'):need18(e)}}render()}
+function cardStreak(att){var cur=0,best=0;att.forEach(function(x){if(x.st==='e')return;if(x.st==='a'){cur=0;return}cur++;if(cur>best)best=cur});return cur}
+function vCAth(){
+  var a=S.ath,back=S.athFrom||'today',tb=S.role==='coach'?(back==='groups'?'groups':'today'):'p-home';
+  var h='<div class="row">'+backBtn(back)+'<h1 style="flex:1">'+t('athCard')+'</h1>'+(a&&a.code!=null?'<span class="small muted ltr">'+esc(gmCode(a.code))+'</span>':'')+'</div>';
+  if(!a)return wrap(h+loadingCard())+tabs(tb);
+  if(a.err)return wrap(h+'<div class="card empty">'+esc(a.err)+'</div>')+tabs(tb);
+  var p=a.progress||{},tr=(p.tracks||[])[0],g0=(a.groups||[])[0]||{},age=a.birth_date?Math.floor((parseYmd(todayY())-parseYmd(a.birth_date))/31557600000):null;
+  var lv=tr?lvName(tr,tr.current):'';
+  h+='<div class="pa-hero"><div class="row" style="gap:14px;align-items:center">'+avatar(a,72,true)+'<div class="col" style="gap:3px;min-width:0"><div style="font-size:20px;font-weight:700">'+esc(pname(a))+(isBday(a.id)?' '+I.cake:'')+'</div><div style="font-size:14px;color:#C9C6C0">'+[age!=null?age+' '+t('yearsOld'):'',dname(g0.discipline),lv].filter(Boolean).map(esc).join(' · ')+'</div><div style="font-size:13px;color:#A9A6A0">'+esc(g0.name||'')+(a.joined_on?' · '+t('since')+' '+esc(fmtDate(a.joined_on,{month:'long',year:'numeric'})):'')+'</div></div></div>';
+  if(a.health)h+='<div class="banner bad" style="margin:0">'+I.heart+'<span><b>'+esc(a.health.note)+'</b>'+(a.health.by?'<br><span class="small">'+esc(a.health.by)+' · '+esc(fmtDate(String(a.health.at).slice(0,10),{day:'numeric',month:'short'}))+'</span>':'')+'</span></div>';
+  h+='</div>';
+  var att=p.att||[],st=attStats(att.slice(-30)),med=(p.results||[]).filter(function(r){return r.medal==='gold'||r.medal==='silver'||r.medal==='bronze'}).length;
+  h+='<div class="stats"><div class="stat"><b class="num" style="color:var(--ok-text)">'+(st.pct==null?'—':st.pct+'%')+'</b><span>'+t('attRate')+'</span></div><div class="stat"><b class="num">'+cardStreak(att)+'</b><span>'+t('inRow')+'</span></div><div class="stat"><b class="num" style="color:var(--warn-text)">'+med+'</b><span>'+t('medalsN')+'</span></div></div>';
+  if(tr){var pos=lvPos(tr,tr.current),ls=tr.levels||[],last=tr.last;
+    h+='<div class="card tight"><div class="between"><h3>'+t('levelT')+'</h3><span class="small muted">'+esc(dname(tr))+'</span></div>'+(ls.length?'<div class="row" style="gap:6px" role="img" aria-label="'+esc(lv)+'">'+ls.map(function(l,i){return '<span style="flex:1;height:8px;border-radius:4px;background:'+(i<pos?'var(--ok)':i===pos?'var(--accent)':'var(--surface2)')+'"></span>'}).join('')+'</div>':'')+
+      (last?'<div class="kv"><span>'+t('lastTest')+'</span><span style="font-weight:600;color:'+(last.passed===false?'var(--warn-text)':'var(--ok-text)')+'">'+(last.passed===false?t('notYet'):t('passedT'))+(last.score!=null?' · '+esc(String(last.score)):'')+'</span></div>':'')+
+      (tr.next_test?'<div class="kv"><span>'+t('nextTest')+'</span><span>'+esc(fmtDate(tr.next_test,{day:'numeric',month:'long'}))+'</span></div>':'')+'</div>'}
+  var n=(a.notes||[])[0],myG=(a.groups||[]).filter(function(x){return x.mine})[0];
+  h+='<div class="card tight"><div class="between"><h3>'+t('lastNote')+(n?' · '+esc(fmtYm(n.ym)):'')+'</h3>'+(n?starsRow(Math.round(noteAvg(n)),16):'')+'</div>'+(n?'<div class="pa-quote">«'+esc(n.body)+'»</div><span class="small muted">'+esc(n.coach||'')+'</span>':'<div class="small muted">'+t('noNoteYet')+'</div>')+(S.role==='coach'&&myG?'<button class="link small" data-a="athNote" data-g="'+myG.id+'" data-id="'+a.id+'" style="align-self:flex-start">'+t('writeNote')+'</button>':'')+'</div>';
+  if((a.injuries||[]).length)h+='<div class="card tight"><h3>'+t('injuriesT')+'</h3>'+a.injuries.map(function(i){return '<div class="between"><span>'+esc(partL(i.part))+' · <span class="small muted">'+esc(fmtDate(String(i.at).slice(0,10),{day:'numeric',month:'short'}))+'</span></span>'+sevPill(i.severity)+'</div>'}).join('')+'</div>';
+  h+='<div class="grid2"><button class="btn danger" data-a="emerg">'+I.phone+t('emergency')+'</button><button class="btn ghost" data-a="injNew">'+I.plus+t('injuryReport')+'</button></div><div class="small muted" style="text-align:center">'+t('emNote')+'</div>';
+  return wrap(h)+tabs(tb);
+}
+function vEmergModal(){var e=S.em||{},a=S.ath||{};
+  var body=!e.data?'<div class="small muted">'+t('emQ')+'</div>'+(S.formErr?'<div class="err" role="alert">'+esc(S.formErr)+'</div>':'')+'<button class="btn danger" data-a="emergGo"'+(S.busy?' disabled':'')+'>'+I.phone+t('emConfirm')+'</button>'
+    :(function(d){var rows=[];if(d.guardian_phone)rows.push([t('guardian')+(d.guardian_name?' · '+d.guardian_name:''),d.guardian_phone]);if(d.phone)rows.push([t('athletePhone'),d.phone]);if(d.emergency)rows.push([t('emField'),d.emergency]);
+      if(!rows.length)return '<div class="banner warn"><span>'+t('noPhone')+'</span></div>';
+      return rows.map(function(r){var tel=String(r[1]).replace(/[^\d+]/g,'');return '<div class="card tight"><div class="small muted">'+esc(r[0])+'</div><div class="between"><b class="ltr num" style="font-size:20px">'+esc(r[1])+'</b>'+(tel.length>=8?'<a class="btn sm" style="width:auto" href="tel:'+esc(tel)+'">'+I.phone+t('callNow')+'</a>':'')+'</div></div>'}).join('')})(e.data);
+  return '<div class="modal" data-a="closeModal"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="emt"><div class="grab"></div><div class="between"><h2 id="emt">'+t('emergency')+' · '+esc(pname(a))+'</h2><button class="link" data-a="closeModal">'+t('cancel')+'</button></div>'+body+'</div></div>'}
+
+/* ----- تقرير إصابة ----- */
+function vCInj(){
+  var f=S.inj||{},a=S.ath||{},tb=S.role==='coach'?'today':'p-home';
+  var h='<div class="row">'+backBtn('c-ath')+'<div class="col" style="flex:1;gap:0"><h1>'+t('injuryReport')+'</h1><span class="small muted">'+esc(pname(a))+'</span></div></div>';
+  if(f.done)return wrap(h+'<div class="card empty" style="gap:12px"><span class="pa-icon" style="width:72px;height:72px;border-radius:36px;color:var(--ok-text);background:var(--ok-soft)">'+I.check+'</span><b style="font-size:20px">'+t('injSent')+'</b><span>'+(f.queued?t('tSavedOff'):t('injSentSub'))+'</span></div>')+tabs(tb);
+  h+='<h3>'+t('injWhere')+'</h3><div class="chips" style="flex-wrap:wrap;overflow:visible">'+PARTS.map(function(k){return '<button data-a="injPart" data-v="'+k+'" aria-pressed="'+(f.part===k)+'">'+t(k)+'</button>'}).join('')+'</div>';
+  h+='<h3>'+t('injSev')+'</h3><div class="seg three" role="group">'+[0,1,2].map(function(i){return '<button data-a="injSev" data-v="'+i+'" aria-pressed="'+(f.sev===i)+'">'+sevL(i)+'</button>'}).join('')+'</div>';
+  h+='<h3>'+t('injDid')+'</h3><div class="col" style="gap:8px">'+ACTS.map(function(k){var on=!!(f.acts||{})[k];return '<button class="chk" data-a="injAct" data-v="'+k+'" aria-pressed="'+on+'"><span class="box">'+(on?I.check:'')+'</span><span>'+t(k)+'</span></button>'}).join('')+'</div>';
+  h+='<div class="field"><label for="inj_b">'+t('injWhat')+'</label><textarea class="input" id="inj_b" rows="3" maxlength="600">'+esc(f.body||'')+'</textarea></div>';
+  h+=(S.formErr?'<div class="err" role="alert">'+esc(S.formErr)+'</div>':'')+'<button class="btn" data-a="injSend"'+(S.busy?' disabled':'')+'>'+t('injSend')+'</button><div class="small muted" style="text-align:center">'+t('inj190')+'</div>';
+  return wrap(h)+tabs(tb);
+}
+
+/* ----- لوحة المدرب ----- */
+async function loadCStats(){try{S.cs=await rpc('sx_coach_stats')}catch(e){S.cs={err:isNet(e)?t('netErr'):need18(e)}}render();loadConvList()}
+function rateOf(p,a){p=+p||0;a=+a||0;return (p+a)?Math.round(p/(p+a)*100):null}
+function vCDash(){
+  var h='<div class="col" style="gap:0"><div class="small muted">'+t('seasonT')+' '+(S.cs&&S.cs.season_start?esc(S.cs.season_start.slice(0,4))+'–'+(+S.cs.season_start.slice(0,4)+1):'')+'</div><h1>'+t('navDash')+'</h1></div>'+offlineBanner();
+  var s=S.cs;if(!s){loadCStats();return wrap(h+loadingCard())+tabs('c-dash')}
+  if(s.err)return wrap(h+'<div class="card empty">'+esc(s.err)+'</div>')+tabs('c-dash');
+  var rk=s.rank||{};
+  if(rk.pos===1&&rk.of>1)h+='<div class="card" style="border-color:var(--accent);flex-direction:row;gap:14px;align-items:center"><span class="pa-icon" style="width:48px;height:48px;border-radius:24px;background:var(--accent);color:var(--accent-ink)">'+I.trophy+'</span><b style="font-size:16px;color:var(--accent-text)">'+t('rankBadge')+'</b></div>';
+  else if(rk.pos&&rk.of>1)h+='<div class="card tight"><div class="between"><span>'+t('rankT')+'</span><b class="num" style="font-size:18px">'+rk.pos+' <span class="small muted">'+t('rankOf')+' '+rk.of+'</span></b></div></div>';
+  h+='<div class="grid2">'+[[s.sessions,t('sessDone'),''],[Math.round((+s.minutes||0)/60),t('hoursT'),''],[s.levels_passed,t('levelsPassed'),'var(--ok-text)'],[s.medals,t('medalsAth'),'var(--warn-text)']].map(function(x){return '<div class="card tight" style="gap:2px"><b class="num" style="font-size:26px'+(x[2]?';color:'+x[2]:'')+'">'+(x[0]||0)+'</b><span class="small muted">'+x[1]+'</span></div>'}).join('')+'</div>';
+  var ms=s.months||[],club=rateOf(ms.reduce(function(a,m){return a+(+m.club_p)},0),ms.reduce(function(a,m){return a+(+m.club_a)},0));
+  h+='<div class="card tight"><div class="between"><h3>'+t('monthsAtt')+'</h3>'+(club!=null?'<span class="small muted">'+t('clubAvg')+' '+club+'%</span>':'')+'</div><div class="row" style="align-items:flex-end;gap:10px;height:130px" role="img" aria-label="'+esc(ms.map(function(m){var r=rateOf(m.mine_p,m.mine_a);return fmtYm(m.ym,true)+': '+(r==null?'—':r+'%')}).join('، '))+'">'+ms.map(function(m,i){var r=rateOf(m.mine_p,m.mine_a),last=i===ms.length-1;return '<div class="col" style="flex:1;gap:4px;align-items:center;justify-content:flex-end;height:100%"><span class="small'+(last?'':' muted')+'" style="'+(last?'color:var(--accent-text);font-weight:700':'')+'">'+(r==null?'—':r)+'</span><div style="width:100%;height:'+(r||2)+'%;background:'+(last?'var(--accent)':'var(--surface2)')+';border-radius:6px 6px 0 0"></div><span class="small muted">'+esc(fmtYm(m.ym,true))+'</span></div>'}).join('')+'</div></div>';
+  var ath=+s.athletes||0,nm=+s.notes_month||0,cl=(S.cl||[]).filter(function(x){return x.event_date>=todayY()});
+  h+='<div class="card tight"><h3>'+t('todoMonth')+'</h3><div class="between"><span>'+t('notesMonth')+'</span><span style="font-weight:600;color:'+(nm>=ath?'var(--ok-text)':'var(--warn-text)')+'">'+nm+' / '+ath+' '+t('written')+'</span></div><div class="bar-track"><div class="bar-fill" style="width:'+(ath?Math.min(100,Math.round(nm/ath*100)):0)+'%;background:var(--warn)"></div></div>'+
+    (s.next_test?'<div class="kv"><span>'+t('nextTest')+'</span><span>'+esc(fmtDate(s.next_test,{day:'numeric',month:'long'}))+'</span></div>':'')+
+    cl.map(function(x){var k=convCounts(x);return '<div class="kv"><span>'+esc(x.title)+'</span><span style="color:var(--ok-text)">'+k.y+' '+t('agreedN')+(k.w?' · '+k.w+' '+t('waitingN'):'')+'</span></div>'}).join('')+
+    '<button class="link small" data-a="go" data-v="notes" style="align-self:flex-start">'+t('writeNote')+'</button></div>';
+  h+='<div class="small muted" style="text-align:center">'+t('noMoney')+'</div>';
+  return wrap(h)+tabs('c-dash');
+}
+
+/* ----- الإدارة: الإصابات، المتابعة، التنبيهات الصحية ----- */
+async function loadInj(){try{S.il=await rpc('sx_injuries_list');S.ilErr=''}catch(e){S.ilErr=need18(e)}render()}
+function officeTeamCard(){if(S.role!=='manager'&&S.role!=='president')return '';var op=S.il&&S.il.injuries?S.il.injuries.filter(function(i){return i.status==='open'}).length:0;
+  return '<div class="card tight"><h3>'+t('teamT')+'</h3><div class="list" style="margin:0"><button class="item between" data-a="go" data-v="o-inj"><span>'+t('injuriesT')+'</span>'+(op?'<span class="pill bad">'+op+' '+t('openInj')+'</span>':'<span class="muted">'+I.arrow+'</span>')+'</button><button class="item between" data-a="go" data-v="o-coach"><span>'+t('followT')+'</span><span class="muted">'+I.arrow+'</span></button><button class="item between" data-a="go" data-v="o-health"><span>'+t('healthT')+'</span><span class="muted">'+I.arrow+'</span></button></div></div>'}
+function vOInj(){
+  var h='<div class="row">'+backBtn('p-home')+'<h1 style="flex:1">'+t('injuriesT')+'</h1></div>';
+  if(S.ilErr)return wrap(h+'<div class="card empty">'+esc(S.ilErr)+'</div>')+tabs('p-home');
+  if(!S.il){loadInj();return wrap(h+loadingCard())+tabs('p-home')}
+  var l=S.il.injuries||[];
+  h+=l.length?l.map(function(i){var op=i.status==='open',c=S.ic&&S.ic.id===i.id?S.ic:null;
+    var x='<div class="card tight'+(op?' hot':'')+'"><div class="between" style="align-items:flex-start"><div class="col" style="gap:2px"><b>'+esc(pname(i))+'</b><span class="small muted">'+esc([i.group,i.coach,fmtDate(String(i.at).slice(0,10),{day:'numeric',month:'short'})+' '+String(i.at).slice(11,16)].filter(Boolean).join(' · '))+'</span></div>'+sevPill(i.severity)+'</div>'+
+      '<div><b>'+esc(partL(i.part))+'</b>'+(i.body?' — '+esc(i.body):'')+'</div>'+((i.actions||[]).length?'<div class="row" style="flex-wrap:wrap;gap:6px">'+i.actions.map(function(k){return '<span class="pill">'+esc(actL(k))+'</span>'}).join('')+'</div>':'');
+    if(!op)x+='<div class="small muted">'+t('closedBy')+(i.closed_name?' · '+esc(i.closed_name):'')+(i.need_cert?' · '+t('needCert'):'')+(i.close_note?'<br>'+esc(i.close_note):'')+'</div>';
+    else if(c)x+='<div class="field"><label for="ic_n">'+t('injCloseNote')+'</label><textarea class="input" id="ic_n" rows="2" maxlength="300">'+esc(c.note||'')+'</textarea></div><button class="chk" data-a="icCert" aria-pressed="'+!!c.cert+'"><span class="box">'+(c.cert?I.check:'')+'</span><span>'+t('needCert')+'</span></button><div class="btns"><button class="btn ghost" data-a="icNo">'+t('cancel')+'</button><button class="btn" data-a="icOk" data-id="'+i.id+'"'+(S.busy?' disabled':'')+'>'+t('injClose')+'</button></div>';
+    else x+='<button class="btn ghost sm" data-a="icOpen" data-id="'+i.id+'">'+t('injClose')+'</button>';
+    return x+'</div>'}).join(''):'<div class="card empty">'+t('noInj')+'</div>';
+  var cs=S.il.calls||[];
+  h+='<h2 style="font-size:16px">'+t('callsT')+'</h2>'+(cs.length?'<div class="list">'+cs.map(function(c){return '<div><span>'+esc(pname(c))+' <span class="small muted">· '+t('byT')+' '+esc(c.by||'')+'</span></span><span class="small muted">'+esc(fmtDate(String(c.at).slice(0,10),{day:'numeric',month:'short'}))+' '+esc(String(c.at).slice(11,16))+'</span></div>'}).join('')+'</div>':'<div class="small muted">'+t('noCalls')+'</div>');
+  return wrap(h)+tabs('p-home');
+}
+async function loadFollow(){var ym=S.fym||ymNow();try{S.fu={ym:ym,rows:await rpc('sx_coaches_followup',{ym:ym})}}catch(e){S.fu={ym:ym,err:need18(e)}}render()}
+function vOCoach(){
+  var ym=S.fym||ymNow(),h='<div class="row">'+backBtn('p-home')+'<h1 style="flex:1">'+t('followT')+'</h1></div>';
+  h+='<div class="between"><button class="icon-btn" data-a="fym" data-v="-1" aria-label="'+t('back')+'" style="'+(L()?'':'transform:scaleX(-1)')+'">'+I.arrow+'</button><b>'+esc(fmtYm(ym))+'</b><button class="icon-btn" data-a="fym" data-v="1" aria-label="+1"'+(ym>=ymNow()?' disabled':'')+' style="'+(L()?'transform:scaleX(-1)':'')+'">'+I.arrow+'</button></div>';
+  if(!S.fu||S.fu.ym!==ym){loadFollow();return wrap(h+loadingCard())+tabs('p-home')}
+  if(S.fu.err)return wrap(h+'<div class="card empty">'+esc(S.fu.err)+'</div>')+tabs('p-home');
+  var rows=S.fu.rows||[];if(!rows.length)return wrap(h+'<div class="card empty">'+t('noCoaches')+'</div>')+tabs('p-home');
+  rows.forEach(function(c){var ex=+c.expected||0,lg=+c.logged||0,miss=Math.max(0,ex-lg),pct=ex?Math.min(100,Math.round(lg/ex*100)):100,r=rateOf(c.p,c.a);
+    h+='<div class="card tight"><div class="between"><b style="font-size:16px">'+esc(c.name||'')+'</b><span class="small muted">'+c.groups+' · '+c.athletes+' '+t('athletesN')+'</span></div>'+
+      '<div class="between"><span>'+t('sessLogged')+'</span><b class="num" style="color:'+(miss?'var(--warn-text)':'var(--ok-text)')+'">'+lg+' / '+ex+'</b></div><div class="bar-track"><div class="bar-fill" style="width:'+pct+'%;background:'+(miss?'var(--warn)':'var(--ok)')+'"></div></div>'+
+      (miss?'<div class="kv"><span>'+t('sessMissing')+'</span><b class="num" style="color:var(--bad-text)">'+miss+'</b></div>':'')+
+      (+c.late?'<div class="kv"><span>'+t('lateLog')+'</span><b class="num" style="color:var(--warn-text)">'+c.late+'</b></div>':'')+
+      '<div class="kv"><span>'+t('notesW')+'</span><span class="num">'+c.notes+' / '+c.athletes+'</span></div><div class="kv"><span>'+t('attRate')+'</span><b class="num">'+(r==null?'—':r+'%')+'</b></div>'+
+      (+c.injuries?'<div class="kv"><span>'+t('injuriesT')+'</span><span class="num">'+c.injuries+'</span></div>':'')+'</div>'});
+  return wrap(h)+tabs('p-home');
+}
+async function loadHealth(){try{S.hl=await rpc('sx_health_list');S.hlErr=''}catch(e){S.hlErr=need18(e)}render()}
+function vOHealth(){
+  var f=S.hf||(S.hf={mid:'',note:''}),h='<div class="row">'+backBtn('p-home')+'<h1 style="flex:1">'+t('healthT')+'</h1></div><div class="small muted">'+t('healthHelp')+'</div>';
+  if(S.hlErr)return wrap(h+'<div class="card empty">'+esc(S.hlErr)+'</div>')+tabs('p-home');
+  if(!S.hl){loadHealth();return wrap(h+loadingCard())+tabs('p-home')}
+  if(!S.cc){rpc('sx_conv_candidates').then(function(r){S.cc=r;render()},function(){S.cc=[];render()})}
+  var seen={},opts=[];(S.cc||[]).forEach(function(g){(g.members||[]).forEach(function(m){if(seen[m.id])return;seen[m.id]=1;opts.push(m)})});opts.sort(function(a,b){return pname(a).localeCompare(pname(b))});
+  h+='<div class="card tight"><h3>'+(f.edit?t('healthT'):t('healthAdd'))+'</h3><div class="field"><label for="hf_m">'+t('pickAth')+'</label><select class="input" id="hf_m"><option value="">—</option>'+opts.map(function(m){return '<option value="'+m.id+'"'+(f.mid===m.id?' selected':'')+'>'+esc(pname(m))+'</option>'}).join('')+'</select></div><div class="field"><label for="hf_n">'+t('healthNote')+'</label><input class="input" id="hf_n" maxlength="200" value="'+esc(f.note||'')+'"></div>'+(S.formErr?'<div class="err" role="alert">'+esc(S.formErr)+'</div>':'')+'<button class="btn" data-a="hfSave"'+(S.busy?' disabled':'')+'>'+t('saveT')+'</button></div>';
+  h+=S.hl.length?'<div class="col" style="gap:8px">'+S.hl.map(function(x){return '<div class="card tight"><div class="between"><b>'+esc(pname(x))+'</b><span class="row" style="gap:12px"><button class="link small" data-a="hfEdit" data-id="'+x.member_id+'">'+t('edit')+'</button><button class="link small" data-a="hfDel" data-id="'+x.member_id+'" style="color:var(--bad-text)">'+t('removeT')+'</button></span></div><div>'+I.heart+' '+esc(x.note)+'</div><span class="small muted">'+esc(x.by||'')+' · '+esc(fmtDate(String(x.at).slice(0,10),{day:'numeric',month:'short'}))+'</span></div>'}).join('')+'</div>':'<div class="card empty">'+t('noHealth')+'</div>';
+  return wrap(h)+tabs('p-home');
+}
+
+/* ----- الأحداث ----- */
+async function act18(a,el,id,v){
+  if(a==='ath'){await openAth(id,S.view==='c-ath'?S.athFrom:S.view);return true}
+  if(a==='athNote'){S.grp=el.getAttribute('data-g');S.gn=null;S.view='notes';render();await loadGroupNotes();var r=((S.gn&&S.gn.rows)||[]).filter(function(x){return x.member_id===id})[0]||{},n=r.note||{};S.nt={mid:id,e:n.effort||0,d:n.discipline||0,p:n.progress||0,b:n.body||''};S.formErr='';S.modal='note';return true}
+  if(a==='emerg'){S.em={};S.formErr='';S.modal='emerg';return true}
+  if(a==='emergGo'){S.busy=true;render();try{S.em={data:await rpc('sx_emergency_contact',{mid:S.athId})};S.busy=false}catch(e){S.busy=false;S.formErr=isNet(e)?t('netErr'):need18(e)}return true}
+  if(a==='injNew'){S.inj={part:'',sev:0,acts:{},body:''};S.formErr='';S.view='c-inj';window.scrollTo(0,0);return true}
+  if(a==='injPart'){S.inj.part=v;S.formErr='';return true}
+  if(a==='injSev'){S.inj.sev=+v;return true}
+  if(a==='injAct'){S.inj.acts[v]=!S.inj.acts[v];return true}
+  if(a==='injSend'){var f=S.inj;if(!f.part){S.formErr=t('eInjPart');return true}S.busy=true;render();
+    try{var r2=await rpcQueued('sx_injury_report',{mid:S.athId,part:f.part,sev:f.sev,acts:ACTS.filter(function(k){return f.acts[k]}),body:(f.body||'').trim()});S.busy=false;f.done=true;f.queued=!!(r2&&r2.queued);S.formErr=''}catch(e){S.busy=false;S.formErr=need18(e)}return true}
+  if(a==='icOpen'){S.ic={id:id,note:'',cert:false};return true}
+  if(a==='icNo'){S.ic=null;return true}
+  if(a==='icCert'){S.ic.cert=!S.ic.cert;return true}
+  if(a==='icOk'){S.busy=true;render();try{await rpc('sx_injury_close',{iid:id,note:(S.ic&&S.ic.note)||'',cert:!!(S.ic&&S.ic.cert)});S.busy=false;S.ic=null;toast(t('tDone'));await loadInj()}catch(e){S.busy=false;toast(/already_decided/.test(e.message||'')?t('eDecided'):need18(e));await loadInj()}return true}
+  if(a==='fym'){var y=ymAdd(S.fym||ymNow(),+v);S.fym=y>ymNow()?ymNow():y;return true}
+  if(a==='hfEdit'){var x=(S.hl||[]).filter(function(z){return z.member_id===id})[0]||{};S.hf={mid:id,note:x.note||'',edit:true};S.formErr='';window.scrollTo(0,0);return true}
+  if(a==='hfDel'){try{await rpc('sx_health_set',{mid:id,note:''});toast(t('tDone'));await loadHealth()}catch(e){toast(need18(e))}return true}
+  if(a==='hfSave'){var hf=S.hf||{};if(!hf.mid||String(hf.note||'').trim().length<2){S.formErr=t('eHealth');return true}S.busy=true;render();try{await rpc('sx_health_set',{mid:hf.mid,note:hf.note.trim()});S.busy=false;S.hf=null;S.formErr='';toast(t('tDone'));await loadHealth()}catch(e){S.busy=false;S.formErr=need18(e)}return true}
+  return false;
+}
+function input18(id,val){
+  if(S.inj&&id==='inj_b'){S.inj.body=val;return}
+  if(S.ic&&id==='ic_n'){S.ic.note=val;return}
+  if(S.hf&&id==='hf_n'){S.hf.note=val;return}
+  if(S.hf&&id==='hf_m'){S.hf.mid=val}
+}
+
 var root=document.getElementById('root');
-var VIEWS={'pa-conv':vPaConv,'pa-note':vPaNote,notes:vNotes,'o-conv':vOConv,'o-convnew':vOConvNew,'o-docs':vODocs,'pa-prog':vPaProg,'pa-ach':vPaAch,'pa-card':vPaCard,'b-home':vBHome,'b-req':vBReq,'h-home':vHHome,'h-act':vHAct,'p-home':vPHome,'p-log':vPLog,'t-cash':vTCash,'t-chq':vTChq,login:vLogin,activate:vActivate,norole:vNoRole,today:vToday,attend:vAttend,groups:vGroups,requests:vRequests,'pa-home':vPaHome,'pa-notifs':vPaNotifs,'pa-att':vPaAtt,'pa-sub':vPaSub,'pa-docs':vPaDocs,account:vAccount};
+var VIEWS={'c-ath':vCAth,'c-inj':vCInj,'c-dash':vCDash,'o-inj':vOInj,'o-coach':vOCoach,'o-health':vOHealth,'pa-conv':vPaConv,'pa-note':vPaNote,notes:vNotes,'o-conv':vOConv,'o-convnew':vOConvNew,'o-docs':vODocs,'pa-prog':vPaProg,'pa-ach':vPaAch,'pa-card':vPaCard,'b-home':vBHome,'b-req':vBReq,'h-home':vHHome,'h-act':vHAct,'p-home':vPHome,'p-log':vPLog,'t-cash':vTCash,'t-chq':vTChq,login:vLogin,activate:vActivate,norole:vNoRole,today:vToday,attend:vAttend,groups:vGroups,requests:vRequests,'pa-home':vPaHome,'pa-notifs':vPaNotifs,'pa-att':vPaAtt,'pa-sub':vPaSub,'pa-docs':vPaDocs,account:vAccount};
 function render(){
   applyPrefs();
   if(S.view==='boot'){root.innerHTML='<div class="sx-splash"><div></div><div class="col" style="align-items:center;gap:20px">'+I.sxAnim+'<div class="s-text col" style="align-items:center;gap:6px"><div class="sx-name">SYNOX <span>GYM</span></div><div class="sx-ar">سينوكس جيم</div></div></div><div class="col" style="align-items:center;gap:14px"><div class="sx-track"><div class="s-bar"></div></div><div class="sx-club">Mejerda Sport · Medjez El Bab</div></div></div>';return}
@@ -1287,6 +1504,7 @@ function render(){
   if(S.modal==='files')html+=vFilesModal();
   if(S.modal==='news')html+=vNewsModal();
   if(S.modal==='note')html+=vNoteModal();
+  if(S.modal==='emerg')html+=vEmergModal();
   if(S.toast)html+='<div class="toast" role="status">'+esc(S.toast)+'</div>';
   document.body.classList.toggle('locked',!!S.modal);
   root.innerHTML=html;
@@ -1296,8 +1514,8 @@ function render(){
 root.addEventListener('input',function(e){var id=e.target.id;
   if(S.draft&&id==='note')S.draft.note=e.target.value;if(S.draft&&id==='place')S.draft.place=e.target.value;
   if(S.req&&id==='r_why')S.req.why=e.target.value;if(S.req&&id==='r_nd')S.req.nd=e.target.value;if(S.req&&id==='r_nt')S.req.nt=e.target.value;
-  if(id==='nreason')S.noticeReason=e.target.value;if(S.nf&&id==='nf_t')S.nf.t=e.target.value;if(S.nf&&id==='nf_b')S.nf.b=e.target.value;if(id==='rj'&&S.dec)S.dec.why=e.target.value;if(id==='bopWhy'&&S.bop)S.bop.why=e.target.value;if(id==='rcvAmt'&&S.rcv)S.rcv.amt=e.target.value;if(id==='rcvWhy'&&S.rcv)S.rcv.why=e.target.value;if(id)input17(id,e.target.value);});
-root.addEventListener('change',async function(e){var dt=e.target.getAttribute&&e.target.getAttribute('data-up');if(dt){var fl=e.target.files&&e.target.files[0];e.target.value='';if(!fl)return;if(!/^image\//.test(fl.type||'')){toast(t('eImg'));return}try{var d=await shrinkImg(fl);await sendDoc(S.childId,dt,d)}catch(err){S.upBusy=null;toast(t('eImg'))}return}if(e.target.id)input17(e.target.id,e.target.value)});
+  if(id==='nreason')S.noticeReason=e.target.value;if(S.nf&&id==='nf_t')S.nf.t=e.target.value;if(S.nf&&id==='nf_b')S.nf.b=e.target.value;if(id==='rj'&&S.dec)S.dec.why=e.target.value;if(id==='bopWhy'&&S.bop)S.bop.why=e.target.value;if(id==='rcvAmt'&&S.rcv)S.rcv.amt=e.target.value;if(id==='rcvWhy'&&S.rcv)S.rcv.why=e.target.value;if(id){input17(id,e.target.value);input18(id,e.target.value)}});
+root.addEventListener('change',async function(e){var dt=e.target.getAttribute&&e.target.getAttribute('data-up');if(dt){var fl=e.target.files&&e.target.files[0];e.target.value='';if(!fl)return;if(!/^image\//.test(fl.type||'')){toast(t('eImg'));return}try{var d=await shrinkImg(fl);await sendDoc(S.childId,dt,d)}catch(err){S.upBusy=null;toast(t('eImg'))}return}if(e.target.id){input17(e.target.id,e.target.value);input18(e.target.id,e.target.value)}});
 root.addEventListener('submit',async function(e){
   e.preventDefault();var id=e.target.id,v=function(x){var el=document.getElementById(x);return el?el.value:''};
   if(id==='loginForm'){S.lastId=v('u').trim();var em=idToEmail(v('u')),pw=v('p');if(!em||!pw){S.formErr=t('eFields');render();return}S.formErr='';S.busy=true;render();var r=await sb.auth.signInWithPassword({email:em,password:pw});S.busy=false;if(r.error){S.formErr=(/fetch|network/i.test(r.error.message)?t('netErr'):t('loginErr'))+' ['+(r.error.status||'')+' '+r.error.message+']';render();return}S.email=r.data.user.email;await afterLogin();return}
@@ -1327,9 +1545,10 @@ root.addEventListener('click',async function(e){
   var el=e.target.closest('[data-a]');if(!el)return;if(el.classList.contains('modal')&&e.target!==el)return;if(el.disabled)return;
   var a=el.getAttribute('data-a'),v=el.getAttribute('data-v'),id=el.getAttribute('data-id'),gid=el.getAttribute('data-g');
   if(await act17(a,el,id,v)){render();return}
+  if(await act18(a,el,id,v)){render();return}
   if(a==='theme'){prefs.theme=isDark()?'light':'dark';store('sxm-prefs',prefs)}
   else if(a==='lang'){prefs.lang=v;store('sxm-prefs',prefs)}
-  else if(a==='go'){S.view=v;S.formErr='';S.code=null;window.scrollTo(0,0);if(['requests','p-home','p-log','t-cash','t-chq'].indexOf(v)>=0){render();await loadOffice()}if(v==='b-home'||v==='b-req'){render();await loadBranch()}if(v==='h-home'||v==='h-act'){render();await loadBoard()}if(v==='today'){await loadCoach()}if(v==='account'&&S.role==='coach'){render();await loadCoachMonth()}if(v==='groups'&&S.role==='coach'){render();loadConvList()}if(v==='notes'){S.gn=null}if(v==='o-conv'){render();await loadConvList()}if(v==='o-convnew'){S.formErr=''}if(v==='o-docs'){S.dr=null;render();await loadDocPend()}if(v==='pa-conv'){render();await loadConvP()}if((v==='pa-docs'||v==='pa-note')&&S.childId){render();await loadChildExtra(S.childId)}}
+  else if(a==='go'){S.view=v;S.formErr='';S.code=null;window.scrollTo(0,0);if(['requests','p-home','p-log','t-cash','t-chq'].indexOf(v)>=0){render();await loadOffice()}if(v==='b-home'||v==='b-req'){render();await loadBranch()}if(v==='h-home'||v==='h-act'){render();await loadBoard()}if(v==='today'){await loadCoach()}if(v==='account'&&S.role==='coach'){render();await loadCoachMonth()}if(v==='groups'&&S.role==='coach'){render();loadConvList()}if(v==='notes'){S.gn=null}if(v==='o-conv'){render();await loadConvList()}if(v==='o-convnew'){S.formErr=''}if(v==='o-docs'){S.dr=null;render();await loadDocPend()}if(v==='c-dash'){S.cs=null}if(v==='o-inj'){S.il=null;S.ic=null}if(v==='o-health'){S.hl=null;S.hf=null;S.formErr=''}if(v==='o-coach'){S.fu=null}if(v==='pa-conv'){render();await loadConvP()}if((v==='pa-docs'||v==='pa-note')&&S.childId){render();await loadChildExtra(S.childId)}}
   else if(a==='reload'){S.err='';if(S.role==='coach')await loadCoach();else if(S.role==='parent'){S.catt={};S.prog={};await loadParent()}else if(S.role==='branch_head')await loadBranch();else if(S.role==='board')await loadBoard();else await loadOffice()}
   else if(a==='ctab'){S.coachTab=v}
   else if(a==='open'){openSession(gid,v);return}
