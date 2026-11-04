@@ -322,6 +322,18 @@ h3.md-h{font-size:1.25rem}
 .card.long{grid-column:1/-1}
 .card.long .nbody{max-width:78ch}
 .card .more{margin-top:12px}
+
+/* statistiques */
+.stbox .stat{cursor:default}
+.stchart h3,.strank h3{margin:0 0 12px;font-size:1rem}
+.sbars{display:flex;align-items:flex-end;gap:3px;height:130px;border-bottom:1px solid var(--line);padding-bottom:2px}
+.sbars i{flex:1;min-width:2px;background:var(--brand);border-radius:3px 3px 0 0;opacity:.9}
+.sax{display:flex;justify-content:space-between;color:var(--muted);font-size:.8rem;margin-top:6px}
+.stchart{margin-top:14px}
+.rk{display:grid;grid-template-columns:minmax(80px,32%) 1fr auto;gap:10px;align-items:center;margin:8px 0;font-size:.92rem}
+.rk-b{height:8px;background:var(--soft);border-radius:99px;overflow:hidden;display:block}
+.rk-b i{display:block;height:100%;background:var(--brand);border-radius:99px}
+.rk b{font-variant-numeric:tabular-nums}
 /* chip météo / prochain entraînement */
 .live{display:flex;flex-direction:column;gap:6px;align-items:flex-start;margin:0 0 20px;padding:12px 16px;border-radius:16px;background:#ffffff14;border:1px solid #ffffff33;max-width:520px;font-size:.95rem;line-height:1.45}
 .live[hidden]{display:none}
@@ -413,6 +425,20 @@ dialog.rl::backdrop{background:rgba(4,12,24,.62);backdrop-filter:blur(3px)}
 .rl-ver{color:var(--muted);font-size:.85rem}
 .rl-foot{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;padding:14px 22px;border-top:1px solid var(--line)}
 .rl-head h2{text-transform:none;letter-spacing:0}
+
+/* champs du formulaire : fond distinct de la carte, texte toujours lisible */
+:root{--field-bg:#f3f7fb;--field-line:#c3d2e2}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--field-bg:#17294a;--field-line:#34507a}}
+:root[data-theme="dark"]{--field-bg:#17294a;--field-line:#34507a}
+#form input:not([type=checkbox]):not([type=radio]),#form select,#form textarea,#msgForm input,#msgForm textarea{background-color:var(--field-bg);border-color:var(--field-line);color:var(--ink);min-height:50px}
+#form textarea,#msgForm textarea{min-height:0}
+#form input::placeholder,#msgForm input::placeholder,#form textarea::placeholder,#msgForm textarea::placeholder{color:var(--muted);opacity:.8}
+#form input:focus,#form select:focus,#form textarea:focus{border-color:var(--gold);outline:2px solid var(--gold);outline-offset:1px}
+#form input[type=date]{-webkit-appearance:none;appearance:none;text-align:start;display:block}
+#form input[type=date]::-webkit-date-and-time-value{text-align:start;min-height:1.5em}
+#form input[type=date]::-webkit-datetime-edit,#form input[type=date]::-webkit-datetime-edit-fields-wrapper{color:var(--ink)}
+#form select option,#msgForm select option{background:var(--surface);color:var(--ink)}
+#form .err:empty,#msgForm .err:empty{display:none}
 .hpw{position:absolute;top:0;inset-inline-start:0;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none;clip-path:inset(50%)}#form{position:relative}html,body{overflow-x:clip}.admlink{color:inherit;opacity:.8}.stat{text-align:start;cursor:pointer;font:inherit;color:var(--ink)}.stat b{display:block;font-family:var(--display);font-size:2.6rem;line-height:1;color:var(--brand)}.stat small{color:var(--muted)}.stat:hover{border-color:var(--brand)}.req-card.isnew{border-inline-start:4px solid var(--gold)}#sprog{position:fixed;top:0;inset-inline:0;height:3px;z-index:60;background:var(--gold);transform:scaleX(0);transform-origin:0 50%;pointer-events:none}
 [dir=rtl] #sprog{transform-origin:100% 50%}
 header{transition:box-shadow .25s,background .25s}
@@ -1492,7 +1518,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     eTitle:"Saisissez au moins un titre (dans une langue).",eDate:"Choisissez une date.",ePhoto:"Choisissez une photo.",ePhotoRead:"Impossible de lire cette image.",eMail:"Adresse e-mail non valide.",eUrl:"Les liens doivent commencer par https://",
     dirtyTxt:"Modifications non publiées",cleanTxt:"Tout est publié",publish:"Publier",publishing:"Publication…",published:"Enregistré et publié. Les visiteurs voient déjà les changements.",copy:"Copier le contenu",copied:"Contenu affiché ci-dessous (copiez-le si besoin).",
     cNotWriter:"Session expirée ou droit insuffisant. Reconnectez-vous.",cDisabled:"La publication n'est pas disponible ici (lien partagé publiquement ou lecture seule). Copiez le contenu et envoyez-le à la personne qui gère le site.",cConflict:"Quelqu'un a publié avant vous : la page va se recharger. Vos changements sont gardés en brouillon.",cRate:"Trop de publications d'affilée. Attendez un instant.",cOther:"La publication a échoué.",
-    draft:"Un brouillon non publié a été retrouvé.",restore:"Le restaurer",ignore:"Ignorer",gOv:"Aperçu",gCt:"Contenu",gSt:"Site",gAc:"Compte",menu:"Menu",viewSite:"Voir le site",tprint:"Impression",aBd:"Naissance",aSex:"Sexe",aCity:"Ville",aGuard:"Parent / tuteur",aHealth:"Santé (à signaler)",aPickup:"Personne autorisée à récupérer l'enfant",aRules:"Conditions et règlement acceptés",aExp:"Pratique",aCert:"Certificat",aConsP:"Photos",aYes:"autorisées",aNo:"non autorisées",pIntro:"Imprimez des documents prêts à l'emploi pour le club.",pSch:"Horaires d'entraînement",pSchD:"Tableau hebdomadaire à afficher dans la salle.",pAtt:"Feuille de présence",pAttD:"Inscrits acceptés d'une discipline, avec colonnes pour les dates.",pList:"Liste des demandes",pListD:"Toutes les demandes ou un seul statut.",pBtn:"Imprimer",pAll:"Toutes",pForm:"Imprimer la fiche",pFicheT:"Fiche d'inscription",pFor:"Réservé au club",pSignG:"Signature du parent ou tuteur",pSignA:"Signature de l'athlète",pDate:"Date",pFile:"N° de dossier",pCertRec:"Certificat médical reçu",pPaid:"Cotisation réglée",pAge:"Âge",pYears:"ans",pNoSch:"Aucun horaire publié.",pNoReq:"Aucune demande.",pName:"Nom",pContact:"Contact",pDisc:"Discipline",pStatus:"Statut",pDay:"Jour",pTime:"Heure",pPlace:"Lieu",pGroup:"Groupe",pLegal:"Ces informations sont utilisées uniquement par le club pour gérer l'inscription.",pMsg:"Remarques",pFilter:"Filtrer par statut",pPrinted:"Imprimé le",pPick:"Discipline",pPhoto:"Photos de l'athlète",pReq:"Demande du",hVer:"Versions précédentes",hVerD:"Chaque publication garde une copie. Restaurer charge la version en brouillon : vérifiez puis cliquez sur Publier.",hLoad:"Afficher les versions",hRestore:"Restaurer",hNone:"Aucune version enregistrée.",hDone:"Version chargée en brouillon. Cliquez sur Publier pour la mettre en ligne.",hErr:"Impossible de charger les versions.",rWa:"Répondre sur WhatsApp",waHi:"Bonjour, ici le club Mejerda Sport. Nous avons bien reçu votre demande d'inscription pour",trequests:"Demandes",ttexts:"Textes",taccount:"Mon compte",
+    draft:"Un brouillon non publié a été retrouvé.",restore:"Le restaurer",ignore:"Ignorer",gOv:"Aperçu",gCt:"Contenu",gSt:"Site",gAc:"Compte",menu:"Menu",viewSite:"Voir le site",tprint:"Impression",aBd:"Naissance",aSex:"Sexe",aCity:"Ville",aGuard:"Parent / tuteur",tstats:"Visiteurs",aHealth:"Santé (à signaler)",aPickup:"Personne autorisée à récupérer l'enfant",aRules:"Conditions et règlement acceptés",aExp:"Pratique",aCert:"Certificat",aConsP:"Photos",aYes:"autorisées",aNo:"non autorisées",pIntro:"Imprimez des documents prêts à l'emploi pour le club.",pSch:"Horaires d'entraînement",pSchD:"Tableau hebdomadaire à afficher dans la salle.",pAtt:"Feuille de présence",pAttD:"Inscrits acceptés d'une discipline, avec colonnes pour les dates.",pList:"Liste des demandes",pListD:"Toutes les demandes ou un seul statut.",pBtn:"Imprimer",pAll:"Toutes",pForm:"Imprimer la fiche",pFicheT:"Fiche d'inscription",pFor:"Réservé au club",pSignG:"Signature du parent ou tuteur",pSignA:"Signature de l'athlète",pDate:"Date",pFile:"N° de dossier",pCertRec:"Certificat médical reçu",pPaid:"Cotisation réglée",pAge:"Âge",pYears:"ans",pNoSch:"Aucun horaire publié.",pNoReq:"Aucune demande.",pName:"Nom",pContact:"Contact",pDisc:"Discipline",pStatus:"Statut",pDay:"Jour",pTime:"Heure",pPlace:"Lieu",pGroup:"Groupe",pLegal:"Ces informations sont utilisées uniquement par le club pour gérer l'inscription.",pMsg:"Remarques",pFilter:"Filtrer par statut",pPrinted:"Imprimé le",pPick:"Discipline",pPhoto:"Photos de l'athlète",pReq:"Demande du",hVer:"Versions précédentes",hVerD:"Chaque publication garde une copie. Restaurer charge la version en brouillon : vérifiez puis cliquez sur Publier.",hLoad:"Afficher les versions",hRestore:"Restaurer",hNone:"Aucune version enregistrée.",hDone:"Version chargée en brouillon. Cliquez sur Publier pour la mettre en ligne.",hErr:"Impossible de charger les versions.",rWa:"Répondre sur WhatsApp",waHi:"Bonjour, ici le club Mejerda Sport. Nous avons bien reçu votre demande d'inscription pour",trequests:"Demandes",ttexts:"Textes",taccount:"Mon compte",
     loginT:"Connexion",fEmailL:"E-mail",fPw:"Mot de passe",loginBtn:"Se connecter",logout:"Se déconnecter",eLogin:"E-mail ou mot de passe incorrect.",notEditor:"Ce compte n'est pas autorisé à modifier le site. Demandez au club de l'ajouter.",netErr:"Pas de connexion. Réessayez.",signedAs:"Connecté :",
     dNews:"Actualités",dEvents:"Événements à venir",dReq:"Nouvelles demandes",dPhotos:"Photos",dTeam:"Personnes dans l'équipe",qNews:"+ Actualité",qEvent:"+ Événement",qPhoto:"+ Photo",
     rNew:"Nouvelle",rContacted:"Contactée",rAccepted:"Acceptée",rDeclined:"Refusée",rNone:"Aucune demande pour le moment.",rExport:"Exporter (Excel)",rRefresh:"Actualiser",rLoadErr:"Impossible de charger les demandes.",rStatus:"Statut",
@@ -1508,7 +1534,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     eTitle:"Enter at least one title (in any language).",eDate:"Pick a date.",ePhoto:"Choose a photo.",ePhotoRead:"This image cannot be read.",eMail:"Invalid e-mail address.",eUrl:"Links must start with https://",
     dirtyTxt:"Unpublished changes",cleanTxt:"Everything is published",publish:"Publish",publishing:"Publishing…",published:"Saved and published. Visitors already see the changes.",copy:"Copy content",copied:"Content shown below (copy it if needed).",
     cNotWriter:"Session expired or not allowed. Sign in again.",cDisabled:"Publishing is not available here (publicly shared link or read-only view). Copy the content and send it to whoever manages the site.",cConflict:"Someone published before you: the page will reload. Your changes are kept as a draft.",cRate:"Too many publishes in a row. Wait a moment.",cOther:"Publishing failed.",
-    draft:"An unpublished draft was found.",restore:"Restore it",ignore:"Ignore",gOv:"Overview",gCt:"Content",gSt:"Site",gAc:"Account",menu:"Menu",viewSite:"View site",tprint:"Print",aBd:"Born",aSex:"Sex",aCity:"Town",aGuard:"Parent / guardian",aHealth:"Health (to report)",aPickup:"Person allowed to collect the child",aRules:"Conditions and rules accepted",aExp:"Practice",aCert:"Certificate",aConsP:"Photos",aYes:"allowed",aNo:"not allowed",pIntro:"Print ready-to-use documents for the club.",pSch:"Training schedule",pSchD:"Weekly table to put up in the hall.",pAtt:"Attendance sheet",pAttD:"Accepted members of one discipline, with columns for dates.",pList:"Requests list",pListD:"All requests or one status only.",pBtn:"Print",pAll:"All",pForm:"Print the form",pFicheT:"Registration form",pFor:"For club use",pSignG:"Parent or guardian signature",pSignA:"Athlete signature",pDate:"Date",pFile:"File no.",pCertRec:"Medical certificate received",pPaid:"Fee paid",pAge:"Age",pYears:"years",pNoSch:"No schedule published.",pNoReq:"No requests.",pName:"Name",pContact:"Contact",pDisc:"Discipline",pStatus:"Status",pDay:"Day",pTime:"Time",pPlace:"Place",pGroup:"Group",pLegal:"This information is used only by the club to manage the registration.",pMsg:"Notes",pFilter:"Filter by status",pPrinted:"Printed on",pPick:"Discipline",pPhoto:"Athlete photos",pReq:"Request of",hVer:"Previous versions",hVerD:"Every publication keeps a copy. Restoring loads the version as a draft: check it, then click Publish.",hLoad:"Show versions",hRestore:"Restore",hNone:"No saved version.",hDone:"Version loaded as a draft. Click Publish to put it online.",hErr:"Could not load the versions.",rWa:"Reply on WhatsApp",waHi:"Hello, this is Mejerda Sport club. We received your registration request for",trequests:"Requests",ttexts:"Texts",taccount:"My account",
+    draft:"An unpublished draft was found.",restore:"Restore it",ignore:"Ignore",gOv:"Overview",gCt:"Content",gSt:"Site",gAc:"Account",menu:"Menu",viewSite:"View site",tprint:"Print",aBd:"Born",aSex:"Sex",aCity:"Town",aGuard:"Parent / guardian",tstats:"Visitors",aHealth:"Health (to report)",aPickup:"Person allowed to collect the child",aRules:"Conditions and rules accepted",aExp:"Practice",aCert:"Certificate",aConsP:"Photos",aYes:"allowed",aNo:"not allowed",pIntro:"Print ready-to-use documents for the club.",pSch:"Training schedule",pSchD:"Weekly table to put up in the hall.",pAtt:"Attendance sheet",pAttD:"Accepted members of one discipline, with columns for dates.",pList:"Requests list",pListD:"All requests or one status only.",pBtn:"Print",pAll:"All",pForm:"Print the form",pFicheT:"Registration form",pFor:"For club use",pSignG:"Parent or guardian signature",pSignA:"Athlete signature",pDate:"Date",pFile:"File no.",pCertRec:"Medical certificate received",pPaid:"Fee paid",pAge:"Age",pYears:"years",pNoSch:"No schedule published.",pNoReq:"No requests.",pName:"Name",pContact:"Contact",pDisc:"Discipline",pStatus:"Status",pDay:"Day",pTime:"Time",pPlace:"Place",pGroup:"Group",pLegal:"This information is used only by the club to manage the registration.",pMsg:"Notes",pFilter:"Filter by status",pPrinted:"Printed on",pPick:"Discipline",pPhoto:"Athlete photos",pReq:"Request of",hVer:"Previous versions",hVerD:"Every publication keeps a copy. Restoring loads the version as a draft: check it, then click Publish.",hLoad:"Show versions",hRestore:"Restore",hNone:"No saved version.",hDone:"Version loaded as a draft. Click Publish to put it online.",hErr:"Could not load the versions.",rWa:"Reply on WhatsApp",waHi:"Hello, this is Mejerda Sport club. We received your registration request for",trequests:"Requests",ttexts:"Texts",taccount:"My account",
     loginT:"Sign in",fEmailL:"E-mail",fPw:"Password",loginBtn:"Sign in",logout:"Sign out",eLogin:"Wrong e-mail or password.",notEditor:"This account is not allowed to edit the site. Ask the club to add it.",netErr:"No connection. Try again.",signedAs:"Signed in:",
     dNews:"News",dEvents:"Upcoming events",dReq:"New requests",dPhotos:"Photos",dTeam:"People in the team",qNews:"+ News",qEvent:"+ Event",qPhoto:"+ Photo",
     rNew:"New",rContacted:"Contacted",rAccepted:"Accepted",rDeclined:"Declined",rNone:"No requests yet.",rExport:"Export (Excel)",rRefresh:"Refresh",rLoadErr:"Could not load the requests.",rStatus:"Status",
@@ -1524,7 +1550,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     eTitle:"أدخل عنوانًا واحدًا على الأقل (بأي لغة).",eDate:"اختر تاريخًا.",ePhoto:"اختر صورة.",ePhotoRead:"تعذّرت قراءة هذه الصورة.",eMail:"بريد إلكتروني غير صالح.",eUrl:"يجب أن تبدأ الروابط بـ https://",
     dirtyTxt:"تعديلات غير منشورة",cleanTxt:"كل شيء منشور",publish:"نشر",publishing:"جارٍ النشر…",published:"تم الحفظ والنشر. يرى الزوّار التغييرات الآن.",copy:"نسخ المحتوى",copied:"المحتوى معروض أدناه (انسخه عند الحاجة).",
     cNotWriter:"انتهت الجلسة أو لا تملك الصلاحية. سجّل الدخول من جديد.",cDisabled:"النشر غير متاح هنا (رابط مشارك علنًا أو عرض للقراءة فقط). انسخ المحتوى وأرسله إلى من يدير الموقع.",cConflict:"نشر شخص آخر قبلك: ستُعاد تحميل الصفحة. تعديلاتك محفوظة كمسودّة.",cRate:"نشر متكرر جدًا. انتظر قليلًا.",cOther:"فشل النشر.",
-    draft:"تم العثور على مسودّة غير منشورة.",restore:"استرجاعها",ignore:"تجاهل",gOv:"نظرة عامة",gCt:"المحتوى",gSt:"الموقع",gAc:"الحساب",menu:"القائمة",viewSite:"عرض الموقع",tprint:"طباعة",aBd:"الميلاد",aSex:"الجنس",aCity:"المدينة",aGuard:"الولي",aHealth:"الصحة (للتنبيه)",aPickup:"المخوَّل باستلام الطفل",aRules:"الموافقة على الشروط والنظام",aExp:"الممارسة",aCert:"الشهادة الطبية",aConsP:"الصور",aYes:"مسموحة",aNo:"غير مسموحة",pIntro:"اطبع وثائق جاهزة للاستعمال في النادي.",pSch:"أوقات التدريب",pSchD:"جدول أسبوعي للتعليق في القاعة.",pAtt:"ورقة الحضور",pAttD:"المقبولون في اختصاص واحد مع أعمدة للتواريخ.",pList:"قائمة الطلبات",pListD:"كل الطلبات أو حالة واحدة فقط.",pBtn:"طباعة",pAll:"الكل",pForm:"طباعة الاستمارة",pFicheT:"استمارة اشتراك",pFor:"خاص بالنادي",pSignG:"إمضاء الولي أو الوصي",pSignA:"إمضاء الرياضي",pDate:"التاريخ",pFile:"رقم الملف",pCertRec:"تم استلام الشهادة الطبية",pPaid:"تم دفع معلوم الاشتراك",pAge:"السن",pYears:"سنة",pNoSch:"لا توجد أوقات منشورة.",pNoReq:"لا توجد طلبات.",pName:"الاسم",pContact:"الاتصال",pDisc:"الاختصاص",pStatus:"الحالة",pDay:"اليوم",pTime:"الوقت",pPlace:"المكان",pGroup:"المجموعة",pLegal:"يستعمل النادي هذه المعطيات فقط لتسيير الاشتراك.",pMsg:"ملاحظات",pFilter:"تصفية حسب الحالة",pPrinted:"طُبع في",pPick:"الاختصاص",pPhoto:"صور الرياضي",pReq:"طلب بتاريخ",hVer:"النسخ السابقة",hVerD:"كل نشر يحفظ نسخة. الاسترجاع يحمّل النسخة كمسودة: راجعها ثم اضغط «نشر».",hLoad:"عرض النسخ",hRestore:"استرجاع",hNone:"لا توجد نسخ محفوظة.",hDone:"تم تحميل النسخة كمسودة. اضغط «نشر» لإظهارها في الموقع.",hErr:"تعذّر تحميل النسخ.",rWa:"الرد عبر واتساب",waHi:"السلام عليكم، معكم نادي مجردة الرياضية. استلمنا طلب الاشتراك الخاص بـ",trequests:"الطلبات",ttexts:"النصوص",taccount:"حسابي",
+    draft:"تم العثور على مسودّة غير منشورة.",restore:"استرجاعها",ignore:"تجاهل",gOv:"نظرة عامة",gCt:"المحتوى",gSt:"الموقع",gAc:"الحساب",menu:"القائمة",viewSite:"عرض الموقع",tprint:"طباعة",aBd:"الميلاد",aSex:"الجنس",aCity:"المدينة",aGuard:"الولي",tstats:"الزوار",aHealth:"الصحة (للتنبيه)",aPickup:"المخوَّل باستلام الطفل",aRules:"الموافقة على الشروط والنظام",aExp:"الممارسة",aCert:"الشهادة الطبية",aConsP:"الصور",aYes:"مسموحة",aNo:"غير مسموحة",pIntro:"اطبع وثائق جاهزة للاستعمال في النادي.",pSch:"أوقات التدريب",pSchD:"جدول أسبوعي للتعليق في القاعة.",pAtt:"ورقة الحضور",pAttD:"المقبولون في اختصاص واحد مع أعمدة للتواريخ.",pList:"قائمة الطلبات",pListD:"كل الطلبات أو حالة واحدة فقط.",pBtn:"طباعة",pAll:"الكل",pForm:"طباعة الاستمارة",pFicheT:"استمارة اشتراك",pFor:"خاص بالنادي",pSignG:"إمضاء الولي أو الوصي",pSignA:"إمضاء الرياضي",pDate:"التاريخ",pFile:"رقم الملف",pCertRec:"تم استلام الشهادة الطبية",pPaid:"تم دفع معلوم الاشتراك",pAge:"السن",pYears:"سنة",pNoSch:"لا توجد أوقات منشورة.",pNoReq:"لا توجد طلبات.",pName:"الاسم",pContact:"الاتصال",pDisc:"الاختصاص",pStatus:"الحالة",pDay:"اليوم",pTime:"الوقت",pPlace:"المكان",pGroup:"المجموعة",pLegal:"يستعمل النادي هذه المعطيات فقط لتسيير الاشتراك.",pMsg:"ملاحظات",pFilter:"تصفية حسب الحالة",pPrinted:"طُبع في",pPick:"الاختصاص",pPhoto:"صور الرياضي",pReq:"طلب بتاريخ",hVer:"النسخ السابقة",hVerD:"كل نشر يحفظ نسخة. الاسترجاع يحمّل النسخة كمسودة: راجعها ثم اضغط «نشر».",hLoad:"عرض النسخ",hRestore:"استرجاع",hNone:"لا توجد نسخ محفوظة.",hDone:"تم تحميل النسخة كمسودة. اضغط «نشر» لإظهارها في الموقع.",hErr:"تعذّر تحميل النسخ.",rWa:"الرد عبر واتساب",waHi:"السلام عليكم، معكم نادي مجردة الرياضية. استلمنا طلب الاشتراك الخاص بـ",trequests:"الطلبات",ttexts:"النصوص",taccount:"حسابي",
     loginT:"تسجيل الدخول",fEmailL:"البريد الإلكتروني",fPw:"كلمة السر",loginBtn:"دخول",logout:"خروج",eLogin:"بريد أو كلمة سر غير صحيحة.",notEditor:"هذا الحساب غير مخوّل لتعديل الموقع. اطلب من النادي إضافته.",netErr:"لا يوجد اتصال. أعد المحاولة.",signedAs:"مسجَّل باسم:",
     dNews:"الأخبار",dEvents:"أحداث قادمة",dReq:"طلبات جديدة",dPhotos:"الصور",dTeam:"أفراد الفريق",qNews:"+ خبر",qEvent:"+ حدث",qPhoto:"+ صورة",
     rNew:"جديد",rContacted:"تم الاتصال",rAccepted:"مقبول",rDeclined:"مرفوض",rNone:"لا توجد طلبات حاليًا.",rExport:"تصدير (Excel)",rRefresh:"تحديث",rLoadErr:"تعذّر تحميل الطلبات.",rStatus:"الحالة",
@@ -1693,15 +1719,15 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
         h("button",{class:"btn outline sm",type:"button",text:X("restore"),on:{click:function(){DATA=normalize(aDraft);aDraft=null;dirty=true;renderAll()}}})," ",
         h("button",{class:"btn outline sm",type:"button",text:X("ignore"),on:{click:function(){aDraft=null;try{sessionStorage.removeItem(DK)}catch(e){}renderAdmin()}}})]));
     }
-    var ICON={print:"M7 8V3h10v5M7 17H4v-7h16v7h-3M7 14h10v7H7z",home:"M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z",requests:"M4 4h16v12H5.2L4 17.2zM8 9h8M8 12h5",news:"M5 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V5zM8 8h8M8 12h8M8 16h4",events:"M4 6h16v14H4zM4 10h16M9 3v5M15 3v5",schedule:"M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2",disciplines:"M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3",team:"M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c0-3.3 2.9-5.5 6.5-5.5s6.5 2.2 6.5 5.5M17 11a3 3 0 1 0 0-6M18 14.7c2 .6 3.5 2.3 3.5 5.3",gallery:"M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4M9 9.5a1 1 0 1 0 0-.01",texts:"M5 5h14M12 5v14M9 19h6",contact:"M4 5h16v14H4zM4 7l8 6 8-6",sponsors:"M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z",links:"M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1",account:"M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"};
+    var ICON={stats:"M4 20V10M10 20V4M16 20v-7M22 20H2",print:"M7 8V3h10v5M7 17H4v-7h16v7h-3M7 14h10v7H7z",home:"M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z",requests:"M4 4h16v12H5.2L4 17.2zM8 9h8M8 12h5",news:"M5 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V5zM8 8h8M8 12h8M8 16h4",events:"M4 6h16v14H4zM4 10h16M9 3v5M15 3v5",schedule:"M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2",disciplines:"M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3",team:"M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c0-3.3 2.9-5.5 6.5-5.5s6.5 2.2 6.5 5.5M17 11a3 3 0 1 0 0-6M18 14.7c2 .6 3.5 2.3 3.5 5.3",gallery:"M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4M9 9.5a1 1 0 1 0 0-.01",texts:"M5 5h14M12 5v14M9 19h6",contact:"M4 5h16v14H4zM4 7l8 6 8-6",sponsors:"M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z",links:"M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1",account:"M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"};
     function ico(t){var sp=document.createElement("span");sp.className="sico";sp.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="'+ICON[t]+'"/></svg>';return sp}
-    var GROUPS=[["gOv",["home","requests","print"]],["gCt",["news","events","schedule","disciplines","team","sponsors","gallery"]],["gSt",["texts","contact","links"]],["gAc",["account"]]];
+    var GROUPS=[["gOv",["home","requests","stats","print"]],["gCt",["news","events","schedule","disciplines","team","sponsors","gallery"]],["gSt",["texts","contact","links"]],["gAc",["account"]]];
     var shell=h("div",{class:"adm-shell"+(navOpen?" open":"")}),side=h("aside",{class:"adm-side",id:"admSide"}),M=h("div",{class:"adm-main"});
     var nNew=REQS?REQS.filter(function(r){return r.status==="new"}).length:0;
     GROUPS.forEach(function(g){
       side.appendChild(h("div",{class:"adm-gt",text:X(g[0])}));
       g[1].forEach(function(t){
-        var b=h("button",{class:"adm-item",type:"button",on:{click:function(){aTab=t;aEdit=null;aDel=null;navOpen=false;if(t==="requests"||t==="home"||t==="print")loadReqs();renderAdmin();var sh=$("#adminRoot");if(sh&&sh.scrollIntoView)sh.scrollIntoView({block:"start"})}}},[ico(t),h("span",{class:"lbl",text:X("t"+t)})]);
+        var b=h("button",{class:"adm-item",type:"button",on:{click:function(){aTab=t;aEdit=null;aDel=null;navOpen=false;if(t==="requests"||t==="home"||t==="print")loadReqs();if(t==="stats"&&!STATS)loadStats();renderAdmin();var sh=$("#adminRoot");if(sh&&sh.scrollIntoView)sh.scrollIntoView({block:"start"})}}},[ico(t),h("span",{class:"lbl",text:X("t"+t)})]);
         if(aTab===t)b.setAttribute("aria-current","page");
         if(t==="requests"&&nNew)b.appendChild(h("span",{class:"badge",text:String(nNew)}));
         side.appendChild(b);
@@ -1716,6 +1742,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     if(aTab==="home"){M.appendChild(buildDash())}
     else if(aTab==="requests"){M.appendChild(buildReqs())}
     else if(aTab==="print"){M.appendChild(buildPrint())}
+    else if(aTab==="stats"){M.appendChild(buildStats())}
     else if(aTab==="texts"){M.appendChild(buildTexts())}
     else if(aTab==="account"){M.appendChild(buildAccount())}
     else if(aTab==="contact"){M.appendChild(buildContactForm())}
@@ -1883,6 +1910,79 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     }).then(function(){if(curPage==="admin")renderAdmin()});
   }
 
+
+  /* ---- compteur de visites (anonyme : pas d'IP, pas de cookie) ---- */
+  var TZC={"Africa/Tunis":"TN","Europe/Paris":"FR","Africa/Algiers":"DZ","Africa/Tripoli":"LY","Africa/Casablanca":"MA","Africa/Cairo":"EG","Europe/Rome":"IT","Europe/Berlin":"DE","Europe/Brussels":"BE","Europe/Madrid":"ES","Europe/London":"GB","Europe/Zurich":"CH","Europe/Amsterdam":"NL","Europe/Luxembourg":"LU","Europe/Stockholm":"SE","Europe/Vienna":"AT","Europe/Istanbul":"TR","Asia/Istanbul":"TR","Asia/Riyadh":"SA","Asia/Dubai":"AE","Asia/Qatar":"QA","Asia/Kuwait":"KW","Asia/Bahrain":"BH","Asia/Muscat":"OM","America/Toronto":"CA","America/Montreal":"CA","America/Vancouver":"CA","America/New_York":"US","America/Chicago":"US","America/Los_Angeles":"US","America/Denver":"US","Africa/Abidjan":"CI","Africa/Dakar":"SN","Africa/Johannesburg":"ZA","Asia/Beirut":"LB","Asia/Amman":"JO","Asia/Baghdad":"IQ","Europe/Moscow":"RU","Asia/Shanghai":"CN","Asia/Tokyo":"JP","Australia/Sydney":"AU","Europe/Lisbon":"PT","Europe/Warsaw":"PL","Europe/Dublin":"IE","Europe/Athens":"GR","Europe/Bucharest":"RO","Europe/Oslo":"NO","Europe/Copenhagen":"DK","Europe/Helsinki":"FI","Africa/Nouakchott":"MR","Africa/Khartoum":"SD","Asia/Jerusalem":"IL","Asia/Gaza":"PS","Asia/Hebron":"PS","Asia/Damascus":"SY","Asia/Kolkata":"IN","Asia/Karachi":"PK","America/Sao_Paulo":"BR"};
+  var hitFirst=true,hitSent={};
+  function hitCountry(){try{return TZC[Intl.DateTimeFormat().resolvedOptions().timeZone]||"ZZ"}catch(e){return"ZZ"}}
+  function hitRef(){
+    if(!hitFirst)return"internal";
+    hitFirst=false;var r=document.referrer||"";if(!r)return"direct";
+    var host="";try{host=new URL(r).hostname.toLowerCase()}catch(e){return"other"}
+    if(host===location.hostname)return"internal";
+    if(/(^|\.)(facebook|fb)\.com$|(^|\.)fb\.me$|lm\.facebook/.test(host))return"facebook";
+    if(/instagram\.com$/.test(host))return"instagram";
+    if(/(^|\.)google\./.test(host))return"google";
+    if(/whatsapp\.com$|(^|\.)wa\.me$/.test(host))return"whatsapp";
+    return"other";
+  }
+  function hit(pg){
+    try{
+      if(!pg||pg==="admin"||hitSent[pg])return;
+      var ss=null;try{ss=JSON.parse(localStorage.getItem(SK)||"null")}catch(e){}
+      if(ss&&ss.refresh_token)return;
+      var vid=localStorage.getItem("mejerda-vid");
+      if(!vid||!/^[a-z0-9]{8,16}$/.test(vid)){vid="";var ch="abcdefghijklmnopqrstuvwxyz0123456789";for(var i=0;i<12;i++)vid+=ch.charAt(Math.floor(Math.random()*36));localStorage.setItem("mejerda-vid",vid)}
+      hitSent[pg]=1;
+      api("/rest/v1/rpc/site_hit",{method:"POST",json:{p:pg,l:(function(){try{var x=localStorage.getItem("mejerda-lang");if(x)return x}catch(e){}return lang})(),d:(window.matchMedia&&matchMedia("(max-width:760px)").matches)?"m":"d",r:hitRef(),v:vid,c:hitCountry()}}).catch(function(){});
+    }catch(e){}
+  }
+
+  /* ---- statistiques (administration) ---- */
+  var STATS=null,STERR=false;
+  function loadStats(){
+    return aapi("/rest/v1/rpc/site_stats",{method:"POST",json:{n:30}}).then(function(r){STATS=r;STERR=false},function(){STERR=true}).then(function(){if(curPage==="admin"&&canEd===true&&aTab==="stats")renderAdmin()});
+  }
+  var STX={
+    fr:{h:"Visiteurs du site",note:"Visiteurs uniques : un même appareil compte une fois par jour. Aucune adresse IP n'est enregistrée ; le pays est estimé d'après le fuseau horaire de l'appareil. Vos propres visites (connecté) ne sont pas comptées.",today:"Aujourd'hui",d7:"7 jours",d30:"30 jours",views:"Pages vues (30 j)",reqs:"Demandes (30 j)",chart:"Visiteurs par jour (30 jours)",country:"Pays",pages:"Pages",ref:"Provenance",device:"Appareil",lang:"Langue",m:"Mobile",d:"Ordinateur",other:"Autre",direct:"Accès direct",none:"Pas encore de données.",refresh:"Actualiser",
+      P:{home:"Accueil",club:"Le club",disciplines:"Disciplines",actus:"Actualités",calendrier:"Calendrier",galerie:"Galerie",inscription:"Inscription",espace:"Espace membres",contact:"Contact"},L:{ar:"Arabe",fr:"Français",en:"Anglais"},R:{direct:"Accès direct",facebook:"Facebook",instagram:"Instagram",google:"Google",whatsapp:"WhatsApp",other:"Autre site"}},
+    en:{h:"Site visitors",note:"Unique visitors: one device counts once per day. No IP address is stored; the country is estimated from the device's time zone. Your own visits (when logged in) are not counted.",today:"Today",d7:"7 days",d30:"30 days",views:"Page views (30 d)",reqs:"Requests (30 d)",chart:"Visitors per day (30 days)",country:"Countries",pages:"Pages",ref:"Source",device:"Device",lang:"Language",m:"Mobile",d:"Desktop",other:"Other",direct:"Direct",none:"No data yet.",refresh:"Refresh",
+      P:{home:"Home",club:"The club",disciplines:"Disciplines",actus:"News",calendrier:"Calendar",galerie:"Gallery",inscription:"Registration",espace:"Members area",contact:"Contact"},L:{ar:"Arabic",fr:"French",en:"English"},R:{direct:"Direct",facebook:"Facebook",instagram:"Instagram",google:"Google",whatsapp:"WhatsApp",other:"Other site"}},
+    ar:{h:"زوّار الموقع",note:"الزوّار الفريدون: الجهاز الواحد يُحسب مرة في اليوم. لا يُسجَّل أي عنوان IP، والبلد تقدير من المنطقة الزمنية للجهاز. زياراتك أنت (وأنت مسجّل الدخول) لا تُحسب.",today:"اليوم",d7:"7 أيام",d30:"30 يومًا",views:"مشاهدات الصفحات (30 يومًا)",reqs:"الطلبات (30 يومًا)",chart:"الزوّار في كل يوم (30 يومًا)",country:"البلدان",pages:"الصفحات",ref:"المصدر",device:"الجهاز",lang:"اللغة",m:"هاتف",d:"حاسوب",other:"أخرى",direct:"مباشر",none:"لا توجد بيانات بعد.",refresh:"تحديث",
+      P:{home:"الرئيسية",club:"النادي",disciplines:"الاختصاصات",actus:"الأخبار",calendrier:"الروزنامة",galerie:"المعرض",inscription:"الاشتراك",espace:"فضاء الأعضاء",contact:"اتصل بنا"},L:{ar:"العربية",fr:"الفرنسية",en:"الإنجليزية"},R:{direct:"مباشر",facebook:"فيسبوك",instagram:"إنستغرام",google:"غوغل",whatsapp:"واتساب",other:"موقع آخر"}}
+  };
+  function buildStats(){
+    var S=STX[lang]||STX.fr,box=h("div",{class:"stbox"});
+    box.appendChild(h("p",{class:"adm-note",text:S.note}));
+    box.appendChild(h("button",{class:"btn outline sm",type:"button",text:S.refresh,on:{click:function(){STATS=null;loadStats();renderAdmin()}}}));
+    if(STERR){box.appendChild(h("p",{class:"adm-note",text:X("netErr")}));return box}
+    if(!STATS){box.appendChild(h("p",{class:"adm-note",text:X("loading")}));return box}
+    var d=STATS;
+    function card(v,l){return h("div",{class:"card stat"},[h("b",{text:String(v)}),h("small",{text:l})])}
+    box.appendChild(h("div",{class:"grid g3",style:"margin-top:14px"},[card(d.u_today,S.today),card(d.u_7,S.d7),card(d.u_30,S.d30),card(d.v_30,S.views),card(d.req_30,S.reqs)]));
+    var days=d.days||[],mx=1;days.forEach(function(x){if(x.u>mx)mx=x.u});
+    var bars=h("div",{class:"sbars",role:"img","aria-label":S.chart});
+    days.forEach(function(x){bars.appendChild(h("i",{style:"height:"+Math.max(3,Math.round(x.u/mx*100))+"%",title:x.d+" : "+x.u}))});
+    box.appendChild(h("div",{class:"card stchart"},[h("h3",{text:S.chart}),bars,h("div",{class:"sax"},[h("span",{text:(days[0]||{}).d||""}),h("span",{text:(days[days.length-1]||{}).d||""})])]));
+    function rank(title,arr,lab){
+      var tot=0;(arr||[]).forEach(function(x){tot+=x.n});
+      var c=h("div",{class:"card strank"},[h("h3",{text:title})]);
+      if(!arr||!arr.length){c.appendChild(h("p",{class:"adm-note",text:S.none}));return c}
+      arr.slice(0,10).forEach(function(x){
+        var pc=tot?Math.round(x.n/tot*100):0;
+        c.appendChild(h("div",{class:"rk"},[h("span",{class:"rk-l",text:lab(x.k)}),h("span",{class:"rk-b"},[h("i",{style:"width:"+Math.max(pc,2)+"%"})]),h("b",{text:x.n+" · "+pc+"%"})]));
+      });
+      return c;
+    }
+    var rn=null;try{rn=new Intl.DisplayNames([lang],{type:"region"})}catch(e){}
+    box.appendChild(h("div",{class:"grid g2",style:"margin-top:14px"},[
+      rank(S.country,d.country,function(k){if(!k||k==="ZZ")return S.other;try{return (rn&&rn.of(k)||k)+" ("+k+")"}catch(e){return k}}),
+      rank(S.pages,d.pages,function(k){return S.P[k]||k}),
+      rank(S.ref,d.ref,function(k){return S.R[k]||k}),
+      rank(S.device,d.device,function(k){return k==="m"?S.m:S.d}),
+      rank(S.lang,d.lang,function(k){return S.L[k]||k})]));
+    return box;
+  }
   /* ---- tableau de bord ---- */
   function buildDash(){
     var box=h("div");
@@ -2156,6 +2256,7 @@ var RULES={"v":"2026-11","ar":{"title":"شروط التسجيل والنظام �
   function route(){
     var h=(location.hash||"").slice(1);
     if(h==="accueil"||PAGES.indexOf(h)<0)h="home";
+    if(typeof hit==="function")hit(h);
     curPage=h;
     $$("[data-page]").forEach(function(e){e.hidden=e.dataset.page!==h});
     if(h==="admin")renderAdmin();
