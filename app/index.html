@@ -241,6 +241,37 @@ label.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;
 .mc-d{min-height:46px;border-radius:12px;border:1px solid transparent;background:transparent;color:var(--fg);font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer}
 .mc-d.out{opacity:.3}.mc-d.td{border-color:var(--accent)}.mc-d.sel{background:var(--accent);color:var(--accent-ink);font-weight:700}
 .mc-dots{display:flex;gap:2px;height:6px}.mc-dots i{width:5px;height:5px;border-radius:3px;background:var(--accent)}.mc-d.sel .mc-dots i{background:var(--accent-ink)}.mc-dots i.x{background:var(--bad)}
+.fc{--c1:#F7DE86;--c2:#D9A93A;--c3:#8A6114;--ink:#2B1D05;--shine:rgba(255,255,255,.55);position:relative;width:236px;height:372px;flex:none;color:var(--ink);direction:rtl;
+  clip-path:polygon(50% 0,100% 6%,100% 86%,50% 100%,0 86%,0 6%);
+  background:radial-gradient(120% 60% at 30% 0%,var(--shine),transparent 55%),repeating-linear-gradient(115deg,rgba(255,255,255,.07) 0 6px,transparent 6px 14px),linear-gradient(160deg,var(--c1) 0%,var(--c2) 55%,var(--c3) 100%)}
+.fc:before{content:"";position:absolute;inset:7px;clip-path:polygon(50% 0,100% 6%,100% 86%,50% 100%,0 86%,0 6%);box-shadow:inset 0 0 0 2px rgba(255,255,255,.35);pointer-events:none}
+.fc.t-b{--c1:#E3A77A;--c2:#B0703F;--c3:#6E3F1C;--ink:#2A1405}
+.fc.t-s{--c1:#F1F3F5;--c2:#BCC3CB;--c3:#7E8791;--ink:#1D2328}
+.fc.t-x{--ink:#FFD36B;background:radial-gradient(90% 55% at 70% 0%,rgba(255,107,26,.75),transparent 60%),radial-gradient(70% 40% at 10% 100%,rgba(255,211,107,.35),transparent 60%),repeating-linear-gradient(115deg,rgba(255,255,255,.05) 0 6px,transparent 6px 14px),linear-gradient(160deg,#2A2B30,#0B0B0D)}
+.fc.t-x:before{box-shadow:inset 0 0 0 2px rgba(255,211,107,.55)}
+.fc-ovr{position:absolute;top:34px;right:22px;text-align:center;line-height:.95}
+.fc-ovr b{display:block;font-size:46px;font-weight:700}.fc-ovr span{display:block;font-size:12px;font-weight:700;margin-top:4px}
+.fc-badge{position:absolute;top:110px;right:26px;width:30px;height:30px;border-radius:50%;background:#FF6B1A;color:#fff;display:grid;place-items:center;font-weight:700;font-size:12px;box-shadow:0 0 0 2px rgba(255,255,255,.6)}
+.fc-flag{position:absolute;top:148px;right:24px;width:34px;height:22px;border-radius:3px;overflow:hidden;box-shadow:0 0 0 1px rgba(0,0,0,.15);line-height:0}
+.fc-ph{position:absolute;top:30px;left:18px;width:130px;height:136px;display:flex;align-items:flex-end;justify-content:center}
+.fc-ph svg{width:120px;height:132px;opacity:.85}.fc-ph img{width:118px;height:118px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 3px rgba(255,255,255,.55)}
+.fc-nm{position:absolute;top:174px;left:10px;right:10px;text-align:center;font-weight:700;font-size:19px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fc-ln{position:absolute;top:206px;left:28px;right:28px;height:1px;background:currentColor;opacity:.3}
+.fc-mid{position:absolute;top:214px;bottom:64px;left:50%;width:1px;background:currentColor;opacity:.3}
+.fc-st{position:absolute;top:214px;left:22px;right:22px;display:grid;grid-template-columns:1fr 1fr;column-gap:14px;row-gap:1px}
+.fc-st div{display:flex;align-items:baseline;gap:6px;font-size:13px;font-weight:600}.fc-st b{font-size:21px;font-weight:700;min-width:26px}
+.fc-club{position:absolute;bottom:20px;left:0;right:0;text-align:center;font-size:10.5px;font-weight:700;letter-spacing:.3px;opacity:.75}
+.fc-stage{display:flex;justify-content:center;padding:8px 0 4px;filter:drop-shadow(0 14px 22px rgba(0,0,0,.28))}
+.fc-prog{height:8px;border-radius:4px;background:var(--surface2);overflow:hidden}.fc-prog i{display:block;height:100%;background:var(--accent);border-radius:4px}
+.fc-reveal{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px;overflow:hidden;
+  background:radial-gradient(60% 45% at 50% 45%,rgba(255,107,26,.45),transparent 70%),#0B0B0D;color:#F2F0EC;animation:fcFade .3s ease both}
+.fc-rays{position:absolute;inset:-50%;background:repeating-conic-gradient(from 0deg at 50% 50%,rgba(255,211,107,.10) 0 6deg,transparent 6deg 18deg);animation:fcSpin 30s linear infinite;pointer-events:none}
+.fc-rv-t{position:relative;color:#FFD36B;font-weight:700;font-size:18px}.fc-rv-s{position:relative;color:#6FE39A;font-weight:700}
+.fc-flip{position:relative;perspective:900px;filter:drop-shadow(0 18px 30px rgba(0,0,0,.5))}.fc-flip .fc{animation:fcFlip 1.1s cubic-bezier(.2,.8,.2,1) both}
+.fc-reveal .btn{position:relative}
+@keyframes fcFlip{0%{transform:rotateY(180deg) scale(.6);opacity:0}60%{opacity:1}100%{transform:rotateY(0) scale(1.06)}}
+@keyframes fcSpin{to{transform:rotate(360deg)}}@keyframes fcFade{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.fc-flip .fc,.fc-rays,.fc-reveal{animation:none}}
 </style>
 
 </head>
@@ -980,6 +1011,9 @@ function vPaAch(){
   var h='<div class="col" style="gap:2px"><h1>'+t('achOf')+' '+esc(c.first_name)+'</h1></div>'+errCard()+childPills();
   if(!p){loadChildProg(c.id).then(render);return wrap(h+loadingCard())+tabs('pa-ach')}
   if(p.err)return wrap(h+'<div class="card empty">'+esc(p.err)+'</div>')+tabs('pa-ach');
+  if(!S.notes||!S.notes[c.id])loadChildExtra(c.id).then(render);
+  h+=achSeg();
+  if((S.achTab||'card')==='card')return wrap(h+vMyCard(c))+tabs('pa-ach');
   var m=medals(c),rs=p.results||[];
   h+='<div class="pa-hero" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;text-align:center">'+[['gold','mGoldP'],['silver','mSilverP'],['bronze','mBronzeP']].map(function(x){return '<div class="col" style="align-items:center;gap:6px">'+medalSvg(x[0],44)+'<b class="num" style="font-size:26px">'+m[x[0]]+'</b><span style="font-size:13px;color:#C9C6C0">'+t(x[1])+'</span></div>'}).join('')+'</div>';
   h+='<h2 style="font-size:16px">'+t('compsT2')+'</h2>';
@@ -1648,6 +1682,115 @@ function input19(id,val){
   if(S.pf){if(id==='pf_c')S.pf.cloth=val;else if(id==='pf_s')S.pf.shoe=val}
 }
 
+/* ---------- 020: «بطاقتي» — بطاقة الرياضي على طريقة ألعاب كرة القدم ---------- */
+Object.assign(T,{
+ myCard:['بطاقتي','Ma carte'], achTab:['الإنجازات','Palmarès'],
+ sAtt:['حضور','PRÉ'], sEff:['جهد','EFF'], sDis:['انضباط','DIS'], sPro:['تقدّم','PRO'], sStr:['ثبات','RÉG'], sCmp:['بطولات','CMP'],
+ tierB:['برونزية','bronze'], tierS:['فضية','argent'], tierG:['ذهبية','or'], tierX:['بطل','champion'],
+ cardNeed:['ينقصك','Il te manque'], cardPts:['نقاط لتصبح البطاقة','points pour une carte'], cardPt1:['نقطة لتصبح البطاقة','point pour une carte'],
+ cardTop:['بطاقة ذهبية! واصل لتصبح «بطلاً» بميدالية ذهبية في منافسة.','Carte en or ! Une médaille d’or en compétition te fera passer « champion ».'],
+ cardMax:['أعلى بطاقة في النادي. بطل حقيقي!','La plus haute carte du club. Un vrai champion !'],
+ tipAtt:['واظب على الحصص لترفع «حضور» و«ثبات».','Viens à toutes les séances pour monter PRÉ et RÉG.'],
+ tipNote:['اجتهد في التمارين: المدرب يقيّم الجهد والانضباط والتقدّم كل شهر.','Applique-toi : l’entraîneur note effort, discipline et progrès chaque mois.'],
+ tipCmp:['المشاركة في المنافسات ترفع «بطولات».','Participer aux compétitions fait monter CMP.'],
+ cardHow:['كيف تُحسب؟','Comment est-elle calculée ?'],
+ cardHowTx:['حضور: نسبة الحضور في آخر 3 أشهر · جهد وانضباط وتقدّم: نجوم رأي المدرب (آخر 3 أشهر)، والتقدّم يرتفع أيضاً بالمستويات المنجزة · ثبات: أطول سلسلة حضور · بطولات: المشاركات والميداليات. التقييم العام هو المعدّل، وأقلّه 50.','PRÉ : présence des 3 derniers mois · EFF, DIS, PRO : étoiles de l’entraîneur (3 derniers mois), PRO monte aussi avec les niveaux réussis · RÉG : plus longue série de présences · CMP : participations et médailles. La note générale est la moyenne, minimum 50.'],
+ newCard:['بطاقة جديدة!','Nouvelle carte !'], firstCard:['بطاقتك الأولى!','Ta première carte !'], nowTier:['صارت','Elle est maintenant'],
+ saveImg:['حفظ الصورة','Enregistrer l’image'], shareCard:['مشاركة','Partager'], great:['رائع!','Super !']
+});
+
+function clampS(x){return Math.max(50,Math.min(99,Math.round(x)))}
+function fifaStats(c){
+  var p=prog(c)||{},att=attOf(c),from=(function(){var d=parseYmd(todayY());d.setDate(d.getDate()-90);return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())})();
+  var a90=attStats(att.filter(function(x){return String(x.d).slice(0,10)>=from})),pct=a90.pct==null?attStats(att).pct:a90.pct;
+  var ns=notesOf(c).slice(0,3),avg=function(k){if(!ns.length)return null;var s=0;ns.forEach(function(n){s+=Number(n[k]||0)});return s/ns.length};
+  var star=function(v){return v==null?60:50+(v-1)/2*45};
+  var lv=0;(p.tracks||[]).forEach(function(tr){var i=lvPos(tr,tr.current);if(i>0)lv=Math.max(lv,i)});
+  var sk=streaks(c),m=medals(c),rs=p.results||[];
+  var s={att:clampS(pct==null?55:50+pct*0.49),eff:clampS(star(avg('effort'))),dis:clampS(star(avg('discipline'))),
+    pro:clampS(star(avg('progress'))+lv*4),str:clampS(50+sk.best*2.5),cmp:clampS(50+rs.length*4+m.gold*10+m.silver*7+m.bronze*5)};
+  var ovr=clampS((s.att+s.eff+s.dis+s.pro+s.str+s.cmp)/6);
+  var tier=m.gold>0?'x':ovr>=75?'g':ovr>=65?'s':'b';
+  return {s:s,ovr:ovr,tier:tier,pct:pct,notes:ns.length}
+}
+var TIER_RANK={b:0,s:1,g:2,x:3};
+function tierName(k){return t({b:'tierB',s:'tierS',g:'tierG',x:'tierX'}[k])}
+function fcSil(){return '<svg viewBox="0 0 120 132" fill="currentColor" aria-hidden="true"><circle cx="60" cy="38" r="24" opacity=".9"/><path d="M14 132c2-34 22-54 46-54s44 20 46 54z" opacity=".9"/></svg>'}
+function fcFlag(){return '<svg viewBox="0 0 30 20" width="34" height="22" aria-hidden="true"><rect width="30" height="20" fill="#E70013"/><circle cx="15" cy="10" r="5.2" fill="#fff"/><circle cx="16.2" cy="10" r="3.9" fill="#E70013"/><circle cx="17.1" cy="10" r="3.2" fill="#fff"/></svg>'}
+function fifaCard(c,f){
+  var g0=childGroups(c)[0]||{},ph=S.photo&&S.photo[c.id],s=f.s;
+  var rows=[[s.att,'sAtt'],[s.str,'sStr'],[s.eff,'sEff'],[s.cmp,'sCmp'],[s.dis,'sDis'],[s.pro,'sPro']];
+  return '<div class="fc t-'+f.tier+'" role="img" aria-label="'+esc(pname(c))+' · '+f.ovr+' · '+esc(tierName(f.tier))+'">'+
+    '<div class="fc-ovr"><b class="num">'+f.ovr+'</b><span>'+esc(dname(g0.discipline)||'')+'</span></div><div class="fc-badge">MS</div><div class="fc-flag">'+fcFlag()+'</div>'+
+    '<div class="fc-ph">'+(ph?'<img src="'+esc(ph)+'" alt="">':fcSil())+'</div>'+
+    '<div class="fc-nm">'+esc(c.first_name||'')+'</div><div class="fc-ln"></div><div class="fc-mid"></div>'+
+    '<div class="fc-st">'+rows.map(function(r){return '<div><b class="num">'+r[0]+'</b>'+t(r[1])+'</div>'}).join('')+'</div><div class="fc-club">MEJERDA SPORT</div></div>'
+}
+function cardHint(f){
+  if(f.tier==='x')return t('cardMax');
+  if(f.tier==='g')return t('cardTop');
+  var goal=f.tier==='b'?65:75,need=goal-f.ovr,nx=f.tier==='b'?'s':'g',s=f.s;
+  var low=[['att',s.att],['str',s.str],['eff',s.eff],['dis',s.dis],['cmp',s.cmp]].sort(function(a,b){return a[1]-b[1]})[0][0];
+  var tip=low==='att'||low==='str'?t('tipAtt'):low==='cmp'?t('tipCmp'):t('tipNote');
+  var pc=Math.max(4,Math.min(100,Math.round((f.ovr-(goal-10))/10*100)));
+  return '<div>'+t('cardNeed')+' <b class="num" style="color:var(--accent-text)">'+need+'</b> '+t(need===1?'cardPt1':'cardPts')+' <b style="color:var(--accent-text)">'+esc(tierName(nx))+'</b></div><div class="fc-prog"><i style="width:'+pc+'%"></i></div><div class="small muted">'+tip+'</div>'
+}
+function cardSeen(c,f){var k='sxcard_'+c.id,old=null;try{old=localStorage.getItem(k)}catch(e){}
+  if(old!==f.tier){try{localStorage.setItem(k,f.tier)}catch(e){}
+    if(old==null||TIER_RANK[f.tier]>TIER_RANK[old])S.cardReveal={id:c.id,first:old==null}}}
+function vMyCard(c){
+  var f=fifaStats(c);if(!S.cardReveal)cardSeen(c,f);
+  var h='<div class="fc-stage">'+fifaCard(c,f)+'</div><div class="pa-card col" style="gap:8px">'+cardHint(f)+'</div>'+
+    '<div class="grid2"><button class="btn" data-a="cardShare">'+I.share+t('shareCard')+'</button><button class="btn ghost" data-a="cardSave">'+t('saveImg')+'</button></div>'+
+    '<details class="pa-card"><summary style="cursor:pointer;font-weight:600">'+t('cardHow')+'</summary><div class="small muted" style="margin-top:8px;line-height:1.8">'+t('cardHowTx')+'</div></details>';
+  if(S.cardReveal&&S.cardReveal.id===c.id)h+='<div class="fc-reveal" data-a="cardOk"><div class="fc-rays"></div><div class="fc-rv-t">'+t(S.cardReveal.first?'firstCard':'newCard')+'</div><div class="fc-flip">'+fifaCard(c,f)+'</div><div class="fc-rv-s">'+(S.cardReveal.first?'':t('nowTier')+' ')+esc(tierName(f.tier))+' · <span class="num">'+f.ovr+'</span></div><button class="btn" data-a="cardOk" style="max-width:220px">'+t('great')+'</button></div>';
+  return h
+}
+function achSeg(){var v=S.achTab||'card';return '<div class="seg" role="group">'+[['card','myCard'],['ach','achTab']].map(function(x){return '<button data-a="achTab" data-v="'+x[0]+'" aria-pressed="'+(v===x[0])+'">'+t(x[1])+'</button>'}).join('')+'</div>'}
+
+/* صورة البطاقة للمشاركة (Canvas) */
+function cardCanvas(c,f){return new Promise(function(res){
+  var W=600,H=948,cv=document.createElement('canvas');cv.width=W;cv.height=H;var x=cv.getContext('2d');
+  var P={b:['#E3A77A','#B0703F','#6E3F1C','#2A1405'],s:['#F1F3F5','#BCC3CB','#7E8791','#1D2328'],g:['#F7DE86','#D9A93A','#8A6114','#2B1D05'],x:['#2A2B30','#141416','#0B0B0D','#FFD36B']}[f.tier];
+  function shape(){x.beginPath();x.moveTo(W/2,0);x.lineTo(W,H*.06);x.lineTo(W,H*.86);x.lineTo(W/2,H);x.lineTo(0,H*.86);x.lineTo(0,H*.06);x.closePath()}
+  x.fillStyle='#ffffff';x.fillRect(0,0,W,H);
+  shape();var gr=x.createLinearGradient(0,0,W*.6,H);gr.addColorStop(0,P[0]);gr.addColorStop(.55,P[1]);gr.addColorStop(1,P[2]);x.fillStyle=gr;x.fill();
+  x.save();shape();x.clip();
+  if(f.tier==='x'){var rg=x.createRadialGradient(W*.7,0,10,W*.7,0,H*.55);rg.addColorStop(0,'rgba(255,107,26,.8)');rg.addColorStop(1,'rgba(255,107,26,0)');x.fillStyle=rg;x.fillRect(0,0,W,H)}
+  else{var sh=x.createRadialGradient(W*.3,0,10,W*.3,0,H*.5);sh.addColorStop(0,'rgba(255,255,255,.55)');sh.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=sh;x.fillRect(0,0,W,H)}
+  x.strokeStyle='rgba(255,255,255,.07)';x.lineWidth=14;for(var i=-H;i<W+H;i+=36){x.beginPath();x.moveTo(i,0);x.lineTo(i-H*.45,H);x.stroke()}
+  x.restore();
+  x.save();x.translate(W/2,H/2);x.scale(.96,.97);x.translate(-W/2,-H/2);shape();x.strokeStyle=f.tier==='x'?'rgba(255,211,107,.6)':'rgba(255,255,255,.45)';x.lineWidth=4;x.stroke();x.restore();
+  var ink=P[3],fam="'IBM Plex Sans Arabic',system-ui,sans-serif",g0=childGroups(c)[0]||{};
+  x.fillStyle=ink;x.textAlign='center';x.direction='rtl';
+  x.font='800 118px '+fam;x.fillText(String(f.ovr),W-112,190);
+  x.font='700 30px '+fam;x.fillText(dname(g0.discipline)||'',W-112,236);
+  x.fillStyle='#FF6B1A';x.beginPath();x.arc(W-112,300,36,0,7);x.fill();x.fillStyle='#fff';x.font='800 30px '+fam;x.fillText('MS',W-112,311);
+  x.fillStyle='#E70013';x.fillRect(W-152,358,80,52);x.fillStyle='#fff';x.beginPath();x.arc(W-112,384,15,0,7);x.fill();x.fillStyle='#E70013';x.beginPath();x.arc(W-108,384,11,0,7);x.fill();x.fillStyle='#fff';x.beginPath();x.arc(W-105,384,9,0,7);x.fill();
+  function rest(){
+    x.fillStyle=ink;x.textAlign='center';x.font='700 50px '+fam;x.fillText(c.first_name||'',W/2,500);
+    x.globalAlpha=.3;x.fillRect(70,530,W-140,2);x.fillRect(W/2-1,552,2,250);x.globalAlpha=1;
+    var s=f.s,rows=[[s.att,'sAtt'],[s.str,'sStr'],[s.eff,'sEff'],[s.cmp,'sCmp'],[s.dis,'sDis'],[s.pro,'sPro']];
+    rows.forEach(function(r,i){var col=i%2,row=Math.floor(i/2),cx=col===0?W-90:W/2-50,cy=610+row*82;
+      x.textAlign='right';x.font='800 56px '+fam;x.fillText(String(r[0]),cx,cy);x.font='600 32px '+fam;x.fillText(t(r[1]),cx-80,cy-4)});
+    x.textAlign='center';x.globalAlpha=.75;x.font='700 26px '+fam;x.fillText('MEJERDA SPORT · MEDJEZ EL BAB',W/2,H-110);x.globalAlpha=1;
+    cv.toBlob(function(b){res(b)},'image/png')}
+  var ph=S.photo&&S.photo[c.id];
+  if(ph){var im=new Image();im.onload=function(){x.save();x.beginPath();x.arc(225,280,150,0,7);x.clip();var r=Math.max(300/im.width,300/im.height);x.drawImage(im,225-im.width*r/2,280-im.height*r/2,im.width*r,im.height*r);x.restore();rest()};im.onerror=function(){sil();rest()};im.src=ph}
+  else{sil();rest()}
+  function sil(){x.fillStyle=ink;x.globalAlpha=.85;x.beginPath();x.arc(225,220,70,0,7);x.fill();x.beginPath();x.moveTo(90,440);x.quadraticCurveTo(100,300,225,300);x.quadraticCurveTo(350,300,360,440);x.closePath();x.fill();x.globalAlpha=1}
+})}
+async function act20(a,el,id,v){
+  if(a==='achTab'){S.achTab=v;return true}
+  if(a==='cardOk'){S.cardReveal=null;return true}
+  if(a==='cardShare'||a==='cardSave'){var c=child(),f=fifaStats(c);
+    try{if(document.fonts&&document.fonts.ready)await document.fonts.ready}catch(e){}
+    var b=await cardCanvas(c,f);if(!b)return false;var name='SYNOX-'+(c.first_name||'carte')+'.png';
+    if(a==='cardShare'){try{var file=new File([b],name,{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:pname(c),text:pname(c)+' · '+f.ovr+'\nMejerda Sport Medjez El Bab'});return false}}catch(e){if(e&&e.name==='AbortError')return false}}
+    var u=URL.createObjectURL(b),ln=document.createElement('a');ln.href=u;ln.download=name;document.body.appendChild(ln);ln.click();ln.remove();setTimeout(function(){URL.revokeObjectURL(u)},4000);toast(t('saveImg')+' ✓');return false}
+  return false
+}
+
 var root=document.getElementById('root');
 var VIEWS={'c-meas':vCMeas,'o-sizes':vOSizes,'c-ath':vCAth,'c-inj':vCInj,'c-dash':vCDash,'o-inj':vOInj,'o-coach':vOCoach,'o-health':vOHealth,'pa-conv':vPaConv,'pa-note':vPaNote,notes:vNotes,'o-conv':vOConv,'o-convnew':vOConvNew,'o-docs':vODocs,'pa-prog':vPaProg,'pa-ach':vPaAch,'pa-card':vPaCard,'b-home':vBHome,'b-req':vBReq,'h-home':vHHome,'h-act':vHAct,'p-home':vPHome,'p-log':vPLog,'t-cash':vTCash,'t-chq':vTChq,login:vLogin,activate:vActivate,norole:vNoRole,today:vToday,attend:vAttend,groups:vGroups,requests:vRequests,'pa-home':vPaHome,'pa-notifs':vPaNotifs,'pa-att':vPaAtt,'pa-sub':vPaSub,'pa-docs':vPaDocs,account:vAccount};
 function render(){
@@ -1703,6 +1846,7 @@ root.addEventListener('click',async function(e){
   if(await act17(a,el,id,v)){render();return}
   if(await act18(a,el,id,v)){render();return}
   if(await act19(a,el,id,v)){render();return}
+  if(await act20(a,el,id,v)){render();return}
   if(a==='theme'){prefs.theme=isDark()?'light':'dark';store('sxm-prefs',prefs)}
   else if(a==='lang'){prefs.lang=v;store('sxm-prefs',prefs)}
   else if(a==='go'){S.view=v;S.formErr='';S.code=null;window.scrollTo(0,0);if(['requests','p-home','p-log','t-cash','t-chq'].indexOf(v)>=0){render();await loadOffice()}if(v==='b-home'||v==='b-req'){render();await loadBranch()}if(v==='h-home'||v==='h-act'){render();await loadBoard()}if(v==='today'){await loadCoach()}if(v==='account'&&S.role==='coach'){render();await loadCoachMonth()}if(v==='groups'&&S.role==='coach'){render();loadConvList()}if(v==='notes'){S.gn=null}if(v==='o-conv'){render();await loadConvList()}if(v==='o-convnew'){S.formErr=''}if(v==='o-docs'){S.dr=null;render();await loadDocPend()}if(v==='c-dash'){S.cs=null}if(v==='o-inj'){S.il=null;S.ic=null}if(v==='o-health'){S.hl=null;S.hf=null;S.formErr=''}if(v==='o-coach'){S.fu=null}if(v==='c-meas'){S.gm=null}if(v==='o-sizes'){S.sz=null}if(v==='pa-conv'){render();await loadConvP()}if((v==='pa-docs'||v==='pa-note')&&S.childId){render();await loadChildExtra(S.childId)}}
