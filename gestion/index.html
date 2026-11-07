@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<meta name="robots" content="noindex,nofollow">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SYNOX GYM</title>
@@ -700,7 +699,7 @@ function makeLocalDb(){
   function ago(d){ var x=new Date(); x.setDate(x.getDate()-d); return x.toISOString().slice(0,10); }
   function seed(){
     if(load('members')) return;
-    var X={};
+    var X={"disciplines": [{"id": "92a70dfc-3d3f-4876-b681-0a06cb9e826a", "created_at": "2026-10-11T15:11:23.600Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "name_fr": "gymnastique artistique féminin", "name_ar": "جمباز فني اناث"}, {"id": "0854ff55-b841-4ab2-aca6-901f644fd7e3", "created_at": "2026-10-11T16:11:18.106Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "name_fr": "Académie A", "name_ar": "اكادمية ا"}], "plans": [{"id": "5acc0004-7d7f-452f-bce9-b5fe0916d569", "created_at": "2026-10-11T15:13:05.212Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "discipline_id": "92a70dfc-3d3f-4876-b681-0a06cb9e826a", "name_fr": "basique", "name_ar": "اساسي", "duration_months": 1, "price_millimes": 40000, "active": true}, {"id": "6739d3a6-a3be-4bdf-a88b-23eecd99834b", "created_at": "2026-10-11T15:22:10.616Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "discipline_id": "92a70dfc-3d3f-4876-b681-0a06cb9e826a", "name_fr": "STANDAR", "name_ar": "عادي", "duration_months": 3, "price_millimes": 100000, "active": true}, {"id": "d0b3c655-d1ac-4b19-be7f-20c73f15878f", "created_at": "2026-10-11T16:12:16.870Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "discipline_id": "0854ff55-b841-4ab2-aca6-901f644fd7e3", "name_fr": "basic", "name_ar": "عادي", "duration_months": 1, "price_millimes": 50000, "active": true}], "coaches": [{"id": "2b6bcef5-ff9e-4b7c-b330-47d31bac60ac", "created_at": "2026-10-11T15:23:44.796Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "full_name": "AHMED HAMMAMI", "phone": "54252849", "cin": "09490633", "birth_date": "2000-03-01", "email": null, "address": "MANAR", "emergency": null, "hired_on": "2026-10-11", "contract": "cdi", "diplomas": "LEVEL 1 GYM", "cnss": null, "pay_type": "monthly", "salary_millimes": 750000, "pay_percent": 0, "session_rate_millimes": 0, "bank_name": "BNA", "rib": "1225269555658", "notes": null, "disciplines": ["92a70dfc-3d3f-4876-b681-0a06cb9e826a"], "active": true, "code": 1}], "levels": [{"id": "5e56d020-c61f-4101-9cbc-25f4ff7ca1b6", "created_at": "2026-10-11T16:01:55.883Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "discipline_id": "92a70dfc-3d3f-4876-b681-0a06cb9e826a", "name_fr": "NIVEAUX 2", "name_ar": "مستوى 2", "position": 1}], "members": [{"id": "9fde2a0b-8e26-4605-837e-44f6498826d4", "created_at": "2026-10-11T15:08:33.313Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "first_name": "jlassi", "last_name": "julia", "gender": "F", "birth_date": "2020-08-12", "phone": null, "guardian_name": "jlassi haithem", "guardian_phone": "98154186", "guardian_work": "oued zarga", "school": "rhiba", "address": "el hwairie", "city": "medjez el beb", "area": "el hwairir", "emergency": null, "notes": null, "photo": null, "code": 1}, {"id": "8af6f3e0-2720-475a-8418-ec80e584169e", "created_at": "2026-10-11T16:10:01.747Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "first_name": "jlassi", "last_name": "layan", "gender": "F", "birth_date": "2018-03-02", "phone": null, "guardian_name": null, "guardian_phone": null, "guardian_work": null, "school": null, "address": null, "city": null, "area": null, "emergency": null, "notes": null, "photo": null, "code": 2}], "groups": [{"id": "a178e15c-3191-462b-92bf-31092549243b", "created_at": "2026-10-11T15:31:39.204Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "name": "A", "discipline_id": "92a70dfc-3d3f-4876-b681-0a06cb9e826a", "level_id": null, "coach_id": "2b6bcef5-ff9e-4b7c-b330-47d31bac60ac", "capacity": 8, "age_min": 6, "age_max": 9, "schedule": {"slots": [{"days": [1, 2, 3, 4, 5], "start": "17:30", "end": "19:30", "room": "SALLE DE GYMNASTIQUE A"}], "pay": {"type": "default"}}}, {"id": "331f3ffd-8b31-42a5-a01b-2ce103e9f9cb", "created_at": "2026-10-11T16:15:42.450Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "name": "folla", "discipline_id": "0854ff55-b841-4ab2-aca6-901f644fd7e3", "level_id": null, "coach_id": "2b6bcef5-ff9e-4b7c-b330-47d31bac60ac", "capacity": 50, "age_min": 3, "age_max": 11, "schedule": {"slots": [{"days": [6, 0], "start": "13:00", "end": "14:00", "room": ""}], "pay": {"type": "percent", "v": 40}}}], "subscriptions": [{"id": "c1ab5842-0ae0-433b-918e-2ae05d596ad9", "created_at": "2026-10-11T15:26:40.220Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "member_id": "9fde2a0b-8e26-4605-837e-44f6498826d4", "plan_id": "5acc0004-7d7f-452f-bce9-b5fe0916d569", "starts_on": "2026-10-11", "ends_on": "2026-11-10", "due_millimes": 50000, "discount_millimes": 0, "reg_millimes": 5000, "ins_millimes": 5000}, {"id": "00cc5905-3b8e-4fc2-8e59-f84e6475483a", "created_at": "2026-10-11T16:12:34.551Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "member_id": "8af6f3e0-2720-475a-8418-ec80e584169e", "plan_id": "d0b3c655-d1ac-4b19-be7f-20c73f15878f", "starts_on": "2026-10-11", "ends_on": "2026-11-10", "due_millimes": 60000, "discount_millimes": 0, "reg_millimes": 5000, "ins_millimes": 5000}], "payments": [{"id": "6062bc2c-6043-4006-bd9d-9c1cd97a35f3", "created_at": "2026-10-11T15:26:40.221Z", "deleted_at": null, "status": "received", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "kind": "member", "member_id": "9fde2a0b-8e26-4605-837e-44f6498826d4", "subscription_id": "c1ab5842-0ae0-433b-918e-2ae05d596ad9", "amount_millimes": 50000, "method": "cash", "receipt_seq": 1}, {"id": "6f89d383-058a-4c33-b995-da2a4b304088", "created_at": "2026-10-11T16:12:34.551Z", "deleted_at": null, "status": "received", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "kind": "member", "member_id": "8af6f3e0-2720-475a-8418-ec80e584169e", "subscription_id": "00cc5905-3b8e-4fc2-8e59-f84e6475483a", "amount_millimes": 60000, "method": "cash", "receipt_seq": 2}, {"id": "04afc944-a5db-43b9-9160-f413d1c80e0c", "created_at": "2026-10-11T16:19:26.070Z", "deleted_at": null, "status": "received", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "kind": "grant", "amount_millimes": 1000000, "method": "cheque", "notes": null, "category": "subsidy", "counterparty": "municipalité", "payee_cin": null, "cheque_number": "125987", "cheque_bank": "BNA", "cheque_due_on": "2026-10-10", "receipt_seq": 3}, {"id": "5c3f4363-558f-46bb-a86d-7dd09763c71e", "created_at": "2026-10-11T16:20:25.634Z", "deleted_at": null, "status": "received", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "out", "kind": "salary", "amount_millimes": 774000, "method": "cash", "notes": "Rémunération 10/2026", "counterparty": "AHMED HAMMAMI", "payee_cin": "09490633", "receipt_seq": 4}], "group_members": [{"id": "8eeca3bf-14d4-4fe3-ae4c-81b19e321558", "created_at": "2026-10-11T16:15:52.630Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "group_id": "331f3ffd-8b31-42a5-a01b-2ce103e9f9cb", "member_id": "8af6f3e0-2720-475a-8418-ec80e584169e"}], "attendance": [{"id": "9da8bffc-22b7-4cbc-bac8-26c74bc0a6b4", "created_at": "2026-10-11T15:29:25.390Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "member_id": "9fde2a0b-8e26-4605-837e-44f6498826d4", "discipline_id": "92a70dfc-3d3f-4876-b681-0a06cb9e826a", "group_id": null, "att_date": "2026-10-11"}, {"id": "069c8614-fc84-40ac-9be6-eccd690f088f", "created_at": "2026-10-11T16:13:58.828Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "member_id": "8af6f3e0-2720-475a-8418-ec80e584169e", "discipline_id": "0854ff55-b841-4ab2-aca6-901f644fd7e3", "group_id": null, "att_date": "2026-10-11"}], "member_files": [], "app_settings": [{"id": "54d2cbcf-0b2a-4c7e-b2d7-2a7ff62aef6f", "created_at": "2026-10-11T15:10:25.073Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "key": "families", "value": [{"id": "fmv3ymnn4hit", "fr": "gymnastique", "ar": "الجمباز"}]}, {"id": "fd9fea5a-a5f1-4a55-a4ad-c2c150560941", "created_at": "2026-10-11T15:11:23.601Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "key": "discfam", "value": {"92a70dfc-3d3f-4876-b681-0a06cb9e826a": "fmv3ymnn4hit", "0854ff55-b841-4ab2-aca6-901f644fd7e3": "fmv3ymnn4hit"}}, {"id": "fe567dd7-c201-45a7-8d1f-dcc3dd9ad71f", "created_at": "2026-10-11T15:11:38.077Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "key": "fees", "value": {"reg": 5000, "ins": 5000, "regWhen": "first", "insWhen": "season", "sibOn": true, "sibType": "pct", "sib": {"2": 10, "3": 20, "4": 30}}}, {"id": "b980e00f-f8aa-4ab0-ab51-40faa2bf8d43", "created_at": "2026-10-11T15:11:52.409Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "key": "guardpw", "value": "ed5a23221741db2d3863a28c2b04cc428799664de12a402c3ad986b8943c6a23"}, {"id": "ba7d8de2-0b34-48d8-bba8-4b8be02d4ad7", "created_at": "2026-10-11T16:13:39.128Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "key": "slotmode", "value": "block"}, {"id": "98c4d093-95d6-420e-8c9e-0d7498af3de4", "created_at": "2026-10-11T16:30:09.874Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "key": "cashmoves", "value": [{"id": "mmv41h7ma3qy", "date": "2026-10-11", "dir": "b2c", "amt": 1000000, "note": ""}]}], "activity_log": [{"id": "9a998025-8090-4740-9a4a-b8c1ff33715d", "created_at": "2026-10-11T15:08:33.313Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "insert", "tbl": "members", "detail": "{\"first_name\":\"jlassi\",\"last_name\":\"julia\",\"gender\":\"F\",\"birth_date\":\"2020-08-12\",\"guardian_name\":\"jlassi haithem\",\"guardian_phone\":\"98154186\",\"guardian_work\":\"oued zarga\",\"school\":\"rhiba\",\"address\":\"el hwairie\",\"city\":\"medjez el beb\",\"area\":\"el hwairir\"}", "old_data": null}, {"id": "50962a8e-b04a-4188-846b-d196a9c7d041", "created_at": "2026-10-11T15:10:25.073Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "insert", "tbl": "app_settings", "detail": "{\"key\":\"families\"}", "old_data": null}, {"id": "81c30ebe-55fd-4ef9-874d-0ff89eefac67", "created_at": "2026-10-11T15:11:23.601Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "insert", "tbl": "disciplines", "detail": "{\"name_fr\":\"gymnastique artistique féminin\",\"name_ar\":\"جمباز فني اناث\"}", "old_data": null}, {"id": "420489a6-c726-4dcb-a8eb-d7964196ecee", "created_at": "2026-10-11T15:11:23.601Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "insert", "tbl": "app_settings", "detail": "{\"key\":\"discfam\"}", "old_data": null}, {"id": "c69e8c60-0c92-43da-81fa-f1eeb3b94433", "created_at": "2026-10-11T15:11:38.077Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "insert", "tbl": "app_settings", "detail": "{\"key\":\"fees\"}", "old_data": null}, {"id": "a778b66b-9bbd-4652-a44c-9b05c1eda629", "created_at": "2026-10-11T15:11:52.410Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "update", "tbl": "app_settings", "detail": "{} key=fees", "old_data": "{\"value\":{\"reg\":5000,\"ins\":0,\"regWhen\":\"first\",\"insWhen\":\"season\",\"sibOn\":true,\"sibType\":\"pct\",\"sib\":{\"2\":10,\"3\":20,\"4\":30}}}"}, {"id": "0220474d-b2f6-40f2-8a5d-46e0a7da0f90", "created_at": "2026-10-11T15:13:05.212Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "insert", "tbl": "plans", "detail": "{\"discipline_id\":\"92a70dfc-3d3f-4876-b681-0a06cb9e826a\",\"name_fr\":\"basique\",\"name_ar\":\"اساسي\",\"duration_months\":1,\"price_millimes\":40000,\"active\":true}", "old_data": null}, {"id": "80acb8cf-9b77-41e8-b2aa-9231696ffc6b", "created_at": "2026-10-11T15:22:10.617Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "insert", "tbl": "plans", "detail": "{\"discipline_id\":\"92a70dfc-3d3f-4876-b681-0a06cb9e826a\",\"name_fr\":\"STANDAR\",\"name_ar\":\"عادي\",\"duration_months\":3,\"price_millimes\":100000,\"active\":true}", "old_data": null}, {"id": "8c909444-d1d1-4e27-876b-c8337a4447cd", "created_at": "2026-10-11T15:23:44.796Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "insert", "tbl": "coaches", "detail": "{\"full_name\":\"AHMED HAMMAMI\",\"phone\":\"54252849\",\"cin\":\"09490633\",\"birth_date\":\"2000-03-01\",\"address\":\"MANAR\",\"hired_on\":\"2026-10-11\",\"contract\":\"cdi\",\"diplomas\":\"LEVEL 1 GYM\",\"pay_type\":\"monthly\",\"salary_millimes\":750000,\"pay_percent\":0,\"session_rate_millimes\":0,\"bank_name\":\"BNA\",\"rib\":\"1225269555658\",\"disciplines\":[\"92a70dfc-3d3f-4876-b681-0a06cb9e826a\"],\"active\":true,\"code\":1}", "old_data": null}, {"id": "d55785c3-ecb1-4803-8ff3-d8ddce4f2dbf", "created_at": "2026-10-11T15:26:40.220Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "insert", "tbl": "subscriptions", "detail": "{\"member_id\":\"9fde2a0b-8e26-4605-837e-44f6498826d4\",\"plan_id\":\"5acc0004-7d7f-452f-bce9-b5fe0916d569\",\"starts_on\":\"2026-10-11\",\"ends_on\":\"2026-11-10\",\"due_millimes\":50000,\"discount_millimes\":0,\"reg_millimes\":5000,\"ins_millimes\":5000}", "old_data": null}, {"id": "f8e5912a-9203-497e-9dfd-4978ff5051ce", "created_at": "2026-10-11T15:26:40.221Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "insert", "tbl": "payments", "detail": "{\"kind\":\"member\",\"direction\":\"in\",\"member_id\":\"9fde2a0b-8e26-4605-837e-44f6498826d4\",\"subscription_id\":\"c1ab5842-0ae0-433b-918e-2ae05d596ad9\",\"amount_millimes\":50000,\"method\":\"cash\",\"status\":\"received\",\"paid_on\":\"2026-10-11\"}", "old_data": null}, {"id": "cd305467-8227-43f2-8bbe-365dce2618ae", "created_at": "2026-10-11T15:31:39.205Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "insert", "tbl": "groups", "detail": "{\"name\":\"A\",\"discipline_id\":\"92a70dfc-3d3f-4876-b681-0a06cb9e826a\",\"coach_id\":\"2b6bcef5-ff9e-4b7c-b330-47d31bac60ac\",\"capacity\":8,\"age_min\":6,\"age_max\":9,\"schedule\":{\"slots\":[{\"days\":[1,2,3,4,5],\"start\":\"17:30\",\"end\":\"19:30\",\"room\":\"SALLE DE GYMNASTIQUE A\"}],\"pay\":{\"type\":\"default\"}}}", "old_data": null}, {"id": "deead315-90e6-4341-b268-06d522c3736f", "created_at": "2026-10-11T16:01:55.884Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "insert", "tbl": "levels", "detail": "{\"discipline_id\":\"92a70dfc-3d3f-4876-b681-0a06cb9e826a\",\"name_fr\":\"NIVEAUX 2\",\"name_ar\":\"مستوى 2\",\"position\":1}", "old_data": null}, {"id": "2c78b89f-3b6a-4ae3-b41b-9f5b85988586", "created_at": "2026-10-11T16:10:01.747Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "insert", "tbl": "members", "detail": "{\"first_name\":\"jlassi\",\"last_name\":\"layan\",\"gender\":\"F\",\"birth_date\":\"2018-03-02\"}", "old_data": null}, {"id": "44ec59c9-18d1-4d0d-947a-b199a959eecd", "created_at": "2026-10-11T16:11:18.107Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "insert", "tbl": "disciplines", "detail": "{\"name_fr\":\"Académie A\",\"name_ar\":\"اكادمية ا\"}", "old_data": null}, {"id": "575e6eb9-bbcc-4799-8956-f4cda105b3a0", "created_at": "2026-10-11T16:11:21.548Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "update", "tbl": "app_settings", "detail": "{} key=discfam", "old_data": "{\"value\":{\"92a70dfc-3d3f-4876-b681-0a06cb9e826a\":\"fmv3ymnn4hit\"}}"}, {"id": "bb699c02-cfb0-4fae-9e86-dd185001759c", "created_at": "2026-10-11T16:12:16.871Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "insert", "tbl": "plans", "detail": "{\"discipline_id\":\"0854ff55-b841-4ab2-aca6-901f644fd7e3\",\"name_fr\":\"basic\",\"name_ar\":\"عادي\",\"duration_months\":1,\"price_millimes\":50000,\"active\":true}", "old_data": null}, {"id": "e3f3031a-8e98-489c-b105-b0de09b72f2b", "created_at": "2026-10-11T16:12:34.551Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "insert", "tbl": "subscriptions", "detail": "{\"member_id\":\"8af6f3e0-2720-475a-8418-ec80e584169e\",\"plan_id\":\"d0b3c655-d1ac-4b19-be7f-20c73f15878f\",\"starts_on\":\"2026-10-11\",\"ends_on\":\"2026-11-10\",\"due_millimes\":60000,\"discount_millimes\":0,\"reg_millimes\":5000,\"ins_millimes\":5000}", "old_data": null}, {"id": "c5882d48-9640-4166-9316-25c2fa23e727", "created_at": "2026-10-11T16:12:34.552Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "insert", "tbl": "payments", "detail": "{\"kind\":\"member\",\"direction\":\"in\",\"member_id\":\"8af6f3e0-2720-475a-8418-ec80e584169e\",\"subscription_id\":\"00cc5905-3b8e-4fc2-8e59-f84e6475483a\",\"amount_millimes\":60000,\"method\":\"cash\",\"status\":\"received\",\"paid_on\":\"2026-10-11\"}", "old_data": null}, {"id": "6ff398ac-3bc9-4cdc-a6cb-77c3bff9bbec", "created_at": "2026-10-11T16:13:39.128Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "insert", "tbl": "app_settings", "detail": "{\"key\":\"slotmode\"}", "old_data": null}, {"id": "6964846b-cdb1-4882-b8eb-5735a2c69e73", "created_at": "2026-10-11T16:15:42.451Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "insert", "tbl": "groups", "detail": "{\"name\":\"folla\",\"discipline_id\":\"0854ff55-b841-4ab2-aca6-901f644fd7e3\",\"coach_id\":\"2b6bcef5-ff9e-4b7c-b330-47d31bac60ac\",\"capacity\":50,\"age_min\":3,\"age_max\":11,\"schedule\":{\"slots\":[{\"days\":[6,0],\"start\":\"13:00\",\"end\":\"14:00\",\"room\":\"\"}],\"pay\":{\"type\":\"percent\",\"v\":40}}}", "old_data": null}, {"id": "781d2a07-fc0f-4486-8bec-7d5d1afa8d45", "created_at": "2026-10-11T16:15:52.630Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "insert", "tbl": "group_members", "detail": "{\"group_id\":\"331f3ffd-8b31-42a5-a01b-2ce103e9f9cb\",\"member_id\":\"8af6f3e0-2720-475a-8418-ec80e584169e\"}", "old_data": null}, {"id": "ac9ea1ce-cdc8-483c-b374-81548ffc0e49", "created_at": "2026-10-11T16:19:26.071Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "insert", "tbl": "payments", "detail": "{\"kind\":\"grant\",\"direction\":\"in\",\"amount_millimes\":1000000,\"method\":\"cheque\",\"paid_on\":\"2026-10-11\",\"status\":\"pending\",\"category\":\"subsidy\",\"counterparty\":\"municipalité\",\"cheque_number\":\"125987\",\"cheque_bank\":\"BNA\",\"cheque_due_on\":\"2026-10-10\"}", "old_data": null}, {"id": "fc23b259-c42a-49d2-955a-0dab7c57078b", "created_at": "2026-10-11T16:20:03.759Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "update", "tbl": "payments", "detail": "{\"status\":\"received\"} id=04afc944-a5db-43b9-9160-f413d1c80e0c", "old_data": "{\"status\":\"pending\"}"}, {"id": "18fa4542-af35-4a93-8959-f398e731372b", "created_at": "2026-10-11T16:20:25.634Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "insert", "tbl": "payments", "detail": "{\"kind\":\"salary\",\"direction\":\"out\",\"amount_millimes\":774000,\"method\":\"cash\",\"paid_on\":\"2026-10-11\",\"notes\":\"Rémunération 10/2026\",\"status\":\"received\",\"counterparty\":\"AHMED HAMMAMI\",\"payee_cin\":\"09490633\"}", "old_data": null}, {"id": "09b607f5-6f8d-4948-ace7-a40d689ea883", "created_at": "2026-10-11T16:28:07.491Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "update", "tbl": "payments", "detail": "{\"status\":\"cashed\"} id=5c3f4363-558f-46bb-a86d-7dd09763c71e", "old_data": "{\"status\":\"received\"}"}, {"id": "ffd31232-e817-4dc1-ad40-dc5f433377d8", "created_at": "2026-10-11T16:28:21.696Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "update", "tbl": "payments", "detail": "{\"status\":\"bounced\"} id=5c3f4363-558f-46bb-a86d-7dd09763c71e", "old_data": "{\"status\":\"cashed\"}"}, {"id": "abbc8943-1305-4606-8238-3594a09b7e04", "created_at": "2026-10-11T16:28:23.611Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "update", "tbl": "payments", "detail": "{\"status\":\"received\"} id=5c3f4363-558f-46bb-a86d-7dd09763c71e", "old_data": "{\"status\":\"bounced\"}"}, {"id": "51fdf18a-986c-412a-8adf-0fee856caee8", "created_at": "2026-10-11T16:28:25.663Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "update", "tbl": "payments", "detail": "{\"status\":\"pending\"} id=5c3f4363-558f-46bb-a86d-7dd09763c71e", "old_data": "{\"status\":\"received\"}"}, {"id": "7ba65365-377d-4267-81ca-64b64804661f", "created_at": "2026-10-11T16:28:31.267Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "update", "tbl": "payments", "detail": "{\"status\":\"cashed\"} id=5c3f4363-558f-46bb-a86d-7dd09763c71e", "old_data": "{\"status\":\"pending\"}"}, {"id": "bb67c955-1f39-41e0-9930-c1f876f6bf71", "created_at": "2026-10-11T16:30:09.874Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "insert", "tbl": "app_settings", "detail": "{\"key\":\"cashmoves\"}", "old_data": null}, {"id": "94dd1b20-c09f-4bdd-8d8b-eb48f9d25b27", "created_at": "2026-10-11T16:30:31.320Z", "deleted_at": null, "status": "active", "joined_on": "2026-10-11", "paid_on": "2026-10-11", "direction": "in", "user_id": "demo-user", "user_name": "Admin (Gérant)", "action": "update", "tbl": "payments", "detail": "{\"status\":\"received\"} id=5c3f4363-558f-46bb-a86d-7dd09763c71e", "old_data": "{\"status\":\"cashed\"}"}], "level_tests": [], "level_history": [], "competitions": [], "competition_results": []};
     Object.keys(X).forEach(function(k){ save(k,X[k]); });
     ['cash_closings','profiles'].forEach(function(k){ if(!X[k]) save(k,k==='profiles'?[{id:'demo-user',full_name:'Admin',email:'admin@synox.gym',role:'manager',active:true,created_at:new Date().toISOString()}]:[]); });
   }
@@ -914,10 +913,22 @@ function dayDiff(a,b){ return Math.round((new Date(a+'T00:00:00Z')-new Date(b+'T
 function subState(ends){ if(!ends) return 'none'; var d=dayDiff(ends,todayStr()); return d<0?'expired':(d<=7?'soon':'active'); }
 function nm(o){ return S.lang==='ar'?o.name_ar:o.name_fr; }
 function subDue(sb_,p){ if(sb_&&sb_.due_millimes!=null) return Number(sb_.due_millimes); return p?p.price_millimes:0; }
-function feesCfg(){ var f=(S.cfg&&S.cfg.fees)||{}; return {reg:+f.reg||0, ins:+f.ins||0, regWhen:f.regWhen||'first', insWhen:f.insWhen||'season', sibOn:f.sibOn!==false, sibType:f.sibType||'pct', sib:f.sib||{2:10,3:20,4:30}}; }
+function feesCfg(){ var f=(S.cfg&&S.cfg.fees)||{}; return {reg:+f.reg||0, ins:+f.ins||0, regWhen:f.regWhen||'first', insWhen:f.insWhen||'season', sibOn:f.sibOn!==false, sibType:f.sibType||'pct', sib:f.sib||{2:10,3:20,4:30}, free:f.free||[], freeScope:f.freeScope||{}, secondPct:(f.secondPct!=null?+f.secondPct:50)}; }
 function seasonStart(){ var n=new Date(), sm=(S.cfg&&S.cfg.smonth)||9, y=(n.getMonth()+1>=sm)?n.getFullYear():n.getFullYear()-1; return y+'-'+('0'+sm).slice(-2)+'-01'; }
 function phKey(m){ var d=String((m&&(m.guardian_phone||m.phone))||'').replace(/\D/g,''); return d.length>=8?d.slice(-8):''; }
-function sibRank(m){ var k=phKey(m); if(!k) return 1; var sibs=(S.gmembers||[]).filter(function(x){ return x.status!=='left'&&phKey(x)===k; }).sort(function(a,b){ return (a.code||0)-(b.code||0); }); var i=sibs.map(function(x){return x.id;}).indexOf(m.id); return i<0?sibs.length+1:i+1; }
+function lvNow(mid,did){ var p=(S.lhAll||[]).filter(function(x){ return x.member_id===mid&&x.discipline_id===did&&x.passed; }).sort(function(a,b){ return String(a.event_date).localeCompare(String(b.event_date))||String(a.created_at).localeCompare(String(b.created_at)); }); return p.length?p[p.length-1].level_id:null; }
+function isFreeLv(mid,did){ var l=lvNow(mid,did); return !!(l&&feesCfg().free.indexOf(l)>-1); }
+function planDisc(pid){ var p=(S.plansAll||[]).filter(function(x){ return x.id===pid; })[0]; return p?p.discipline_id:null; }
+function freeMember(x){ var cur=(S.allSubs||[]).filter(function(u){ return u.member_id===x.id&&u.ends_on>=todayStr(); }); if(!cur.length){ var ds={}; (S.lhAll||[]).forEach(function(r){ if(r.member_id===x.id) ds[r.discipline_id]=1; }); var k=Object.keys(ds); return k.length>0&&k.some(function(d){ return isFreeLv(x.id,d); }); } return cur.every(function(u){ var d=planDisc(u.plan_id); return d&&isFreeLv(x.id,d); }); }
+function sibRank(m){ var k=phKey(m); if(!k) return 1; var sibs=(S.gmembers||[]).filter(function(x){ return x.status!=='left'&&phKey(x)===k&&(x.id===m.id||!freeMember(x)); }).sort(function(a,b){ return (a.code||0)-(b.code||0); }); var i=sibs.map(function(x){return x.id;}).indexOf(m.id); return i<0?sibs.length+1:i+1; }
+function discFor(m,plan,start){ var price=plan.price_millimes, f=feesCfg(), g=socFor(m.id,start||todayStr());
+  if(isFreeLv(m.id,plan.discipline_id)){ var sp=f.freeScope[lvNow(m.id,plan.discipline_id)]||'plan'; return {amt:price,why:GL('Niveau gratuit','مستوى مجاني'),waiveReg:sp!=='plan'||!!(g&&g.reg),waiveIns:sp==='all'||!!(g&&g.ins)}; }
+  var rank=sibRank(m), a=sibDisc(rank,price), why=a?GL('Remise fratrie (rang '+rank+')','تخفيض إخوة (الترتيب '+rank+')'):'';
+  var other=(S.msubs||[]).some(function(u){ return u.ends_on>=(start||todayStr())&&planDisc(u.plan_id)&&planDisc(u.plan_id)!==plan.discipline_id; });
+  if(other&&f.secondPct>0){ var b=Math.round(price*f.secondPct/100); if(b>a){ a=b; why=GL('2e discipline ('+f.secondPct+' %)','الاختصاص الثاني ('+f.secondPct+'%)'); } }
+  if(g){ var sd=socPlanDisc(g,price); if(sd>=a){ a=sd; why=GL('Aide sociale','مساعدة اجتماعية'); } }
+  return {amt:Math.min(a,price),why:why,waiveReg:!!(g&&g.reg),waiveIns:!!(g&&g.ins)}; }
+
 function sibDisc(rank,price){ var f=feesCfg(); if(!f.sibOn||rank<2) return 0; var v=+(f.sib[Math.min(rank,4)])||0; return f.sibType==='pct'?Math.round(price*v/100):Math.round(v*1000); }
 function planLabel(p){ var d=(S.discs||[]).filter(function(x){return x.id===p.discipline_id;})[0]; return (d?nm(d)+' · ':'')+nm(p); }
 function subPill(st){ return '<span class="pill'+(st==='soon'?' s':(st==='expired'?' l':''))+'"'+(st==='none'?' style="background:var(--line);color:var(--mut)"':'')+'>'+t('sS')[st]+'</span>'; }
@@ -1431,8 +1442,8 @@ function pwdDialog(){
 }
 async function logout(){ qcDrop(); S._warm=false; await sb.auth.signOut(); S.user=null; S.profile=null; S.signupMode=false; renderAuth(); }
 
-IC.training=IC.groups; IC.comms=IC.messages; IC.admin=IC.settings; IC.account=IC.users; D.fr.account='Mon compte'; D.ar.account='حسابي';
-var NAVG=[['dash',['dash']],['members',['members','parents']],['attendance',['attendance']],['training',['groups','coaches','planning','progress','achievements']],['finance',['payments','expenses','treasury','salaries','unpaid','compta','finrep']],['comms',['messages','reports','journal']],['admin',['settings','users','account']]];
+IC.training=IC.groups; IC.comms=IC.messages; IC.admin=IC.users; IC.account=IC.users; IC.security=IC.users; IC.sports='<circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/><path d="M5.6 5.6c3 3 3 10.8 0 12.8M18.4 5.6c-3 3-3 10.8 0 12.8"/>'; D.fr.sports='Sports'; D.ar.sports='الرياضات'; D.fr.security='Sécurité et sauvegarde'; D.ar.security='الأمان والنسخ الاحتياطي'; D.fr.account='Mon compte'; D.ar.account='حسابي';
+var NAVG=[['dash',['dash']],['members',['members','parents']],['sports',['sports']],['attendance',['attendance']],['training',['groups','coaches','planning','progress','achievements']],['finance',['payments','expenses','treasury','salaries','unpaid','compta','finrep']],['comms',['messages','reports']],['cfg',['settings']],['admin',['users','security','journal','account']]];
 S.lastTab={};
 function psl(p,x){ x=x||p.status; if(p.direction==='out'){ var m=S.lang==='ar'?{received:'مدفوع',pending:'معلّق',cashed:'مسحوب',bounced:'مرفوض'}:{received:'Payé',pending:'En attente',cashed:'Débité',bounced:'Rejeté'}; if(m[x]) return m[x]; } return t('ps')[x]; }
 function viewOk(v){
@@ -1440,7 +1451,8 @@ function viewOk(v){
   if(v==='coach'||v==='coaches') return r==='manager'||r==='treasurer';
   if(v==='reports') return r==='manager'||r==='treasurer'||r==='president';
   if(v==='journal') return r==='manager'||r==='president';
-  if(v==='settings'||v==='users') return r==='manager';
+  if(v==='settings'||v==='users'||v==='security') return r==='manager';
+  if(v==='sports') return r!=='coach';
   if(v==='payments'||v==='messages'||v==='unpaid') return r!=='coach';
   if(v==='expenses'||v==='treasury'||v==='finrep'||v==='compta') return r==='manager'||r==='treasurer'||r==='president';
   if(v==='salaries') return r==='manager'||r==='treasurer'||r==='president';
@@ -1594,7 +1606,7 @@ function dashList(title,rows,empty,more){
   return '<div class="panel"><h3 style="margin-bottom:8px">'+title+'</h3>'+(rows?'<div class="dl">'+rows+'</div>':'<div class="empty">'+empty+'</div>')+(more||'')+'</div>';
 }
 function dashHtml(){
-  var s=S.stats||{}, r=S.profile.role, canMoney=r!=='coach';
+  var s=S.stats||{}, r=S.profile.role, canMoney=r!=='coach', showFin=canMoney&&r!=='reception';
   var k=function(l,v,c,go,ic){ return '<div class="kpi dk"'+(go?' data-go="'+go+'" style="cursor:pointer"':'')+'><i class="dk-i" style="--c:'+c+'">'+di(ic,c,22)+'</i><small>'+l+'</small><b>'+v+'</b></div>'; };
   var dt=new Date().toLocaleDateString(S.lang==='ar'?'ar-TN':'fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
   var qa=[]; qa.push('<button class="btn pri" data-q="attendance">'+di('check','currentColor',18)+' '+GL('Enregistrer la présence','تسجيل الحضور')+'</button>');
@@ -1604,7 +1616,7 @@ function dashHtml(){
   var head='<div class="dh"><div><h2>'+t('hello')+' '+esc((S.profile.full_name||'').split(' ')[0])+'</h2><div class="who">'+esc(dt)+'</div></div><div class="grow"></div><div style="display:flex;gap:8px;flex-wrap:wrap">'+qa.join('')+'</div></div>';
   var kp=k(t('kActive'),s.active||0,'#14A44D','members','users')+k(t('kNew'),s.newm||0,'#6B5BFF','members','userPlus')+k(GL('Expirent ≤ 7 j','تنتهي خلال 7 أيام'),(s.st||{}).soon||0,'#F59E0B','messages','clock')+k(GL('Expirés','منتهية'),(s.st||{}).expired||0,'#D93636','messages','ban')+k(GL('Présents aujourd\'hui','حضور اليوم'),s.attToday||0,'#0EA5E9','attendance','check');
   var mk='';
-  if(canMoney) mk='<div class="cards dkr" style="margin-top:0">'+k(t('kCash'),money(s.cash||0),'#14A44D','payments','wallet')+k(GL('Dépenses du mois','مصاريف الشهر'),money(s.exp||0),'#D93636','payments','receipt')+
+  if(showFin) mk='<div class="cards dkr" style="margin-top:0">'+k(t('kCash'),money(s.cash||0),'#14A44D','payments','wallet')+k(GL('Dépenses du mois','مصاريف الشهر'),money(s.exp||0),'#D93636','payments','receipt')+
     k(GL('Résultat du mois','صافي الشهر'),money((s.cash||0)-(s.exp||0)),((s.cash||0)-(s.exp||0))>=0?'#14A44D':'#D93636','payments',((s.cash||0)-(s.exp||0))>=0?'up':'down')+k(GL('Impayés','المتبقي غير المسدّد'),money(s.debt||0),'#F59E0B','payments','alert')+'</div>';
   var st=s.st||{active:0,soon:0,expired:0,none:0};
   var donut=dashDonut([{l:t('sS').active,v:st.active,c:'#14A44D'},{l:t('sS').soon,v:st.soon,c:'#F59E0B'},{l:t('sS').expired,v:st.expired,c:'#D93636'},{l:t('sS').none,v:st.none,c:'#9CA3AF'}]);
@@ -1619,7 +1631,7 @@ function dashHtml(){
   var rec=(s.recent||[]).map(function(x){ var c=x.dir==='in'?'var(--ok)':'var(--bad)'; return '<div class="dr"><span>'+esc(x.who)+'<small class="who"> · '+esc(x.d)+'</small></span><em style="color:'+c+'">'+(x.dir==='in'?'+':'−')+' '+money(x.v)+'</em></div>'; }).join('');
   var bdTpl=function(x){ var c=(S.cfg.msgtpl||{}).birthday, l=S.lang, tx=(c&&c[l])||MSG_DEF.birthday[l]; return tx.replace(/\{(\w+)\}/g,function(a,k){ return {prenom:x.fn,nom:x.ln,age:x.age}[k]!=null?{prenom:x.fn,nom:x.ln,age:x.age}[k]:a; }); };
   var bd=(s.bd||[]).map(function(x){ var w=waPhone(x.ph); return rowN(x.id,x.name,(x.d===0?GL('aujourd\'hui','اليوم'):GL('dans ','بعد ')+x.d+' '+GL('j','يوم'))+' · '+x.age+' '+GL('ans','سنة'),(w&&canMoney?'<a class="btn sm" data-bdwa="'+x.id+'" target="_blank" rel="noopener" href="https://wa.me/'+w+'?text='+encodeURIComponent(bdTpl(x))+'" title="'+GL('Souhaiter par WhatsApp','تهنئة عبر واتساب')+'">'+di('chat','currentColor',16)+'</a>':'')); }).join('');
-  var chart=canMoney?'<div class="panel"><h3 style="margin-bottom:8px">'+GL('Recettes et dépenses · 6 derniers mois','المقبوضات والمصاريف · آخر 6 أشهر')+'</h3>'+dashChart(s.mon||[])+'</div>':'';
+  var chart=showFin?'<div class="panel"><h3 style="margin-bottom:8px">'+GL('Recettes et dépenses · 6 derniers mois','المقبوضات والمصاريف · آخر 6 أشهر')+'</h3>'+dashChart(s.mon||[])+'</div>':'';
   return (s.err?'<div class="err">'+esc(t('loadErr')+s.err)+'</div>':'')+head+
    '<div class="cards dkr">'+kp+'</div>'+mk+
    '<div class="dgrid">'+chart+
@@ -1627,7 +1639,7 @@ function dashHtml(){
      dashList(dhT('clock','#F59E0B',GL('Abonnements bientôt expirés','اشتراكات توشك على الانتهاء')),soon,GL('Aucun','لا شيء'))+
      (canMoney?dashList(dhT('alert','#F59E0B',GL('Soldes impayés','متبقيات غير مسدّدة')),deb,GL('Aucun impayé','لا ديون')):'')+
      dashList(dhT('ban','#D93636',GL('Abonnements expirés','اشتراكات منتهية')),exp,GL('Aucun','لا شيء'))+
-     (canMoney?dashList(dhT('receipt','#6B5BFF',GL('Derniers mouvements','آخر العمليات')),rec,GL('Aucun paiement','لا توجد عمليات')):'')+
+     (showFin?dashList(dhT('receipt','#6B5BFF',GL('Derniers mouvements','آخر العمليات')),rec,GL('Aucun paiement','لا توجد عمليات')):'')+
      '<div class="panel"><h3 style="margin-bottom:8px">'+GL('Membres par discipline','الأعضاء حسب الاختصاص')+'</h3>'+(disc||'<div class="empty">—</div>')+gen+'</div>'+
      dashList(dhT('cake','#EC4899',GL('Anniversaires (7 jours)','أعياد ميلاد (7 أيام)')),bd,GL('Aucun','لا شيء'),(bd&&canMoney?'<div style="margin-top:10px"><button class="btn sm pri" id="bdAll">'+GL('Envoyer les vœux (Messages)','إرسال التهاني (صفحة الرسائل)')+'</button></div>':''))+
    '</div>'+todayPanel()+(S.modal==='attq'?attQuickHtml():'');
@@ -1845,15 +1857,72 @@ function famDiscSel(){
   h+='<select id="fDisc" aria-label="'+GL('Discipline','الاختصاص')+'" style="'+st+'"><option value="">'+GL('Toutes les disciplines','كل الاختصاصات')+'</option>'+ds.map(function(d){ return '<option value="'+esc(d.id)+'"'+(S.fDisc===d.id?' selected':'')+'>'+esc(nm(d))+'</option>'; }).join('')+'</select>';
   return h;
 }
+/* ===== تجديد جماعي للاشتراكات ===== */
+function seasonStartAt(d){ var sm=(S.cfg&&S.cfg.smonth)||9, p=d.split('-').map(Number); var y=(p[1]>=sm)?p[0]:p[0]-1; return y+'-'+('0'+sm).slice(-2)+'-01'; }
+async function openRenew(){
+  await loadCatalog();
+  S.lhAll=(await sb.from('level_history').select('*')).data||[];
+  S.allSubs=(await sb.from('subscriptions').select('*')).data||[];
+  S.gmembers=(await sb.from('members').select('*').is('deleted_at',null).order('last_name')).data||[];
+  if(S.rnW==null) S.rnW=15; S.rnD=S.rnD||''; S.rnSel={}; S.rnMsg=''; S.modal='renew'; render();
+}
+function renewRows(){
+  var today=todayStr(), horizon=addD(today,Number(S.rnW||0)), plans=S.plansAll||[], byKey={}, f=feesCfg(), rows=[];
+  (S.allSubs||[]).forEach(function(u){ var pl=plans.filter(function(x){ return x.id===u.plan_id; })[0]; if(!pl) return; var k=u.member_id+'|'+pl.discipline_id; if(!byKey[k]||byKey[k].ends_on<u.ends_on) byKey[k]=u; });
+  Object.keys(byKey).forEach(function(k){
+    var u=byKey[k], m=(S.gmembers||[]).filter(function(x){ return x.id===u.member_id; })[0]; if(!m||m.status==='left'||u.ends_on>horizon) return;
+    var pl=plans.filter(function(x){ return x.id===u.plan_id; })[0]; if(S.rnD&&pl.discipline_id!==S.rnD) return;
+    var cur=pl; if(!pl.active){ cur=plans.filter(function(x){ return x.discipline_id===pl.discipline_id&&x.active&&x.duration_months===pl.duration_months; })[0]; if(!cur) return; }
+    var start=addD(u.ends_on,1); if(start<today) start=today;
+    var end=addMonths(start,cur.duration_months);
+    S.msubs=(S.allSubs||[]).filter(function(x){ return x.member_id===m.id; });
+    var first=S.msubs.slice().sort(function(a,b){ return String(a.starts_on).localeCompare(String(b.starts_on)); })[0], fd=first?planDisc(first.plan_id):null;
+    var dd=discFor(m,cur,(fd&&fd!==cur.discipline_id)?today:'9999-12-31'), ssn=seasonStartAt(start), hasIns=S.msubs.some(function(x){ return x.ins_millimes>0&&x.starts_on>=ssn; });
+    var ins=(f.ins&&!dd.waiveIns&&(f.insWhen==='always'||!hasIns))?f.ins:0;
+    rows.push({id:k,m:m,u:u,plan:cur,disc:discOf(cur.discipline_id),start:start,end:end,dm:dd.amt,why:dd.why,ins:ins,due:Math.max(0,cur.price_millimes-dd.amt+ins),late:u.ends_on<today});
+  });
+  S.msubs=[];
+  return rows.sort(function(a,b){ return (a.m.last_name+a.m.first_name).localeCompare(b.m.last_name+b.m.first_name); });
+}
+function renewModal(){
+  var rows=renewRows(), sel=S.rnSel||{}, on=function(r){ return sel[r.id]!==false; };
+  var chosen=rows.filter(on), tot=chosen.reduce(function(a,r){ return a+r.due; },0);
+  var ss='style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:8px 10px"';
+  var win='<select id="rnW" '+ss+'>'+[[0,GL('Déjà expirés','المنتهية فقط')],[7,GL('Expirés + dans 7 jours','المنتهية + خلال 7 أيام')],[15,GL('Expirés + dans 15 jours','المنتهية + خلال 15 يوماً')],[30,GL('Expirés + dans 30 jours','المنتهية + خلال 30 يوماً')],[60,GL('Expirés + dans 60 jours','المنتهية + خلال 60 يوماً')]].map(function(o){ return '<option value="'+o[0]+'"'+(Number(S.rnW)===o[0]?' selected':'')+'>'+o[1]+'</option>'; }).join('')+'</select>';
+  var dsel='<select id="rnD" '+ss+'><option value="">'+GL('Tous les sports','كل الرياضات')+'</option>'+(S.discs||[]).map(function(d){ return '<option value="'+d.id+'"'+(S.rnD===d.id?' selected':'')+'>'+esc(nm(d))+'</option>'; }).join('')+'</select>';
+  var body='<p class="who" style="margin-bottom:10px">'+GL('Crée les nouveaux abonnements (même formule, remises recalculées, assurance si nouvelle saison). Aucun paiement n\'est enregistré : l\'encaissement se fait ensuite depuis la fiche du membre ou « Impayés ».','يُنشئ الاشتراكات الجديدة (نفس الصيغة، مع إعادة حساب التخفيضات، والتأمين إن بدأ موسم جديد). لا تُسجَّل أي دفعة: يتم التحصيل لاحقاً من ملف العضو أو من «غير المسدَّدين».')+'</p>'+
+   '<div class="bar" style="gap:8px;flex-wrap:wrap;margin-bottom:10px">'+win+dsel+'<span class="who" style="flex:1"></span><label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="rnAll"'+(chosen.length===rows.length&&rows.length?' checked':'')+'> '+GL('Tout sélectionner','تحديد الكل')+'</label></div>'+
+   (rows.length?'<div class="tw" style="max-height:46vh;overflow:auto"><table><thead><tr><th></th><th>'+GL('Membre','العضو')+'</th><th>'+GL('Sport · formule','الرياضة · الصيغة')+'</th><th>'+GL('Fin actuelle','نهاية الحالي')+'</th><th>'+GL('Nouvelle période','الفترة الجديدة')+'</th><th>'+GL('À payer','المبلغ')+'</th></tr></thead><tbody>'+rows.map(function(r){
+     return '<tr><td><input type="checkbox" data-rn="'+esc(r.id)+'"'+(on(r)?' checked':'')+'></td><td><b>'+esc(r.m.last_name+' '+r.m.first_name)+'</b></td><td>'+esc(nm(r.disc))+' · '+esc(nm(r.plan))+'</td><td>'+esc(r.u.ends_on)+(r.late?' <span class="pill" style="background:#FEE2E2;color:#991B1B">'+GL('expiré','منتهٍ')+'</span>':'')+'</td><td>'+esc(r.start)+' → '+esc(r.end)+'</td><td class="num"><b>'+money(r.due)+'</b>'+(r.dm?'<div class="who">'+esc(r.why||GL('remise','تخفيض'))+' −'+money(r.dm)+'</div>':'')+(r.ins?'<div class="who">'+GL('assurance','تأمين')+' +'+money(r.ins)+'</div>':'')+'</td></tr>'; }).join('')+'</tbody></table></div>':'<div class="empty">'+GL('Aucun abonnement à renouveler.','لا توجد اشتراكات للتجديد.')+'</div>')+
+   '<div class="err" id="rnMsg" role="alert">'+esc(S.rnMsg||'')+'</div><div class="mf"><span class="who" style="flex:1">'+chosen.length+' '+GL('sélectionné(s) · total ','محدَّد · المجموع ')+'<b>'+money(tot)+'</b></span><button class="btn" type="button" data-close>'+t('close')+'</button><button class="btn pri" type="button" id="rnGo"'+(chosen.length?'':' disabled')+'>'+GL('Renouveler la sélection','تجديد المحدَّد')+'</button></div>';
+  return modal(GL('Renouvellement groupé','التجديد الجماعي'),body).replace('class="modal"','class="modal" style="max-width:980px"');
+}
+function bindRenew(){
+  if($('bRenew')) $('bRenew').onclick=openRenew;
+  if(S.modal!=='renew') return;
+  $('rnW').onchange=function(){ S.rnW=Number($('rnW').value); S.rnSel={}; render(); };
+  $('rnD').onchange=function(){ S.rnD=$('rnD').value; S.rnSel={}; render(); };
+  document.querySelectorAll('[data-rn]').forEach(function(c){ c.onchange=function(){ S.rnSel=S.rnSel||{}; S.rnSel[c.getAttribute('data-rn')]=c.checked; render(); }; });
+  $('rnAll').onchange=function(){ var v=$('rnAll').checked; S.rnSel={}; renewRows().forEach(function(r){ S.rnSel[r.id]=v; }); render(); };
+  $('rnGo').onclick=async function(){
+    var sel=S.rnSel||{}, rows=renewRows().filter(function(r){ return sel[r.id]!==false; }); if(!rows.length) return;
+    $('rnGo').disabled=true; var ok=0, err='';
+    for(var i=0;i<rows.length;i++){ var r=rows[i];
+      var q=await sb.from('subscriptions').insert({member_id:r.m.id,plan_id:r.plan.id,starts_on:r.start,ends_on:r.end,due_millimes:r.due,discount_millimes:r.dm,reg_millimes:0,ins_millimes:r.ins});
+      if(q.error){ err=q.error.message; break; } ok++; }
+    if(err){ S.rnMsg=GL('Arrêté après '+ok+' renouvellement(s) : ','توقّف بعد '+ok+' تجديد: ')+err; render(); return; }
+    S.renDone=ok; S.modal=''; S.rnSel=null; await loadView();
+  };
+}
 function membersHtml(){
-  var imd=S.impDone; S.impDone=null;
-  var form=S.showForm?memberFormModal(null):(S.modal==='adv'?advModal():(S.modal==='imp'?impModal():''));
+  var imd=S.impDone; S.impDone=null; var rnd=S.renDone; S.renDone=null;
+  var form=S.showForm?memberFormModal(null):(S.modal==='adv'?advModal():(S.modal==='imp'?impModal():(S.modal==='renew'?renewModal():(S.modal==='socall'?socAllModal():''))));
   var copt='<option value="">'+t('allCats')+'</option>'+cats().map(function(c){ return '<option value="'+esc(c.n)+'"'+(S.fCat===c.n?' selected':'')+'>'+esc(catLabel(c))+'</option>'; }).join('');
-  return (S.membersErr?'<div class="err">'+esc(t('loadErr')+S.membersErr)+'</div>':'')+(imd!=null?'<div class="okmsg" style="margin-bottom:10px">✓ '+imd+' '+GL('membres importés.','عضو تم استيراده.')+'</div>':'')+form+
+  return (S.membersErr?'<div class="err">'+esc(t('loadErr')+S.membersErr)+'</div>':'')+(imd!=null?'<div class="okmsg" style="margin-bottom:10px">✓ '+imd+' '+GL('membres importés.','عضو تم استيراده.')+'</div>':'')+(rnd!=null?'<div class="okmsg" style="margin-bottom:10px">✓ '+rnd+' '+GL('abonnement(s) renouvelé(s). Encaissez-les depuis la fiche du membre ou « Impayés ».','اشتراك تم تجديده. حصّلها من ملف العضو أو من «غير المسدَّدين».')+'</div>':'')+form+
    '<div class="panel"><div class="bar"><input type="search" id="qMem" placeholder="'+t('search')+'" aria-label="'+t('search')+'">'+
    famDiscSel()+'<select id="fCat" aria-label="'+t('cat')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:9px 12px">'+copt+'</select>'+
    '<button class="btn" id="bAdv">'+GL('Filtres avancés','فلاتر متقدمة')+(advCount()?' ('+advCount()+')':'')+'</button>'+(advCount()?'<button class="btn" id="bAdvX">×</button>':'')+
-   '<button class="btn" id="bMemXls">Excel</button>'+(canEditMembers()?'<button class="btn" id="bImp">'+di('upload','currentColor',16)+' '+GL('Importer','استيراد')+'</button><button class="btn" id="bCards">'+di('idcard','currentColor',16)+' '+GL('Cartes','البطاقات')+'</button>':'')+(canEditMembers()?'<button class="btn pri" id="bAdd">'+t('add')+'</button>':'')+'</div>'+
+   '<button class="btn" id="bMemXls">Excel</button>'+(canEditMembers()?'<button class="btn" id="bImp">'+di('upload','currentColor',16)+' '+GL('Importer','استيراد')+'</button><button class="btn" id="bCards">'+di('idcard','currentColor',16)+' '+GL('Cartes','البطاقات')+'</button>':'')+(socRole()?'<button class="btn" id="bSocAll">'+GL('Aides sociales','المساعدات الاجتماعية')+'</button>':'')+(canEditMembers()?'<button class="btn pri" id="bAdd">'+t('add')+'</button>':'')+'</div>'+
    chipsHtml()+'<div class="who" id="mCount" style="margin:-4px 0 8px"></div>'+
    '<div id="cfBar">'+cfBarInner()+'</div><div class="tw"><table><thead id="thMem">'+headInner()+'</thead><tbody id="tbMem">'+rowsHtml('')+'</tbody></table></div></div>';
 }
@@ -1865,10 +1934,117 @@ function normTxt(x){ return String(x||'').toLowerCase().normalize('NFD').replace
 function lev(a,b){ var m=a.length,n=b.length,d=[],i,j; for(i=0;i<=m;i++){ d[i]=[i]; } for(j=1;j<=n;j++) d[0][j]=j; for(i=1;i<=m;i++) for(j=1;j<=n;j++) d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1)); return d[m][n]; }
 function listsCfg(){ return (S.cfg&&S.cfg.lists)||{}; }
 function applyLists(){ var l=listsCfg(); EXPCATS=EXPBASE.concat((l.expcat||[]).map(function(c){ return [c.id,c.fr,c.ar]; })); GRCATS=GRBASE.concat((l.grcat||[]).map(function(c){ return [c.id,c.fr,c.ar]; })); }
+var LIST_DEF={
+ "school": [
+  "École primaire Avenue Habib Bourguiba — المدرسة الابتدائية شارع الحبيب بورقيبة",
+  "École primaire Er-Rahiba — المدرسة الابتدائية الرحيبة",
+  "École primaire Argoub — المدرسة الابتدائية العرقوب",
+  "École primaire El Heri — المدرسة الابتدائية الهري",
+  "École primaire Toukaber — المدرسة الابتدائية توكابر",
+  "École primaire Sidi Nasr — المدرسة الابتدائية سيدي نصر",
+  "École primaire Sidi Er-Raïs — المدرسة الابتدائية سيدي الرائس",
+  "École primaire Qarish — المدرسة الابتدائية قريش",
+  "École primaire privée AJIEL Al Manara — المدرسة الابتدائية الخاصة أجيال المنارة",
+  "Collège Mongi Slim — المدرسة الإعدادية المنجي سليم",
+  "École préparatoire Ibn El Baytar — المدرسة الإعدادية ابن البيطار",
+  "École préparatoire technique — المدرسة الإعدادية التقنية",
+  "Collège-Lycée privé Al Oula — المدرسة الإعدادية والمعهد الخاص العلى",
+  "Lycée Mahmoud Messaadi — معهد محمود المسعدي",
+  "Lycée Abou El Kacem Chebbi — معهد أبو القاسم الشابي",
+  "Lycée privé Al Aziz — معهد العزيز الخاص",
+  "Lycée privé Ennour — معهد النور الخاص",
+  "Collège & Lycée privé Al Azima — معهد العزيمة الخاص",
+  "École Supérieure des Ingénieurs de Medjez El Bab (ESIM) — المدرسة العليا للمهندسين بمجاز الباب"
+ ],
+ "city": [
+  "Medjez El Bab ville — مجاز الباب المدينة",
+  "Medjez El Bab Sud — مجاز الباب الجنوبية",
+  "Sidi Medien — سيدي مدين",
+  "El Ksar — القصر",
+  "El Heri — الهري",
+  "Toukaber — توكابر",
+  "Chaouach — شواش",
+  "Sidi Nasr — سيدي نصر",
+  "Sidi Ahmed Jedidi — سيدي أحمد الجديدي",
+  "El Griaat — القريعات",
+  "Hidous — حيدوس",
+  "El Massouti — المواطيس",
+  "Qarish El Oued — قريش الوادي",
+  "Sidi Er-Raïs — سيدي الرائس",
+  "Argoub Ezzaatar — عرقوب الزعتر",
+  "Oued Zarga — وادي الزرقاء",
+  "Testour — تستور",
+  "Téboursouk — تبرسق",
+  "Goubellat — قبلاط",
+  "Thibar — تيبار",
+  "Béja — باجة",
+  "Nefza — نفزة",
+  "Tébourba — طبربة",
+  "Manouba — منوبة",
+  "Tunis — تونس",
+  "Ariana — أريانة",
+  "Ben Arous — بن عروس",
+  "Jendouba — جندوبة",
+  "Le Kef — الكاف",
+  "Bizerte — بنزرت"
+ ],
+ "area": [
+  "Centre ville — وسط المدينة",
+  "Cité El Azima — حي العزيمة",
+  "Cité El Ferdaous — حي الفردوس",
+  "Hay El Asatida — حي الأساتذة",
+  "Hay Ech-Chamekh — حي الشامخ",
+  "Hay El Wilaya — حي الولاية",
+  "Hay El Manzah — حي المنزه",
+  "Hay El Yasmina — حي الياسمينة",
+  "Hay El Baladiya — حي البلدية",
+  "El Baldat El Jedida — البلدة الجديدة",
+  "Hay 2 Mars (El Griaat) — حي 2 مارس",
+  "Arkoub — عرقوب",
+  "El Gannara — القنطرة",
+  "El Hwairie — الحويرية"
+ ],
+ "work": [
+  "Medjez El Bab ville — مجاز الباب المدينة",
+  "Medjez El Bab Sud — مجاز الباب الجنوبية",
+  "Sidi Medien — سيدي مدين",
+  "El Ksar — القصر",
+  "El Heri — الهري",
+  "Toukaber — توكابر",
+  "Chaouach — شواش",
+  "Sidi Nasr — سيدي نصر",
+  "Sidi Ahmed Jedidi — سيدي أحمد الجديدي",
+  "El Griaat — القريعات",
+  "Hidous — حيدوس",
+  "El Massouti — المواطيس",
+  "Qarish El Oued — قريش الوادي",
+  "Sidi Er-Raïs — سيدي الرائس",
+  "Argoub Ezzaatar — عرقوب الزعتر",
+  "Oued Zarga — وادي الزرقاء",
+  "Testour — تستور",
+  "Téboursouk — تبرسق",
+  "Goubellat — قبلاط",
+  "Thibar — تيبار",
+  "Béja — باجة",
+  "Nefza — نفزة",
+  "Tébourba — طبربة",
+  "Manouba — منوبة",
+  "Tunis — تونس",
+  "Ariana — أريانة",
+  "Ben Arous — بن عروس",
+  "Jendouba — جندوبة",
+  "Le Kef — الكاف",
+  "Bizerte — بنزرت",
+  "À l'étranger — بالخارج"
+ ]
+};
 function listVals(key){
-  var fld={area:'area',school:'school',city:'city'}[key], seen={}, out=[];
+  var fld={area:'area',school:'school',city:'city',work:'guardian_work'}[key], seen={}, out=[];
   var add=function(v){ v=String(v||'').trim(); if(!v) return; var n=normTxt(v); if(seen[n]) return; seen[n]=1; out.push(v); };
+  (LIST_DEF[key]||[]).forEach(function(v){ add(v); seen[normTxt(String(v).split(' — ')[0])]=1; });
   (listsCfg()[key]||[]).forEach(add); (S.members||[]).concat(S.pmembers||[]).forEach(function(m){ add(m[fld]); });
+  if(key==='school'){ var nd=(LIST_DEF.school||[]).length, rest=out.slice(nd).sort(function(a,b){ return a.localeCompare(b); }); return out.slice(0,nd).concat(rest); }
+  if(key==='city'||key==='work'){ var nc=(LIST_DEF[key]||[]).length, rs=out.slice(nc).sort(function(a,b){ return a.localeCompare(b); }); return out.slice(0,nc).concat(rs); }
   return out.sort(function(a,b){ return a.localeCompare(b); });
 }
 function lsel(id,label,opts,cur,canNew,noBlank){
@@ -1903,7 +2079,7 @@ function memberFormModal(m){
    '<div style="display:flex;flex-direction:column;gap:6px"><label class="btn sm" for="mPhoto" style="cursor:pointer">'+t('photo')+'</label><input type="file" id="mPhoto" accept="image/*" hidden><button type="button" class="link" id="mPhotoDel">'+t('removePhoto')+'</button></div></div>'+
    '<div class="grid2">'+f('mFirst',t('first'),'text',v('first_name'))+f('mLast',t('last'),'text',v('last_name'))+
    '<div class="field"><label for="mGender">'+t('gender')+'</label><select id="mGender"><option value="">—</option><option value="M"'+(v('gender')==='M'?' selected':'')+'>'+t('male')+'</option><option value="F"'+(v('gender')==='F'?' selected':'')+'>'+t('female')+'</option></select></div>'+
-   f('mBirth',t('birth'),'date',v('birth_date'))+f('mPhone',t('phone'),'tel',v('phone'))+f('mGName',t('gname'),'text',v('guardian_name'))+f('mGPhone',t('gphone'),'tel',v('guardian_phone'))+f('mGWork',t('gwork'),'text',v('guardian_work'))+'</div>'+
+   f('mBirth',t('birth'),'date',v('birth_date'))+f('mPhone',t('phone'),'tel',v('phone'))+f('mGName',t('gname'),'text',v('guardian_name'))+f('mGPhone',t('gphone'),'tel',v('guardian_phone'))+lselText('mGWork',t('gwork'),'work',v('guardian_work'),canEditMembers())+'</div>'+
    '<details style="margin-top:14px"'+(m?' open':'')+'><summary style="cursor:pointer;font-weight:700">'+t('more')+'</summary><div class="grid2" style="margin-top:12px">'+
    lselText('mSchool',t('school'),'school',v('school'),canEditMembers())+f('mAddr',t('address'),'text',v('address'))+lselText('mCity',t('city'),'city',v('city'),canEditMembers())+lselText('mArea',t('area'),'area',v('area'),canEditMembers())+f('mEmerg',t('emerg'),'text',v('emergency'))+'</div>'+
    '<div class="field" style="margin-top:12px"><label for="mNotes">'+t('notes')+'</label><textarea id="mNotes" rows="2">'+esc(v('notes'))+'</textarea></div></details>'+
@@ -1919,13 +2095,21 @@ function shrinkImg(file,max,q){
 }
 function bindMemberForm(editId){
   if(!$('fMem')) return;
-  ['mSchool','mCity','mArea'].forEach(bindLsel);
+  ['mSchool','mCity','mArea','mGWork'].forEach(bindLsel);
   $('mCancel').onclick=closeModal;
+  (function(){ var pool=function(){ return S.membersAll||S.members||S.gmembers||[]; };
+    var chk=function(){ var box=$('phDup'); if(!box){ box=document.createElement('div'); box.id='phDup'; box.className='who'; box.style.cssText='grid-column:1/-1;margin:-4px 0 6px;padding:8px 10px;border-radius:8px;background:#FEF3C7;color:#92400E;display:none'; var gp=$('mGPhone'); var fld=gp&&gp.closest('.field'); if(fld&&fld.parentNode) fld.parentNode.insertBefore(box,fld.nextSibling); else return; }
+      var keys=[$('mPhone').value,$('mGPhone').value].map(function(x){ var d=String(x||'').replace(/\D/g,''); return d.length>=8?d.slice(-8):''; }).filter(Boolean);
+      var hit=pool().filter(function(x){ return String(x.id)!==String(editId||'')&&x.status!=='left'&&keys.indexOf(phKey(x))>-1; });
+      if(!hit.length){ box.style.display='none'; return; }
+      box.style.display='block'; box.textContent='⚠ '+GL('Ce numéro existe déjà : ','هذا الرقم مسجَّل مسبقاً: ')+hit.slice(0,4).map(function(x){ return (x.last_name||'')+' '+(x.first_name||''); }).join(' · ')+' — '+GL('même famille : la remise fratrie sera appliquée automatiquement. Vérifiez qu\'il ne s\'agit pas d\'un doublon.','نفس العائلة: يُطبَّق خصم الإخوة تلقائياً. تأكد أنه ليس تسجيلاً مكرراً.'); };
+    ['mPhone','mGPhone'].forEach(function(id){ if($(id)){ $(id).addEventListener('input',chk); $(id).addEventListener('change',chk); } }); chk(); })();
   $('mPhoto').onchange=async function(){ var fl=this.files[0]; if(!fl) return; try{ S.photo=await shrinkImg(fl,360,.8); var p=$('mPrev'); p.src=S.photo; p.style.visibility='visible'; }catch(e){ $('mMsg').textContent=t('badImg'); } };
   $('mPhotoDel').onclick=function(){ S.photo=''; var p=$('mPrev'); p.removeAttribute('src'); p.style.visibility='hidden'; };
   $('fMem').onsubmit=function(e){ e.preventDefault(); saveMember(editId); };
 }
 function bindMembers(){
+  bindRenew(); bindSoc();
   cfPopClose(); bindHead();
   var q=$('qMem'); if(q) q.oninput=function(){ $('tbMem').innerHTML=rowsHtml(q.value); $('mCount').textContent=(S.shown||0)+' / '+S.members.length+' '+GL('membres','عضو'); bindDel(); bindOpen(); };
   if($('fFam')) $('fFam').onchange=function(){ S.fFam=$('fFam').value; if(S.fDisc){ var f=famOfDisc(S.fDisc); if(S.fFam&&(!f||f.id!==S.fFam)) S.fDisc=''; } render(); }; if($('fDisc')) $('fDisc').onchange=function(){ S.fDisc=$('fDisc').value; $('tbMem').innerHTML=rowsHtml(q.value); $('mCount').textContent=(S.shown||0)+' / '+S.members.length+' '+GL('membres','عضو'); bindDel(); bindOpen(); }; if($('fCat')) $('fCat').onchange=function(){ S.fCat=$('fCat').value; $('tbMem').innerHTML=rowsHtml(q.value); $('mCount').textContent=(S.shown||0)+' / '+S.members.length+' '+GL('membres','عضو'); bindDel(); bindOpen(); };
@@ -1968,9 +2152,9 @@ async function saveMember(editId){
   var first=$('mFirst').value.trim(), last=$('mLast').value.trim(), msg=$('mMsg');
   if(!first||!last){ msg.textContent=t('required'); return; }
   var g=function(id){ return $(id).value.trim()||null; };
-  var vSchool=await resolveText('school','mSchool'), vCity=await resolveText('city','mCity'), vArea=await resolveText('area','mArea');
+  var vSchool=await resolveText('school','mSchool'), vCity=await resolveText('city','mCity'), vArea=await resolveText('area','mArea'), vWork=await resolveText('work','mGWork');
   var row={ first_name:first, last_name:last, gender:$('mGender').value||null, birth_date:$('mBirth').value||null,
-    phone:g('mPhone'), guardian_name:g('mGName'), guardian_phone:g('mGPhone'), guardian_work:g('mGWork'),
+    phone:g('mPhone'), guardian_name:g('mGName'), guardian_phone:g('mGPhone'), guardian_work:vWork,
     school:vSchool, address:g('mAddr'), city:vCity, area:vArea, emergency:g('mEmerg'), notes:g('mNotes'), photo:S.photo||null };
   var r=editId ? await sb.from('members').update(row).eq('id',editId) : await sb.from('members').insert(row).select().single();
   if(r.error){ msg.textContent=r.error.message; return; }
@@ -1995,7 +2179,7 @@ async function loadMember(){
   var canPay=S.profile.role!=='coach'; S.mpays=[];
   if(canPay){ var p=await sb.from('payments').select('*').eq('member_id',S.memberId).order('paid_on'); S.mpays=(p.data||[]).slice().reverse(); }
   var fr=await sb.from('member_files').select('*').eq('member_id',S.memberId); S.mfiles=fr.data||[];
-  S.levels=(await sb.from('levels').select('*').order('position')).data||[]; S.lh=(await sb.from('level_history').select('*').eq('member_id',S.memberId)).data||[]; S.gmembers=(await sb.from('members').select('*').is('deleted_at',null).order('last_name')).data||[];
+  S.levels=(await sb.from('levels').select('*').order('position')).data||[]; S.lh=(await sb.from('level_history').select('*').eq('member_id',S.memberId)).data||[]; S.lhAll=(await sb.from('level_history').select('*')).data||[]; S.allSubs=(await sb.from('subscriptions').select('*')).data||[]; S.gmembers=(await sb.from('members').select('*').is('deleted_at',null).order('last_name')).data||[];
   S.cps=(await sb.from('competitions').select('*')).data||[]; S.mcr=(await sb.from('competition_results').select('*').eq('member_id',S.memberId)).data||[];
   var gmr=await sb.from('group_members').select('*').eq('member_id',S.memberId), gall=await sb.from('groups').select('*'), ids=(gmr.data||[]).map(function(x){return x.group_id;});
   S.mgroups=(gall.data||[]).filter(function(g){ return ids.indexOf(g.id)>-1; }).map(function(g){ return g.name; }).join(', ');
@@ -2048,7 +2232,7 @@ function memberHtml(){
     pays='<div class="panel" style="margin-top:14px"><h3 style="margin-bottom:8px">'+t('hist')+'</h3>'+(rows?'<div class="tw"><table><thead><tr><th>'+t('date')+'</th><th>'+t('amount')+'</th><th>'+t('method')+'</th><th>'+t('status')+'</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div>':'<div class="who">'+t('noPay')+'</div>')+'</div>';
   }
   var notes=m.notes?'<div class="panel" style="margin-top:14px"><h3 style="margin-bottom:6px">'+t('notes')+'</h3>'+esc(m.notes)+'</div>':'';
-  return '<button class="btn sm" id="bBack" style="margin-bottom:14px">'+t('back')+'</button>'+head+cardPanel(m)+info+subBox+memberLevelsPanel()+memberAchPanel()+dossier+pays+notes+modals;
+  return '<button class="btn sm" id="bBack" style="margin-bottom:14px">'+t('back')+'</button>'+head+cardPanel(m)+info+subBox+socCard()+memberLevelsPanel()+memberAchPanel()+dossier+pays+notes+modals+(S.modal==='soc'?socFormModal():'');
 }
 
 /* نافذة ملف العضو (الوثائق والمرفقات) */
@@ -2077,6 +2261,7 @@ function d2blob(u){ var p=u.split(','), mime=/:(.*?);/.exec(p[0])[1], bin=atob(p
 function readAsDataUrl(file){ return new Promise(function(res,rej){ var r=new FileReader(); r.onload=function(){ res(r.result); }; r.onerror=rej; r.readAsDataURL(file); }); }
 
 function bindMember(){
+  bindSoc();
   if(S.member) bindCard(S.member);
   if($('bBack')) $('bBack').onclick=function(){ S.view='members'; loadView(); };
   document.querySelectorAll('[data-maw]').forEach(function(b){ b.onclick=function(){ var id=b.getAttribute('data-maw'); printAwards(awardItems((S.mcr||[]).filter(function(r){return r.id===id;}))); }; });
@@ -2121,11 +2306,11 @@ function bindMember(){
   var rank=sibRank(S.member||{});
   function num(i){ return Math.max(0,Math.round(parseFloat($(i).value||'0')*1000)); }
   function total(){ var p=plan(); if(!p) return 0; return Math.max(0,p.price_millimes-num('sDisc')+num('sReg')+num('sIns')); }
-  function sum(){ var p=plan(); if(!p) return; var tt=total(); $('sSum').textContent=GL('Total à payer : ','المبلغ الإجمالي: ')+money(tt)+'  ('+money(p.price_millimes)+(num('sReg')?' + '+money(num('sReg')):'')+(num('sIns')?' + '+money(num('sIns')):'')+(num('sDisc')?' − '+money(num('sDisc')):'')+')'+(rank>1?'  · '+GL('rang fratrie ','ترتيبه بين الإخوة ')+rank:''); if($('sAmt')) $('sAmt').value=(tt/1000).toFixed(3); }
+  function sum(){ var p=plan(); if(!p) return; var tt=total(); $('sSum').textContent=GL('Total à payer : ','المبلغ الإجمالي: ')+money(tt)+'  ('+money(p.price_millimes)+(num('sReg')?' + '+money(num('sReg')):'')+(num('sIns')?' + '+money(num('sIns')):'')+(num('sDisc')?' − '+money(num('sDisc')):'')+')'+(S.discWhy?'  · '+S.discWhy:''); if($('sAmt')) $('sAmt').value=(tt/1000).toFixed(3); }
   function recalc(){ var p=plan(); if(!p) return; $('sEnd').value=addMonths($('sStart').value||todayStr(),p.duration_months);
     $('sReg').value=((FC.reg&&!hasReg&&(FC.regWhen==='always'||isFirst)?FC.reg:0)/1000).toFixed(3);
     $('sIns').value=((FC.ins&&(FC.insWhen==='always'||!hasIns)?FC.ins:0)/1000).toFixed(3);
-    $('sDisc').value=(sibDisc(rank,p.price_millimes)/1000).toFixed(3); sum(); }
+    var dd=discFor(S.member||{},p,$('sStart').value); S.discWhy=dd.why; $('sDisc').value=(dd.amt/1000).toFixed(3); if(dd.waiveReg) $('sReg').value='0.000'; if(dd.waiveIns) $('sIns').value='0.000'; sum(); }
   $('sPlan').onchange=recalc; $('sStart').onchange=recalc; recalc();
   ['sReg','sIns','sDisc'].forEach(function(i){ $(i).oninput=sum; });
   if($('sMeth')) $('sMeth').onchange=function(){ var v=$('sMeth').value; $('xChq').hidden=$('xBank').hidden=$('xDue').hidden=(v!=='cheque'); $('xRef').hidden=(v!=='transfer'); };
@@ -2152,37 +2337,157 @@ function bindMember(){
 }
 
 /* ------------ الإعدادات: الرياضات والأسعار ------------ */
-function settingsHtml(){
+/* ===== مساعدة اجتماعية ===== */
+function socRole(){ var r=S.profile&&S.profile.role; return r==='manager'||r==='president'||r==='treasurer'; }
+function socList(){ return (S.cfg&&S.cfg.social)||[]; }
+function socFor(mid,d){ d=d||todayStr(); return socList().filter(function(g){ return g.member_id===mid&&g.status==='confirmed'&&(!g.until||g.until>=d); })[0]||null; }
+function socPlanDisc(g,price){ if(g.type==='free') return price; if(g.type==='pct') return Math.min(price,Math.round(price*(+g.value||0)/100)); return Math.min(price,Math.round((+g.value||0)*1000)); }
+function socTypeL(g){ return g.type==='free'?GL('Gratuit','مجاني كلياً'):g.type==='pct'?(+g.value||0)+' %':money(Math.round((+g.value||0)*1000)); }
+function socStL(s){ return {pending:GL('En attente','في الانتظار'),confirmed:GL('Confirmée','مؤكَّدة'),rejected:GL('Refusée','مرفوضة'),revoked:GL('Révoquée','ملغاة')}[s]||s; }
+function socGiven(g){ return (S.allSubs||[]).filter(function(u){ return u.member_id===g.member_id&&u.starts_on>=String(g.confirmed_at||g.created||'').slice(0,10)&&(!g.until||u.starts_on<=g.until); }).reduce(function(a,u){ return a+Number(u.discount_millimes||0); },0); }
+async function socSave(list){ var r=await saveCfg('social',list); if(r&&r.error){ S.socMsg=r.error.message; return false; } return true; }
+function socCard(){
+  if(!socRole()||!S.member) return '';
+  var mid=S.member.id, l=socList().filter(function(g){ return g.member_id===mid; }), isM=S.profile.role==='manager', isP=S.profile.role==='president';
+  var rows=l.map(function(g){ var col=g.status==='confirmed'?'#166534':g.status==='pending'?'#92400E':'#6B7280';
+    return '<div style="padding:8px 0;border-top:1px solid var(--line)"><div class="bar" style="gap:8px;flex-wrap:wrap"><b>'+socTypeL(g)+'</b><span class="pill" style="color:'+col+'">'+socStL(g.status)+'</span><span class="who" style="flex:1">'+(g.reg?GL('inscription ','تسجيل ')+'✓ ':'')+(g.ins?GL('assurance ','تأمين ')+'✓ ':'')+(g.until?GL('jusqu\'au ','حتى ')+esc(g.until):'')+'</span>'+
+      (isP&&g.status==='pending'?'<button class="btn sm pri" data-socok="'+g.id+'">'+GL('Confirmer','تأكيد')+'</button><button class="btn sm" data-socno="'+g.id+'">'+GL('Refuser','رفض')+'</button>':'')+
+      ((isM||isP)&&g.status==='confirmed'?'<button class="btn sm" data-socrev="'+g.id+'">'+GL('Révoquer','إلغاء')+'</button>':'')+'</div><div class="who">'+esc(g.reason||'')+' · '+esc(g.decided_by||'')+'</div></div>'; }).join('');
+  return '<div class="panel" style="margin-top:14px"><div class="bar" style="margin-bottom:6px"><h3 style="flex:1">'+GL('Aide sociale','المساعدة الاجتماعية')+'</h3>'+((isM||isP)?'<button class="btn sm" id="bSoc">+ '+GL('Accorder une aide','منح مساعدة')+'</button>':'')+'</div>'+(rows||'<div class="who">'+GL('Aucune aide accordée.','لا توجد مساعدة ممنوحة.')+'</div>')+'<div class="who" style="margin-top:6px">'+GL('Confidentiel : visible par le gérant, le président et le trésorier.','سري: يراه المدير والرئيس وأمين المال فقط.')+'</div></div>';
+}
+function socFormModal(){
+  var seasonEnd=addMonths(seasonStartAt(todayStr()),12);
+  var inp='style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:100%"';
+  var body='<form id="fSoc" novalidate><div class="grid2"><div class="field"><label for="soT">'+GL('Type d\'aide','نوع المساعدة')+'</label><select id="soT"><option value="free">'+GL('Gratuit (cotisation 0)','مجاني (اشتراك صفر)')+'</option><option value="pct">'+GL('Pourcentage de remise','نسبة تخفيض')+'</option><option value="fix">'+GL('Montant fixe (TND)','مبلغ ثابت (د)')+'</option></select></div>'+
+   '<div class="field" id="soVBox" hidden><label for="soV">'+GL('Valeur (% ou TND)','القيمة (% أو د)')+'</label><input id="soV" type="number" step="0.001" min="0"></div>'+
+   '<div class="field"><label for="soU">'+GL('Valable jusqu\'au','صالحة حتى')+'</label><input id="soU" type="date" value="'+seasonEnd+'"></div>'+
+   '<div class="field"><label for="soD">'+GL('Décision de','قرار صادر عن')+'</label><input id="soD" value="'+GL('Président','الرئيس')+'"></div></div>'+
+   '<div style="display:flex;gap:18px;flex-wrap:wrap;margin:8px 0"><label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="soR"> '+GL('Exonéré des droits d\'inscription','إعفاء من رسم التسجيل')+'</label><label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="soI"> '+GL('Exonéré de l\'assurance','إعفاء من التأمين')+'</label></div>'+
+   '<div class="field"><label for="soW">'+GL('Motif (obligatoire, confidentiel)','السبب (إلزامي وسري)')+'</label><textarea id="soW" rows="2" '+inp+'></textarea></div>'+
+   '<p class="who">'+GL('L\'aide reste « en attente » tant que le président ne l\'a pas confirmée (sauf s\'il la saisit lui-même). Elle ne se cumule pas avec la remise fratrie : la plus forte s\'applique.','تبقى المساعدة «في الانتظار» حتى يؤكدها الرئيس (إلا إن أدخلها بنفسه). لا تُجمع مع تخفيض الإخوة: يُطبَّق الأكبر.')+'</p>'+
+   '<div class="err" id="soMsg" role="alert">'+esc(S.socMsg||'')+'</div><div class="mf"><button class="btn" type="button" data-close>'+t('close')+'</button><button class="btn pri" type="submit">'+GL('Enregistrer','حفظ')+'</button></div></form>';
+  return modal(GL('Aide sociale','مساعدة اجتماعية')+' — '+esc((S.member.first_name||'')+' '+(S.member.last_name||'')),body);
+}
+function socAllModal(){
+  var isP=S.profile.role==='president', names={}; (S.gmembers||[]).forEach(function(m){ names[m.id]=m.last_name+' '+m.first_name; });
+  var l=socList().slice().sort(function(a,b){ return String(b.created).localeCompare(String(a.created)); });
+  var tot=l.filter(function(g){ return g.status==='confirmed'; }).reduce(function(a,g){ return a+socGiven(g); },0);
+  var rows=l.map(function(g){ return '<tr><td><b>'+esc(names[g.member_id]||'—')+'</b><div class="who">'+esc(g.reason||'')+'</div></td><td>'+socTypeL(g)+(g.reg?' · '+GL('inscr.','تسجيل'):'')+(g.ins?' · '+GL('assur.','تأمين'):'')+'</td><td>'+esc(g.until||'—')+'</td><td><span class="pill">'+socStL(g.status)+'</span></td><td class="num">'+(g.status==='confirmed'?money(socGiven(g)):'—')+'</td><td>'+(isP&&g.status==='pending'?'<button class="btn sm pri" data-socok="'+g.id+'">'+GL('Confirmer','تأكيد')+'</button> <button class="btn sm" data-socno="'+g.id+'">'+GL('Refuser','رفض')+'</button>':'')+'</td></tr>'; }).join('');
+  var body='<div class="cards" style="margin-bottom:10px"><div class="kpi"><small>'+GL('Valeur accordée (remises sur cotisations)','قيمة ما مُنح (تخفيضات الاشتراكات)')+'</small><b style="font-size:20px">'+money(tot)+'</b></div><div class="kpi"><small>'+GL('En attente de confirmation','في انتظار التأكيد')+'</small><b style="font-size:20px">'+l.filter(function(g){ return g.status==='pending'; }).length+'</b></div></div>'+
+    (l.length?'<div class="tw"><table><thead><tr><th>'+GL('Bénéficiaire','المستفيد')+'</th><th>'+GL('Aide','المساعدة')+'</th><th>'+GL('Jusqu\'au','حتى')+'</th><th>'+GL('Statut','الحالة')+'</th><th>'+GL('Valeur','القيمة')+'</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div>':'<div class="empty">'+GL('Aucune aide sociale enregistrée.','لا توجد مساعدات اجتماعية.')+'</div>')+
+    '<p class="who" style="margin-top:8px">'+GL('La valeur ne compte que les remises sur la cotisation ; les exonérations d\'inscription/assurance ne sont pas chiffrées.','القيمة تحسب تخفيضات الاشتراك فقط؛ إعفاءات التسجيل والتأمين لا تُحتسب مالياً.')+'</p><div class="mf"><button class="btn" type="button" data-close>'+t('close')+'</button></div>';
+  return modal(GL('Aides sociales','المساعدات الاجتماعية'),body).replace('class="modal"','class="modal" style="max-width:920px"');
+}
+async function openSocAll(){ await loadCatalog(); S.allSubs=(await sb.from('subscriptions').select('*')).data||[]; S.gmembers=(await sb.from('members').select('*').is('deleted_at',null).order('last_name')).data||[]; S.modal='socall'; render(); }
+function bindSoc(){
+  if($('bSocAll')) $('bSocAll').onclick=openSocAll;
+  if($('bSoc')) $('bSoc').onclick=function(){ S.socMsg=''; S.modal='soc'; render(); };
+  if($('soT')) $('soT').onchange=function(){ $('soVBox').hidden=$('soT').value==='free'; };
+  if($('fSoc')) $('fSoc').onsubmit=async function(e){ e.preventDefault(); var ty=$('soT').value, v=parseFloat($('soV').value||'0')||0, why=($('soW').value||'').trim();
+    if(ty!=='free'&&!(v>0)){ $('soMsg').textContent=GL('Indiquez la valeur.','اكتب القيمة.'); return; } if(ty==='pct'&&v>100){ $('soMsg').textContent=GL('Pourcentage invalide.','نسبة غير صحيحة.'); return; }
+    if(why.length<5){ $('soMsg').textContent=GL('Le motif est obligatoire.','السبب إلزامي.'); return; }
+    var isP=S.profile.role==='president', g={id:'s'+Date.now().toString(36)+Math.random().toString(36).slice(2,4),member_id:S.member.id,type:ty,value:ty==='free'?0:v,reg:$('soR').checked,ins:$('soI').checked,until:$('soU').value||null,reason:why,decided_by:($('soD').value||'').trim(),status:isP?'confirmed':'pending',by:S.profile.full_name||'',created:todayStr()};
+    if(isP){ g.confirmed_by=S.profile.full_name||''; g.confirmed_at=todayStr(); }
+    var l=socList().slice(); l.push(g); if(!(await socSave(l))){ $('soMsg').textContent=S.socMsg; return; } S.modal=''; render(); };
+  var act=async function(id,st,ask){ var l=socList().map(function(g){ return g; }), g=l.filter(function(x){ return x.id===id; })[0]; if(!g) return; var why='';
+    if(ask){ why=prompt(GL('Motif (obligatoire) :','السبب (إلزامي):'))||''; if(why.trim().length<5) return; }
+    g.status=st; if(st==='confirmed'){ g.confirmed_by=S.profile.full_name||''; g.confirmed_at=todayStr(); } else { g.closed_reason=why.trim(); g.closed_by=S.profile.full_name||''; g.closed_at=todayStr(); }
+    if(await socSave(l)) render(); };
+  document.querySelectorAll('[data-socok]').forEach(function(b){ b.onclick=function(){ act(b.getAttribute('data-socok'),'confirmed',false); }; });
+  document.querySelectorAll('[data-socno]').forEach(function(b){ b.onclick=function(){ act(b.getAttribute('data-socno'),'rejected',true); }; });
+  document.querySelectorAll('[data-socrev]').forEach(function(b){ b.onclick=function(){ act(b.getAttribute('data-socrev'),'revoked',true); }; });
+}
+function sportStats(){
+  var today=todayStr(), plans=S.plansAll||[], cnt={};
+  (S.asubs||[]).filter(function(u){ return u.ends_on>=today; }).forEach(function(u){ var p=plans.filter(function(x){ return x.id===u.plan_id; })[0]; if(p){ (cnt[p.discipline_id]=cnt[p.discipline_id]||{})[u.member_id]=1; } });
+  var o={}; Object.keys(cnt).forEach(function(k){ o[k]=Object.keys(cnt[k]).length; }); return o;
+}
+function sportCard(d,cnt,mgr){
+  var ps=(S.plansAll||[]).filter(function(p){ return p.discipline_id===d.id&&p.active; }).sort(function(a,b){ return a.duration_months-b.duration_months; });
+  var lv=(S.levels||[]).filter(function(l){ return l.discipline_id===d.id; }).sort(function(a,b){ return a.position-b.position; });
+  var gs=(S.groups||[]).filter(function(g){ return g.discipline_id===d.id; });
+  var coaches=(S.coaches||[]).filter(function(c){ return (c.disciplines||[]).indexOf(d.id)>-1; });
+  var pill=function(x){ return '<span class="pill" style="margin:0 6px 6px 0">'+x+'</span>'; };
+  var stat=function(n,l){ return '<div style="text-align:center;flex:1"><b style="font-size:20px;display:block">'+n+'</b><span class="who">'+l+'</span></div>'; };
+  var gl=gs.map(function(g){ var c=coachOf(g.coach_id), n=(S.gm||[]).filter(function(x){ return x.group_id===g.id; }).length;
+    var sl=slotsOf(g).map(function(x){ return daysStr(x.days)+' '+x.start+(x.end?'–'+x.end:''); }).join(' · ');
+    return '<div class="dr"><span><b>'+esc(g.name)+'</b><small class="who"> · '+esc(c?c.full_name:'—')+(sl?' · '+esc(sl):'')+'</small></span><em>'+n+(g.capacity?'/'+g.capacity:'')+'</em></div>'; }).join('');
+  return '<div class="panel" style="margin:0"><div class="bar" style="margin-bottom:10px"><h3 style="flex:1;margin:0">'+esc(nm(d))+'</h3><span class="who">'+esc(S.lang==='ar'?d.name_fr:d.name_ar)+'</span></div>'+
+   '<div style="display:flex;gap:6px;margin-bottom:10px;padding:8px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">'+stat(cnt[d.id]||0,GL('membres actifs','أعضاء نشطون'))+stat(gs.length,GL('groupes','مجموعات'))+stat(coaches.length,GL('coachs','مدربون'))+'</div>'+
+   '<div class="who" style="margin-bottom:4px">'+GL('Formules et prix','الصيغ والأسعار')+'</div><div>'+(ps.length?ps.map(function(p){ return pill(esc(nm(p))+' · '+money(p.price_millimes)); }).join(''):'<span class="who">'+GL('Aucune formule','لا توجد صيغ')+'</span>')+'</div>'+
+   (lv.length?'<div class="who" style="margin:4px 0">'+GL('Niveaux','المستويات')+'</div><div>'+lv.map(function(l){ return pill(esc(nm(l))); }).join('')+'</div>':'')+
+   (gl?'<div class="who" style="margin:6px 0 2px">'+GL('Groupes','المجموعات')+'</div>'+gl:'<div class="who" style="margin-top:6px">'+GL('Aucun groupe — créez-en depuis Entraînement.','لا توجد مجموعات — أنشئها من التدريب.')+'</div>')+
+   '<div class="bar" style="margin-top:12px;gap:8px;flex-wrap:wrap"><button class="btn sm" data-sgo="groups">'+GL('Groupes','المجموعات')+'</button>'+(mgr?'<button class="btn sm" data-ssg="plans">'+GL('Formules et prix','الصيغ والأسعار')+'</button><button class="btn sm" data-ssg="levels">'+GL('Niveaux','المستويات')+'</button>':'')+'</div></div>';
+}
+function sportsHtml(){
+  var mgr=S.profile&&S.profile.role==='manager', sp=sportParts();
+  var items=[['over','Vue d\'ensemble','نظرة عامة']]; if(mgr) items=items.concat([['plans','Sports et formules','الرياضات والصيغ'],['levels','Niveaux','المستويات'],['fams','Familles','العائلات']]);
+  var cur=mgr?setSub('sports','over'):'over';
+  var body='';
+  if(cur==='over'){
+    var cnt=sportStats(), fl=famList(), seen={};
+    var sec=function(title,ds){ if(!ds.length) return ''; return '<h3 style="margin:18px 0 10px">'+title+' <span class="who">('+ds.length+')</span></h3><div class="sgrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px">'+ds.map(function(d){ return sportCard(d,cnt,mgr); }).join('')+'</div>'; };
+    fl.forEach(function(f){ var ds=(S.discs||[]).filter(function(d){ return (famOfDisc(d.id)||{}).id===f.id; }); ds.forEach(function(d){ seen[d.id]=1; }); body+=sec(esc(famName(f)),ds); });
+    body+=sec(fl.length?GL('Sans famille','بلا عائلة'):GL('Sports','الرياضات'),(S.discs||[]).filter(function(d){ return !seen[d.id]; }));
+    if(!(S.discs||[]).length) body='<div class="panel" style="margin-top:14px"><div class="empty">'+GL('Aucun sport enregistré.','لا توجد رياضات.')+'</div></div>';
+    if(mgr) body='<div class="bar" style="margin-top:12px"><span class="who" style="flex:1">'+GL('Chaque sport avec ses prix, niveaux, groupes et entraîneurs.','كل رياضة بأسعارها ومستوياتها ومجموعاتها ومدربيها.')+'</span><button class="btn pri" id="bSportNew">+ '+GL('Nouveau sport','رياضة جديدة')+'</button></div>'+body;
+  } else if(cur==='plans') body=pricesPanel(sp.dl);
+  else if(cur==='levels') body=levelsPanel();
+  else body=familiesPanel();
+  return subBar('sports',items)+(S.setErr?'<div class="err">'+esc(S.setErr)+'</div>':'')+body+sp.mod+levelModal()+famModal();
+}
+function securityHtml(){ return (S.setErr?'<div class="err">'+esc(S.setErr)+'</div>':'')+guardPanel()+backupPanel(); }
+function setSub(tab,def){ return (S.setSubs&&S.setSubs[tab])||def; }
+function subBar(tab,items){ var cur=setSub(tab,items[0][0]); return '<div class="bar" style="gap:4px;flex-wrap:wrap;margin:10px 0 0;border-bottom:1px solid var(--line)">'+items.map(function(x){ var on=cur===x[0]; return '<button type="button" data-ssub="'+tab+':'+x[0]+'" style="background:none;border:0;border-bottom:3px solid '+(on?'var(--pri,#f97316)':'transparent')+';padding:9px 14px;font-weight:'+(on?'700':'500')+';color:'+(on?'var(--tx)':'var(--mut)')+';cursor:pointer;margin-bottom:-1px">'+GL(x[1],x[2])+'</button>'; }).join('')+'</div>'; }
+function sportParts(){
   var dl=S.discs.map(function(d){ return '<tr><td><b>'+esc(d.name_fr)+'</b></td><td>'+esc(d.name_ar)+'</td><td>'+famSelect(d.id,'data-dfam')+'</td></tr>'; }).join('');
   var dopt=S.discs.map(function(d){ return '<option value="'+d.id+'">'+esc(nm(d))+'</option>'; }).join('');
-  var pl=S.plansAll.map(function(p){ return '<tr><td>'+esc(planLabel(p))+'</td><td class="num">'+p.duration_months+'</td><td><input type="number" step="0.001" min="0" dir="ltr" style="width:110px" data-pprice="'+p.id+'" value="'+(p.price_millimes/1000).toFixed(3)+'" aria-label="'+t('price')+'"></td><td><input type="checkbox" data-pact="'+p.id+'"'+(p.active?' checked':'')+' aria-label="'+t('uActive')+'"></td></tr>'; }).join('');
   var mod='';
   if(S.modal==='disc') mod=modal(t('addDisc'),'<form id="fDisc" novalidate><div class="grid2"><div class="field"><label for="dFr">'+t('nameFr')+'</label><input id="dFr"></div><div class="field"><label for="dAr">'+t('nameAr')+'</label><input id="dAr" dir="rtl"></div><div class="field"><label for="dFam">'+GL('Famille','العائلة')+'</label><select id="dFam"><option value="">—</option>'+famList().map(function(f){ return '<option value="'+f.id+'">'+esc(famName(f))+'</option>'; }).join('')+'</select></div></div><div class="mf"><button class="btn" type="button" data-close>'+t('cancel')+'</button><button class="btn pri" type="submit">'+t('save')+'</button></div></form>');
   if(S.modal==='gen'){ var gd=S.discs.filter(function(x){return x.id===S.genDisc;})[0]; var gi='style="background:var(--inp);border:1px solid var(--line);border-radius:8px;padding:7px 9px;width:110px" dir="ltr"';
     mod=modal(GL('Générer les formules — ','توليد الصيغ — ')+(gd?nm(gd):''),'<form id="fGen" novalidate><div class="grid2"><div class="field"><label>'+GL('Prix mensuel (TND)','السعر الشهري (د)')+'</label><input id="gM" type="number" step="0.001" min="0" '+gi+'></div><div class="field"><label>'+GL('Remise trimestriel (%)','تخفيض الثلاثي (%)')+'</label><input id="gQ" type="number" min="0" max="90" value="5" '+gi+'></div><div class="field"><label>'+GL('Remise annuel (%)','تخفيض السنوي (%)')+'</label><input id="gY" type="number" min="0" max="90" value="15" '+gi+'></div></div><p class="who">'+GL('Crée Mensuel (1), Trimestriel (3), Annuel (12) ; les durées existantes sont conservées. Prix modifiables ensuite.','ينشئ شهري (1) وثلاثي (3) وسنوي (12)، وتبقى الصيغ الموجودة كما هي. يمكنك تعديل الأسعار بعدها.')+'</p><div class="mf"><button class="btn" type="button" data-close>'+t('cancel')+'</button><button class="btn pri" type="submit">'+GL('Générer','توليد')+'</button></div></form>'); }
   if(S.modal==='plan') mod=modal(t('addPlan'),'<form id="fPlan" novalidate><div class="grid2"><div class="field"><label for="pDisc">'+t('disc')+'</label><select id="pDisc">'+dopt+'</select></div><div class="field"><label for="pMonths">'+t('months')+'</label><input id="pMonths" type="number" min="1" value="1"></div><div class="field"><label for="pFr">'+t('nameFr')+'</label><input id="pFr"></div><div class="field"><label for="pAr">'+t('nameAr')+'</label><input id="pAr" dir="rtl"></div><div class="field"><label for="pPrice">'+t('price')+'</label><input id="pPrice" type="number" step="0.001" min="0" dir="ltr"></div></div><div class="mf"><button class="btn" type="button" data-close>'+t('cancel')+'</button><button class="btn pri" type="submit">'+t('save')+'</button></div></form>');
-  var tab=S.setTab||'assoc', tabs=[['assoc','Association','الجمعية'],['prices','Tarifs','الأسعار والصيغ'],['members','Membres','الأعضاء'],['att','Présence','الحضور'],['sec','Sécurité','الأمان والنسخ']];
+  return {dl:dl,mod:mod};
+}
+function settingsHtml(){
+  var sp=sportParts(), mod=sp.mod;
+  var tab=S.setTab||'assoc', tabs=[['assoc','Association','الجمعية'],['prices','Tarifs et remises','الرسوم والتخفيضات'],['members','Membres','الأعضاء'],['att','Présence','الحضور']];
   var bar='<div class="bar" style="gap:6px;flex-wrap:wrap;margin-bottom:6px">'+tabs.map(function(x){ return '<button class="btn sm'+(tab===x[0]?' pri':'')+'" data-stab="'+x[0]+'">'+GL(x[1],x[2])+'</button>'; }).join('')+'</div>';
-  var body=tab==='assoc'?assocPanel()+printCfgPanel(): tab==='prices'?feesPanel()+pricesPanel(dl)+familiesPanel(): tab==='members'?listsPanel()+catsPanel()+levelsPanel()+docsPanel(): tab==='att'?slotPanel(): guardPanel()+backupPanel();
+  var body=tab==='assoc'?assocPanel()+printCfgPanel(): tab==='prices'?subBar('prices',[['fees','Frais','الرسوم'],['disc','Remises','التخفيضات']])+(setSub('prices','fees')==='fees'?feesPanel('fees'):feesPanel('disc')): tab==='members'?subBar('members',[['cats','Catégories d\'âge','الفئات العمرية'],['lists','Listes déroulantes','القوائم المنسدلة'],['docs','Documents','الوثائق']])+(setSub('members','cats')==='cats'?catsPanel():setSub('members','cats')==='lists'?listsPanel():docsPanel()): tab==='att'?slotPanel(): guardPanel()+backupPanel();
   return bar+(S.setErr?'<div class="err">'+esc(S.setErr)+'</div>':'')+body+mod+catsModal()+levelModal()+famModal();
 }
 function listsPanel(){
-  var l=listsCfg(), blocks=[['area',GL('Quartiers / zones','المناطق / الأحياء')],['school',GL('Écoles','المدارس')],['city',GL('Villes','المدن')]], out='';
-  var used=function(key,v){ var f=key; return (S.membersAll||S.members||[]).filter(function(m){ return normTxt(m[f])===normTxt(v); }).length; };
+  var l=listsCfg(), blocks=[['area',GL('Quartiers / zones','المناطق / الأحياء')],['school',GL('Écoles','المدارس')],['city',GL('Villes','المدن')],['work',GL('Ville / village de travail du parent','مدينة / قرية عمل الولي')]], out='';
+  var used=function(key,v){ var f=key==='work'?'guardian_work':key; return (S.membersAll||S.members||[]).filter(function(m){ return normTxt(m[f])===normTxt(v); }).length; };
   blocks.forEach(function(b){ var arr=l[b[0]]||[]; out+='<div style="margin-bottom:10px"><b>'+b[1]+'</b> <span class="who">('+listVals(b[0]).length+')</span><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">'+(arr.length?arr.map(function(v,i){ var u=used(b[0],v); return '<span class="pill">'+esc(v)+(u?' · '+u:' <a href="#" data-ldel="'+b[0]+':'+i+'" title="'+GL('Supprimer','حذف')+'" style="color:var(--bad)">✕</a>')+'</span>'; }).join(''):'<span class="who">'+GL('Aucune valeur ajoutée à la main (les valeurs déjà saisies sur les fiches apparaissent automatiquement).','لا توجد قيم أُضيفت يدويًا (القيم المكتوبة في الملفات تظهر تلقائيًا).')+'</span>')+'</div></div>'; });
   [['expcat',GL('Catégories de dépenses','تصنيفات المصاريف')],['grcat',GL('Natures de recettes','أنواع الموارد')]].forEach(function(b){ var arr=l[b[0]]||[]; out+='<div style="margin-bottom:10px"><b>'+b[1]+'</b><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">'+(arr.length?arr.map(function(c,i){ var u=(S.pays||[]).filter(function(p){ return p.category===c.id; }).length; return '<span class="pill">'+esc(S.lang==='ar'?c.ar:c.fr)+(u?' · '+u:' <a href="#" data-ldel="'+b[0]+':'+i+'" style="color:var(--bad)">✕</a>')+'</span>'; }).join(''):'<span class="who">'+GL('Aucune catégorie ajoutée.','لا توجد تصنيفات مضافة.')+'</span>')+'</div></div>'; });
   return '<div class="panel" style="margin-top:14px"><h3 style="margin-bottom:6px">'+GL('Listes déroulantes','القوائم المنسدلة')+'</h3><p class="who" style="margin-bottom:10px">'+GL('Les nouvelles valeurs s\'ajoutent depuis les formulaires (option + Nouveau). Une valeur utilisée ne peut pas être supprimée.','تُضاف القيم الجديدة من النماذج (خيار + جديد). القيمة المستعملة لا يمكن حذفها.')+'</p>'+out+'</div>';
 }
-function feesPanel(){
-  var f=feesCfg(), inp='style="width:100px;background:var(--inp);border:1px solid var(--line);border-radius:8px;padding:7px 9px" dir="ltr"';
-  var sel=function(id,v,opts){ return '<select id="'+id+'" style="background:var(--inp);border:1px solid var(--line);border-radius:8px;padding:7px 9px">'+opts.map(function(o){ return '<option value="'+o[0]+'"'+(v===o[0]?' selected':'')+'>'+GL(o[1],o[2])+'</option>'; }).join('')+'</select>'; };
-  return '<div class="panel" style="margin-top:14px"><h3 style="margin-bottom:8px">'+GL('Droits, assurance et remise fratrie','الرسوم والتأمين وتخفيض الإخوة')+'</h3>'+
-   '<div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:10px"><label>'+GL('Droits d\'inscription (TND)','رسوم التسجيل (د)')+' <input id="fReg" type="number" step="0.001" min="0" value="'+(f.reg/1000).toFixed(3)+'" '+inp+'></label>'+sel('fRegW',f.regWhen,[['first','À la 1ère inscription seulement','عند أول تسجيل فقط'],['always','À chaque abonnement','عند كل اشتراك']])+'</div>'+
-   '<div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:10px"><label>'+GL('Assurance (TND)','التأمين (د)')+' <input id="fIns" type="number" step="0.001" min="0" value="'+(f.ins/1000).toFixed(3)+'" '+inp+'></label>'+sel('fInsW',f.insWhen,[['season','Une fois par saison','مرة في كل موسم'],['always','À chaque abonnement','عند كل اشتراك']])+'</div>'+
-   '<label style="display:flex;gap:8px;align-items:center;font-weight:600;margin-bottom:8px"><input type="checkbox" id="fSibOn"'+(f.sibOn?' checked':'')+'> '+GL('Activer la remise fratrie (même numéro de téléphone)','تفعيل تخفيض الإخوة (نفس رقم الهاتف)')+'</label>'+
-   '<div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">'+sel('fSibT',f.sibType,[['pct','Pourcentage (%)','نسبة مئوية (%)'],['fix','Montant fixe (TND)','مبلغ ثابت (د)']])+
-   [2,3,4].map(function(n){ return '<label>'+(n===4?GL('4e et +','الرابع فما فوق'):GL(n+'e enfant',n===2?'الثاني':'الثالث'))+' <input data-sib="'+n+'" type="number" step="0.5" min="0" value="'+(f.sib[n]||0)+'" '+inp+'></label>'; }).join('')+'</div>'+
-   '<p class="who" style="margin-top:8px">'+GL('Le rang est donné par le numéro de membre parmi les enfants ayant le même téléphone. Montants modifiables à chaque inscription.','يُحدَّد الترتيب برقم العضو بين الأبناء ذوي نفس الهاتف، ويمكن تعديل المبالغ عند كل اشتراك.')+'</p></div>';
+function feesPanel(part){
+  var f=feesCfg(), inp='style="width:96px;background:var(--inp);border:1px solid var(--line);border-radius:8px;padding:8px 10px;text-align:center" dir="ltr"';
+  var selS='style="background:var(--inp);border:1px solid var(--line);border-radius:8px;padding:8px 10px"';
+  var sel=function(id,v,opts){ return '<select id="'+id+'" '+selS+'>'+opts.map(function(o){ return '<option value="'+o[0]+'"'+(v===o[0]?' selected':'')+'>'+GL(o[1],o[2])+'</option>'; }).join('')+'</select>'; };
+  var row=function(tFr,tAr,hFr,hAr,ctl){ return '<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 0;border-top:1px solid var(--line)"><div style="flex:1;min-width:200px"><b>'+GL(tFr,tAr)+'</b>'+(hFr?'<div class="who" style="margin-top:2px">'+GL(hFr,hAr)+'</div>':'')+'</div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">'+ctl+'</div></div>'; };
+  var unit=f.sibType==='fix'?'TND':'%';
+  var base=(S.plansAll||[]).filter(function(p){ return p.active&&p.price_millimes>0; }).map(function(p){ return p.price_millimes; }).sort(function(a,b){ return a-b; })[0]||0;
+  var ex=function(n){ var v=f.sib[n]||0, d=f.sibType==='fix'?Math.round(v*1000):Math.round(base*v/100); return Math.max(0,base-Math.min(d,base)); };
+  var exTxt=base&&f.sibOn?'<div class="who" style="margin-top:6px">'+GL('Exemple avec une formule à '+money(base)+' : 1er enfant '+money(base)+' · 2e '+money(ex(2))+' · 3e '+money(ex(3))+' · 4e et + '+money(ex(4)),'مثال بصيغة سعرها '+money(base)+' : الأول '+money(base)+' · الثاني '+money(ex(2))+' · الثالث '+money(ex(3))+' · الرابع فما فوق '+money(ex(4)))+'</div>':'';
+  var card=function(tFr,tAr,body){ return '<div class="panel" style="margin-top:14px"><h3 style="margin-bottom:2px">'+GL(tFr,tAr)+'</h3>'+body+'</div>'; };
+  var c1=card('Frais à payer en plus de la formule','رسوم تُدفع إضافةً إلى الاشتراك',
+    row('Droits d\'inscription','رسوم التسجيل','','', '<input id="fReg" type="number" step="0.001" min="0" value="'+(f.reg/1000).toFixed(3)+'" '+inp+'> TND '+sel('fRegW',f.regWhen,[['first','À la 1ère inscription seulement','عند أول تسجيل فقط'],['always','À chaque abonnement','عند كل اشتراك']]))+
+    row('Assurance','التأمين','','', '<input id="fIns" type="number" step="0.001" min="0" value="'+(f.ins/1000).toFixed(3)+'" '+inp+'> TND '+sel('fInsW',f.insWhen,[['season','Une fois par saison','مرة في كل موسم'],['always','À chaque abonnement','عند كل اشتراك']])));
+  var sibIn=[2,3,4].map(function(n){ return '<label style="display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12px;color:var(--mut)">'+(n===4?GL('4e et +','الرابع فما فوق'):GL(n+'e enfant',n===2?'الثاني':'الثالث'))+'<span style="display:flex;gap:4px;align-items:center;color:var(--tx);font-size:14px"><input data-sib="'+n+'" type="number" step="0.5" min="0" value="'+(f.sib[n]||0)+'" style="width:72px;background:var(--inp);border:1px solid var(--line);border-radius:8px;padding:8px 6px;text-align:center" dir="ltr">'+unit+'</span></label>'; }).join('');
+  var c2=card('Remises','التخفيضات',
+    row('Frères et sœurs','الإخوة','Même numéro de téléphone du parent. Le 1er enfant (plus petit numéro de membre) paie plein tarif.','نفس رقم هاتف الولي. الابن الأول (أصغر رقم عضو) يدفع كاملاً.','<label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="fSibOn"'+(f.sibOn?' checked':'')+'> '+GL('Activée','مفعّل')+'</label>')+
+    '<div style="padding:4px 0 12px"><div style="display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end">'+sel('fSibT',f.sibType,[['pct','Remise en pourcentage (%)','تخفيض بالنسبة المئوية (%)'],['fix','Remise en montant fixe (TND)','تخفيض بمبلغ ثابت (د)']])+sibIn+'</div>'+exTxt+'</div>'+
+    row('2e discipline du même sportif','الاختصاص الثاني لنفس الرياضي','Remise sur la 2e discipline. Si une remise fratrie existe aussi, la plus forte s\'applique (pas de cumul).','تخفيض على الاختصاص الثاني. إن وُجد تخفيض إخوة يُطبَّق الأكبر (بلا جمع).','<input id="fSecP" type="number" step="1" min="0" max="100" value="'+f.secondPct+'" '+inp+'> %'));
+  var c3=card('Niveaux gratuits','المستويات المجانية',freeLvHtml(f));
+  return part==='fees'?c1:part==='disc'?c2+c3:c1+c2+c3;
+}
+function freeLvHtml(f){
+  var out=(S.discs||[]).map(function(d){ var ls=(S.levels||[]).filter(function(l){ return l.discipline_id===d.id; }).sort(function(a,b){ return a.position-b.position; }); if(!ls.length) return '';
+    return '<div style="padding:10px 0;border-top:1px solid var(--line)"><b>'+esc(nm(d))+'</b><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">'+ls.map(function(l){ var on=f.free.indexOf(l.id)>-1; var sc=(f.freeScope||{})[l.id]||'plan'; return '<span style="display:inline-flex;gap:6px;align-items:center"><label style="display:inline-flex;gap:6px;align-items:center;padding:7px 12px;border:1px solid var(--line);border-radius:999px;cursor:pointer;white-space:nowrap'+(on?';background:var(--inp);font-weight:600':'')+'"><input type="checkbox" data-free="'+l.id+'"'+(on?' checked':'')+'> '+esc(nm(l))+'</label>'+(on?'<select data-fscope="'+l.id+'" style="background:var(--inp);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:12px"><option value="plan"'+(sc==='plan'?' selected':'')+'>'+GL('Cotisation seulement','الاشتراك فقط')+'</option><option value="plan_reg"'+(sc==='plan_reg'?' selected':'')+'>'+GL('+ inscription','+ التسجيل')+'</option><option value="all"'+(sc==='all'?' selected':'')+'>'+GL('+ inscription + assurance','+ التسجيل + التأمين')+'</option></select>':'')+'</span>'; }).join('')+'</div></div>'; }).join('');
+  return '<p class="who" style="margin:2px 0 4px">'+GL('Cochez les niveaux où le sportif ne paie aucune cotisation (ex. niveau découverte), puis choisissez s\'il reste redevable de l\'inscription et de l\'assurance. Il n\'est pas compté dans le rang des frères.','أشّر على المستويات التي لا يدفع فيها الرياضي أي اشتراك، ثم اختر هل يبقى مطالباً برسم التسجيل والتأمين. ولا يُحتسب في ترتيب الإخوة.')+'</p>'+(out||'<div class="who" style="padding:10px 0;border-top:1px solid var(--line)">'+GL('Aucun niveau défini pour le moment.','لا توجد مستويات بعد.')+'</div>');
 }
 function pricesPanel(dl){
   var cards=S.discs.map(function(d){
@@ -2196,9 +2501,14 @@ function pricesPanel(dl){
 function bindSettings(){
   document.querySelectorAll('[data-ldel]').forEach(function(a){ a.onclick=async function(e){ e.preventDefault(); var k=a.getAttribute('data-ldel').split(':'); if(!(await guardAsk())) return; var arr=(listsCfg()[k[0]]||[]).slice(); arr.splice(parseInt(k[1],10),1); await saveLists(k[0],arr); render(); }; });
   document.querySelectorAll('[data-stab]').forEach(function(b){ b.onclick=function(){ S.setTab=b.getAttribute('data-stab'); render(); }; });
-  var fe=function(){ var f=feesCfg(), sib={}; document.querySelectorAll('[data-sib]').forEach(function(i){ sib[i.getAttribute('data-sib')]=parseFloat(i.value)||0; });
-    return {reg:Math.round(parseFloat($('fReg').value||'0')*1000), ins:Math.round(parseFloat($('fIns').value||'0')*1000), regWhen:$('fRegW').value, insWhen:$('fInsW').value, sibOn:$('fSibOn').checked, sibType:$('fSibT').value, sib:sib}; };
-  if($('fReg')) ['fReg','fIns','fRegW','fInsW','fSibOn','fSibT'].forEach(function(i){ $(i).onchange=async function(){ await saveCfg('fees',fe()); }; });
+  document.querySelectorAll('[data-ssub]').forEach(function(b){ b.onclick=function(){ var k=b.getAttribute('data-ssub').split(':'); S.setSubs=S.setSubs||{}; S.setSubs[k[0]]=k[1]; render(); }; });
+  var fe=function(){ var f=feesCfg(), sib=Object.assign({},f.sib), g=function(id){ return $(id); };
+    document.querySelectorAll('[data-sib]').forEach(function(i){ sib[i.getAttribute('data-sib')]=parseFloat(i.value)||0; });
+    var free=document.querySelector('[data-free]')?Array.prototype.slice.call(document.querySelectorAll('[data-free]')).filter(function(c){ return c.checked; }).map(function(c){ return c.getAttribute('data-free'); }):f.free;
+    return {reg:g('fReg')?Math.round(parseFloat(g('fReg').value||'0')*1000):f.reg, ins:g('fIns')?Math.round(parseFloat(g('fIns').value||'0')*1000):f.ins, regWhen:g('fRegW')?g('fRegW').value:f.regWhen, insWhen:g('fInsW')?g('fInsW').value:f.insWhen, sibOn:g('fSibOn')?g('fSibOn').checked:f.sibOn, sibType:g('fSibT')?g('fSibT').value:f.sibType, sib:sib, secondPct:g('fSecP')?(parseFloat(g('fSecP').value)||0):f.secondPct, free:free, freeScope:(function(){ var fs=Object.assign({},f.freeScope); document.querySelectorAll('[data-fscope]').forEach(function(x){ fs[x.getAttribute('data-fscope')]=x.value; }); return fs; })()}; };
+  document.querySelectorAll('[data-free]').forEach(function(i){ i.onchange=async function(){ await saveCfg('fees',fe()); }; });
+  document.querySelectorAll('[data-fscope]').forEach(function(i){ i.onchange=async function(){ await saveCfg('fees',fe()); }; });
+  ['fReg','fIns','fRegW','fInsW','fSibOn','fSibT','fSecP'].forEach(function(i){ if($(i)) $(i).onchange=async function(){ await saveCfg('fees',fe()); }; });
   document.querySelectorAll('[data-sib]').forEach(function(i){ i.onchange=async function(){ await saveCfg('fees',fe()); }; });
   document.querySelectorAll('[data-gen]').forEach(function(b){ b.onclick=function(){ S.genDisc=b.getAttribute('data-gen'); S.modal='gen'; render(); }; });
   if($('fGen')) $('fGen').onsubmit=async function(e){ e.preventDefault(); var m=Math.round(parseFloat($('gM').value||'0')*1000); if(!m) return;
@@ -3726,12 +4036,12 @@ function printCfgPanel(){
   var c=PCFG(), f2=function(id,l,v,ph){ return '<div class="field"><label for="'+id+'">'+esc(l)+'</label><input id="'+id+'" value="'+esc(v||'')+'" placeholder="'+esc(ph||'')+'" dir="ltr"></div>'; };
   return '<div class="panel" style="margin-top:14px"><h3 style="margin-bottom:8px">'+GL('Documents imprimés','الأوراق المطبوعة')+'</h3><p class="who" style="margin-bottom:10px">'+GL('Saison et réseaux sociaux affichés sur les reçus. Le QR « Suivez-nous » ouvre le lien Facebook.','الموسم وحسابات التواصل التي تظهر على الوصولات. رمز QR «Suivez-nous» يفتح رابط فيسبوك.')+'</p>'+
    '<div class="grid2">'+f2('pcSeason',GL('Saison sportive','الموسم الرياضي'),c.season,sxSeason())+f2('pcFbUrl',GL('Lien Facebook (QR)','رابط فيسبوك (QR)'),c.fbUrl,'https://www.facebook.com/…')+f2('pcFb',GL('Facebook (texte affiché)','فيسبوك (النص الظاهر)'),c.fb,'facebook.com/…')+f2('pcIg','Instagram',c.instagram,'@…')+f2('pcTt','TikTok',c.tiktok,'@…')+f2('pcYt','YouTube',c.youtube,'@…')+'</div>'+
-   '<div class="mf"><button class="btn pri" id="pcSave">'+GL('Enregistrer','حفظ')+'</button></div></div>';
+   '<div class="field" style="margin-top:10px;max-width:420px"><label for="pcPaper">'+GL('Papier des reçus et bons','ورق الوصولات والسندات')+'</label><select id="pcPaper"><option value="a5"'+(c.paper!=='a4'?' selected':'')+'>'+GL('A5 paysage (feuille A5)','A5 أفقي (ورقة A5)')+'</option><option value="a4"'+(c.paper==='a4'?' selected':'')+'>'+GL('A4 portrait (2 copies sur une feuille, à découper)','A4 عمودي (نسختان في ورقة، تُقصّ من المنتصف)')+'</option></select><div class="who" style="margin-top:4px">'+GL('Dans la fenêtre d\'impression : marges « Aucune » et décocher « En-têtes et pieds de page ».','في نافذة الطباعة: الهوامش «بلا» وإلغاء تأشير «العناوين والتذييلات».')+'</div></div>'+'<div class="mf"><button class="btn pri" id="pcSave">'+GL('Enregistrer','حفظ')+'</button></div></div>';
 }
 function bindPrintCfg(){
   if(!$('pcSave')) return;
   $('pcSave').onclick=async function(){
-    var v=Object.assign({},PCFG(),{season:$('pcSeason').value.trim(),fbUrl:$('pcFbUrl').value.trim(),fb:$('pcFb').value.trim(),instagram:$('pcIg').value.trim(),tiktok:$('pcTt').value.trim(),youtube:$('pcYt').value.trim()});
+    var v=Object.assign({},PCFG(),{season:$('pcSeason').value.trim(),fbUrl:$('pcFbUrl').value.trim(),fb:$('pcFb').value.trim(),instagram:$('pcIg').value.trim(),tiktok:$('pcTt').value.trim(),youtube:$('pcYt').value.trim(),paper:($('pcPaper')?$('pcPaper').value:'a5')});
     var r=await saveCfg('print',v); S.setErr=r&&r.error?r.error.message:''; render();
   };
 }
@@ -3784,7 +4094,7 @@ function printPaper(size){
 function cutLine(){ return '<div class="rcut"><span>✂</span></div>'; }
 function logoWm(a){ return a.logo?'<img class="wm" src="'+esc(a.logo)+'" alt="">':''; }
 /* ================= SYNOX — الأوراق المطبوعة الجديدة (أكتوبر 2026) ================= */
-function PCFG(){ return Object.assign({season:'',fb:'facebook.com/mejerdasport1',fbUrl:'https://www.facebook.com/mejerdasport1',tiktok:'@mejerdasport',youtube:'@mejerda',instagram:'',dueDay:5},(S.cfg&&S.cfg.print)||{}); }
+function PCFG(){ return Object.assign({season:'',fb:'facebook.com/mejerdasport1',fbUrl:'https://www.facebook.com/mejerdasport1',tiktok:'@mejerdasport',youtube:'@mejerda',instagram:'',dueDay:5,paper:'a5'},(S.cfg&&S.cfg.print)||{}); }
 function sxSeason(){ var c=PCFG(); if(c.season) return c.season; var d=new Date(), y=d.getFullYear(), m=d.getMonth()+1; return m>=9?(y+'–'+(y+1)):((y-1)+'–'+y); }
 function sxD(s){ if(!s) return ''; var p=String(s).slice(0,10).split('-'); return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:String(s); }
 function sxM(mm){ return (Number(mm||0)/1000).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g,' '); }
@@ -3816,9 +4126,11 @@ function sxOp(p){ return (p&&p.created_code)||(S.profile&&S.profile.staff_code)|
 function sxNo(p){ return (p&&p.doc_no)||rcNo(p); }
 /* الطباعة: ورقة كاملة بلا هوامش */
 function sxPrint(html,page,a4){
+  var xtra='';
+  if(page==='A5 landscape'&&PCFG().paper==='a4'){ page='A4 portrait'; html='<div class="sx-a4">'+html+'</div>'; xtra='#pa .sx-a4 .sxpg{page-break-after:auto!important;break-after:auto!important}'; }
   $('pa').innerHTML=a4?'<div style="zoom:1.4142">'+html+'</div>':html;
   sxQrRender();
-  var st=document.createElement('style'); st.id='pgs'; st.textContent='@media print{@page{size:'+page+';margin:0}}'; document.head.appendChild(st);
+  var st=document.createElement('style'); st.id='pgs'; st.textContent='@media print{@page{size:'+page+';margin:0}'+xtra+'}'; document.head.appendChild(st);
   document.body.classList.add('pr');
   setTimeout(function(){ try{ window.print(); }catch(e){} setTimeout(function(){ document.body.classList.remove('pr'); var x=$('pgs'); if(x) x.remove(); },800); },350);
 }
@@ -3845,7 +4157,7 @@ function sxStrip(copy,d){
    '<div class="kv"><i>Nom et prénom</i><b>'+sxE(d.nom)+'</b><i>N° d\'adhérent</i><b>'+sxE(d.adh)+'</b><i>Catégorie / Section</i><b>'+sxE(d.cat)+'</b><i>Salle</i><b>'+sxE(d.salle)+'</b></div>'+
    '<div class="h">DÉTAILS DU PAIEMENT</div>'+
    '<div class="kv"><i>Objet</i><b>Cotisation / Abonnement</b><i>Période</i><b>'+sxE(d.per)+'</b></div>'+
-   '<div class="two"><div class="kv"><i>Total dû</i><b>'+sxE(d.due)+' DT</b></div><div class="kv"><i>Reste à payer</i><b>'+sxE(d.rest)+' DT</b></div></div>'+
+   '<div class="two"><div class="kv"><i>Total dû</i><b>'+sxE(d.due)+' DT'+(d.disc?' <small style="font-weight:500;color:#8a6d1c">('+sxE(d.disc)+')</small>':'')+'</b></div><div class="kv"><i>Reste à payer</i><b>'+sxE(d.rest)+' DT</b></div></div>'+
    '<div class="mode"><i style="font-style:normal;color:#6b7280;font-size:7pt">Mode</i>'+ck('cash')+'Espèces '+ck('cheque')+'Chèque '+ck('transfer')+'Virement '+(d.chq?'<span style="font-weight:700;color:#111827;white-space:nowrap">'+sxE(d.chq)+'</span>':'')+'</div>'+
    '<div class="foot"><div class="next">Prochain paiement : <b>'+sxE(d.next||'…… / …… / ……')+'</b></div>'+
      (c.fbUrl||c.fb?'<div class="soc">'+sxQ(c.fbUrl||('https://'+c.fb),'cq')+'<div class="sl"><small>SUIVEZ-NOUS</small>'+sxSocial()+'</div></div>':'')+'</div></div>'+
@@ -3874,7 +4186,7 @@ async function printReceipt(id){
     per:sub?sxD(sub.starts_on)+' → '+sxD(sub.ends_on):'',due:due!=null?sxM(due):sxM(p.amount_millimes),rest:rest!=null?sxM(rest):'0.000',
     mode:p.method,chq:p.method==='cheque'?('N° '+(p.cheque_number||'')+' '+(p.cheque_bank||'')).trim():(p.method==='transfer'&&p.transfer_ref?'Réf. '+p.transfer_ref:''),
     paid:sxM(p.amount_millimes),words:sxWords(Number(p.amount_millimes)),next:sub?sxD(addD(sub.ends_on,1)):'',season:sxSeason(),opc:sxOp(p),
-    void:p.status==='cancelled'?'<div class="sxvoid">ANNULÉ · ملغى</div>':''};
+    disc:(sub&&plan&&sub.discount_millimes>0?'−'+Math.round(sub.discount_millimes*100/plan.price_millimes)+' %':''),void:p.status==='cancelled'?'<div class="sxvoid">ANNULÉ · ملغى</div>':''};
   sxPrint('<div class="sxr"><div class="lp">'+sxStrip('COPIE · PARENT',d)+'<div class="cut"><span>✂</span></div>'+sxStrip('SOUCHE · ASSOCIATION',d)+'</div></div>','A5 landscape');
 }
 
@@ -4575,7 +4887,7 @@ async function printReceipt_v1(id){
      '<div class="rt-tag">'+(stub?GL('SOUCHE · CLUB','سوش · النادي'):GL('COPIE · PARENT','نسخة · الولي'))+'</div>'+
      '<div class="rt-b"><div class="rt-ath"><small>'+GL('ATHLÈTE','اللاعب')+'</small><h2>'+esc((m.last_name||'')+' '+(m.first_name||''))+'</h2>'+
        '<div class="chips"><span dir="ltr">'+esc(codeStr(m))+'</span>'+(c?'<span>'+esc(catLabel(c))+'</span>':'')+(disc?'<span>'+esc(nm(disc)+(plan?' · '+nm(plan):''))+'</span>':'')+(grp?'<span>'+esc(grp.name)+'</span>':'')+(room?'<span>'+esc(room)+'</span>':'')+'</div></div>'+
-       '<div class="rt-amt"><small>'+GL('MONTANT PAYÉ','المبلغ المدفوع')+'</small><big>'+esc(money(p.amount_millimes))+'</big>'+(rest!=null?'<em>'+GL('Reste à payer','المتبقي')+' : '+esc(money(rest))+'</em>':'')+'</div></div>'+
+       '<div class="rt-amt"><small>'+GL('MONTANT PAYÉ','المبلغ المدفوع')+'</small><big>'+esc(money(p.amount_millimes))+'</big>'+(sub&&plan&&sub.discount_millimes>0?'<em>'+GL('Prix ','السعر ')+esc(money(plan.price_millimes))+' − '+GL('remise ','تخفيض ')+esc(money(sub.discount_millimes))+' ('+Math.round(sub.discount_millimes*100/plan.price_millimes)+' %)</em>':'')+(rest!=null?'<em>'+GL('Reste à payer','المتبقي')+' : '+esc(money(rest))+'</em>':'')+'</div></div>'+
      '<div class="rt-g">'+cell(GL('Date de paiement','تاريخ الدفع'),p.paid_on+(tm?'  '+tm:''))+cell(GL('Mode','الطريقة'),t('m')[p.method]+(payDetail(p)?' · '+payDetail(p):''))+cell(GL('Période couverte','فترة الاشتراك'),sub?sub.starts_on+' → '+sub.ends_on:'')+cell(GL('Prochain paiement','الدفعة القادمة'),next,1)+'</div>'+
      '<footer class="rt-f"><div class="qr" id="'+qid+'"></div><div class="op"><small>'+GL('Opérateur','المشغّل')+'</small><b>'+esc(S.profile.full_name||'')+'</b><small>'+GL('Copie n°','نسخة رقم')+' '+copies+'</small></div>'+
      '<div class="sg"><small>'+(stub?GL('Signature du parent','توقيع الولي'):GL('Cachet et signature','الختم والتوقيع'))+'</small>'+(!stub&&a.stamp?'<img src="'+esc(a.stamp)+'" alt="">':'')+'</div></footer>'+
@@ -4855,7 +5167,7 @@ function usersHtml(){
 }
 
 /* ------------ 009: حسابات المستخدمين ورمز تفعيل الولي (من برنامج الحاسوب) ------------ */
-var SX_APP_URL='https://mejerdasport.com/app/';
+var SX_APP_URL='https://mejerdasport.netlify.app';
 var SX_STAFF=['manager','reception','treasurer','president','coach'];
 function sxOv(title,inner){
   var old=document.getElementById('sxov'); if(old) old.remove();
@@ -5301,6 +5613,9 @@ function trsy(){
 }
 
 /* ------------ ديون سابقة (Dettes de départ) ------------ */
+function ctypeL(ty){ return ty==='coach'?GL('Coach','مدرب'):ty==='staff'?GL('Employé(e)','موظف(ة)'):ty==='company'?GL('Société','شركة'):GL('Commerce / fournisseur','محل / مورّد'); }
+function debtsByType(){ var o={}; debtsList().forEach(function(d){ var k=['coach','staff','company'].indexOf(d.ctype)>-1?d.ctype:'supplier'; o[k]=(o[k]||0)+debtRest(d); }); return o; }
+function debtsByTypeHtml(){ var o=debtsByType(); return ['coach','staff','supplier','company'].filter(function(k){ return o[k]; }).map(function(k){ return '<span class="pill" style="margin:0 6px 6px 0">'+ctypeL(k)+' : <b>'+money(o[k])+'</b></span>'; }).join(''); }
 function debtsList(){ return (S.cfg&&S.cfg.debts)||[]; }
 function debtPaid(d){ var tag='debt:'+d.id+'|'; return (S.pays||[]).filter(function(p){ return p.direction==='out'&&validPay(p)&&String(p.notes||'').indexOf(tag)===0; }).reduce(function(a,p){ return a+Number(p.amount_millimes); },0); }
 function debtRest(d){ return Math.max(0,d.amt-debtPaid(d)); }
@@ -5309,40 +5624,41 @@ function debtsTable(){
   var l=debtsList(), isM=S.profile&&S.profile.role==='manager';
   if(!l.length) return '<p class="who">'+GL('Aucune dette antérieure enregistrée.','لا توجد ديون سابقة مسجّلة.')+'</p>';
   return '<div class="tw"><table><thead><tr><th>'+GL('Créancier','الدائن')+'</th><th>'+GL('Dette','الدين')+'</th><th>'+GL('Payé','المدفوع')+'</th><th>'+GL('Reste','الباقي')+'</th><th></th></tr></thead><tbody>'+l.map(function(d){ var pd=debtPaid(d), rs0=Math.max(0,d.amt-pd);
-    return '<tr><td><b>'+esc(d.creditor)+'</b> <span class="pill">'+(d.ctype==='coach'?GL('Coach','مدرب'):GL('Fournisseur','مورّد'))+'</span><div class="who">'+esc([d.origin,d.reason].filter(Boolean).join(' · '))+(d.doc_ref?' · 📎 '+esc(d.doc_ref):(d.nodoc_reason?' · 🟠 '+esc(d.nodoc_reason):''))+'</div></td><td class="num">'+money(d.amt)+'</td><td class="num">'+money(pd)+'</td><td class="num" style="color:'+(rs0>0?'var(--bad)':'var(--ok)')+'"><b>'+money(rs0)+'</b></td><td style="white-space:nowrap">'+(rs0>0?'<button class="btn sm pri" data-dpay="'+d.id+'">'+GL('Payer','دفع')+'</button> ':'<span class="pill">✓</span> ')+(isM&&pd===0?'<button class="btn sm bad" data-ddel="'+d.id+'">'+t('del')+'</button>':'')+'</td></tr>'; }).join('')+'</tbody></table></div>';
+    return '<tr><td><b>'+esc(d.creditor)+'</b> <span class="pill">'+ctypeL(d.ctype)+'</span><div class="who">'+esc([d.origin,d.reason].filter(Boolean).join(' · '))+(d.doc_ref?' · 📎 '+esc(d.doc_ref):(d.nodoc_reason?' · 🟠 '+esc(d.nodoc_reason):''))+'</div></td><td class="num">'+money(d.amt)+'</td><td class="num">'+money(pd)+'</td><td class="num" style="color:'+(rs0>0?'var(--bad)':'var(--ok)')+'"><b>'+money(rs0)+'</b></td><td style="white-space:nowrap">'+(rs0>0?'<button class="btn sm pri" data-dpay="'+d.id+'">'+GL('Payer','دفع')+'</button> ':'<span class="pill">✓</span> ')+(isM&&pd===0?'<button class="btn sm bad" data-ddel="'+d.id+'">'+t('del')+'</button>':'')+'</td></tr>'; }).join('')+'</tbody></table></div>';
 }
 function debtModal(){
   if(S.modal==='dpay'){ var d=debtsList().filter(function(x){ return x.id===S.dpayId; })[0]; if(!d) return '';
     return modal(GL('Payer une dette','دفع دين'),'<form id="fDPay" novalidate><div class="panel" style="margin-bottom:10px"><b>'+esc(d.creditor)+'</b><div class="who">'+GL('Reste dû : ','المتبقي: ')+'<b>'+money(debtRest(d))+'</b></div></div><div class="grid2">'+f('dpAmt',t('amount')+' (TND)','number',(debtRest(d)/1000).toFixed(3))+f('dpDate',t('date'),'date',todayStr())+'<div class="field"><label for="dpMeth">'+t('method')+'</label><select id="dpMeth"><option value="cash">'+t('m').cash+'</option><option value="transfer">'+t('m').transfer+'</option><option value="cheque">'+t('m').cheque+'</option></select></div>'+f('dpDoc',GL('N° quittance / reçu','رقم الوصل / الإيصال'),'text','')+f('dpNo',GL('ou motif si aucune pièce','أو السبب إن لم توجد وثيقة'),'text','')+'</div><div class="err" id="dpMsg" role="alert"></div><div class="mf"><button class="btn" type="button" data-close>'+t('cancel')+'</button><button class="btn pri" type="submit">'+t('save')+'</button></div></form>'); }
   if(S.modal==='debts'){ var cs=(S.coaches||[]);
     return modal(GL('Dettes antérieures','الديون السابقة'),'<p class="who" style="margin-bottom:8px">'+GL('Sommes dues par l\'association avant le départ du logiciel (coachs, fournisseurs, locaux). Chaque dette se saisit une seule fois et ne peut plus être modifiée ; elle diminue uniquement par des paiements enregistrés.','مبالغ على الجمعية قبل بدء استعمال البرنامج (مدربون، موردون، محلات). يُسجَّل كل دين مرة واحدة ولا يمكن تعديله؛ ينقص فقط بدفعات مسجّلة.')+'</p>'+debtsTable()+
-     '<div class="cards" style="margin:10px 0"><div class="kpi"><small>'+GL('Total restant dû','مجموع المتبقي')+'</small><b style="font-size:20px;color:var(--bad)">'+money(debtsTotal())+'</b></div></div>'+
-     (canFin()?'<form id="fDebt" novalidate><h3 style="margin:6px 0">'+GL('Ajouter une dette','إضافة دين')+'</h3><div class="grid2"><div class="field"><label for="dbType">'+GL('Type de créancier','نوع الدائن')+'</label><select id="dbType"><option value="coach">'+GL('Coach','مدرب')+'</option><option value="supplier">'+GL('Fournisseur / local / autre','مورّد / محل / آخر')+'</option></select></div>'+
-     '<div class="field" id="dbCoachBox"><label for="dbCoach">'+GL('Coach','المدرب')+'</label><select id="dbCoach">'+cs.map(function(c){ return '<option value="'+c.id+'">'+esc(c.full_name)+'</option>'; }).join('')+'</select></div>'+
-     '<div class="field" id="dbNameBox" hidden><label for="dbName">'+GL('Nom du créancier','اسم الدائن')+'</label><input id="dbName" list="dbNames"><datalist id="dbNames">'+payees().map(function(x){ return '<option value="'+esc(x)+'">'; }).join('')+'</datalist></div>'+
+     '<div style="margin:10px 0 0">'+debtsByTypeHtml()+'</div><div class="cards" style="margin:10px 0"><div class="kpi"><small>'+GL('Total restant dû','مجموع المتبقي')+'</small><b style="font-size:20px;color:var(--bad)">'+money(debtsTotal())+'</b></div></div>'+
+     (canFin()?'<form id="fDebt" novalidate><h3 style="margin:6px 0">'+GL('Ajouter une dette','إضافة دين')+'</h3><div class="grid2"><div class="field"><label for="dbType">'+GL('Type de créancier','نوع الدائن')+'</label><select id="dbType"><option value="coach">'+ctypeL('coach')+'</option><option value="staff">'+ctypeL('staff')+'</option><option value="supplier">'+ctypeL('supplier')+'</option><option value="company">'+ctypeL('company')+'</option></select></div>'+
+     '<div class="field" id="dbCoachBox"><label for="dbCoach">'+GL('Coach','المدرب')+'</label><select id="dbCoach">'+cs.map(function(c){ return '<option value="'+c.id+'">'+esc(c.full_name)+'</option>'; }).join('')+'<option value="__other">'+GL('— Ancien coach / autre (saisir le nom) —','— مدرب سابق / آخر (اكتب الاسم) —')+'</option></select></div>'+
+     '<div class="field" id="dbNameBox" hidden><label for="dbName">'+GL('Nom du créancier (personne, commerce ou société)','اسم الدائن (شخص أو محل أو شركة)')+'</label><input id="dbName" list="dbNames"><datalist id="dbNames">'+payees().map(function(x){ return '<option value="'+esc(x)+'">'; }).join('')+'</datalist></div>'+
      f('dbAmt',GL('Montant dû (TND)','المبلغ المستحق (د.ت)'),'number','')+f('dbOrigin',GL('Saison / période d\'origine','الموسم / الفترة الأصلية'),'text','2025-2026')+f('dbReason',GL('Motif','السبب'),'text','')+f('dbDoc',GL('Pièce (n° / référence)','الوثيقة (رقم / مرجع)'),'text','')+f('dbNo',GL('ou motif si aucune pièce','أو السبب إن لم توجد وثيقة'),'text','')+'</div><div class="err" id="dbMsg" role="alert"></div><div class="mf"><button class="btn" type="button" id="dbPrint">🖨 '+GL('Imprimer','طباعة')+'</button><button class="btn" type="button" data-close>'+t('close')+'</button><button class="btn pri" type="submit">+ '+GL('Enregistrer la dette','تسجيل الدين')+'</button></div></form>':'<div class="mf"><button class="btn" type="button" id="dbPrint">🖨 '+GL('Imprimer','طباعة')+'</button><button class="btn" type="button" data-close>'+t('close')+'</button></div>')); }
   return '';
 }
 function printDebts(){
-  var l=debtsList(), rows=l.map(function(d){ return [d.creditor,d.ctype==='coach'?GL('Coach','مدرب'):GL('Fournisseur','مورّد'),[d.origin,d.reason].filter(Boolean).join(' · '),money(d.amt),money(debtPaid(d)),money(debtRest(d))]; }).concat([[GL('TOTAL','المجموع'),'','','','',money(debtsTotal())]]);
+  var l=debtsList(), rows=l.map(function(d){ return [d.creditor,ctypeL(d.ctype),[d.origin,d.reason].filter(Boolean).join(' · '),money(d.amt),money(debtPaid(d)),money(debtRest(d))]; }).concat(['coach','staff','supplier','company'].filter(function(k){ return debtsByType()[k]; }).map(function(k){ return [GL('Sous-total · ','المجموع الفرعي · ')+ctypeL(k),'','','','',money(debtsByType()[k])]; })).concat([[GL('TOTAL','المجموع'),'','','','',money(debtsTotal())]]);
   printNode('<h1>'+assocHead()+'</h1><h2 style="border:0;font-size:17px;margin:2px 0">'+GL('DETTES EN COURS','الديون المتبقية')+'</h2><div class="meta">'+GL('Édité le','صدر في')+' '+esc(new Date().toLocaleString())+'</div>'+secTable(rs('',[[GL('Créancier','الدائن'),'s'],[GL('Type','النوع'),'s'],[GL('Origine / motif','الأصل / السبب'),'s'],[GL('Dette','الدين'),'s'],[GL('Payé','المدفوع'),'s'],[GL('Reste','الباقي'),'s']],rows),1)+'<div class="foot">SYNOX GYM</div>');
 }
 function bindDebts(){
-  if($('bDebts')) $('bDebts').onclick=function(){ S.modal='debts'; render(); };
+  if($('bDebts')) $('bDebts').onclick=async function(){ if(!(S.coaches&&S.coaches.length)){ var cc=await sb.from('coaches').select('*').order('full_name'); S.coaches=cc.data||[]; } S.modal='debts'; render(); };
   if($('dbPrint')) $('dbPrint').onclick=printDebts;
-  if($('dbType')) $('dbType').onchange=function(){ var c=$('dbType').value==='coach'; $('dbCoachBox').hidden=!c; $('dbNameBox').hidden=c; };
+  var dbSync=function(){ if(!$('dbType')) return; var c=$('dbType').value==='coach', oth=c&&$('dbCoach')&&$('dbCoach').value==='__other'; $('dbCoachBox').hidden=!c; $('dbNameBox').hidden=c&&!oth; };
+  if($('dbType')){ $('dbType').onchange=dbSync; if($('dbCoach')) $('dbCoach').onchange=dbSync; dbSync(); }
   document.querySelectorAll('[data-dpay]').forEach(function(b){ b.onclick=function(){ S.dpayId=b.getAttribute('data-dpay'); S.modal='dpay'; render(); }; });
   document.querySelectorAll('[data-ddel]').forEach(function(b){ b.onclick=async function(){ var why=prompt(GL('Motif de la suppression (obligatoire) :','سبب الحذف (إلزامي):')); if(!why||why.trim().length<5) return; var id=b.getAttribute('data-ddel'), d0=debtsList().filter(function(x){return x.id===id;})[0]; if(!d0||debtPaid(d0)>0) return; var l=debtsList().filter(function(x){ return x.id!==id; }); var r=await saveCfg('debts',l); if(r&&r.error) return; try{ logAct('delete','debts',{reason:why.trim()},{id:id},d0); }catch(e){} render(); }; });
-  if($('fDebt')) $('fDebt').onsubmit=async function(e){ e.preventDefault(); var ty=$('dbType').value, am=Math.round(parseFloat($('dbAmt').value||'0')*1000), co=ty==='coach'?coachOf($('dbCoach').value):null, name=ty==='coach'?(co&&co.full_name):($('dbName').value||'').trim();
+  if($('fDebt')) $('fDebt').onsubmit=async function(e){ e.preventDefault(); var ty=$('dbType').value, am=Math.round(parseFloat($('dbAmt').value||'0')*1000), co=(ty==='coach'&&$('dbCoach').value!=='__other')?coachOf($('dbCoach').value):null, name=co?co.full_name:($('dbName').value||'').trim();
     if(!name){ $('dbMsg').textContent=GL('Choisissez ou saisissez le créancier.','اختر الدائن أو اكتب اسمه.'); return; } if(!(am>0)){ $('dbMsg').textContent=t('amount'); return; }
     var doc=($('dbDoc').value||'').trim(), no=($('dbNo').value||'').trim(); if(!doc&&!no){ $('dbMsg').textContent=GL('Indiquez la référence de la pièce ou le motif d\'absence de pièce.','اكتب مرجع الوثيقة أو سبب غيابها.'); return; }
     var l=debtsList().slice(); l.push({id:'d'+Date.now().toString(36)+Math.random().toString(36).slice(2,4),ctype:ty,coach_id:co?co.id:null,creditor:name,amt:am,origin:($('dbOrigin').value||'').trim(),reason:($('dbReason').value||'').trim(),doc_ref:doc||null,nodoc_reason:no||null,created:todayStr()});
     var r=await saveCfg('debts',l); if(r&&r.error) return; render(); };
   if($('fDPay')) $('fDPay').onsubmit=async function(e){ e.preventDefault(); var d=debtsList().filter(function(x){ return x.id===S.dpayId; })[0]; if(!d) return; var am=Math.round(parseFloat($('dpAmt').value||'0')*1000), meth=$('dpMeth').value, msg=$('dpMsg');
     if(!(am>0)){ msg.textContent=t('amount'); return; } if(am>debtRest(d)){ msg.textContent=GL('Le montant dépasse le reste dû ('+money(debtRest(d))+').','المبلغ يتجاوز المتبقي ('+money(debtRest(d))+').'); return; }
-    var doc=($('dpDoc').value||'').trim(), no=($('dpNo').value||'').trim(); if(d.ctype!=='coach'&&!doc&&!no){ msg.textContent=GL('Pièce obligatoire : n° de quittance ou motif.','الوثيقة إلزامية: رقم الوصل أو السبب.'); return; }
+    var doc=($('dpDoc').value||'').trim(), no=($('dpNo').value||'').trim(); if(d.ctype!=='coach'&&d.ctype!=='staff'&&!doc&&!no){ msg.textContent=GL('Pièce obligatoire : n° de quittance ou motif.','الوثيقة إلزامية: رقم الوصل أو السبب.'); return; }
     if(meth==='cash'&&seeFin()){ var cb=trsy().cash; if(am>cb&&!S.cashWarn){ S.cashWarn=1; msg.innerHTML='<b style="color:var(--bad)">⚠ '+GL('Caisse insuffisante : '+money(cb)+'. Cliquez à nouveau pour confirmer.','رصيد الصندوق غير كافٍ: '+money(cb)+'. اضغط مرة أخرى للتأكيد.')+'</b>'; return; } S.cashWarn=0; }
-    var row={kind:d.ctype==='coach'?'salary':'supplier',direction:'out',amount_millimes:am,method:meth,paid_on:$('dpDate').value||todayStr(),notes:'debt:'+d.id+'|'+GL('Dette antérieure','دين سابق'),status:meth==='cash'?'received':'pending',category:'debtpay',counterparty:d.creditor,doc_ref:doc||null,nodoc_reason:no||null};
+    var row={kind:(d.ctype==='coach'||d.ctype==='staff')?'salary':'supplier',direction:'out',amount_millimes:am,method:meth,paid_on:$('dpDate').value||todayStr(),notes:'debt:'+d.id+'|'+GL('Dette antérieure','دين سابق'),status:meth==='cash'?'received':'pending',category:'debtpay',counterparty:d.creditor,doc_ref:doc||null,nodoc_reason:no||null};
     var r=await sb.from('payments').insert(row).select().single(); if(r.error){ msg.textContent=r.error.message; return; } S.modal='debts'; await loadPayments(); render(); };
 }
 /* ================= المحاسبة · Comptabilité (المرحلة 2) ================= */
@@ -5635,7 +5951,7 @@ async function loadView(){ qcWarm();
   if(S.view==='messages') await loadMessages();
   if(S.view==='dash') await loadToday();
   if(S.view==='dash'&&S.modal==='attq') await loadAttendance();
-  if(S.view==='settings') await loadGroups();
+  if(S.view==='settings'||S.view==='sports') await loadGroups();
   if(S.view==='groups') await loadGroups();
   if(S.view==='coaches'||S.view==='coach') await loadCoachPay();
   render();
@@ -5646,7 +5962,7 @@ var TF={};
 function tfNum(v){ if(v==='') return null; v=v.replace(/[−–]/g,'-').replace(/[\s ]/g,''); var m=/^[-+]?[\d.,]+(?:TND|د|%|DT)?$/.exec(v); if(!m) return NaN; var n=parseFloat(v.replace(/[^\d.,-]/g,'').replace(',','.')); return isNaN(n)?NaN:n; }
 function tfCell(c){ if(!c) return ''; var sl=c.querySelector('select'); if(sl&&sl.selectedOptions[0]) return sl.selectedOptions[0].textContent.trim(); return c.textContent.replace(/\s+/g,' ').trim(); }
 function enhanceTables(){
-  if(S.view==='settings') return;
+  if(S.view==='settings'||S.view==='sports') return;
   document.querySelectorAll('#app table').forEach(function(tb){
     if(tb.dataset.tf||tb.querySelector('#thMem')||tb.closest('.ov')||tb.closest('[data-nof]')||!tb.tHead||tb.tHead.rows.length!==1||!tb.tBodies[0]) return;
     var rows=[].slice.call(tb.tBodies[0].rows).filter(function(r){ return !r.hasAttribute('data-tot')&&![].some.call(r.cells,function(c){return c.colSpan>1;}); });
@@ -5714,14 +6030,15 @@ function render(){
   if(!S.user){ renderAuth(); return; }
   if(!S.profile || !S.profile.active){ renderWait(); return; }
   var title=S.view==='member'?(S.member?S.member.first_name+' '+S.member.last_name:t('members')):(S.view==='coach'?t('coaches'):vT(S.view));
-  var inner = S.view==='dash'?dashHtml(): S.view==='members'?membersHtml(): S.view==='users'?usersHtml(): S.view==='parents'?parentsHtml(): S.view==='account'?accountHtml(): S.view==='member'?memberHtml(): S.view==='settings'?settingsHtml(): S.view==='attendance'?attendanceHtml(): S.view==='groups'?groupsHtml(): S.view==='coaches'?coachesHtml(): S.view==='coach'?coachHtml(): S.view==='reports'?reportsHtml(): S.view==='journal'?journalHtml(): S.view==='planning'?planningHtml(): S.view==='progress'?progressHtml(): S.view==='achievements'?achHtml(): S.view==='messages'?messagesHtml(): paymentsHtml();
+  var inner = S.view==='dash'?dashHtml(): S.view==='members'?membersHtml(): S.view==='users'?usersHtml(): S.view==='parents'?parentsHtml(): S.view==='account'?accountHtml(): S.view==='member'?memberHtml(): S.view==='settings'?settingsHtml(): S.view==='security'?securityHtml(): S.view==='sports'?sportsHtml(): S.view==='attendance'?attendanceHtml(): S.view==='groups'?groupsHtml(): S.view==='coaches'?coachesHtml(): S.view==='coach'?coachHtml(): S.view==='reports'?reportsHtml(): S.view==='journal'?journalHtml(): S.view==='planning'?planningHtml(): S.view==='progress'?progressHtml(): S.view==='achievements'?achHtml(): S.view==='messages'?messagesHtml(): paymentsHtml();
   $('app').innerHTML=shell(title,inner);
   bindShell();
   if($('demoRole')) $('demoRole').onchange=async function(){ await _rawFrom('profiles').update({role:$('demoRole').value}).eq('id',S.user.id); S.view='dash'; await boot(); };
   if(S.view==='members') bindMembers();
   if(S.view==='parents') bindParents(); if(S.view==='users') bindUsers(); if(S.view==='account') bindAccount();
   if(S.view==='member') bindMember();
-  if(S.view==='settings') bindSettings();
+  if(S.view==='settings'||S.view==='security'||S.view==='sports') bindSettings();
+  if(S.view==='sports'){ if($('bSportNew')) $('bSportNew').onclick=function(){ S.setSubs=S.setSubs||{}; S.setSubs.sports='plans'; S.modal='disc'; render(); }; document.querySelectorAll('[data-sgo]').forEach(function(b){ b.onclick=function(){ S.view=b.getAttribute('data-sgo'); S.modal=''; loadView(); }; }); document.querySelectorAll('[data-ssg]').forEach(function(b){ b.onclick=function(){ S.setSubs=S.setSubs||{}; S.setSubs.sports=b.getAttribute('data-ssg'); render(); }; }); }
   if(isFinV(S.view)) bindPayments();
   if(S.view==='salaries') bindCoaches();
   if(S.view==='unpaid'||S.view==='finrep') bindReports();
