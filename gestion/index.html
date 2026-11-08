@@ -808,7 +808,7 @@ fr:{
  kActive:'Membres actifs', kNew:'Nouveaux ce mois', kCash:'Encaissé ce mois', kTotal:'Total des membres',
  search:'Rechercher un membre…', add:'+ Nouveau membre', cancel:'Annuler', save:'Enregistrer',
  first:'Prénom', last:'Nom', gender:'Sexe', male:'Garçon / Homme', female:'Fille / Femme', birth:'Date de naissance',
- phone:'Téléphone', gname:'Parent / tuteur', gphone:'Téléphone du parent', notes:'Notes', age:'Âge', status:'Statut',
+ phone:'Téléphone', gname:'Parent / tuteur', gphone:'Téléphone du parent', gemail:'E-mail du parent (facultatif)', notes:'Notes', age:'Âge', status:'Statut',
  st:{active:'Actif',suspended:'Suspendu',left:'Parti'}, years:'ans',
  del:'Supprimer', sure:'Confirmer ?', none:'Aucun membre pour le moment. Ajoutez le premier avec « Nouveau membre ».',
  newMember:'Nouveau membre', required:'Prénom et nom obligatoires.', saved:'Membre enregistré.',
@@ -848,7 +848,7 @@ ar:{
  kActive:'الأعضاء النشطون', kNew:'جدد هذا الشهر', kCash:'المقبوض هذا الشهر', kTotal:'مجموع الأعضاء',
  search:'ابحث عن عضو…', add:'+ عضو جديد', cancel:'إلغاء', save:'حفظ',
  first:'الاسم', last:'اللقب', gender:'الجنس', male:'ذكر', female:'أنثى', birth:'تاريخ الميلاد',
- phone:'الهاتف', gname:'الولي', gphone:'هاتف الولي', notes:'ملاحظات', age:'العمر', status:'الحالة',
+ phone:'الهاتف', gname:'الولي', gphone:'هاتف الولي', gemail:'بريد الولي الإلكتروني (اختياري)', notes:'ملاحظات', age:'العمر', status:'الحالة',
  st:{active:'نشط',suspended:'موقوف',left:'غادر'}, years:'سنة',
  del:'حذف', sure:'تأكيد؟', none:'لا يوجد أعضاء بعد. أضف أول عضو بزر «عضو جديد».',
  newMember:'عضو جديد', required:'الاسم واللقب مطلوبان.', saved:'تم حفظ العضو.',
@@ -2079,7 +2079,7 @@ function memberFormModal(m){
    '<div style="display:flex;flex-direction:column;gap:6px"><label class="btn sm" for="mPhoto" style="cursor:pointer">'+t('photo')+'</label><input type="file" id="mPhoto" accept="image/*" hidden><button type="button" class="link" id="mPhotoDel">'+t('removePhoto')+'</button></div></div>'+
    '<div class="grid2">'+f('mFirst',t('first'),'text',v('first_name'))+f('mLast',t('last'),'text',v('last_name'))+
    '<div class="field"><label for="mGender">'+t('gender')+'</label><select id="mGender"><option value="">—</option><option value="M"'+(v('gender')==='M'?' selected':'')+'>'+t('male')+'</option><option value="F"'+(v('gender')==='F'?' selected':'')+'>'+t('female')+'</option></select></div>'+
-   f('mBirth',t('birth'),'date',v('birth_date'))+f('mPhone',t('phone'),'tel',v('phone'))+f('mGName',t('gname'),'text',v('guardian_name'))+f('mGPhone',t('gphone'),'tel',v('guardian_phone'))+lselText('mGWork',t('gwork'),'work',v('guardian_work'),canEditMembers())+'</div>'+
+   f('mBirth',t('birth'),'date',v('birth_date'))+f('mPhone',t('phone'),'tel',v('phone'))+f('mGName',t('gname'),'text',v('guardian_name'))+f('mGPhone',t('gphone'),'tel',v('guardian_phone'))+f('mGEmail',t('gemail'),'email',v('guardian_email'))+lselText('mGWork',t('gwork'),'work',v('guardian_work'),canEditMembers())+'</div>'+
    '<details style="margin-top:14px"'+(m?' open':'')+'><summary style="cursor:pointer;font-weight:700">'+t('more')+'</summary><div class="grid2" style="margin-top:12px">'+
    lselText('mSchool',t('school'),'school',v('school'),canEditMembers())+f('mAddr',t('address'),'text',v('address'))+lselText('mCity',t('city'),'city',v('city'),canEditMembers())+lselText('mArea',t('area'),'area',v('area'),canEditMembers())+f('mEmerg',t('emerg'),'text',v('emergency'))+'</div>'+
    '<div class="field" style="margin-top:12px"><label for="mNotes">'+t('notes')+'</label><textarea id="mNotes" rows="2">'+esc(v('notes'))+'</textarea></div></details>'+
@@ -2121,7 +2121,7 @@ function bindMembers(){
   document.querySelectorAll('[data-chip]').forEach(function(b){ b.onclick=function(){ toggleChip(b.getAttribute('data-chip')); render(); }; });
   if($('bMemXls')) $('bMemXls').onclick=function(){
     var l=memFiltered($('qMem')?$('qMem').value:'');
-    dlBlob('membres-'+todayStr()+'.xls',xlsBook([{name:GL('Membres','الأعضاء'),cols:[[GL('Code','المعرّف'),'s'],[GL('Nom','اللقب'),'s'],[GL('Prénom','الاسم'),'s'],[GL('Sexe','الجنس'),'s'],[GL('Naissance','الميلاد'),'s'],[GL('Âge','العمر'),'s'],[GL('Catégorie','الفئة'),'s'],[GL('Téléphone','الهاتف'),'s'],[GL('Tél. tuteur','هاتف الولي'),'s'],[GL('Ville','المدينة'),'s'],[GL('Fin abonnement','نهاية الاشتراك'),'s'],[GL('Solde dû','المتبقي'),'m'],[GL('Statut','الحالة'),'s'],[GL('Dossier à régler','نواقص الملف'),'n']],rows:l.map(function(m){ var c=catOf(m); return [codeStr(m),m.last_name,m.first_name,m.gender==='M'?t('male'):(m.gender==='F'?t('female'):''),m.birth_date||'',ageStrL(m.birth_date),c?catLabel(c):'',m.phone||'',m.guardian_phone||'',m.city||'',(S.lastEnd||{})[m.id]||'',(S.bal||{})[m.id]||0,t('st')[m.status],docIssues(m)]; })}]));
+    dlBlob('membres-'+todayStr()+'.xls',xlsBook([{name:GL('Membres','الأعضاء'),cols:[[GL('Code','المعرّف'),'s'],[GL('Nom','اللقب'),'s'],[GL('Prénom','الاسم'),'s'],[GL('Sexe','الجنس'),'s'],[GL('Naissance','الميلاد'),'s'],[GL('Âge','العمر'),'s'],[GL('Catégorie','الفئة'),'s'],[GL('Téléphone','الهاتف'),'s'],[GL('Tél. tuteur','هاتف الولي'),'s'],[GL('E-mail tuteur','بريد الولي'),'s'],[GL('Ville','المدينة'),'s'],[GL('Fin abonnement','نهاية الاشتراك'),'s'],[GL('Solde dû','المتبقي'),'m'],[GL('Statut','الحالة'),'s'],[GL('Dossier à régler','نواقص الملف'),'n']],rows:l.map(function(m){ var c=catOf(m); return [codeStr(m),m.last_name,m.first_name,m.gender==='M'?t('male'):(m.gender==='F'?t('female'):''),m.birth_date||'',ageStrL(m.birth_date),c?catLabel(c):'',m.phone||'',m.guardian_phone||'',m.guardian_email||'',m.city||'',(S.lastEnd||{})[m.id]||'',(S.bal||{})[m.id]||0,t('st')[m.status],docIssues(m)]; })}]));
   };
   if($('bAdv')) $('bAdv').onclick=function(){ S.modal='adv'; render(); };
   if($('bAdvX')) $('bAdvX').onclick=function(){ S.adv={}; render(); };
@@ -2152,9 +2152,10 @@ async function saveMember(editId){
   var first=$('mFirst').value.trim(), last=$('mLast').value.trim(), msg=$('mMsg');
   if(!first||!last){ msg.textContent=t('required'); return; }
   var g=function(id){ return $(id).value.trim()||null; };
+  var em=($('mGEmail').value||'').trim(); if(em&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){ msg.textContent=GL('Adresse e-mail invalide.','البريد الإلكتروني غير صحيح.'); return; }
   var vSchool=await resolveText('school','mSchool'), vCity=await resolveText('city','mCity'), vArea=await resolveText('area','mArea'), vWork=await resolveText('work','mGWork');
   var row={ first_name:first, last_name:last, gender:$('mGender').value||null, birth_date:$('mBirth').value||null,
-    phone:g('mPhone'), guardian_name:g('mGName'), guardian_phone:g('mGPhone'), guardian_work:vWork,
+    phone:g('mPhone'), guardian_name:g('mGName'), guardian_phone:g('mGPhone'), guardian_email:em||null, guardian_work:vWork,
     school:vSchool, address:g('mAddr'), city:vCity, area:vArea, emergency:g('mEmerg'), notes:g('mNotes'), photo:S.photo||null };
   var r=editId ? await sb.from('members').update(row).eq('id',editId) : await sb.from('members').insert(row).select().single();
   if(r.error){ msg.textContent=r.error.message; return; }
@@ -2198,7 +2199,7 @@ function memberHtml(){
    '<div style="margin-top:6px"><span class="pill'+(m.status==='suspended'?' s':m.status==='left'?' l':'')+'">'+t('st')[m.status]+'</span> '+subPill(st)+'</div></div>'+
    '<button class="btn sm noprint" id="bFiche">'+GL('Imprimer la fiche','طباعة البطاقة')+'</button> <button class="btn sm noprint" id="bAssid">'+GL('Fiche d\'assiduité','بطاقة المواظبة')+'</button> '+(canEditMembers()?'<button class="btn sm noprint" id="bParAcc">'+GL('Accès parent (code secret)','حساب الولي (رمز سري)')+'</button> ':'')+(viewOk('messages')?'<button class="btn sm noprint" id="bSched">'+di('calendar','currentColor',16)+' '+GL('Envoyer l\'emploi du temps','إرسال الجدول')+'</button> ':'')+(canEditMembers()?'<button class="btn sm" id="bEdit">'+t('edit')+'</button>':'')+'</div>';
   var info='<div class="panel" style="margin-top:14px"><div class="grid2">'+
-   infoRow(t('guardian'),m.guardian_name)+infoRow(t('gphone'),m.guardian_phone)+infoRow(t('phone'),m.phone)+infoRow(t('gwork'),m.guardian_work)+
+   infoRow(t('guardian'),m.guardian_name)+infoRow(t('gphone'),m.guardian_phone)+(m.guardian_email?infoRow(GL('E-mail du parent','بريد الولي'),m.guardian_email):'')+infoRow(t('phone'),m.phone)+infoRow(t('gwork'),m.guardian_work)+
    infoRow(t('school'),m.school)+infoRow(t('address'),[m.address,m.area,m.city].filter(Boolean).join(', '))+infoRow(t('emerg'),m.emergency)+infoRow(t('groups'),S.mgroups)+infoRow(t('gender'),m.gender?(m.gender==='M'?t('male'):t('female')):'')+'</div></div>';
   var dl=docList(m);
   var dossier='<div class="panel" style="margin-top:14px"><div class="bar" style="margin-bottom:8px"><h3 style="flex:1">'+t('dossier')+'</h3>'+(canEditMembers()?'<button class="btn sm" id="bDoc">'+t('editDossier')+'</button>':'')+'</div>'+
