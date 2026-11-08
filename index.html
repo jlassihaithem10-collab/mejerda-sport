@@ -1240,12 +1240,15 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     if(dlg.showModal){try{dlg.showModal()}catch(x){dlg.setAttribute("open","")}}else dlg.setAttribute("open","");
     B.scrollTop=0;
   }
+  var DISC_PAGES={d1:"gymnastique-artistique",d5:"trampoline",d3:"kung-fu",d2:"basketball",d8:"echecs"};
   function renderDisc(){
     var C=$("#discGrid");C.textContent="";
     var shown=DATA.disciplines.filter(function(d){return !d.hide});
     shown.forEach(function(d){
       var kids=[h("h3",{text:ml(d.title)}),ml(d.desc)?h("p",{class:"pl",text:ml(d.desc)}):null];
-      if(hasInfo(d))kids.push(h("button",{type:"button",class:"btn outline sm dm-btn",text:tt("dmMore"),on:{click:function(){openDisc(d)}}}));
+      var pg=DISC_PAGES[d.id];
+      if(pg)kids.push(h("a",{href:"/"+pg+"/",class:"btn outline sm dm-btn",text:tt("dmMore")}));
+      else if(hasInfo(d))kids.push(h("button",{type:"button",class:"btn outline sm dm-btn",text:tt("dmMore"),on:{click:function(){openDisc(d)}}}));
       C.appendChild(h("div",{class:"card"},kids));
     });
     $("#noDisc").hidden=shown.length>0;
