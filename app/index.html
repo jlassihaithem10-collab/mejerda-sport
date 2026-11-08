@@ -1075,7 +1075,10 @@ function vPaDocs(){
 /* ---------- Account ---------- */
 function vAccount(){
   var off=['manager','reception','treasurer','president'].indexOf(S.role)>=0;
-  var h='<div class="row" style="gap:12px"><div class="avatar" style="width:56px;height:56px;border-radius:28px;background:var(--accent);color:var(--accent-ink);font-size:20px;font-weight:700">'+esc(((S.me&&(S.me.coach_name||S.me.full_name))||'·').charAt(0))+'</div><div class="col" style="gap:0"><div style="font-size:19px;font-weight:700">'+esc((S.me&&(S.me.coach_name||S.me.full_name))||'')+'</div><div class="small muted">'+esc(S.email||'')+'</div></div></div>';
+  var nm=(S.me&&(S.me.coach_name||S.me.full_name))||'',sub=S.email||'',em=String(S.email||'').toLowerCase(),pm=em.match(/^gm(\d+)@/);
+  if(S.role==='parent'){var ks=(S.children||[]).map(function(c){return c.first_name}).filter(Boolean);nm=t('parentOf')+' '+(ks.length?ks.join(L()?' & ':' و'):'');sub=em.slice(-PARENT_DOMAIN.length-1)==='@'+PARENT_DOMAIN?(pm?t('loginWith')+' '+gmCode(+pm[1]):''):sub}
+  else if(nm.indexOf('@')>0)nm=nm.split('@')[0];
+  var h='<div class="row" style="gap:12px"><div class="avatar" style="width:56px;height:56px;border-radius:28px;background:var(--accent);color:var(--accent-ink);font-size:20px;font-weight:700">'+esc(((S.role==='parent'&&(S.children||[])[0]&&S.children[0].first_name)||nm||'·').charAt(0))+'</div><div class="col" style="gap:0;min-width:0"><div style="font-size:19px;font-weight:700">'+esc(nm)+'</div>'+(sub?'<div class="small muted">'+esc(sub)+'</div>':'')+'</div></div>';
   if(off&&S.role!=='president'&&S.role!=='manager')h+='<div class="banner info">'+t('staffPC')+'</div>';
   if(S.role==='coach'){h+=coachMonthCard();var nl=newsList();if(nl.length)h+='<h2 style="font-size:16px">'+t('newsT')+'</h2><div class="col" style="gap:8px">'+nl.map(function(a){return newsCard(a,false)}).join('')+'</div>'}
 
@@ -1684,6 +1687,7 @@ function input19(id,val){
 
 /* ---------- 020: «بطاقتي» — بطاقة الرياضي على طريقة ألعاب كرة القدم ---------- */
 Object.assign(T,{
+ parentOf:['ولي','Parent de'], loginWith:['رقم الدخول:','Identifiant :'],
  myCard:['بطاقتي','Ma carte'], achTab:['الإنجازات','Palmarès'],
  sAtt:['حضور','PRÉ'], sEff:['جهد','EFF'], sDis:['انضباط','DIS'], sPro:['تقدّم','PRO'], sStr:['ثبات','RÉG'], sCmp:['بطولات','CMP'],
  tierB:['برونزية','bronze'], tierS:['فضية','argent'], tierG:['ذهبية','or'], tierX:['بطل','champion'],
