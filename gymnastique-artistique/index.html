@@ -146,7 +146,7 @@ var id=MAP[location.pathname.replace(/\//g,"")];if(!id)return;
 var T={ar:["لاعبو الاختصاص","كل اللاعبين"],fr:["Les joueurs de la discipline","Tous les joueurs"],en:["Players in this discipline","All players"]};
 var P=null;
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
-function img(s){if(!s)return"";if(/^https:\/\/[^/]*supabase\.co\/storage\/v1\/object\/public\/site-media\//.test(s))return s;return/^b\d+$/.test(s)?"/img/"+s+".jpg":""}
+function img(s){if(!s)return"";if(/^https:\/\/[^/]*supabase\.co\/storage\/v1\/object\/public\/site-media\//.test(s))return s;if(/^\/img\/players\/[\w-]+\.jpg$/.test(s))return s;return/^b\d+$/.test(s)?"/img/"+s+".jpg":""}
 function put(){
  var app=document.getElementById("app");if(!app||!P||!P.length||app.querySelector(".plx"))return;
  var cta=app.querySelector(".cta-band");if(!cta)return;

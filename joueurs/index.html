@@ -120,10 +120,10 @@ var D=null,F="all";
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function ml(o){return o?(o[lang]||o.ar||o.fr||o.en||""):""}
 function safe(u){return /^https?:\/\//i.test(u||"")?u:""}
-function img(s){if(!s)return"";if(/^https:\/\/[^/]*supabase\.co\/storage\/v1\/object\/public\/site-media\//.test(s))return s;return/^b\d+$/.test(s)?"/img/"+s+".jpg":""}
+function img(s){if(!s)return"";if(/^https:\/\/[^/]*supabase\.co\/storage\/v1\/object\/public\/site-media\//.test(s))return s;if(/^\/img\/players\/[\w-]+\.jpg$/.test(s))return s;if(/^\/img\/players\/[\w-]+\.jpg$/.test(s))return s;return/^b\d+$/.test(s)?"/img/"+s+".jpg":""}
 function fmtDate(d){try{return new Date(d+"T00:00:00").toLocaleDateString(lang==="ar"?"ar-TN":lang,{month:"long",year:"numeric"})}catch(e){return d}}
 function dcls(id){return{d1:"gym",d5:"tr",d3:"ku",d2:"ba",d8:"ch"}[id]||"gym"}
-function bib(p,dn){var im=img(p.photo);return '<div class="bib rv"><div class="no"><span>'+esc(p.no||"")+'</span>'+(p.level?'<small>'+esc(p.level)+'</small>':'')+'</div><div class="av'+(im?' ph':'')+'">'+(im?'<img src="'+esc(im)+'" alt="'+esc(p.name)+'" loading="lazy">':'<i>'+esc((p.name||"?").trim().charAt(0))+'</i>')+'</div><div class="in"><h3>'+esc(p.name)+'</h3>'+(p.bio&&ml(p.bio)?'<p>'+esc(ml(p.bio))+'</p>':'')+'<span class="tag t-'+dcls(p.disc)+'">'+esc(dn)+'</span></div></div>'}
+function bib(p,dn){var im=img(p.photo);return '<div class="bib rv"><div class="no"><span>'+esc(p.no||"")+'</span>'+(p.level?'<small>'+esc(p.level)+'</small>':'')+'</div><div class="av'+(im?' ph':'')+'">'+(im?'<img src="'+esc(im)+'" alt="'+esc(p.name||"")+'" loading="lazy">':'<i>'+esc((p.name||"").trim().charAt(0))+'</i>')+'</div><div class="in">'+(p.name?'<h3>'+esc(p.name)+'</h3>':'')+(p.bio&&ml(p.bio)?'<p>'+esc(ml(p.bio))+'</p>':'')+'<span class="tag t-'+dcls(p.disc)+'">'+esc(dn)+'</span></div></div>'}
 function draw(){
  var u=UI[lang],A=document.getElementById("app");
  document.documentElement.lang=lang;document.documentElement.dir=lang==="ar"?"rtl":"ltr";

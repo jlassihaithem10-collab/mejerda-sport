@@ -1145,7 +1145,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
   function fmt(iso,opt,fb){if(!isDate(iso))return fb||"";try{return new Intl.DateTimeFormat(loc(),opt).format(new Date(iso+"T12:00:00"))}catch(e){return iso}}
   function imgSrc(s){
     if(IMGS[s])return IMGS[s];
-    return (typeof s==="string"&&s.indexOf(SB+"/storage/v1/object/public/site-media/")===0)?s:"";
+    return (typeof s==="string"&&(s.indexOf(SB+"/storage/v1/object/public/site-media/")===0||/^\/img\/players\/[\w-]+\.jpg$/.test(s)))?s:"";
   }
   function safeUrl(u){return (typeof u==="string"&&/^https?:\/\//i.test(u))?u:""}
 
@@ -1710,7 +1710,8 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
   function discTitle(id){var d=DATA.disciplines.filter(function(o){return o.id===id})[0];return d?ml(d.title):""}
   function itemTitle(kind,it){
     if(kind==="gallery")return ml(it.cap)||"—";
-    if(kind==="team"||kind==="players")return it.name||"—";
+    if(kind==="players")return it.name||("#"+(it.no||"—"));
+    if(kind==="team")return it.name||"—";
     if(kind==="videos")return ml(it.title)||it.url||"—";
     if(kind==="schedule")return dayName(it.day)+" "+it.from+(it.to?" – "+it.to:"");
     return ml(it.title)||"—";
@@ -1799,7 +1800,8 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
       e.preventDefault();
       var v={};SCHEMA[kind].forEach(function(f){v[f[0]]=G[f[0]]()});
       if(kind==="gallery"){if(!v.src){err.textContent=X("ePhoto");return}}
-      else if(kind==="team"||kind==="players"){if(!v.name){err.textContent=X("eName");return}}
+      else if(kind==="team"){if(!v.name){err.textContent=X("eName");return}}
+      else if(kind==="players"){if(!v.name&&!v.photo){err.textContent=X("eName");return}}
       else if(kind==="achievements"){var at=v.title||{};if(!at.ar&&!at.fr&&!at.en){err.textContent=X("eTitle");return}}
       else if(kind==="videos"){if(!safeUrl(v.url)){err.textContent=X("eVideo");return}}
       else if(kind==="schedule"){if(!v.disc){err.textContent=X("eDisc");return}if(!v.from){err.textContent=X("eTime");return}}
