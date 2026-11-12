@@ -1151,7 +1151,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
 
   var DEF=JSON.parse($("#defaults").textContent);
   function normalize(d){
-    ["schedule","team","links","sponsors"].forEach(function(k){if(!Array.isArray(d[k]))d[k]=clone(DEF[k]||[])});
+    ["schedule","team","links","sponsors","players","achievements","videos"].forEach(function(k){if(!Array.isArray(d[k]))d[k]=clone(DEF[k]||[])});
     if(!("appUrl" in d.contact))d.contact.appUrl=DEF.contact.appUrl;
     if(!d.texts||typeof d.texts!=="object"||Array.isArray(d.texts))d.texts={};
     return d;
@@ -1597,8 +1597,15 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
       },function(){lastMsg=0;st.textContent=tt("msgErr");st.classList.add("bad")});
     });
   }
+  function renderPlayersLink(){
+    var box=$("#links");if(!box)return;
+    var a=document.getElementById("navPlayers"),has=(DATA.players||[]).some(function(p){return !p.hide});
+    if(!has){if(a)a.remove();return}
+    if(!a){a=document.createElement("a");a.id="navPlayers";a.href="/joueurs/";var g=box.querySelector('a[href="#galerie"]');if(g&&g.nextSibling)box.insertBefore(a,g.nextSibling);else box.appendChild(a)}
+    a.textContent={ar:"لاعبونا",fr:"Nos joueurs",en:"Our players"}[lang]||"Nos joueurs";
+  }
   function renderAll(){
-    applyTexts();
+    applyTexts();renderPlayersLink();
     renderDisc();renderNews();renderEvents();renderGallery();renderContact();renderSchedule();renderTeam();renderMembers();renderSponsors();renderLive();loadWeather();renderMaps();
     if(curPage==="admin")renderAdmin();
   }
@@ -1655,6 +1662,12 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     txIntro:"عدّل نصوص الموقع بالثلاث لغات. إن لم تغيّر شيئًا يبقى النص الأصلي.",txReset:"استرجاع الأصل",tx_home:"الرئيسية",tx_club:"النادي",tx_disc:"الاختصاصات والمعرض",tx_join:"الاشتراك",tx_faq:"أسئلة شائعة",tx_other:"أخرى",
     uploading:"جارٍ رفع الصورة…",eUpload:"فشل رفع الصورة.",pwNew:"كلمة سر جديدة (8 أحرف على الأقل)",pwSave:"تغيير كلمة السر",pwDone:"تم تغيير كلمة السر.",pwErr:"كلمة السر قصيرة أو مرفوضة.",thome:"لوحة القيادة",tsponsors:"الداعمون",fLogo:"الشعار",sponsorsNote:"لا تنشر شعار شركة إلا بموافقتها. يبقى القسم مخفيًا ما دام لا يوجد داعمون.",tschedule:"التوقيت",tteam:"الفريق",tlinks:"روابط الإدارة",fSDisc:"الاختصاص",fDay:"اليوم",fFrom:"من",fTo:"إلى",fGroup:"المجموعة / الفئة",fName:"الاسم",fRole:"الصفة",fSection:"القسم",fUrl:"الرابط (https://…)",fApp:"رابط تطبيق الأعضاء",open:"فتح",eName:"أدخل اسمًا.",eDisc:"اختر اختصاصًا.",eTime:"أدخل ساعة البداية.",linksNote:"روابط خاصة بالإدارة (تطبيق النادي وأدواته). لا تضع هنا أي كلمة سر."}
   };
+  var XADD={
+    fr:{tplayers:"Joueurs",tachievements:"Palmarès",tvideos:"Vidéos",fNo:"Numéro de dossard",fLevel:"Catégorie ou niveau (ex. U10, Poussins)",fBio:"Petit mot (facultatif)",fFeat:"Joueur du mois",fThumb:"Image de la vidéo (facultatif)",fVideoUrl:"Lien Facebook de la vidéo",playersNote:"N'affichez que les enfants dont les parents ont donné leur accord écrit. Prénom + initiale du nom seulement.",eVideo:"Entrez un lien valide (https://…)."},
+    en:{tplayers:"Players",tachievements:"Achievements",tvideos:"Videos",fNo:"Bib number",fLevel:"Category or level (e.g. U10)",fBio:"Short note (optional)",fFeat:"Player of the month",fThumb:"Video thumbnail (optional)",fVideoUrl:"Facebook video link",playersNote:"Only show children whose parents gave written consent. First name + initial only.",eVideo:"Enter a valid link (https://…)."},
+    ar:{tplayers:"اللاعبون",tachievements:"الإنجازات",tvideos:"الفيديوهات",fNo:"رقم اللاعب",fLevel:"الفئة أو المستوى (مثل U10 أو أصاغر)",fBio:"كلمة قصيرة (اختياري)",fFeat:"لاعب الشهر",fThumb:"صورة الفيديو (اختياري)",fVideoUrl:"رابط الفيديو على فيسبوك",playersNote:"أظهر فقط الأطفال الذين وافق أولياؤهم كتابياً. الاسم الأول وحرف من اللقب فقط.",eVideo:"أدخل رابطاً صحيحاً (https://…)."}
+  };
+  Object.keys(XADD).forEach(function(l){Object.keys(XADD[l]).forEach(function(k){XT[l][k]=XADD[l][k]})});
   function X(k){var t=XT[lang]||XT.fr;return (k in t)?t[k]:XT.fr[k]||k}
   var SCHEMA={
     news:[["date","date"],["cat","cat"],["title","ml"],["body","mlarea"]],
@@ -1664,9 +1677,12 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     schedule:[["disc","disc"],["day","day"],["from","time"],["to","time"],["place","text"],["group","text"]],
     team:[["name","text"],["role","ml"],["grp","grp"],["photo","photo"]],
     links:[["title","ml"],["url","url"]],
-    sponsors:[["title","ml"],["url","url"],["logo","photo"]]
+    sponsors:[["title","ml"],["url","url"],["logo","photo"]],
+    players:[["name","text"],["disc","disc"],["level","text"],["no","text"],["photo","photo"],["bio","ml"],["feat","check"]],
+    achievements:[["date","date"],["title","ml"],["note","ml"]],
+    videos:[["url","url"],["title","ml"],["thumb","photo"]]
   };
-  var LABEL={date:"fDate",time:"fTime",place:"fPlace",cat:"fCat",kind:"fKind",title:"fTitle",body:"fBody",note:"fNote",result:"fResult",desc:"fDesc",src:"fPhoto",cap:"fCap",disc:"fSDisc",day:"fDay",from:"fFrom",to:"fTo",group:"fGroup",name:"fName",role:"fRole",grp:"fSection",photo:"fPhoto",url:"fUrl",logo:"fLogo",what:"fWhat",history:"fHistory",benefits:"fBenefits",age:"fAge",gear:"fGear",club:"fClub"};
+  var LABEL={date:"fDate",time:"fTime",place:"fPlace",cat:"fCat",kind:"fKind",title:"fTitle",body:"fBody",note:"fNote",result:"fResult",desc:"fDesc",src:"fPhoto",cap:"fCap",disc:"fSDisc",day:"fDay",from:"fFrom",to:"fTo",group:"fGroup",name:"fName",role:"fRole",grp:"fSection",photo:"fPhoto",url:"fUrl",logo:"fLogo",no:"fNo",level:"fLevel",bio:"fBio",feat:"fFeat",thumb:"fThumb",what:"fWhat",history:"fHistory",benefits:"fBenefits",age:"fAge",gear:"fGear",club:"fClub"};
   var aTab="home",aEdit=null,aDel=null,aMsg="",aBad=false,aBusy=false,aExport="",aDraft=null,aErr="";
 
   function readPhoto(file,ok,bad,M){
@@ -1694,11 +1710,12 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
   function discTitle(id){var d=DATA.disciplines.filter(function(o){return o.id===id})[0];return d?ml(d.title):""}
   function itemTitle(kind,it){
     if(kind==="gallery")return ml(it.cap)||"—";
-    if(kind==="team")return it.name||"—";
+    if(kind==="team"||kind==="players")return it.name||"—";
+    if(kind==="videos")return ml(it.title)||it.url||"—";
     if(kind==="schedule")return dayName(it.day)+" "+it.from+(it.to?" – "+it.to:"");
     return ml(it.title)||"—";
   }
-  function thumbOf(kind,it){return kind==="gallery"?imgSrc(it.src):kind==="team"?imgSrc(it.photo):kind==="sponsors"?imgSrc(it.logo):""}
+  function thumbOf(kind,it){return kind==="gallery"?imgSrc(it.src):(kind==="team"||kind==="players")?imgSrc(it.photo):kind==="videos"?imgSrc(it.thumb):kind==="sponsors"?imgSrc(it.logo):""}
   function eyeSvg(open){
     var NS="http://www.w3.org/2000/svg",sv=document.createElementNS(NS,"svg");
     sv.setAttribute("viewBox","0 0 24 24");sv.setAttribute("width","20");sv.setAttribute("height","20");sv.setAttribute("fill","none");sv.setAttribute("stroke","currentColor");sv.setAttribute("stroke-width","2");sv.setAttribute("stroke-linecap","round");sv.setAttribute("stroke-linejoin","round");sv.setAttribute("aria-hidden","true");
@@ -1712,6 +1729,9 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     if(kind==="news")return [tt(CATK[it.cat]||"cAnn"),fmt(it.date,{day:"numeric",month:"long",year:"numeric"},it.date)].join(" · ");
     if(kind==="events")return [tt(KINDK[it.kind]||"kEvent"),fmt(it.date,{day:"numeric",month:"long",year:"numeric"},it.date),it.time,it.place].filter(Boolean).join(" · ");
     if(kind==="disciplines")return it.hide?X("hiddenTag"):"";
+    if(kind==="players")return [discTitle(it.disc),it.level,it.no?"#"+it.no:"",it.feat?X("fFeat"):"",it.hide?X("hiddenTag"):""].filter(Boolean).join(" · ");
+    if(kind==="achievements")return fmt(it.date,{day:"numeric",month:"long",year:"numeric"},it.date)||"";
+    if(kind==="videos")return (it.hide?X("hiddenTag")+" · ":"")+(it.url||"");
     if(kind==="schedule")return [discTitle(it.disc),it.place,it.group].filter(Boolean).join(" · ");
     if(kind==="team")return [tt(it.grp==="board"?"tBoard":"tCoach"),ml(it.role)].filter(Boolean).join(" · ");
     if(kind==="links"||kind==="sponsors")return it.url||"";
@@ -1741,9 +1761,13 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
           readPhoto(fl,function(b){
             pv.src=URL.createObjectURL(b);pv.hidden=false;err.textContent=X("uploading");pending=null;
             uploadPhoto(b).then(function(u){pending=u;err.textContent=""},function(){err.textContent=X("eUpload")});
-          },function(){err.textContent=X("ePhotoRead")},kind==="team"||kind==="sponsors"?500:1000);
+          },function(){err.textContent=X("ePhotoRead")},kind==="team"||kind==="sponsors"||kind==="players"?600:1000);
         });
         G[k]=function(){return pending||d[k]||""};
+      }else if(t==="check"){
+        var fidc="af_"+k,cb=h("input",{id:fidc,type:"checkbox"});cb.checked=!!d[k];
+        w.appendChild(h("label",{for:fidc,text:lab}));w.appendChild(cb);
+        G[k]=function(){return cb.checked};
       }else if(t==="cat"||t==="kind"){
         var opts=t==="cat"?CATS:KINDS,mp=t==="cat"?CATK:KINDK,fid2="af_"+k,sel=h("select",{id:fid2});
         opts.forEach(function(o){sel.appendChild(h("option",{value:o,text:tt(mp[o])}))});
@@ -1775,7 +1799,9 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
       e.preventDefault();
       var v={};SCHEMA[kind].forEach(function(f){v[f[0]]=G[f[0]]()});
       if(kind==="gallery"){if(!v.src){err.textContent=X("ePhoto");return}}
-      else if(kind==="team"){if(!v.name){err.textContent=X("eName");return}}
+      else if(kind==="team"||kind==="players"){if(!v.name){err.textContent=X("eName");return}}
+      else if(kind==="achievements"){var at=v.title||{};if(!at.ar&&!at.fr&&!at.en){err.textContent=X("eTitle");return}}
+      else if(kind==="videos"){if(!safeUrl(v.url)){err.textContent=X("eVideo");return}}
       else if(kind==="schedule"){if(!v.disc){err.textContent=X("eDisc");return}if(!v.from){err.textContent=X("eTime");return}}
       else{
         var tl=v.title||{};if(!tl.ar&&!tl.fr&&!tl.en){err.textContent=X("eTitle");return}
@@ -1830,9 +1856,9 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
         h("button",{class:"btn outline sm",type:"button",text:X("restore"),on:{click:function(){DATA=normalize(aDraft);aDraft=null;dirty=true;renderAll()}}})," ",
         h("button",{class:"btn outline sm",type:"button",text:X("ignore"),on:{click:function(){aDraft=null;try{sessionStorage.removeItem(DK)}catch(e){}renderAdmin()}}})]));
     }
-    var ICON={stats:"M4 20V10M10 20V4M16 20v-7M22 20H2",print:"M7 8V3h10v5M7 17H4v-7h16v7h-3M7 14h10v7H7z",home:"M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z",requests:"M4 4h16v12H5.2L4 17.2zM8 9h8M8 12h5",news:"M5 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V5zM8 8h8M8 12h8M8 16h4",events:"M4 6h16v14H4zM4 10h16M9 3v5M15 3v5",schedule:"M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2",disciplines:"M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3",team:"M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c0-3.3 2.9-5.5 6.5-5.5s6.5 2.2 6.5 5.5M17 11a3 3 0 1 0 0-6M18 14.7c2 .6 3.5 2.3 3.5 5.3",gallery:"M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4M9 9.5a1 1 0 1 0 0-.01",texts:"M5 5h14M12 5v14M9 19h6",contact:"M4 5h16v14H4zM4 7l8 6 8-6",sponsors:"M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z",links:"M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1",account:"M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"};
+    var ICON={stats:"M4 20V10M10 20V4M16 20v-7M22 20H2",print:"M7 8V3h10v5M7 17H4v-7h16v7h-3M7 14h10v7H7z",home:"M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z",requests:"M4 4h16v12H5.2L4 17.2zM8 9h8M8 12h5",news:"M5 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V5zM8 8h8M8 12h8M8 16h4",events:"M4 6h16v14H4zM4 10h16M9 3v5M15 3v5",schedule:"M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2",disciplines:"M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3",team:"M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c0-3.3 2.9-5.5 6.5-5.5s6.5 2.2 6.5 5.5M17 11a3 3 0 1 0 0-6M18 14.7c2 .6 3.5 2.3 3.5 5.3",players:"M12 4a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zM5 21c0-3.6 3-6 7-6s7 2.4 7 6",achievements:"M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM8.5 14l-1.5 7 5-3 5 3-1.5-7",videos:"M4 5h16v14H4zM10 9v6l5-3z",gallery:"M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4M9 9.5a1 1 0 1 0 0-.01",texts:"M5 5h14M12 5v14M9 19h6",contact:"M4 5h16v14H4zM4 7l8 6 8-6",sponsors:"M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z",links:"M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1",account:"M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"};
     function ico(t){var sp=document.createElement("span");sp.className="sico";sp.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="'+ICON[t]+'"/></svg>';return sp}
-    var GROUPS=[["gOv",["home","requests","stats","print"]],["gCt",["news","events","schedule","disciplines","team","sponsors","gallery"]],["gSt",["texts","contact","links"]],["gAc",["account"]]];
+    var GROUPS=[["gOv",["home","requests","stats","print"]],["gCt",["news","events","schedule","disciplines","players","achievements","videos","team","sponsors","gallery"]],["gSt",["texts","contact","links"]],["gAc",["account"]]];
     var shell=h("div",{class:"adm-shell"+(navOpen?" open":"")}),side=h("aside",{class:"adm-side",id:"admSide"}),M=h("div",{class:"adm-main"});
     var nNew=REQS?REQS.filter(function(r){return r.status==="new"}).length:0;
     GROUPS.forEach(function(g){
@@ -1866,6 +1892,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
       var list=h("div",{class:"adm-list"});
       if(aTab==="links")M.appendChild(h("p",{class:"adm-note",text:X("linksNote")}));
       if(aTab==="sponsors")M.appendChild(h("p",{class:"adm-note",text:X("sponsorsNote")}));
+      if(aTab==="players")M.appendChild(h("p",{class:"adm-note",text:X("playersNote")}));
       if(!arr.length)list.appendChild(h("p",{class:"adm-note",text:X("none")}));
       arr.forEach(function(it){
         if(aEdit&&aEdit.kind===aTab&&aEdit.id===it.id){list.appendChild(buildForm(aTab,it));return}
@@ -1875,8 +1902,8 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
           thumb?h("img",{src:thumb,alt:""}):null,
           h("div",null,[h("b",{text:itemTitle(aTab,it)}),meta?h("small",{text:meta}):null]),
           h("div",{class:"adm-acts"},[
-            (aTab==="links"||aTab==="sponsors")&&safeUrl(it.url)?h("a",{class:"btn dark sm",href:safeUrl(it.url),target:"_blank",rel:"noopener",text:X("open")}):null,
-            aTab==="disciplines"?h("button",{class:"btn outline sm adm-eye"+(it.hide?" off":""),type:"button","aria-label":it.hide?X("eyeShow"):X("eyeHide"),title:it.hide?X("eyeShow"):X("eyeHide"),"aria-pressed":it.hide?"false":"true",on:{click:function(){if(it.hide)delete it.hide;else it.hide=true;markDirty()}}},[eyeSvg(!it.hide)]):null,
+            (aTab==="links"||aTab==="sponsors"||aTab==="videos")&&safeUrl(it.url)?h("a",{class:"btn dark sm",href:safeUrl(it.url),target:"_blank",rel:"noopener",text:X("open")}):null,
+            (aTab==="disciplines"||aTab==="players"||aTab==="videos")?h("button",{class:"btn outline sm adm-eye"+(it.hide?" off":""),type:"button","aria-label":it.hide?X("eyeShow"):X("eyeHide"),title:it.hide?X("eyeShow"):X("eyeHide"),"aria-pressed":it.hide?"false":"true",on:{click:function(){if(it.hide)delete it.hide;else it.hide=true;markDirty()}}},[eyeSvg(!it.hide)]):null,
             h("button",{class:"btn outline sm",type:"button",text:X("edit"),on:{click:function(){aEdit={kind:aTab,id:it.id};aDel=null;renderAdmin()}}}),
             h("button",{class:"btn danger sm"+(conf?" confirm":""),type:"button",text:conf?X("sure"):X("del"),on:{click:function(){
               if(!conf){aDel=key;renderAdmin();return}

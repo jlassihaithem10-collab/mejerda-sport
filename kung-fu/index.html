@@ -137,4 +137,30 @@ fetch(SITE.sb+"/rest/v1/site_content?key=eq.content&select=data",{headers:{apike
  var ct=c.contact||{};if(ct.phone)SITE.phones=ct.phone.split(/\n+/).map(function(s){return s.trim()}).filter(Boolean);
  if(ct.email)SITE.emails=ct.email.split(/\n+/).map(function(s){return s.trim()}).filter(Boolean);
  draw();}).catch(function(){});
-})();</script></body></html>
+})();</script><style id="pl-css">.plx .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}.plp{background:var(--surface);border:2px solid var(--navy);border-radius:6px 6px 18px 18px;overflow:hidden;text-align:center}.plp .n{background:var(--navy);color:var(--gold);font:800 1.3rem/1 var(--display);padding:8px 10px;display:flex;justify-content:space-between;align-items:center}.plp .n small{font:700 .72rem var(--body);background:var(--gold);color:#2a2000;border-radius:99px;padding:1px 8px}.plp .a{height:110px;position:relative;background:repeating-linear-gradient(135deg,#eef3f9 0 12px,#e6edf6 12px 24px);display:grid;place-items:center}.plp .a i{font:800 2rem/1 var(--display);font-style:normal;color:var(--head);width:62px;height:62px;border-radius:50%;background:#fff;border:3px solid var(--gold);display:grid;place-items:center}.plp .a img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%}.plp b{display:block;padding:8px 6px 10px;font-size:1rem}.plx .all{display:inline-block;margin-top:16px;font-weight:700;color:var(--head);text-decoration:none;border:1.5px solid var(--head);border-radius:99px;padding:6px 18px}</style>
+<script id="pl-js">
+(function(){
+var SB="https://zwaqrysuajepwuhuwcsl.supabase.co",KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3YXFyeXN1YWplcHd1aHV3Y3NsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE1MzQ1NDIsImV4cCI6MjEwNzExMDU0Mn0.EeKXLZ01KtEjZ-i3jjRJ3w5-3006mlmVJM56BrCaDSs";
+var MAP={"gymnastique-artistique":"d1","basketball":"d2","kung-fu":"d3","trampoline":"d5","echecs":"d8"};
+var id=MAP[location.pathname.replace(/\//g,"")];if(!id)return;
+var T={ar:["لاعبو الاختصاص","كل اللاعبين"],fr:["Les joueurs de la discipline","Tous les joueurs"],en:["Players in this discipline","All players"]};
+var P=null;
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function img(s){if(!s)return"";if(/^https:\/\/[^/]*supabase\.co\/storage\/v1\/object\/public\/site-media\//.test(s))return s;return/^b\d+$/.test(s)?"/img/"+s+".jpg":""}
+function put(){
+ var app=document.getElementById("app");if(!app||!P||!P.length||app.querySelector(".plx"))return;
+ var cta=app.querySelector(".cta-band");if(!cta)return;
+ var l="ar";try{l=localStorage.getItem("mejerda-lang")||"ar"}catch(e){}var t=T[l]||T.ar;
+ var s=document.createElement("section");s.className="blk plx";
+ s.innerHTML='<div class="wrap"><h2>'+esc(t[0])+'</h2><div class="grid">'+P.map(function(p){var im=img(p.photo);return '<div class="plp"><div class="n"><span>'+esc(p.no||"")+'</span>'+(p.level?'<small>'+esc(p.level)+'</small>':'')+'</div><div class="a">'+(im?'<img src="'+esc(im)+'" alt="'+esc(p.name)+'" loading="lazy">':'<i>'+esc((p.name||"?").trim().charAt(0))+'</i>')+'</div><b>'+esc(p.name)+'</b></div>'}).join("")+'</div><a class="all" href="/joueurs/">'+esc(t[1])+'</a></div>';
+ cta.parentNode.insertBefore(s,cta);
+}
+fetch(SB+"/rest/v1/site_content?key=eq.content&select=data",{headers:{apikey:KEY,Authorization:"Bearer "+KEY}}).then(function(r){return r.json()}).then(function(r){
+ var d=r&&r[0]&&r[0].data||{};var hd=(d.disciplines||[]).filter(function(x){return x.id===id})[0];
+ if(hd&&hd.hide)return;
+ P=(d.players||[]).filter(function(p){return p.disc===id&&!p.hide});put();
+ new MutationObserver(put).observe(document.getElementById("app"),{childList:true});
+}).catch(function(){});
+})();
+</script>
+</body></html>
