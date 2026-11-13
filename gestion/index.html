@@ -1503,7 +1503,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b>'+t('app')+'</b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v24</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v26</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
@@ -1799,7 +1799,7 @@ function hovShow(btn){
   var g=m.guardian_name?m.guardian_name+(m.guardian_phone?' · '+m.guardian_phone:''):(m.guardian_phone||'');
   var h='<div id="hovCard" style="position:fixed;z-index:60;width:320px;max-width:calc(100vw - 24px);background:var(--card);color:var(--tx);border:1px solid var(--line);border-radius:16px;box-shadow:0 14px 40px rgba(0,0,0,.28);padding:14px;pointer-events:none">'+
    '<div style="display:flex;gap:12px;align-items:center;margin-bottom:8px">'+avatarHtml(m,64)+'<div style="min-width:0"><div style="font-weight:800;font-size:15px">'+esc(m.last_name+' '+m.first_name)+'</div><div class="who">'+codeStr(m)+'</div><div style="margin-top:4px">'+subPill(subState((S.lastEnd||{})[m.id]))+'</div></div></div>'+
-   row(GL('Âge','العمر'),ageStrL(m.birth_date))+row(GL('Catégorie','الفئة'),c?catLabel(c):'')+row(t('phone')||GL('Téléphone','الهاتف'),m.phone||'')+row(GL('Tuteur','الولي'),g)+row(t('school')||GL('École','المدرسة'),m.school||'')+row(t('city')||GL('Ville','المدينة'),m.city||'')+'</div>';
+   row(GL('Âge','العمر'),ageStrL(m.birth_date))+row(GL('Catégorie','الفئة'),c?catLabel(c):'')+row(t('phone')||GL('Téléphone','الهاتف'),m.phone||'')+row(GL('Tuteur','الولي'),g)+row(GL('Fratrie','الإخوة'),sibsOf(m).map(function(x){ return x.first_name; }).join('، '))+row(t('school')||GL('École','المدرسة'),m.school||'')+row(t('city')||GL('Ville','المدينة'),m.city||'')+'</div>';
   document.body.insertAdjacentHTML('beforeend',h);
   var card=$('hovCard'), r=btn.getBoundingClientRect(), W=window.innerWidth, H=window.innerHeight, ch=card.offsetHeight, cw=card.offsetWidth;
   var x=Math.min(Math.max(12,r.left),W-cw-12), y=r.bottom+8; if(y+ch>H-12) y=Math.max(12,r.top-ch-8);
@@ -1812,6 +1812,12 @@ function bindHover(){
     b.onclick=(function(old){ return function(ev){ hovHide(); return old.call(this,ev); }; })(b.onclick);
   });
 }
+function sibsOf(m){ var k=phKey(m); if(!k) return []; return (S.gmembers||S.members||[]).filter(function(x){ return x.id!==m.id&&x.status!=='left'&&phKey(x)===k; }); }
+function sibBadge(m){
+  var sb=sibsOf(m); if(!sb.length) return '';
+  var links=sb.slice(0,2).map(function(x){ return '<button type="button" class="link" data-open="'+x.id+'" title="'+esc(x.last_name+' '+x.first_name)+'" style="font-size:12px;padding:0 3px;text-decoration:underline">'+esc(x.first_name)+'</button>'; }).join('·');
+  return '<div style="margin-top:3px;display:flex;align-items:center;gap:4px;flex-wrap:wrap"><span class="pill" style="font-size:11px;padding:1px 7px" title="'+esc(GL('Frères / sœurs (même téléphone)','إخوة (نفس رقم الهاتف)'))+'">👫 '+GL('Fratrie','إخوة')+' '+(sb.length+1)+'</span>'+links+(sb.length>2?'<span class="who" style="font-size:12px">+'+(sb.length-2)+'</span>':'')+'</div>';
+}
 function rowsHtml(q){
   S.qLast=q||'';
   var list=memFiltered(q);
@@ -1820,7 +1826,7 @@ function rowsHtml(q){
   return list.map(function(m){
     var c=catOf(m), di=docIssues(m);
     var del=canEditMembers()?'<button class="btn sm bad" data-del="'+m.id+'">'+(S.pendingDel===m.id?t('sure'):t('del'))+'</button>':'';
-    return '<tr><td><div style="display:flex;align-items:center;gap:10px">'+avatarHtml(m,36)+'<div><button class="link" data-open="'+m.id+'" data-hov="'+m.id+'"><b>'+esc(m.last_name)+' '+esc(m.first_name)+'</b></button><div class="who">'+codeStr(m)+'</div></div></div></td>'+
+    return '<tr><td><div style="display:flex;align-items:center;gap:10px">'+avatarHtml(m,36)+'<div><button class="link" data-open="'+m.id+'" data-hov="'+m.id+'"><b>'+esc(m.last_name)+' '+esc(m.first_name)+'</b></button><div class="who">'+codeStr(m)+'</div>'+sibBadge(m)+'</div></div></td>'+
       '<td>'+(c?esc(catLabel(c)):'—')+'</td>'+
       '<td>'+subPill(subState((S.lastEnd||{})[m.id]))+'</td>'+
       '<td class="num">'+esc(ageStrL(m.birth_date))+'</td>'+
@@ -2119,7 +2125,7 @@ function memberFormModal(m){
   S.photo = m ? (m.photo||'') : '';
   var body='<form id="fMem" novalidate>'+
    '<div style="display:flex;gap:14px;align-items:center;margin-bottom:14px"><img id="mPrev" alt="" '+(S.photo?'src="'+esc(S.photo)+'"':'')+' style="width:72px;height:72px;border-radius:18px;object-fit:cover;background:var(--inp);border:1px solid var(--line);'+(S.photo?'':'visibility:hidden')+'">'+
-   '<div style="display:flex;flex-direction:column;gap:6px"><label class="btn sm" for="mPhoto" style="cursor:pointer">'+t('photo')+'</label><input type="file" id="mPhoto" accept="image/*" hidden><button type="button" class="link" id="mPhotoDel">'+t('removePhoto')+'</button></div></div>'+
+   '<div style="display:flex;flex-direction:column;gap:6px"><label class="btn sm" for="mPhoto" style="cursor:pointer">'+t('photo')+'</label><input type="file" id="mPhoto" accept="image/*" hidden><button type="button" class="btn sm" id="mCam">'+GL('📷 Prendre une photo','📷 التقاط صورة بالكاميرا')+'</button><input type="file" id="mCamIn" accept="image/*" capture="user" hidden><button type="button" class="link" id="mPhotoDel">'+t('removePhoto')+'</button></div></div>'+
    '<div class="grid2">'+f('mFirst',t('first'),'text',v('first_name'))+f('mLast',t('last'),'text',v('last_name'))+
    '<div class="field"><label for="mGender">'+t('gender')+'</label><select id="mGender"><option value="">—</option><option value="M"'+(v('gender')==='M'?' selected':'')+'>'+t('male')+'</option><option value="F"'+(v('gender')==='F'?' selected':'')+'>'+t('female')+'</option></select></div>'+
    f('mBirth',t('birth'),'date',v('birth_date'))+f('mPhone',t('phone'),'tel',v('phone'))+f('mGName',t('gname'),'text',v('guardian_name'))+f('mGPhone',t('gphone'),'tel',v('guardian_phone'))+f('mGEmail',t('gemail'),'email',v('guardian_email'))+lselText('mGWork',t('gwork'),'work',v('guardian_work'),canEditMembers())+'</div>'+
@@ -2136,6 +2142,25 @@ function shrinkImg(file,max,q){
     im.onerror=function(){ rej(new Error('image')); }; im.src=u;
   });
 }
+function camShot(onShot,onFail){
+  if(!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia)){ onFail(); return; }
+  navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:1280},height:{ideal:960}},audio:false}).then(function(st){
+    var ov=document.createElement('div');
+    ov.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:16px';
+    ov.innerHTML='<div style="position:relative;width:min(92vw,420px);aspect-ratio:1/1;border-radius:20px;overflow:hidden;background:#000"><video autoplay playsinline muted style="width:100%;height:100%;object-fit:cover;transform:scaleX(-1)"></video></div>'+
+      '<div style="display:flex;gap:10px"><button type="button" class="btn pri" id="camOk" style="font-size:16px;padding:12px 26px">'+GL('Capturer','التقاط')+'</button><button type="button" class="btn" id="camNo" style="font-size:16px;padding:12px 22px">'+GL('Annuler','إلغاء')+'</button></div>';
+    document.body.appendChild(ov);
+    var v=ov.querySelector('video'); v.srcObject=st;
+    var stop=function(){ st.getTracks().forEach(function(t){ t.stop(); }); if(ov.parentNode) ov.parentNode.removeChild(ov); };
+    ov.querySelector('#camNo').onclick=stop;
+    ov.querySelector('#camOk').onclick=function(){
+      var w=v.videoWidth,h=v.videoHeight; if(!w||!h) return;
+      var side=Math.min(w,h), c=document.createElement('canvas'); c.width=c.height=side;
+      c.getContext('2d').drawImage(v,(w-side)/2,(h-side)/2,side,side,0,0,side,side);
+      c.toBlob(function(b){ stop(); if(b) onShot(b); },'image/jpeg',.9);
+    };
+  }).catch(function(){ onFail(); });
+}
 function bindMemberForm(editId){
   if(!$('fMem')) return;
   ['mSchool','mCity','mArea','mGWork'].forEach(bindLsel);
@@ -2148,6 +2173,9 @@ function bindMemberForm(editId){
       box.style.display='block'; box.textContent='⚠ '+GL('Ce numéro existe déjà : ','هذا الرقم مسجَّل مسبقاً: ')+hit.slice(0,4).map(function(x){ return (x.last_name||'')+' '+(x.first_name||''); }).join(' · ')+' — '+GL('même famille : la remise fratrie sera appliquée automatiquement. Vérifiez qu\'il ne s\'agit pas d\'un doublon.','نفس العائلة: يُطبَّق خصم الإخوة تلقائياً. تأكد أنه ليس تسجيلاً مكرراً.'); };
     ['mPhone','mGPhone'].forEach(function(id){ if($(id)){ $(id).addEventListener('input',chk); $(id).addEventListener('change',chk); } }); chk(); })();
   $('mPhoto').onchange=async function(){ var fl=this.files[0]; if(!fl) return; try{ S.photo=await shrinkImg(fl,360,.8); var p=$('mPrev'); p.src=S.photo; p.style.visibility='visible'; }catch(e){ $('mMsg').textContent=t('badImg'); } };
+  var setPh=async function(fl){ try{ S.photo=await shrinkImg(fl,360,.8); var p=$('mPrev'); p.src=S.photo; p.style.visibility='visible'; }catch(e){ $('mMsg').textContent=t('badImg'); } };
+  $('mCamIn').onchange=function(){ if(this.files[0]) setPh(this.files[0]); };
+  $('mCam').onclick=function(){ camShot(setPh,function(){ $('mCamIn').click(); }); };
   $('mPhotoDel').onclick=function(){ S.photo=''; var p=$('mPrev'); p.removeAttribute('src'); p.style.visibility='hidden'; };
   $('fMem').onsubmit=function(e){ e.preventDefault(); saveMember(editId); };
 }
