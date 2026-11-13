@@ -272,6 +272,20 @@ label.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;
 @keyframes fcFlip{0%{transform:rotateY(180deg) scale(.6);opacity:0}60%{opacity:1}100%{transform:rotateY(0) scale(1.06)}}
 @keyframes fcSpin{to{transform:rotate(360deg)}}@keyframes fcFade{from{opacity:0}}
 @media (prefers-reduced-motion:reduce){.fc-flip .fc,.fc-rays,.fc-reveal{animation:none}}
+.wk-dots{display:flex;gap:4px;flex:none}.wk-dots i{width:8px;height:8px;border-radius:4px;background:var(--surface2)}.wk-dots i.on{background:var(--accent)}.wk-dots i.td{box-shadow:0 0 0 2px var(--fg)}
+.kid-dot{display:inline-block;width:10px;height:10px;border-radius:5px;flex:none}
+.wkl{display:flex;flex-direction:column;gap:8px}
+.wkl-row{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px 12px}
+.wkl-row.td{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.wkl-row.none{background:transparent;border-style:dashed;align-items:center;padding:6px 12px}
+.wkl-row.past{opacity:.55}
+.wkl-d{width:44px;flex:none;display:flex;flex-direction:column;align-items:center;border-radius:12px;padding:4px 0;background:var(--surface2)}
+.wkl-d span{font-size:11px;font-weight:600;color:var(--muted)}.wkl-d b{font-size:19px;line-height:1.15}
+.wkl-d.td{background:var(--accent);color:var(--accent-ink)}.wkl-d.td span{color:inherit}
+.wkl-row.none .wkl-d{background:transparent}
+.wkl-none{font-size:13px;color:var(--muted)}
+.wkl-s{border-inline-start:4px solid var(--accent);padding-inline-start:10px;display:flex;flex-direction:column;gap:3px}
+.wkl-s.off{opacity:.7}
 </style>
 
 </head>
@@ -966,6 +980,7 @@ function vPaHome(){
   h+=paConvCard(c);
   if(nx){var q=approvedReq(nx.g.id,nx.date),nt=myNotice(c.id,nx.date),n=daysTo(nx.date);
     h+='<div class="pa-card row" style="gap:14px;align-items:center"><div class="pa-date"><span style="font-size:11px;font-weight:600">'+esc(shortDay(nx.date))+'</span><span style="font-size:20px;font-weight:700;line-height:1.1" class="num">'+parseYmd(nx.date).getDate()+'</span></div><div class="col" style="gap:3px;flex:1;min-width:0"><div class="small muted">'+t('nextOne')+'</div><div style="font-size:17px;font-weight:700'+(q?';text-decoration:line-through;color:var(--muted)':'')+'">'+esc(n<=1?whenLbl(nx.date):shortDay(nx.date))+' · <span class="num ltr">'+esc(nx.start)+'</span></div><div class="small muted">'+placeOf(nx)+(nx.moved?' · '+t('movedFrom')+' '+esc(fmtDate(nx.from,{day:'numeric',month:'short'})):'')+'</div></div>'+(q?reqPill(q):nt?'<span class="pill info">'+t('notified')+'</span>':'<span class="pill ok">'+esc(whenLbl(nx.date))+'</span>')+'</div>'}
+  h+=paWeekCard();
   if(p&&!p.err){var ms=attStats(monthAtt(c,ymNow())),sk=streaks(c),pct=ms.pct,dash=Math.round((pct||0)*1.634);
     h+='<div class="grid2"><button class="pa-card col" data-a="go" data-v="pa-prog" style="gap:8px;text-align:start"><svg width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="'+t('attShort')+' '+(pct==null?'—':pct+'%')+'"><circle cx="32" cy="32" r="26" fill="none" stroke="var(--surface2)" stroke-width="8"></circle><circle cx="32" cy="32" r="26" fill="none" stroke="#FF6A13" stroke-width="8" stroke-linecap="round" stroke-dasharray="'+dash+' 164" transform="rotate(-90 32 32)"></circle><text x="32" y="37" text-anchor="middle" font-size="15" font-weight="700" fill="currentColor">'+(pct==null?'—':pct+'%')+'</text></svg><b>'+t('attShort')+'</b><span class="small muted">'+esc(fmtYm(ymNow()))+(ms.held?' · '+ms.ok+' / '+ms.held:'')+'</span></button>'+
       '<button class="pa-card col" data-a="go" data-v="pa-prog" style="gap:8px;text-align:start"><span class="pa-icon" style="width:64px;height:64px;border-radius:32px">'+I.flame+'</span><b>'+(sk.cur>=2?(L()?sk.cur+' '+t('inARow'):nSess(sk.cur)+' متتالية'):sk.cur===1?t('streakOne'):t('streakNone'))+'</b><span class="small muted">'+t('bestStreak')+' <span class="num">'+sk.best+'</span></span></button></div>';
@@ -1797,8 +1812,53 @@ async function act20(a,el,id,v){
   return false
 }
 
+/* ---------- 021: جدول الأسبوع للولي والرياضي ---------- */
+Object.assign(T,{
+ paWeek:['جدول الأسبوع','Planning de la semaine'], nextWeek:['الأسبوع القادم','Semaine prochaine'], lastWeek:['الأسبوع الماضي','Semaine dernière'],
+ noSessDay:['لا حصة','Pas de séance'], wkTotal:['حصص','séances'], wkHours:['ساعات','heures'], wkNone:['لا حصص في هذا الأسبوع.','Aucune séance cette semaine.'],
+ wkSeeAll:['كل حصص الأسبوع','Toutes les séances de la semaine'], wkCount1:['حصة واحدة هذا الأسبوع','1 séance cette semaine'], wkCountN:['حصص هذا الأسبوع','séances cette semaine'],
+ todayLbl:['اليوم','Aujourd’hui'], wkFromCoach:['الأوقات كما وضعتها إدارة النادي. أي تغيير يظهر هنا تلقائياً.','Horaires fixés par le club. Tout changement apparaît ici automatiquement.']
+});
+var KID_COL=['#FF6A13','#2E86DE','#22A866','#B455D6','#E0A800'];
+function paWeekData(off){
+  var d0=addDays(monday(todayY()),off*7),days=[],mv=movesList(),tot=0,tm=0,cs=S.children||[];
+  for(var i=0;i<7;i++){var dt=addDays(d0,i),map={},l=[];
+    cs.forEach(function(c,ci){sessionsOn(dt,childGroups(c),mv).forEach(function(x){var k=x.g.id+'|'+x.start;if(!map[k]){x.st=sessStatus(x,mv);x.kids=[];map[k]=x;l.push(x)}map[k].kids.push({c:c,i:ci})})});
+    l.sort(function(a,b){return mins(a.start)-mins(b.start)});
+    l.forEach(function(x){if(!x.st.cancel&&!x.st.postponed){tot++;tm+=x.mins}});
+    days.push({d:dt,l:l})}
+  return {d0:d0,d6:addDays(d0,6),days:days,tot:tot,tm:tm}
+}
+function paWeekCard(){
+  var w=paWeekData(0),rest=0,ty=todayY();w.days.forEach(function(x){if(x.d>=ty)x.l.forEach(function(s){if(!s.st.cancel&&!s.st.postponed)rest++})});
+  return '<button class="pa-card row" data-a="go" data-v="pa-week" style="gap:14px;align-items:center;text-align:start"><span class="pa-icon">'+I.cal+'</span><div class="col" style="gap:2px;flex:1;min-width:0"><b>'+t('paWeek')+'</b><span class="small muted">'+(w.tot===1?t('wkCount1'):'<span class="num">'+w.tot+'</span> '+t('wkCountN'))+'</span></div><span class="wk-dots" aria-hidden="true">'+w.days.map(function(x){var on=x.l.some(function(s){return !s.st.cancel&&!s.st.postponed});return '<i class="'+(on?'on':'')+(x.d===ty?' td':'')+'"></i>'}).join('')+'</span></button>'
+}
+function vPaWeek(){
+  var gd=parentGuard('pa-home');if(gd)return gd;
+  var off=S.paw||0,w=paWeekData(off),ty=todayY(),multi=(S.children||[]).length>1;
+  var lbl=off===0?t('thisWeek'):off===1?t('nextWeek'):off===-1?t('lastWeek'):'';
+  var h='<div class="row">'+backBtn('pa-home')+'<h1 style="flex:1">'+t('paWeek')+'</h1></div>'+errCard();
+  h+='<div class="between pa-card" style="padding:8px 10px"><button class="icon-btn" data-a="paw" data-v="-1" aria-label="'+t('lastWeek')+'"'+(off<=-1?' disabled':'')+' style="'+(L()?'transform:scaleX(-1)':'')+'">'+I.arrow+'</button><div class="col" style="gap:0;align-items:center"><b>'+esc(lbl||'')+'</b><span class="small muted">'+esc(fmtDate(w.d0,{day:'numeric',month:'short'})+' – '+fmtDate(w.d6,{day:'numeric',month:'short'}))+'</span></div><button class="icon-btn" data-a="paw" data-v="1" aria-label="'+t('nextWeek')+'"'+(off>=3?' disabled':'')+' style="'+(L()?'':'transform:scaleX(-1)')+'">'+I.arrow+'</button></div>';
+  h+='<div class="grid2"><div class="pa-card col" style="gap:0;align-items:center"><b class="num" style="font-size:24px">'+w.tot+'</b><span class="small muted">'+t('wkTotal')+'</span></div><div class="pa-card col" style="gap:0;align-items:center"><b class="num" style="font-size:24px">'+(Math.round(w.tm/6)/10)+'</b><span class="small muted">'+t('wkHours')+'</span></div></div>';
+  if(multi)h+='<div class="row" style="gap:12px;flex-wrap:wrap">'+(S.children||[]).map(function(c,i){return '<span class="row small" style="gap:6px"><i class="kid-dot" style="background:'+KID_COL[i%KID_COL.length]+'"></i>'+esc(c.first_name||pname(c))+'</span>'}).join('')+'</div>';
+  if(!w.tot&&!w.days.some(function(x){return x.l.length}))h+='<div class="card empty">'+t('wkNone')+'</div>';
+  h+='<div class="wkl">'+w.days.map(function(x){var td=x.d===ty,past=x.d<ty,dd=parseYmd(x.d);
+    var head='<div class="wkl-d'+(td?' td':'')+'"><span>'+esc(fmtDate(x.d,{weekday:'short'}))+'</span><b class="num">'+dd.getDate()+'</b></div>';
+    if(!x.l.length)return '<div class="wkl-row none'+(past?' past':'')+'">'+head+'<div class="wkl-none">'+(td?t('todayLbl')+' · ':'')+t('noSessDay')+'</div></div>';
+    return '<div class="wkl-row'+(past?' past':'')+(td?' td':'')+'">'+head+'<div class="col" style="gap:8px;flex:1;min-width:0">'+x.l.map(function(s){
+      var off2=s.st.cancel||s.st.postponed,nt=s.kids.some(function(k){return myNotice(k.c.id,s.date)});
+      var pill=s.st.cancel?'<span class="pill bad">'+t('rq_cancel')+'</span>':s.st.postponed?'<span class="pill info">'+t('rq_moved')+' '+esc(fmtDate(s.st.postponed,{weekday:'short',day:'numeric',month:'short'}))+(s.st.time?' <span class="num ltr">'+esc(s.st.time)+'</span>':'')+'</span>':s.moved?'<span class="pill info">'+t('movedFrom')+' '+esc(fmtDate(s.from,{day:'numeric',month:'short'}))+'</span>':nt?'<span class="pill info">'+t('notified')+'</span>':'';
+      return '<div class="wkl-s'+(off2?' off':'')+'" style="border-inline-start-color:'+(multi?KID_COL[s.kids[0].i%KID_COL.length]:'var(--accent)')+'"><div class="between" style="gap:8px;flex-wrap:wrap"><b class="num ltr" style="white-space:nowrap;'+(off2?'text-decoration:line-through':'')+'">'+esc(timesOf(s))+'</b>'+pill+'</div><div class="small muted">'+esc(s.g.name||'')+(s.g.coach?' · '+t('coachLbl')+' '+esc(s.g.coach):'')+' · '+placeOf(s)+'</div>'+(multi?'<div class="row small" style="gap:10px;flex-wrap:wrap">'+s.kids.map(function(k){return '<span class="row" style="gap:5px"><i class="kid-dot" style="background:'+KID_COL[k.i%KID_COL.length]+'"></i>'+esc(k.c.first_name||'')+'</span>'}).join('')+'</div>':'')+'</div>'}).join('')+'</div></div>'}).join('')+'</div>';
+  h+='<p class="small muted" style="text-align:center">'+t('wkFromCoach')+'</p>';
+  return wrap(h)+tabs('pa-home')
+}
+async function act21(a,el,id,v){
+  if(a==='paw'){S.paw=Math.max(-1,Math.min(3,(S.paw||0)+(+v)));return true}
+  return false
+}
+
 var root=document.getElementById('root');
-var VIEWS={'c-meas':vCMeas,'o-sizes':vOSizes,'c-ath':vCAth,'c-inj':vCInj,'c-dash':vCDash,'o-inj':vOInj,'o-coach':vOCoach,'o-health':vOHealth,'pa-conv':vPaConv,'pa-note':vPaNote,notes:vNotes,'o-conv':vOConv,'o-convnew':vOConvNew,'o-docs':vODocs,'pa-prog':vPaProg,'pa-ach':vPaAch,'pa-card':vPaCard,'b-home':vBHome,'b-req':vBReq,'h-home':vHHome,'h-act':vHAct,'p-home':vPHome,'p-log':vPLog,'t-cash':vTCash,'t-chq':vTChq,login:vLogin,activate:vActivate,norole:vNoRole,today:vToday,attend:vAttend,groups:vGroups,requests:vRequests,'pa-home':vPaHome,'pa-notifs':vPaNotifs,'pa-att':vPaAtt,'pa-sub':vPaSub,'pa-docs':vPaDocs,account:vAccount};
+var VIEWS={'pa-week':vPaWeek,'c-meas':vCMeas,'o-sizes':vOSizes,'c-ath':vCAth,'c-inj':vCInj,'c-dash':vCDash,'o-inj':vOInj,'o-coach':vOCoach,'o-health':vOHealth,'pa-conv':vPaConv,'pa-note':vPaNote,notes:vNotes,'o-conv':vOConv,'o-convnew':vOConvNew,'o-docs':vODocs,'pa-prog':vPaProg,'pa-ach':vPaAch,'pa-card':vPaCard,'b-home':vBHome,'b-req':vBReq,'h-home':vHHome,'h-act':vHAct,'p-home':vPHome,'p-log':vPLog,'t-cash':vTCash,'t-chq':vTChq,login:vLogin,activate:vActivate,norole:vNoRole,today:vToday,attend:vAttend,groups:vGroups,requests:vRequests,'pa-home':vPaHome,'pa-notifs':vPaNotifs,'pa-att':vPaAtt,'pa-sub':vPaSub,'pa-docs':vPaDocs,account:vAccount};
 function render(){
   applyPrefs();
   if(S.view==='boot'){root.innerHTML='<div class="sx-splash"><div></div><div class="col" style="align-items:center;gap:20px">'+I.sxAnim+'<div class="s-text col" style="align-items:center;gap:6px"><div class="sx-name">SYNOX <span>GYM</span></div><div class="sx-ar">سينوكس جيم</div></div></div><div class="col" style="align-items:center;gap:14px"><div class="sx-track"><div class="s-bar"></div></div><div class="sx-club">Mejerda Sport · Medjez El Bab</div></div></div>';return}
@@ -1853,6 +1913,7 @@ root.addEventListener('click',async function(e){
   if(await act18(a,el,id,v)){render();return}
   if(await act19(a,el,id,v)){render();return}
   if(await act20(a,el,id,v)){render();return}
+  if(await act21(a,el,id,v)){render();return}
   if(a==='theme'){prefs.theme=isDark()?'light':'dark';store('sxm-prefs',prefs)}
   else if(a==='lang'){prefs.lang=v;store('sxm-prefs',prefs)}
   else if(a==='go'){S.view=v;S.formErr='';S.code=null;window.scrollTo(0,0);if(['requests','p-home','p-log','t-cash','t-chq'].indexOf(v)>=0){render();await loadOffice()}if(v==='b-home'||v==='b-req'){render();await loadBranch()}if(v==='h-home'||v==='h-act'){render();await loadBoard()}if(v==='today'){await loadCoach()}if(v==='account'&&S.role==='coach'){render();await loadCoachMonth()}if(v==='groups'&&S.role==='coach'){render();loadConvList()}if(v==='notes'){S.gn=null}if(v==='o-conv'){render();await loadConvList()}if(v==='o-convnew'){S.formErr=''}if(v==='o-docs'){S.dr=null;render();await loadDocPend()}if(v==='c-dash'){S.cs=null}if(v==='o-inj'){S.il=null;S.ic=null}if(v==='o-health'){S.hl=null;S.hf=null;S.formErr=''}if(v==='o-coach'){S.fu=null}if(v==='c-meas'){S.gm=null}if(v==='o-sizes'){S.sz=null}if(v==='pa-conv'){render();await loadConvP()}if((v==='pa-docs'||v==='pa-note')&&S.childId){render();await loadChildExtra(S.childId)}}
