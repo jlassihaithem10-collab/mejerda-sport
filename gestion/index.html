@@ -5402,6 +5402,7 @@ function sxPinSlip(m,pin){
     '<div style="margin:3mm 0 1mm;font-weight:700">'+esc(GL('Accès parent à l\'application','حساب الولي في تطبيق النادي'))+'</div>'+
     '<div style="border:1px solid #000;border-radius:3mm;padding:3mm;margin:2mm 0">'+
       '<div>'+esc(GL('Athlète','الرياضي'))+' : <b>'+who+'</b></div>'+
+      (function(){ var sb=sibsOf(m); return sb.length?'<div style="font-size:9pt;margin-top:1mm">'+esc(GL('Aussi dans ce compte (fratrie)','وأيضاً في هذا الحساب (الإخوة)'))+' : <b>'+esc(sb.map(function(x){ return x.first_name; }).join('، '))+'</b></div>':''; })()+
       '<div style="margin-top:2mm">'+esc(GL('Identifiant','المعرّف'))+'</div><div dir="ltr" style="font-size:20pt;font-weight:700;letter-spacing:1mm">'+esc(id)+'</div></div>'+
     '<div style="display:flex;gap:3mm;align-items:center;justify-content:center;margin:2mm 0"><div style="width:22mm;height:22mm">'+sxQ(SX_APP_URL)+'</div><div style="text-align:start;font-size:9pt">'+esc(GL('Ouvrez','افتح'))+'<br><b dir="ltr">'+esc(url)+'</b><br>'+esc(GL('ou scannez le QR','أو امسح الرمز'))+'</div></div>'+
     '<div style="border-top:1px dashed #000;margin:4mm 0 1mm;padding-top:1mm;font-size:8pt">✂ '+esc(GL('Pliez ici pour cacher le code','اطوِ هنا لإخفاء الرمز'))+' ✂</div>'+
