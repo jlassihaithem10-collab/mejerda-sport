@@ -1317,7 +1317,7 @@ body.has-spot #accueil>.wrap,body.has-spot #accueil .hero-grid{position:relative
       if(bt){bd=h("div",{class:"nbody"+(lng?" clamp":"")});mdNodes(bt).forEach(function(x){bd.appendChild(x)})}
       if(lng){mb=h("button",{class:"btn outline sm more",type:"button","aria-expanded":"false",text:tt("readMore")});
         mb.addEventListener("click",function(){var c=bd.classList.toggle("clamp");mb.textContent=tt(c?"readMore":"readLess");mb.setAttribute("aria-expanded",String(!c))})}
-      C.appendChild(h("article",{class:"card"+(lng?" long":""),"data-cat":cat},[
+      C.appendChild(h("article",{class:"card"+(lng||bt.length>300?" long":""),"data-cat":cat},[
         h("span",{class:"tag",text:tag}),
         h("h3",{style:"margin-top:12px",text:ml(n.title)}),bd,mb]));
     });
