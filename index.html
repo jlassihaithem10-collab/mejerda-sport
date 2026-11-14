@@ -504,6 +504,26 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
 .social a[data-net=youtube] svg{color:#FF0000}
 .social a[data-net=tiktok] svg,.social a[data-net=x] svg{color:#111}
 .social.foot a svg{color:#fff!important}
+
+/* spotlight band */
+#fakhr{background:linear-gradient(120deg,#00204f 0%,#00307a 100%);color:#fff;padding:0;overflow:hidden;position:relative}
+#fakhr.nospot{display:none!important}
+#fakhr .fk{position:static;display:block;padding:0 20px;min-height:440px}
+#fakhr .fk-ph{position:absolute;top:0;bottom:0;inset-inline-end:0;width:54%;margin:0}
+#fakhr .fk-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 15%;display:block;--fade:to left;
+ -webkit-mask-image:linear-gradient(var(--fade),transparent 0%,#000 55%),linear-gradient(to top,transparent 0%,#000 25%),linear-gradient(to bottom,transparent 0%,#000 30%);-webkit-mask-composite:source-in;
+ mask-image:linear-gradient(var(--fade),transparent 0%,#000 55%),linear-gradient(to top,transparent 0%,#000 25%),linear-gradient(to bottom,transparent 0%,#000 30%);mask-composite:intersect}
+html[dir=ltr] #fakhr .fk-ph img{--fade:to right}
+#fakhr .fk-tx{position:relative;z-index:1;max-width:44%;padding:70px 0;min-height:440px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+#fakhr .fk-tx h2{font-size:clamp(1.8rem,3.4vw,2.7rem);line-height:1.25;margin:0 0 14px;color:#fff;font-weight:800}
+#fakhr .fk-tx p{font-size:1.15rem;margin:0 0 24px;opacity:.95;color:#fff}
+#fakhr .fk-tx .btn{background:var(--gold);color:var(--gold-ink);font-weight:700;border-radius:999px;padding:12px 26px}
+body.has-spot #accueil{position:relative}
+body.has-spot #accueil:after{content:"";position:absolute;inset-inline:0;bottom:0;height:200px;background:linear-gradient(to bottom,rgba(0,32,79,0),#00204f 92%);pointer-events:none;z-index:0}
+body.has-spot #accueil>.wrap,body.has-spot #accueil .hero-grid{position:relative;z-index:1}
+@media(max-width:700px){#fakhr .fk{min-height:0}#fakhr .fk-ph{position:relative;inset:auto;width:auto;height:340px;margin:0 -20px}
+#fakhr .fk-ph img{-webkit-mask-image:linear-gradient(to top,transparent 0%,#000 35%),linear-gradient(to bottom,transparent 0%,#000 18%);mask-image:linear-gradient(to top,transparent 0%,#000 35%),linear-gradient(to bottom,transparent 0%,#000 18%)}
+#fakhr .fk-tx{max-width:none;min-height:0;margin:-60px 0 0;padding:0 0 32px}}
 </style>
 
 <header>
@@ -568,6 +588,8 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     </div>
   </div>
 </div>
+
+<section id="fakhr" data-page="home" class="nospot"><div class="wrap fk"><figure class="fk-ph"><img id="fkImg" src="" alt=""></figure><div class="fk-tx"><h2 id="fkT"></h2><p id="fkN"></p><a class="btn" id="fkB" href="#actus"></a></div></div></section>
 
 <section id="decouvrir" data-page="home">
   <div class="wrap">
@@ -1145,13 +1167,13 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
   function fmt(iso,opt,fb){if(!isDate(iso))return fb||"";try{return new Intl.DateTimeFormat(loc(),opt).format(new Date(iso+"T12:00:00"))}catch(e){return iso}}
   function imgSrc(s){
     if(IMGS[s])return IMGS[s];
-    return (typeof s==="string"&&(s.indexOf(SB+"/storage/v1/object/public/site-media/")===0||/^\/img\/players\/[\w-]+\.jpg$/.test(s)))?s:"";
+    return (typeof s==="string"&&(s.indexOf(SB+"/storage/v1/object/public/site-media/")===0||/^\/img\/(?:players\/)?[\w-]+\.jpg$/.test(s)))?s:"";
   }
   function safeUrl(u){return (typeof u==="string"&&/^https?:\/\//i.test(u))?u:""}
 
   var DEF=JSON.parse($("#defaults").textContent);
   function normalize(d){
-    ["schedule","team","links","sponsors","players","achievements","videos"].forEach(function(k){if(!Array.isArray(d[k]))d[k]=clone(DEF[k]||[])});
+    ["schedule","team","links","sponsors","players","achievements","videos","spotlight"].forEach(function(k){if(!Array.isArray(d[k]))d[k]=clone(DEF[k]||[])});
     if(!("appUrl" in d.contact))d.contact.appUrl=DEF.contact.appUrl;
     if(!d.texts||typeof d.texts!=="object"||Array.isArray(d.texts))d.texts={};
     return d;
@@ -1272,6 +1294,18 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     return out;
   }
   var newsTotal=0;
+  function renderSpotlight(){
+    var sec=document.getElementById("fakhr");if(!sec)return;
+    var it=(DATA.spotlight||[]).filter(function(x){return !x.hide&&(ml(x.title)||"")})[0];
+    if(!it){sec.classList.add("nospot");document.body.classList.remove("has-spot");return}
+    var im=imgSrc(it.photo);
+    document.getElementById("fkT").textContent=ml(it.title);
+    document.getElementById("fkN").textContent=ml(it.note);
+    var img=document.getElementById("fkImg");if(im){img.src=im;img.alt=ml(it.title)}else img.removeAttribute("src");
+    var b=document.getElementById("fkB");b.textContent={ar:"اقرأ القصة",fr:"Lire l'histoire",en:"Read the story"}[lang]||"Lire l'histoire";
+    var u=safeUrl(it.url);b.setAttribute("href",u||"#actus");b.style.display=u?"":"none";if(u){b.setAttribute("target","_blank");b.setAttribute("rel","noopener")}else{b.removeAttribute("target");b.removeAttribute("rel")}
+    sec.classList.remove("nospot");document.body.classList.add("has-spot");
+  }
   function renderNews(){
     var C=$("#news");C.textContent="";
     var list=DATA.news.slice().sort(function(a,b){return (b.date||"").localeCompare(a.date||"")});
@@ -1606,7 +1640,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
   }
   function renderAll(){
     applyTexts();renderPlayersLink();
-    renderDisc();renderNews();renderEvents();renderGallery();renderContact();renderSchedule();renderTeam();renderMembers();renderSponsors();renderLive();loadWeather();renderMaps();
+    renderDisc();renderSpotlight();renderNews();renderEvents();renderGallery();renderContact();renderSchedule();renderTeam();renderMembers();renderSponsors();renderLive();loadWeather();renderMaps();
     if(curPage==="admin")renderAdmin();
   }
 
@@ -1663,9 +1697,9 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     uploading:"جارٍ رفع الصورة…",eUpload:"فشل رفع الصورة.",pwNew:"كلمة سر جديدة (8 أحرف على الأقل)",pwSave:"تغيير كلمة السر",pwDone:"تم تغيير كلمة السر.",pwErr:"كلمة السر قصيرة أو مرفوضة.",thome:"لوحة القيادة",tsponsors:"الداعمون",fLogo:"الشعار",sponsorsNote:"لا تنشر شعار شركة إلا بموافقتها. يبقى القسم مخفيًا ما دام لا يوجد داعمون.",tschedule:"التوقيت",tteam:"الفريق",tlinks:"روابط الإدارة",fSDisc:"الاختصاص",fDay:"اليوم",fFrom:"من",fTo:"إلى",fGroup:"المجموعة / الفئة",fName:"الاسم",fRole:"الصفة",fSection:"القسم",fUrl:"الرابط (https://…)",fApp:"رابط تطبيق الأعضاء",open:"فتح",eName:"أدخل اسمًا.",eDisc:"اختر اختصاصًا.",eTime:"أدخل ساعة البداية.",linksNote:"روابط خاصة بالإدارة (تطبيق النادي وأدواته). لا تضع هنا أي كلمة سر."}
   };
   var XADD={
-    fr:{tplayers:"Joueurs",tachievements:"Palmarès",tvideos:"Vidéos",fNo:"Numéro de dossard",fLevel:"Catégorie ou niveau (ex. U10, Poussins)",fBio:"Petit mot (facultatif)",fFeat:"Joueur du mois",fThumb:"Image de la vidéo (facultatif)",fVideoUrl:"Lien Facebook de la vidéo",playersNote:"N'affichez que les enfants dont les parents ont donné leur accord écrit. Prénom + initiale du nom seulement.",eVideo:"Entrez un lien valide (https://…)."},
-    en:{tplayers:"Players",tachievements:"Achievements",tvideos:"Videos",fNo:"Bib number",fLevel:"Category or level (e.g. U10)",fBio:"Short note (optional)",fFeat:"Player of the month",fThumb:"Video thumbnail (optional)",fVideoUrl:"Facebook video link",playersNote:"Only show children whose parents gave written consent. First name + initial only.",eVideo:"Enter a valid link (https://…)."},
-    ar:{tplayers:"اللاعبون",tachievements:"الإنجازات",tvideos:"الفيديوهات",fNo:"رقم اللاعب",fLevel:"الفئة أو المستوى (مثل U10 أو أصاغر)",fBio:"كلمة قصيرة (اختياري)",fFeat:"لاعب الشهر",fThumb:"صورة الفيديو (اختياري)",fVideoUrl:"رابط الفيديو على فيسبوك",playersNote:"أظهر فقط الأطفال الذين وافق أولياؤهم كتابياً. الاسم الأول وحرف من اللقب فقط.",eVideo:"أدخل رابطاً صحيحاً (https://…)."}
+    fr:{tspotlight:"À la une (accueil)",tplayers:"Joueurs",tachievements:"Palmarès",tvideos:"Vidéos",fNo:"Numéro de dossard",fLevel:"Catégorie ou niveau (ex. U10, Poussins)",fBio:"Petit mot (facultatif)",fFeat:"Joueur du mois",fThumb:"Image de la vidéo (facultatif)",fVideoUrl:"Lien Facebook de la vidéo",playersNote:"N'affichez que les enfants dont les parents ont donné leur accord écrit. Prénom + initiale du nom seulement.",eVideo:"Entrez un lien valide (https://…)."},
+    en:{tspotlight:"Homepage spotlight",tplayers:"Players",tachievements:"Achievements",tvideos:"Videos",fNo:"Bib number",fLevel:"Category or level (e.g. U10)",fBio:"Short note (optional)",fFeat:"Player of the month",fThumb:"Video thumbnail (optional)",fVideoUrl:"Facebook video link",playersNote:"Only show children whose parents gave written consent. First name + initial only.",eVideo:"Enter a valid link (https://…)."},
+    ar:{tspotlight:"شريط الواجهة (الاستقبال)",tplayers:"اللاعبون",tachievements:"الإنجازات",tvideos:"الفيديوهات",fNo:"رقم اللاعب",fLevel:"الفئة أو المستوى (مثل U10 أو أصاغر)",fBio:"كلمة قصيرة (اختياري)",fFeat:"لاعب الشهر",fThumb:"صورة الفيديو (اختياري)",fVideoUrl:"رابط الفيديو على فيسبوك",playersNote:"أظهر فقط الأطفال الذين وافق أولياؤهم كتابياً. الاسم الأول وحرف من اللقب فقط.",eVideo:"أدخل رابطاً صحيحاً (https://…)."}
   };
   Object.keys(XADD).forEach(function(l){Object.keys(XADD[l]).forEach(function(k){XT[l][k]=XADD[l][k]})});
   function X(k){var t=XT[lang]||XT.fr;return (k in t)?t[k]:XT.fr[k]||k}
@@ -1678,6 +1712,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     team:[["name","text"],["role","ml"],["grp","grp"],["photo","photo"]],
     links:[["title","ml"],["url","url"]],
     sponsors:[["title","ml"],["url","url"],["logo","photo"]],
+    spotlight:[["title","ml"],["note","ml"],["photo","photo"],["url","url"]],
     players:[["name","text"],["disc","disc"],["level","text"],["no","text"],["photo","photo"],["bio","ml"],["feat","check"]],
     achievements:[["date","date"],["title","ml"],["note","ml"]],
     videos:[["url","url"],["title","ml"],["thumb","photo"]]
@@ -1716,7 +1751,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     if(kind==="schedule")return dayName(it.day)+" "+it.from+(it.to?" – "+it.to:"");
     return ml(it.title)||"—";
   }
-  function thumbOf(kind,it){return kind==="gallery"?imgSrc(it.src):(kind==="team"||kind==="players")?imgSrc(it.photo):kind==="videos"?imgSrc(it.thumb):kind==="sponsors"?imgSrc(it.logo):""}
+  function thumbOf(kind,it){return kind==="gallery"?imgSrc(it.src):(kind==="team"||kind==="players"||kind==="spotlight")?imgSrc(it.photo):kind==="videos"?imgSrc(it.thumb):kind==="sponsors"?imgSrc(it.logo):""}
   function eyeSvg(open){
     var NS="http://www.w3.org/2000/svg",sv=document.createElementNS(NS,"svg");
     sv.setAttribute("viewBox","0 0 24 24");sv.setAttribute("width","20");sv.setAttribute("height","20");sv.setAttribute("fill","none");sv.setAttribute("stroke","currentColor");sv.setAttribute("stroke-width","2");sv.setAttribute("stroke-linecap","round");sv.setAttribute("stroke-linejoin","round");sv.setAttribute("aria-hidden","true");
@@ -1733,6 +1768,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
     if(kind==="players")return [discTitle(it.disc),it.level,it.no?"#"+it.no:"",it.feat?X("fFeat"):"",it.hide?X("hiddenTag"):""].filter(Boolean).join(" · ");
     if(kind==="achievements")return fmt(it.date,{day:"numeric",month:"long",year:"numeric"},it.date)||"";
     if(kind==="videos")return (it.hide?X("hiddenTag")+" · ":"")+(it.url||"");
+    if(kind==="spotlight")return (it.hide?X("hiddenTag")+" · ":"")+ml(it.note);
     if(kind==="schedule")return [discTitle(it.disc),it.place,it.group].filter(Boolean).join(" · ");
     if(kind==="team")return [tt(it.grp==="board"?"tBoard":"tCoach"),ml(it.role)].filter(Boolean).join(" · ");
     if(kind==="links"||kind==="sponsors")return it.url||"";
@@ -1858,9 +1894,9 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
         h("button",{class:"btn outline sm",type:"button",text:X("restore"),on:{click:function(){DATA=normalize(aDraft);aDraft=null;dirty=true;renderAll()}}})," ",
         h("button",{class:"btn outline sm",type:"button",text:X("ignore"),on:{click:function(){aDraft=null;try{sessionStorage.removeItem(DK)}catch(e){}renderAdmin()}}})]));
     }
-    var ICON={stats:"M4 20V10M10 20V4M16 20v-7M22 20H2",print:"M7 8V3h10v5M7 17H4v-7h16v7h-3M7 14h10v7H7z",home:"M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z",requests:"M4 4h16v12H5.2L4 17.2zM8 9h8M8 12h5",news:"M5 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V5zM8 8h8M8 12h8M8 16h4",events:"M4 6h16v14H4zM4 10h16M9 3v5M15 3v5",schedule:"M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2",disciplines:"M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3",team:"M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c0-3.3 2.9-5.5 6.5-5.5s6.5 2.2 6.5 5.5M17 11a3 3 0 1 0 0-6M18 14.7c2 .6 3.5 2.3 3.5 5.3",players:"M12 4a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zM5 21c0-3.6 3-6 7-6s7 2.4 7 6",achievements:"M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM8.5 14l-1.5 7 5-3 5 3-1.5-7",videos:"M4 5h16v14H4zM10 9v6l5-3z",gallery:"M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4M9 9.5a1 1 0 1 0 0-.01",texts:"M5 5h14M12 5v14M9 19h6",contact:"M4 5h16v14H4zM4 7l8 6 8-6",sponsors:"M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z",links:"M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1",account:"M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"};
+    var ICON={stats:"M4 20V10M10 20V4M16 20v-7M22 20H2",print:"M7 8V3h10v5M7 17H4v-7h16v7h-3M7 14h10v7H7z",home:"M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z",requests:"M4 4h16v12H5.2L4 17.2zM8 9h8M8 12h5",news:"M5 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V5zM8 8h8M8 12h8M8 16h4",events:"M4 6h16v14H4zM4 10h16M9 3v5M15 3v5",schedule:"M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2",disciplines:"M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3",team:"M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c0-3.3 2.9-5.5 6.5-5.5s6.5 2.2 6.5 5.5M17 11a3 3 0 1 0 0-6M18 14.7c2 .6 3.5 2.3 3.5 5.3",spotlight:"M4 5h16v10H4zM8 19h8M12 15v4",players:"M12 4a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zM5 21c0-3.6 3-6 7-6s7 2.4 7 6",achievements:"M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM8.5 14l-1.5 7 5-3 5 3-1.5-7",videos:"M4 5h16v14H4zM10 9v6l5-3z",gallery:"M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4M9 9.5a1 1 0 1 0 0-.01",texts:"M5 5h14M12 5v14M9 19h6",contact:"M4 5h16v14H4zM4 7l8 6 8-6",sponsors:"M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z",links:"M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1",account:"M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"};
     function ico(t){var sp=document.createElement("span");sp.className="sico";sp.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="'+ICON[t]+'"/></svg>';return sp}
-    var GROUPS=[["gOv",["home","requests","stats","print"]],["gCt",["news","events","schedule","disciplines","players","achievements","videos","team","sponsors","gallery"]],["gSt",["texts","contact","links"]],["gAc",["account"]]];
+    var GROUPS=[["gOv",["home","requests","stats","print"]],["gCt",["spotlight","news","events","schedule","disciplines","players","achievements","videos","team","sponsors","gallery"]],["gSt",["texts","contact","links"]],["gAc",["account"]]];
     var shell=h("div",{class:"adm-shell"+(navOpen?" open":"")}),side=h("aside",{class:"adm-side",id:"admSide"}),M=h("div",{class:"adm-main"});
     var nNew=REQS?REQS.filter(function(r){return r.status==="new"}).length:0;
     GROUPS.forEach(function(g){
@@ -1905,7 +1941,7 @@ main .card:not(.adm-form):not(details):hover{transform:translateY(-4px);box-shad
           h("div",null,[h("b",{text:itemTitle(aTab,it)}),meta?h("small",{text:meta}):null]),
           h("div",{class:"adm-acts"},[
             (aTab==="links"||aTab==="sponsors"||aTab==="videos")&&safeUrl(it.url)?h("a",{class:"btn dark sm",href:safeUrl(it.url),target:"_blank",rel:"noopener",text:X("open")}):null,
-            (aTab==="disciplines"||aTab==="players"||aTab==="videos")?h("button",{class:"btn outline sm adm-eye"+(it.hide?" off":""),type:"button","aria-label":it.hide?X("eyeShow"):X("eyeHide"),title:it.hide?X("eyeShow"):X("eyeHide"),"aria-pressed":it.hide?"false":"true",on:{click:function(){if(it.hide)delete it.hide;else it.hide=true;markDirty()}}},[eyeSvg(!it.hide)]):null,
+            (aTab==="disciplines"||aTab==="players"||aTab==="videos"||aTab==="spotlight")?h("button",{class:"btn outline sm adm-eye"+(it.hide?" off":""),type:"button","aria-label":it.hide?X("eyeShow"):X("eyeHide"),title:it.hide?X("eyeShow"):X("eyeHide"),"aria-pressed":it.hide?"false":"true",on:{click:function(){if(it.hide)delete it.hide;else it.hide=true;markDirty()}}},[eyeSvg(!it.hide)]):null,
             h("button",{class:"btn outline sm",type:"button",text:X("edit"),on:{click:function(){aEdit={kind:aTab,id:it.id};aDel=null;renderAdmin()}}}),
             h("button",{class:"btn danger sm"+(conf?" confirm":""),type:"button",text:conf?X("sure"):X("del"),on:{click:function(){
               if(!conf){aDel=key;renderAdmin();return}
