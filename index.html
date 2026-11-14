@@ -1303,7 +1303,7 @@ body.has-spot #accueil>.wrap,body.has-spot #accueil .hero-grid{position:relative
     document.getElementById("fkN").textContent=ml(it.note);
     var img=document.getElementById("fkImg");if(im){img.src=im;img.alt=ml(it.title)}else img.removeAttribute("src");
     var b=document.getElementById("fkB");b.textContent={ar:"اقرأ القصة",fr:"Lire l'histoire",en:"Read the story"}[lang]||"Lire l'histoire";
-    var u=safeUrl(it.url);b.setAttribute("href",u||"#actus");b.style.display=u?"":"none";if(u){b.setAttribute("target","_blank");b.setAttribute("rel","noopener")}else{b.removeAttribute("target");b.removeAttribute("rel")}
+    var u=safeUrl(it.url);b.setAttribute("href",u||"#actus");b.style.display=(u||(DATA.news||[]).some(function(n){return n&&n.id==="mutamen"}))?"":"none";if(u){b.setAttribute("target","_blank");b.setAttribute("rel","noopener")}else{b.removeAttribute("target");b.removeAttribute("rel")}
     sec.classList.remove("nospot");document.body.classList.add("has-spot");
   }
   function renderNews(){
