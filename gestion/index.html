@@ -1503,7 +1503,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b>'+t('app')+'</b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v34</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v35</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
@@ -2301,7 +2301,7 @@ function memberHtml(){
      '<div class="field"><label for="sIns">'+GL('Assurance','التأمين')+'</label><input id="sIns" type="number" step="0.001" min="0" dir="ltr"></div>'+
      '<div class="field"><label for="sDisc">'+GL('Remise fratrie','تخفيض الإخوة')+'</label><input id="sDisc" type="number" step="0.001" min="0" dir="ltr"></div></div>'+
      '<div class="who" id="sSum" style="margin:6px 0"></div>'+
-     (S.profile.role!=='coach'?'<label style="display:flex;gap:8px;align-items:center;margin:14px 0 4px"><input type="checkbox" id="sPay" checked> '+t('payNow')+'</label><label style="display:flex;gap:8px;align-items:center;margin:0 0 14px"><input type="checkbox" id="sPrint" checked> '+GL('Imprimer le reçu','طباعة الوصل')+'</label>'+
+     (S.profile.role!=='coach'?'<label style="display:flex;gap:8px;align-items:center;margin:14px 0 4px"><input type="checkbox" id="sPay" checked> '+t('payNow')+'</label>'+
      '<div class="grid2" id="payBox"><div class="field"><label for="sAmt">'+t('amount')+'</label><input id="sAmt" type="number" step="0.001" min="0" dir="ltr"></div>'+
      '<div class="field"><label for="sMeth">'+t('method')+'</label><select id="sMeth"><option value="cash">'+t('m').cash+'</option><option value="cheque">'+t('m').cheque+'</option><option value="transfer">'+t('m').transfer+'</option></select></div>'+
      '<div class="field" id="xChq" hidden><label for="sChq">'+t('chq')+'</label><input id="sChq"></div><div class="field" id="xBank" hidden><label for="sBank">'+t('bank')+'</label><input id="sBank"></div>'+
@@ -2417,11 +2417,11 @@ function bindMember(){
         if(meth==='transfer'){ row.transfer_ref=$('sRef').value||null; }
         var r2=await sb.from('payments').insert(row).select().single();
         if(r2.error){ msg.textContent=r2.error.message; return; }
-        if($('sPrint')&&$('sPrint').checked&&r2.data) S.printAfter=r2.data.id;
+        if(r2.data) S.printAfter=r2.data.id;
       }
     }
     S.showSub=false; await loadMember(); render();
-    if(S.printAfter){ var pid=S.printAfter; S.printAfter=null; printReceipt(pid); }
+    if(S.printAfter){ var pid=S.printAfter; S.printAfter=null; if(await uiConfirm(GL('Voulez-vous imprimer le reçu de paiement ?','هل تريد طباعة وصل الدفع؟'),{title:GL('Reçu de paiement','وصل الدفع'),icon:'printer',ok:GL('Oui, imprimer','نعم، اطبع'),cancel:GL('Non','لا')})) printReceipt(pid); }
   };
 }
 
@@ -2742,7 +2742,7 @@ function paymentsHtml(){
       '<div class="field" id="yxChq" hidden><label for="yChq">'+t('chq')+'</label><input id="yChq"></div><div class="field" id="yxBank" hidden><label for="yBank">'+t('bank')+'</label><input id="yBank"></div>'+
       '<div class="field" id="yxDue" hidden><label for="yDue">'+t('due')+'</label><input id="yDue" type="date"></div><div class="field" id="yxRef" hidden><label for="yRef">'+t('ref')+'</label><input id="yRef"></div></div>'+
       '<div id="xDoc" hidden style="margin-top:14px;padding:12px;border:1px dashed var(--line);border-radius:12px"><div class="grid2"><div class="field"><label for="yDocRef">'+GL('N° de quittance / facture','رقم وصل الخلاص / الفاتورة')+'</label><input id="yDocRef" dir="ltr"></div><div class="field"><label for="yDocFile">'+GL('Pièce justificative (photo / PDF)','الوثيقة (صورة / PDF)')+'</label><input id="yDocFile" type="file" accept="image/*,application/pdf"></div></div><div class="field"><label for="yNodoc">'+GL('Si aucune pièce : motif','إن لم توجد وثيقة: السبب')+'</label><input id="yNodoc"></div></div>'+
-      '<label style="display:flex;gap:8px;align-items:center;margin-top:14px"><input type="checkbox" id="yPrint" checked> '+GL('Imprimer le reçu après l\'enregistrement','طباعة الوصل بعد الحفظ')+'</label>'+
+      ''+
       '<div class="field" style="margin-top:14px"><label for="yNotes">'+t('notes')+'</label><input id="yNotes"></div><div class="err" id="yMsg" role="alert"></div>'+
       '<div class="mf"><button class="btn" type="button" data-close>'+t('cancel')+'</button><button class="btn pri" type="submit">'+t('save')+'</button></div></form>');
   }
@@ -2827,7 +2827,7 @@ function bindPayments(){
     if(kind==='member') row.member_id=$('yMem').value; else { row.counterparty=$('yCp').value.trim()||null; row.payee_cin=$('yCin').value.trim()||null; if(!row.counterparty){ msg.textContent=t('who'); return; } }
     if(meth==='cheque'){ row.cheque_number=$('yChq').value||null; row.cheque_bank=$('yBank').value||null; row.cheque_due_on=$('yDue').value||null; }
     if(meth==='transfer') row.transfer_ref=$('yRef').value||null;
-    var wantPrint=$('yPrint').checked;
+    var wantPrint=true;
     if(kind==='member'){ var mo=$('yMem').selectedOptions&&$('yMem').selectedOptions[0]; row._who=mo?mo.textContent:''; }
     var okP=await uiConfirm('',{title:row.direction==='in'?GL('Confirmer l\'encaissement','تأكيد القبض'):GL('Confirmer la dépense','تأكيد المصروف'),icon:'wallet',tone:row.direction==='in'?'var(--ok)':'var(--bad)',html:payHtmlSum(row,true),ok:GL('Enregistrer','تسجيل')});
     delete row._who; if(!okP) return;
@@ -2836,7 +2836,7 @@ function bindPayments(){
     var df=$('yDocFile')&&$('yDocFile').files&&$('yDocFile').files[0];
     if(df&&r.data){ try{ var isI=df.type.indexOf('image/')===0, dt=isI?await shrinkImg(df,1200,.72):await readAsDataUrl(df); await sb.from('pay_files').insert({ref_type:'payment',ref_id:r.data.id,name:df.name,mime:isI?'image/jpeg':df.type,data:dt}); }catch(e){} }
     S.modal=''; await loadPayments(); render();
-    if(wantPrint&&r.data) printReceipt(r.data.id);
+    if(wantPrint&&r.data&&await uiConfirm(GL('Voulez-vous imprimer le reçu de paiement ?','هل تريد طباعة وصل الدفع؟'),{title:GL('Reçu de paiement','وصل الدفع'),icon:'printer',ok:GL('Oui, imprimer','نعم، اطبع'),cancel:GL('Non','لا')})) printReceipt(r.data.id);
   };
 }
 
