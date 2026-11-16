@@ -342,6 +342,7 @@ tr:last-child td{border-bottom:0}
 #pa .sxr.p5 .by{grid-column:1;grid-row:2;margin-top:0;align-self:end;font-size:8pt}
 #pa .sxr.p5 .sig{grid-column:2;grid-row:2;gap:.3cm}
 #pa .sxr.p5 .sig div{height:1.6cm;font-size:6.4pt}
+#pa .sxr .fl{display:flex;flex-direction:column;gap:.12cm;align-items:flex-start}#pa .sxr .rib{display:flex;flex-direction:column;font-size:8pt;direction:ltr;line-height:1.25}#pa .sxr .rib i{font-style:normal;font-size:7pt;color:#6b7280;white-space:nowrap}#pa .sxr .rib b{font-weight:700;color:#111827;letter-spacing:.3px;white-space:nowrap}
 #pa .sxr .stub{width:5.4cm;height:13.2cm;flex:none;border:1.2px solid #14532d;border-radius:.15cm;padding:.35cm .35cm .3cm;display:flex;flex-direction:column;gap:.18cm;position:relative;overflow:hidden;background:#fff}
 #pa .sxr .stub .sh{font-size:6.6pt;font-weight:800;letter-spacing:1.4px;color:#8a6d2b;text-align:center;border-bottom:1px solid #eadfc3;padding-bottom:.12cm}
 #pa .sxr .stub .sb{display:flex;gap:.15cm;align-items:center}
@@ -1550,7 +1551,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b>'+t('app')+'</b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v36</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v37</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
@@ -4273,13 +4274,13 @@ function assocPanel(){
 function printCfgPanel(){
   var c=PCFG(), f2=function(id,l,v,ph){ return '<div class="field"><label for="'+id+'">'+esc(l)+'</label><input id="'+id+'" value="'+esc(v||'')+'" placeholder="'+esc(ph||'')+'" dir="ltr"></div>'; };
   return '<div class="panel" style="margin-top:14px"><h3 style="margin-bottom:8px">'+GL('Documents imprimés','الأوراق المطبوعة')+'</h3><p class="who" style="margin-bottom:10px">'+GL('Saison et réseaux sociaux affichés sur les reçus. Le QR « Suivez-nous » ouvre le lien Facebook.','الموسم وحسابات التواصل التي تظهر على الوصولات. رمز QR «Suivez-nous» يفتح رابط فيسبوك.')+'</p>'+
-   '<div class="grid2">'+f2('pcSeason',GL('Saison sportive','الموسم الرياضي'),c.season,sxSeason())+f2('pcFbUrl',GL('Lien Facebook (QR)','رابط فيسبوك (QR)'),c.fbUrl,'https://www.facebook.com/…')+f2('pcFb',GL('Facebook (texte affiché)','فيسبوك (النص الظاهر)'),c.fb,'facebook.com/…')+f2('pcIg','Instagram',c.instagram,'@…')+f2('pcTt','TikTok',c.tiktok,'@…')+f2('pcYt','YouTube',c.youtube,'@…')+'</div>'+
+   '<div class="grid2">'+f2('pcSeason',GL('Saison sportive','الموسم الرياضي'),c.season,sxSeason())+f2('pcFbUrl',GL('Lien Facebook (QR)','رابط فيسبوك (QR)'),c.fbUrl,'https://www.facebook.com/…')+f2('pcFb',GL('Facebook (texte affiché)','فيسبوك (النص الظاهر)'),c.fb,'facebook.com/…')+f2('pcIg','Instagram',c.instagram,'@…')+f2('pcTt','TikTok',c.tiktok,'@…')+f2('pcYt','YouTube',c.youtube,'@…')+f2('pcBank',GL('Banque','البنك'),c.bank,'BIAT, STB…')+f2('pcRib','RIB',c.rib,'00 000 0000000000000 00')+'</div>'+
    '<div class="field" style="margin-top:10px;max-width:420px"><label for="pcPaper">'+GL('Papier des reçus et bons','ورق الوصولات والسندات')+'</label><select id="pcPaper"><option value="a5"'+(c.paper!=='a4'?' selected':'')+'>'+GL('A5 paysage (feuille A5)','A5 أفقي (ورقة A5)')+'</option><option value="a4"'+(c.paper==='a4'?' selected':'')+'>'+GL('A4 portrait (2 copies sur une feuille, à découper)','A4 عمودي (نسختان في ورقة، تُقصّ من المنتصف)')+'</option></select><div class="who" style="margin-top:4px">'+GL('Dans la fenêtre d\'impression : marges « Aucune » et décocher « En-têtes et pieds de page ».','في نافذة الطباعة: الهوامش «بلا» وإلغاء تأشير «العناوين والتذييلات».')+'</div></div>'+'<label style="display:flex;gap:8px;align-items:center;margin-top:12px"><input type="checkbox" id="pcPdf"'+(c.pdf?' checked':'')+'> '+GL('Reçu : générer un fichier PDF (à ouvrir avec Foxit/Adobe) au lieu de la fenêtre d\'impression','الوصل: إنشاء ملف PDF (يُفتح ببرنامج Foxit/Adobe) بدل نافذة الطباعة')+'</label>'+'<div class="mf"><button class="btn pri" id="pcSave">'+GL('Enregistrer','حفظ')+'</button></div></div>';
 }
 function bindPrintCfg(){
   if(!$('pcSave')) return;
   $('pcSave').onclick=async function(){
-    var v=Object.assign({},PCFG(),{season:$('pcSeason').value.trim(),fbUrl:$('pcFbUrl').value.trim(),fb:$('pcFb').value.trim(),instagram:$('pcIg').value.trim(),tiktok:$('pcTt').value.trim(),youtube:$('pcYt').value.trim(),paper:($('pcPaper')?$('pcPaper').value:'a5'),pdf:!!($('pcPdf')&&$('pcPdf').checked)});
+    var v=Object.assign({},PCFG(),{season:$('pcSeason').value.trim(),fbUrl:$('pcFbUrl').value.trim(),fb:$('pcFb').value.trim(),instagram:$('pcIg').value.trim(),tiktok:$('pcTt').value.trim(),youtube:$('pcYt').value.trim(),bank:$('pcBank').value.trim(),rib:$('pcRib').value.trim(),paper:($('pcPaper')?$('pcPaper').value:'a5'),pdf:!!($('pcPdf')&&$('pcPdf').checked)});
     var r=await saveCfg('print',v); S.setErr=r&&r.error?r.error.message:''; render();
   };
 }
@@ -4420,7 +4421,7 @@ function sxStrip(copy,d){
    '<div class="kv"><i>Objet</i><b>Cotisation / Abonnement</b><i>Période</i><b>'+sxE(d.per)+'</b></div>'+
    '<div class="two"><div class="kv"><i>Total dû</i><b>'+sxE(d.due)+' DT'+(d.disc?' <small style="font-weight:500;color:#8a6d1c">('+sxE(d.disc)+')</small>':'')+'</b></div><div class="kv"><i>Reste à payer</i><b>'+sxE(d.rest)+' DT</b></div></div>'+
    '<div class="mode"><i style="font-style:normal;color:#6b7280;font-size:7pt">Mode</i>'+ck('cash')+'Espèces '+ck('cheque')+'Chèque '+ck('transfer')+'Virement '+(d.chq?'<span style="font-weight:700;color:#111827;white-space:nowrap">'+sxE(d.chq)+'</span>':'')+'</div>'+
-   '<div class="foot"><div class="next">Prochain paiement : <b>'+sxE(d.next||'…… / …… / ……')+'</b></div>'+
+   '<div class="foot"><div class="fl"><div class="next">Prochain paiement : <b>'+sxE(d.next||'…… / …… / ……')+'</b></div>'+(c.rib?'<div class="rib"><i>RIB'+(c.bank?' · '+sxE(c.bank):'')+'</i><b>'+sxE(c.rib)+'</b></div>':'')+'</div>'+
      (c.fbUrl||c.fb?'<div class="soc">'+sxQ(c.fbUrl||('https://'+c.fb),'cq')+'<div class="sl"><small>SUIVEZ-NOUS</small>'+sxSocial()+'</div></div>':'')+'</div></div>'+
    '<div class="right"><span class="copy">'+sxE(copy)+'</span>'+
    '<div class="amt"><small>MONTANT PAYÉ</small><b>'+sxE(d.paid)+' DT</b></div>'+
