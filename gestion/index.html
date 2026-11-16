@@ -343,6 +343,8 @@ tr:last-child td{border-bottom:0}
 #pa .sxr.p5 .sig{grid-column:2;grid-row:2;gap:.3cm}
 #pa .sxr.p5 .sig div{height:1.6cm;font-size:6.4pt}
 #pa .sxr .fl{display:flex;flex-direction:column;gap:.12cm;align-items:flex-start}#pa .sxr .rib{display:flex;flex-direction:column;font-size:8pt;direction:ltr;line-height:1.25}#pa .sxr .rib i{font-style:normal;font-size:7pt;color:#6b7280;white-space:nowrap}#pa .sxr .rib b{font-weight:700;color:#111827;letter-spacing:.3px;white-space:nowrap}
+#pa .sxr .items{display:grid;grid-template-columns:1fr auto;column-gap:.5cm;row-gap:0;font-size:8.8pt;margin:.02cm 0}#pa .sxr .items span{padding:.025cm 0;border-bottom:1px dotted #cbd5e1;color:#374151}#pa .sxr .items b{padding:.025cm 0;border-bottom:1px dotted #cbd5e1;text-align:right;font-weight:700;color:#111827;white-space:nowrap}
+#pa .sxr .h{display:flex;justify-content:space-between}#pa .sxr .h .hp{font-weight:600;letter-spacing:0;color:#374151;font-size:8.4pt}
 #pa .sxr .stub{width:5.4cm;height:13.2cm;flex:none;border:1.2px solid #14532d;border-radius:.15cm;padding:.35cm .35cm .3cm;display:flex;flex-direction:column;gap:.18cm;position:relative;overflow:hidden;background:#fff}
 #pa .sxr .stub .sh{font-size:6.6pt;font-weight:800;letter-spacing:1.4px;color:#8a6d2b;text-align:center;border-bottom:1px solid #eadfc3;padding-bottom:.12cm}
 #pa .sxr .stub .sb{display:flex;gap:.15cm;align-items:center}
@@ -1551,7 +1553,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b>'+t('app')+'</b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v37</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v38</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
@@ -4397,6 +4399,10 @@ function sxSocial(){
 }
 
 /* ---------- 1) وصل دفع الاشتراك: 21×7 سم، ورقة A5 = نسخة الولي + نسخة الجمعية ---------- */
+function sxItems(d){
+  var it=d.items||[]; if(!it.length) return '<div class="kv"><i>Objet</i><b>Cotisation / Abonnement</b></div>';
+  return '<div class="items">'+it.map(function(x){ return '<span>'+sxE(x[0])+'</span><b>'+(x[2]?'−':'')+sxE(x[1])+' DT</b>'; }).join('')+'</div>';
+}
 function sxStub(d){
   var a=assoc(), ck=function(m){ var on=d.mode===m; return '<span class="ck'+(on?' on':'')+'">'+(on?'✓':'')+'</span>'; };
   var kv=function(k,v){ return '<div><span class="sk">'+k+'</span><div class="sv">'+sxE(v||'')+'</div></div>'; };
@@ -4416,10 +4422,10 @@ function sxStrip(copy,d){
    '<div class="title">REÇU DE PAIEMENT<br>D\'ABONNEMENT</div><div class="season">Saison sportive '+sxE(d.season)+'</div>'+
    '<div class="meta"><div class="qrw"><div class="qr">'+sxQ('SYNOX|'+d.no+'|'+d.adh)+'</div><em>Vérifier le reçu</em></div><div>N° du reçu<b>'+sxE(d.no)+'</b>Date<b>'+sxE(d.date)+'</b></div></div></div>'+
    '<div class="mid">'+d.void+'<div class="h">INFORMATIONS DE L\'ADHÉRENT</div>'+
-   '<div class="kv"><i>Nom et prénom</i><b>'+sxE(d.nom)+'</b><i>N° d\'adhérent</i><b>'+sxE(d.adh)+'</b><i>Catégorie / Section</i><b>'+sxE(d.cat)+'</b><i>Salle</i><b>'+sxE(d.salle)+'</b></div>'+
-   '<div class="h">DÉTAILS DU PAIEMENT</div>'+
-   '<div class="kv"><i>Objet</i><b>Cotisation / Abonnement</b><i>Période</i><b>'+sxE(d.per)+'</b></div>'+
-   '<div class="two"><div class="kv"><i>Total dû</i><b>'+sxE(d.due)+' DT'+(d.disc?' <small style="font-weight:500;color:#8a6d1c">('+sxE(d.disc)+')</small>':'')+'</b></div><div class="kv"><i>Reste à payer</i><b>'+sxE(d.rest)+' DT</b></div></div>'+
+   '<div class="kv"><i>Nom et prénom</i><b>'+sxE(d.nom)+'</b><i>N° d\'adhérent</i><b>'+sxE(d.adh)+'</b><i>Catégorie / Section</i><b>'+sxE(d.cat)+'</b>'+(d.salle?'<i>Salle</i><b>'+sxE(d.salle)+'</b>':'')+'</div>'+
+   '<div class="h">DÉTAILS DU PAIEMENT'+((d.items&&d.items.length)?'<span class="hp">Période : '+sxE(d.per)+'</span>':'')+'</div>'+
+   ((d.items&&d.items.length)?'':'<div class="kv"><i>Période</i><b>'+sxE(d.per)+'</b></div>')+sxItems(d)+
+   '<div class="two"'+((d.items&&d.items.length)&&!(parseFloat(d.rest)>0)?' style="display:none"':'')+'><div class="kv"><i>Total dû</i><b>'+sxE(d.due)+' DT'+(d.disc?' <small style="font-weight:500;color:#8a6d1c">('+sxE(d.disc)+')</small>':'')+'</b></div><div class="kv"><i>Reste à payer</i><b>'+sxE(d.rest)+' DT</b></div></div>'+
    '<div class="mode"><i style="font-style:normal;color:#6b7280;font-size:7pt">Mode</i>'+ck('cash')+'Espèces '+ck('cheque')+'Chèque '+ck('transfer')+'Virement '+(d.chq?'<span style="font-weight:700;color:#111827;white-space:nowrap">'+sxE(d.chq)+'</span>':'')+'</div>'+
    '<div class="foot"><div class="fl"><div class="next">Prochain paiement : <b>'+sxE(d.next||'…… / …… / ……')+'</b></div>'+(c.rib?'<div class="rib"><i>RIB'+(c.bank?' · '+sxE(c.bank):'')+'</i><b>'+sxE(c.rib)+'</b></div>':'')+'</div>'+
      (c.fbUrl||c.fb?'<div class="soc">'+sxQ(c.fbUrl||('https://'+c.fb),'cq')+'<div class="sl"><small>SUIVEZ-NOUS</small>'+sxSocial()+'</div></div>':'')+'</div></div>'+
@@ -4442,12 +4448,13 @@ async function printReceipt(id){
   var rooms=[]; grs.forEach(function(g){ slotsOf(g).forEach(function(s){ if(s.room&&rooms.indexOf(s.room)<0) rooms.push(s.room); }); });
   var rest=null, due=null; if(sub&&plan){ due=subDue(sub,plan); var ap=(await sb.from('payments').select('*').eq('subscription_id',sub.id)).data||[]; rest=Math.max(0,due-ap.filter(function(x){ return x.status!=='cancelled'&&x.status!=='bounced'; }).reduce(function(s,x){ return s+Number(x.amount_millimes); },0)); }
   try{ await _rawFrom('receipt_prints').insert({payment_id:p.id}); }catch(e){}
-  var c=catOf(m);
-  var d={no:sxNo(p),date:sxD(p.paid_on),nom:((m.last_name||'')+' '+(m.first_name||'')).trim(),adh:codeStr(m),
+  var c=catOf(m); var opName=sxOp(p); try{ var cr=p.created_by?(await sb.from('profiles').select('full_name').eq('id',p.created_by).maybeSingle()).data:null; opName=(cr&&cr.full_name)||(S.profile&&S.profile.full_name)||opName; }catch(e){}
+  var items=[]; if(sub&&plan){ items.push(['Cotisation / Abonnement',sxM(plan.price_millimes)]); if(sub.discount_millimes>0) items.push(['Réduction',sxM(sub.discount_millimes),1]); if(sub.reg_millimes>0) items.push(['Droits d\'inscription',sxM(sub.reg_millimes)]); if(sub.ins_millimes>0) items.push(['Assurance (saison)',sxM(sub.ins_millimes)]); }
+  var d={items:items,no:sxNo(p),date:sxD(p.paid_on),nom:((m.last_name||'')+' '+(m.first_name||'')).trim(),adh:codeStr(m),
     cat:[c?catLabel(c):'',disc?nm(disc):'',plan?nm(plan):''].filter(Boolean).join(' · '),salle:rooms.join(' · ')||(grs[0]?grs[0].name:''),
     per:sub?sxD(sub.starts_on)+' → '+sxD(sub.ends_on):'',due:due!=null?sxM(due):sxM(p.amount_millimes),rest:rest!=null?sxM(rest):'0.000',
     mode:p.method,chq:p.method==='cheque'?('N° '+(p.cheque_number||'')+' '+(p.cheque_bank||'')).trim():(p.method==='transfer'&&p.transfer_ref?'Réf. '+p.transfer_ref:''),
-    paid:sxM(p.amount_millimes),words:sxWords(Number(p.amount_millimes)),next:sub?sxD(addD(sub.ends_on,1)):'',season:sxSeason(),opc:sxOp(p),
+    paid:sxM(p.amount_millimes),words:sxWords(Number(p.amount_millimes)),next:sub?sxD(addD(sub.ends_on,1)):'',season:sxSeason(),opc:opName,
     disc:(sub&&plan&&sub.discount_millimes>0?'−'+Math.round(sub.discount_millimes*100/plan.price_millimes)+' %':''),void:p.status==='cancelled'?'<div class="sxvoid">ANNULÉ · ملغى</div>':''};
   var rh='<div class="sxr p5"><div class="lp5">'+sxStrip('COPIE · PARENT',d)+'<div class="cutv"><span>✂</span></div>'+sxStub(d)+'</div></div>';
   if(PCFG().pdf){ try{ await sxPdf(rh,'Recu-'+String(d.adh||'').replace(/[^\w-]/g,'')+'-'+String(d.no||'').replace(/[^\w-]/g,'')+'.pdf',{a5:1}); return; }catch(e){ try{ uiToast(GL('PDF indisponible, impression normale','تعذّر إنشاء PDF، سنستعمل الطباعة العادية')); }catch(_){} } }
