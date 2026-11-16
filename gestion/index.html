@@ -353,6 +353,8 @@ tr:last-child td{border-bottom:0}
 #pa .sxr .stub .sb span{font-size:6pt;letter-spacing:1.2px;color:#8a6d2b}
 #pa .sxr .stub .sk{font-size:6.6pt;color:#6b7280;display:block;margin-bottom:.03cm}
 #pa .sxr .stub .sv{font-size:8.6pt;font-weight:700;color:#111827;border-bottom:1px dotted #cbd5e1;padding-bottom:.05cm;min-height:.45cm;word-break:break-word}
+#pa .sxr .stub .si{display:grid;grid-template-columns:1fr auto;column-gap:.2cm;font-size:7.2pt;margin-top:auto}#pa .sxr .stub .si span{padding:.03cm 0;border-bottom:1px dotted #cbd5e1;color:#374151}#pa .sxr .stub .si b{padding:.03cm 0;border-bottom:1px dotted #cbd5e1;font-weight:700;color:#111827;text-align:right;white-space:nowrap}
+#pa .sxr .stub .si+.sa{margin-top:.1cm}
 #pa .sxr .stub .sa{border:1.4px solid #14532d;border-radius:.14cm;padding:.1cm .18cm;margin-top:auto}
 #pa .sxr .stub .sa small{font-size:6pt;letter-spacing:1.1px;color:#14532d;font-weight:800}
 #pa .sxr .stub .sa b{display:block;font-size:14pt;color:#14532d;line-height:1.15}
@@ -4410,7 +4412,7 @@ function sxStub(d){
    '<div class="sb">'+(a.logo?'<img src="'+sxE(a.logo)+'" alt="">':'')+'<div><b>MEJERDA SPORT</b><span>MEDJEZ EL BAB</span></div></div>'+
    kv('N° du reçu',d.no)+kv('Date',d.date)+kv('Nom et prénom',d.nom)+kv('N° d\'adhérent',d.adh)+kv('Période',d.per)+
    '<div class="mode" style="font-size:7.2pt;gap:.16cm;flex-wrap:wrap">'+ck('cash')+'Esp. '+ck('cheque')+'Chq. '+ck('transfer')+'Vir.</div>'+
-   '<div class="sa"><small>MONTANT PAYÉ</small><b>'+sxE(d.paid)+' DT</b></div>'+
+   (d.items&&d.items.length?'<div class="si">'+d.items.map(function(x){ return '<span>'+sxE(x[0])+'</span><b>'+(x[2]?'−':'')+sxE(x[1])+'</b>'; }).join('')+'</div>':'')+'<div class="sa"><small>MONTANT PAYÉ</small><b>'+sxE(d.paid)+' DT</b></div>'+
    '<div class="ss">Signature du parent</div></div>';
 }
 function sxStrip(copy,d){
