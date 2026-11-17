@@ -1556,7 +1556,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b>'+t('app')+'</b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v40</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v41</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
@@ -6328,7 +6328,7 @@ function stCss(){
   '.sthead .btn{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.25)}'+
   '.stmain{flex:1;width:100%;max-width:1040px;margin:0 auto;padding:22px;display:flex;flex-direction:column;gap:18px}'+
   '.stin{display:flex;gap:10px;flex-wrap:wrap}'+
-  '.stin input{flex:1;min-width:220px;background:rgba(255,255,255,.1);color:#fff;border:2px solid rgba(255,255,255,.22);border-radius:16px;padding:16px 20px;font-size:22px;outline:none}'+
+  '.stin input{text-transform:uppercase;flex:1;min-width:220px;background:rgba(255,255,255,.1);color:#fff;border:2px solid rgba(255,255,255,.22);border-radius:16px;padding:16px 20px;font-size:22px;outline:none}'+
   '.stin input:focus{border-color:#e8c766;box-shadow:0 0 0 4px rgba(232,199,102,.18)}'+
   '.stin input::placeholder{color:rgba(255,255,255,.5)}'+
   '.stin .btn{font-size:17px;padding:14px 22px;border-radius:16px}'+
@@ -6418,6 +6418,7 @@ function renderStation(){
   $('scGo').onclick=function(){ go(sc.value); };
   $('scCam').onclick=camStart;
   sc.oninput=function(){
+    var cp=sc.selectionStart, up=sc.value.toUpperCase(); if(up!==sc.value){ sc.value=up; try{ sc.setSelectionRange(cp,cp); }catch(e){} }
     var v=sc.value.trim(), box=$('stSug'); if(!box) return;
     if(v.length<2||/^(gm)?\s*\d+$/i.test(v)){ box.innerHTML=''; return; }
     var q=v.toLowerCase(), l=(S.gmembers||[]).filter(function(x){ var p=((x.first_name||'')+' '+(x.last_name||'')).toLowerCase(), o=((x.last_name||'')+' '+(x.first_name||'')).toLowerCase(); return p.indexOf(q)>-1||o.indexOf(q)>-1; }).slice(0,6);
