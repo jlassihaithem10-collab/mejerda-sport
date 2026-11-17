@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /app/
 Disallow: /gestion/
+Disallow: /presence/
 
 Sitemap: https://mejerdasport.com/sitemap.xml
