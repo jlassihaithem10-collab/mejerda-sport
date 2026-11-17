@@ -1556,7 +1556,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b>'+t('app')+'</b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v41</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v42</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
@@ -6418,6 +6418,7 @@ function renderStation(){
   $('scGo').onclick=function(){ go(sc.value); };
   $('scCam').onclick=camStart;
   sc.oninput=function(){
+    if(S.last){ var v0=sc.value; S.last=null; ST_LAST=null; ST_TOK++; renderStation(); var n=$('sc'); n.value=v0; n.focus(); n.oninput(); return; }
     var cp=sc.selectionStart, up=sc.value.toUpperCase(); if(up!==sc.value){ sc.value=up; try{ sc.setSelectionRange(cp,cp); }catch(e){} }
     var v=sc.value.trim(), box=$('stSug'); if(!box) return;
     if(v.length<2||/^(gm)?\s*\d+$/i.test(v)){ box.innerHTML=''; return; }
@@ -6431,7 +6432,7 @@ function renderStation(){
   ck(); if(!ST_CLK) ST_CLK=setInterval(ck,15000);
   if(!ST_CLICK){ ST_CLICK=true; document.addEventListener('click',function(e){ if(STATION&&$('sc')&&!/^(SELECT|INPUT|BUTTON|OPTION)$/.test(e.target.tagName)) $('sc').focus(); }); }
   if(r&&r!==ST_LAST){ ST_LAST=r; stBeep(!!r.ok); }
-  if(r){ var tok=++ST_TOK; setTimeout(function(){ if(tok===ST_TOK&&S.last===r){ S.last=null; ST_LAST=null; renderStation(); } },11000); }
+  if(r){ var tok=++ST_TOK; setTimeout(function(){ if(tok===ST_TOK&&S.last===r){ S.last=null; ST_LAST=null; renderStation(); } },30000); }
   sc.focus();
 }
 function render(){
