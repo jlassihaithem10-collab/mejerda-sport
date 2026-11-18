@@ -1557,7 +1557,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b>'+t('app')+'</b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v43</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v44</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
@@ -2961,6 +2961,14 @@ function gPayLabel(c,g){
   if(t0==='session') return money(P.v||0)+' / '+GL('séance','حصة');
   return money(P.v||0)+' / '+GL('mois','شهر');
 }
+function coachAmt(p){
+  var sid=p.subscription_id, amt=Number(p.amount_millimes); if(!sid) return amt;
+  var sub=(S.asubs||[]).filter(function(x){ return x.id===sid; })[0]; if(!sub) return amt;
+  var F=Number(sub.reg_millimes||0)+Number(sub.ins_millimes||0); if(!F) return amt;
+  var ps=(S.cpays||[]).filter(function(x){ return x.subscription_id===sid&&x.direction==='in'&&x.kind==='member'&&validPay(x); }).sort(function(x,y){ return String(x.paid_on)+String(x.created_at)<String(y.paid_on)+String(y.created_at)?-1:1; });
+  var rem=F; for(var i=0;i<ps.length;i++){ var a=Number(ps[i].amount_millimes), take=Math.min(a,rem); rem-=take; if(ps[i].id===p.id) return a-take; }
+  return amt;
+}
 function coGroupStats(g,ym){
   var a=ym+'-01', b=monthEnd(ym), up=b>todayStr()?todayStr():b, disc=g.discipline_id;
   var mem=(S.gm||[]).filter(function(x){ return x.group_id===g.id; }).map(function(x){ return x.member_id; });
@@ -2970,7 +2978,7 @@ function coGroupStats(g,ym){
   var paidSub={}; pays.forEach(function(p){ if(p.subscription_id) paidSub[p.subscription_id]=(paidSub[p.subscription_id]||0)+Number(p.amount_millimes); });
   var pm={}, unpaid=[], nPaid=0, nCov=0, rev=0;
   var subOf={}; subs.forEach(function(x){ subOf[x.id]=x; });
-  pays.forEach(function(p){ var sb0=subOf[p.subscription_id]; if(sb0&&p.paid_on>=a&&p.paid_on<=b&&mem.indexOf(sb0.member_id)>-1&&ownerGroup(sb0.member_id,disc)===g.id){ pm[sb0.member_id]=(pm[sb0.member_id]||0)+Number(p.amount_millimes); rev+=Number(p.amount_millimes); } });
+  pays.forEach(function(p){ var sb0=subOf[p.subscription_id]; if(sb0&&p.paid_on>=a&&p.paid_on<=b&&mem.indexOf(sb0.member_id)>-1&&ownerGroup(sb0.member_id,disc)===g.id){ pm[sb0.member_id]=(pm[sb0.member_id]||0)+coachAmt(p); rev+=coachAmt(p); } });
   mem.forEach(function(id){
     var m=memberById(id), nm0=m?(m.last_name+' '+m.first_name):'?';
     if(pm[id]){ nPaid++; return; }
@@ -3056,7 +3064,7 @@ function coPayPanel(){
     return '<tr><td><b data-copen="'+c.id+'" style="cursor:pointer">'+esc(c.full_name)+'</b><div class="who">'+esc(CPT()[c.pay_type||'monthly'])+' · '+esc(coModel(c))+'</div></td><td class="num" style="text-align:end">'+money(q.due)+'</td><td class="num" style="text-align:end">'+money(q.paid)+'</td><td class="num" style="text-align:end;font-weight:700;color:'+(q.rest>0?'var(--bad)':'var(--ok)')+'">'+money(q.rest)+'</td><td style="white-space:nowrap">'+(S.view==='salaries'?'<button class="btn sm" data-cslip="'+c.id+'">'+di('printer','currentColor',14)+' '+GL('Fiche de paie','كشف الأجر')+'</button> ':'')+(q.rest>0?'<button class="btn sm pri" data-cpay2="'+c.id+'">'+GL('Payer','دفع')+'</button>':'<span class="pill">✓</span>')+'</td></tr>'; }).join('');
   return '<div class="panel" style="margin-top:14px"><div class="bar" style="margin-bottom:8px"><h3 style="flex:1">'+GL('Rémunération du mois','أجور الشهر')+'</h3><input type="month" id="cpMonth" value="'+ym+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:9px 12px"></div>'+
    '<div class="tw"><table><thead><tr><th>'+GL('Coach','المدرب')+'</th><th style="text-align:end">'+GL('Dû','المستحق')+'</th><th style="text-align:end">'+GL('Versé','المدفوع')+'</th><th style="text-align:end">'+GL('Reste','الباقي')+'</th><th></th></tr></thead><tbody>'+rows+'<tr style="font-weight:700"><td>'+GL('Total','المجموع')+'</td><td class="num" style="text-align:end">'+money(tot)+'</td><td class="num" style="text-align:end">'+money(paid)+'</td><td class="num" style="text-align:end">'+money(Math.max(0,tot-paid))+'</td><td></td></tr></tbody></table></div>'+
-   '<p class="who" style="margin-top:8px">'+GL('Par séance : séances programmées dans le planning jusqu\'à aujourd\'hui. Pourcentage : encaissements du mois des membres de ses groupes. Le montant reste modifiable au moment du paiement.','بالحصة: الحصص المبرمجة في الجدول إلى اليوم. بالنسبة: مقبوضات الشهر من أعضاء مجموعاته. يمكن تعديل المبلغ عند الدفع.')+'</p></div>';
+   '<p class="who" style="margin-top:8px">'+GL('Par séance : séances programmées dans le planning jusqu\'à aujourd\'hui. Pourcentage : encaissements du mois des membres de ses groupes, hors frais d\'inscription et d\'assurance (ils reviennent à l\'association). Le montant reste modifiable au moment du paiement.','بالحصة: الحصص المبرمجة في الجدول إلى اليوم. بالنسبة: مقبوضات الشهر من أعضاء مجموعاته دون رسوم التسجيل والتأمين (هي كاملة للجمعية). يمكن تعديل المبلغ عند الدفع.')+'</p></div>';
 }
 function coachesHtml(){
   var nIn=S.coaches.filter(function(c){ return !c.active; }).length;
@@ -4579,7 +4587,7 @@ function sxGroupKids(g,ym){
     var mine=pays.filter(function(p){ var s0=subOf[p.subscription_id]; return s0&&s0.member_id===id&&p.paid_on>=a&&p.paid_on<=b&&ownerGroup(id,disc)===g.id; });
     var cov=subs.filter(function(x){ return x.member_id===id&&x.starts_on<=b&&x.ends_on>=a; });
     var r={nom:(m.last_name+' '+m.first_name).trim(),code:codeStr(m),date:'—',no:'—',amt:0,st:'np'};
-    if(mine.length){ var am=mine.reduce(function(s,p){ return s+Number(p.amount_millimes); },0), p0=mine[0];
+    if(mine.length){ var am=mine.reduce(function(s,p){ return s+coachAmt(p); },0), p0=mine[0];
       r.amt=am; r.date=sxD(p0.paid_on).slice(0,5); r.no=mine.map(sxNo).join(', '); r.st=Number(String(p0.paid_on).slice(8,10))>due?'late':'paid'; tot+=am; nPaid++; }
     else if(cov.some(function(x){ return subDue(x,plan[x.plan_id])===0; })) r.st='ex';
     else if(cov.some(function(x){ return (paidSub[x.id]||0)>=subDue(x,plan[x.plan_id]); })) r.st='cov';
@@ -4697,7 +4705,7 @@ async function printPayslip(c,ym){
     var lab={paid:['Payé',''],late:['Payé en retard',''],np:['Non payé','neg'],ex:['Exonéré','ex'],cov:['Déjà couvert','ex']};
     var kr=K.rows.map(function(r,j){ var L=lab[r.st]; return '<tr class="'+L[1]+'"><td>'+(j+1)+'</td><td>'+sxE(r.nom)+'</td><td>'+sxE(r.code)+'</td><td>'+sxE(r.date)+'</td><td>'+sxE(r.no)+'</td><td>'+L[0]+'</td><td class="n">'+sxM(r.amt)+'</td></tr>'; }).join('');
     pages.push('<div class="p sxpg">'+sxHead('ANNEXE · '+sxE(x.g.name).toUpperCase(),'ملحق · تفاصيل المجموعة','Coach · Période',sxE(coCode(c))+' · '+per)+
-     '<div class="calc"><div>Inscrits<b>'+K.n+'</b></div><div>Ont payé<b>'+K.nPaid+'</b></div><div>Total encaissé<b>'+sxM(K.tot)+'</b></div><div class="g">Part du coach ('+v+' %)<b>'+sxM(x.amt)+' DT</b></div></div>'+
+     '<div class="calc"><div>Inscrits<b>'+K.n+'</b></div><div>Ont payé<b>'+K.nPaid+'</b></div><div>Encaissé (hors inscription/assurance)<b>'+sxM(K.tot)+'</b></div><div class="g">Part du coach ('+v+' %)<b>'+sxM(x.amt)+' DT</b></div></div>'+
      '<div class="blk" style="padding:.06cm .14cm"><table class="t k"><tr><th>#</th><th>Membre</th><th>N°</th><th>Date</th><th>Reçu N°</th><th>Statut</th><th class="n">Payé</th></tr>'+(kr||'<tr><td colspan="7">—</td></tr>')+
      '<tr class="tot"><td></td><td colspan="5">Total encaissé en '+sxE(per.toLowerCase())+'</td><td class="n">'+sxM(K.tot)+'</td></tr></table></div>'+
      '<div class="note">Calcul : '+v+' % des cotisations <b>effectivement encaissées</b> dans le mois. Les membres non payés ne comptent pas ; s\'ils paient plus tard, leur part sera ajoutée au mois du paiement. Les membres exonérés ne génèrent pas de part.<br><span class="ar" style="display:block;text-align:right">الحساب: '+v+' % من الاشتراكات المقبوضة فعلاً في الشهر. من لم يدفع لا يُحتسب، وإذا دفع لاحقاً تُضاف حصّته في شهر الدفع.</span></div>'+
