@@ -966,6 +966,7 @@ function dayDiff(a,b){ return Math.round((new Date(a+'T00:00:00Z')-new Date(b+'T
 function subState(ends){ if(!ends) return 'none'; var d=dayDiff(ends,todayStr()); return d<0?'expired':(d<=7?'soon':'active'); }
 function nm(o){ return S.lang==='ar'?o.name_ar:o.name_fr; }
 function subDue(sb_,p){ if(sb_&&sb_.due_millimes!=null) return Number(sb_.due_millimes); return p?p.price_millimes:0; }
+function graceDays(){ var g=parseInt(((S.cfg&&S.cfg.print)||{}).grace,10); return g>0?g:20; }
 function feesCfg(){ var f=(S.cfg&&S.cfg.fees)||{}; return {reg:+f.reg||0, ins:+f.ins||0, regWhen:f.regWhen||'first', insWhen:f.insWhen||'season', sibOn:f.sibOn!==false, sibType:f.sibType||'pct', sib:f.sib||{2:10,3:20,4:30}, free:f.free||[], freeScope:f.freeScope||{}, secondPct:(f.secondPct!=null?+f.secondPct:50)}; }
 function seasonStart(){ var n=new Date(), sm=(S.cfg&&S.cfg.smonth)||9, y=(n.getMonth()+1>=sm)?n.getFullYear():n.getFullYear()-1; return y+'-'+('0'+sm).slice(-2)+'-01'; }
 function phKey(m){ var d=String((m&&(m.guardian_phone||m.phone))||'').replace(/\D/g,''); return d.length>=8?d.slice(-8):''; }
@@ -1557,7 +1558,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b>'+t('app')+'</b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v44</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v45</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
@@ -1608,6 +1609,10 @@ async function loadStats(){
     var bal=calcBal(subs,p.data||[]); o.debt=0; o.debtors=[];
     Object.keys(bal).forEach(function(id){ if(bal[id]>0&&names[id]){ o.debt+=bal[id]; o.debtors.push({id:id,name:names[id],v:bal[id]}); } });
     o.debtors.sort(function(a,b){ return b.v-a.v; });
+    var lim=addD(todayStr(),-graceDays()), paidBy={}; (p.data||[]).forEach(function(x){ if(x.subscription_id&&validPay(x)) paidBy[x.subscription_id]=1; });
+    var ar=await sb.from('attendance').select('member_id,att_date'), attBy={}; (ar.data||[]).forEach(function(x){ (attBy[x.member_id]=attBy[x.member_id]||[]).push(x.att_date); });
+    o.stale=[]; subs.forEach(function(x){ if(paidBy[x.id]||!(Number(x.due_millimes)>0)||x.starts_on>lim||!names[x.member_id]) return; if((attBy[x.member_id]||[]).some(function(d){ return d>=x.starts_on; })) return; o.stale.push({so:x.starts_on,id:x.id,mid:x.member_id,name:names[x.member_id],v:Number(x.due_millimes),d:dayDiff(todayStr(),x.starts_on)}); });
+    o.stale.sort(function(a,b){ return b.d-a.d; });
     o.recent=pays.slice().sort(function(a,b){ return (String(b.paid_on)+String(b.created_at||'')).localeCompare(String(a.paid_on)+String(a.created_at||'')); }).slice(0,6).map(function(x){ return {d:x.paid_on,who:x.kind==='member'?(names[x.member_id]||'—'):(x.counterparty||'—'),v:Number(x.amount_millimes),dir:x.direction}; });
   }
   o.err=errs.join(' | ');
@@ -1696,8 +1701,9 @@ function dashHtml(){
   var bdTpl=function(x){ var c=(S.cfg.msgtpl||{}).birthday, l=S.lang, tx=(c&&c[l])||MSG_DEF.birthday[l]; return tx.replace(/\{(\w+)\}/g,function(a,k){ return {prenom:x.fn,nom:x.ln,age:x.age}[k]!=null?{prenom:x.fn,nom:x.ln,age:x.age}[k]:a; }); };
   var bd=(s.bd||[]).map(function(x){ var w=waPhone(x.ph); return rowN(x.id,x.name,(x.d===0?GL('aujourd\'hui','اليوم'):GL('dans ','بعد ')+x.d+' '+GL('j','يوم'))+' · '+x.age+' '+GL('ans','سنة'),(w&&canMoney?'<a class="btn sm" data-bdwa="'+x.id+'" target="_blank" rel="noopener" href="https://wa.me/'+w+'?text='+encodeURIComponent(bdTpl(x))+'" title="'+GL('Souhaiter par WhatsApp','تهنئة عبر واتساب')+'">'+di('chat','currentColor',16)+'</a>':'')); }).join('');
   var chart=showFin?'<div class="panel"><h3 style="margin-bottom:8px">'+GL('Recettes et dépenses · 6 derniers mois','المقبوضات والمصاريف · آخر 6 أشهر')+'</h3>'+dashChart(s.mon||[])+'</div>':'';
+  var stale=(canMoney&&(s.stale||[]).length)?'<div class="panel" style="border-color:#F59E0B;margin-bottom:14px"><h3 style="margin-bottom:6px">'+di('alert','#F59E0B',16)+' '+GL('Abonnements impayés sans présence depuis plus de '+graceDays()+' jours','اشتراكات غير مدفوعة ولم يحضر أصحابها منذ أكثر من '+graceDays()+' يوماً')+'</h3><div class="who" style="margin-bottom:8px">'+GL('Total : ','المجموع: ')+'<b>'+money(s.stale.reduce(function(a,x){ return a+x.v; },0))+'</b> · '+s.stale.length+' '+GL('abonnement(s)','اشتراك')+'</div>'+s.stale.slice(0,8).map(function(x){ return rowN(x.mid,x.name,money(x.v)+' · '+x.d+' '+GL('j','يوم'),''); }).join('')+'<div style="margin-top:10px"><button class="btn" id="stCancel">'+GL('Annuler ces abonnements non payés','إلغاء هذه الاشتراكات غير المدفوعة')+'</button></div></div>':'';
   return (s.err?'<div class="err">'+esc(t('loadErr')+s.err)+'</div>':'')+head+
-   '<div class="cards dkr">'+kp+'</div>'+mk+
+   '<div class="cards dkr">'+kp+'</div>'+mk+stale+
    '<div class="dgrid">'+chart+
      '<div class="panel"><h3 style="margin-bottom:8px">'+GL('État des abonnements','حالة الاشتراكات')+'</h3>'+donut+'</div>'+
      dashList(dhT('clock','#F59E0B',GL('Abonnements bientôt expirés','اشتراكات توشك على الانتهاء')),soon,GL('Aucun','لا شيء'))+
@@ -1715,6 +1721,12 @@ function attQuickHtml(){
 }
 function bindDash(){
   if(S.modal==='attq'){ bindAttendance(); }
+  if($('stCancel')) $('stCancel').onclick=async function(){
+    var L=(S.stats&&S.stats.stale)||[]; if(!L.length) return;
+    var ok=await uiConfirm(GL('Annuler '+L.length+' abonnement(s) non payé(s) ('+money(L.reduce(function(a,x){ return a+x.v; },0))+') ? Aucun paiement n\'est lié à eux. Les membres restent inscrits, et l\'historique est conservé dans le journal.','إلغاء '+L.length+' اشتراكاً غير مدفوع ('+money(L.reduce(function(a,x){ return a+x.v; },0))+')؟ لا توجد أي دفعة مرتبطة بها. يبقى الأعضاء مسجّلين ويُحفظ السجل في سجل العمليات.'),{title:GL('Annuler les impayés','إلغاء غير المدفوع'),icon:'alert',ok:GL('Annuler','إلغاء'),cancel:GL('Retour','رجوع')});
+    if(!ok) return; var bad=0;
+    for(var i=0;i<L.length;i++){ var r=await sb.from('subscriptions').update({due_millimes:0,reg_millimes:0,ins_millimes:0,discount_millimes:0,ends_on:L[i].so}).eq('id',L[i].id); if(r.error) bad++; }
+    uiToast(bad?GL('Certains abonnements n\'ont pas pu être annulés','تعذّر إلغاء بعضها'):GL('Abonnements annulés','تم الإلغاء')); await loadStats(); render(); };
   if($('bdAll')) $('bdAll').onclick=function(){ S.msg={aud:'birthday',n:7,grp:'',lang:null,text:null,ids:null,ckind:'free'}; S.view='messages'; S.showForm=false; S.modal=''; loadView(); };
   document.querySelectorAll('[data-bdwa]').forEach(function(a){ a.onclick=function(e){ e.stopPropagation(); var id=a.getAttribute('data-bdwa'); sb.from('msg_log').insert({member_id:id,channel:'wa',kind:'birthday'}).then(function(){},function(){}); }; });
   document.querySelectorAll('[data-go]').forEach(function(b){ b.onclick=function(){ S.view=b.getAttribute('data-go'); S.showForm=false; S.modal=''; loadView(); }; });
@@ -4302,13 +4314,13 @@ function assocPanel(){
 function printCfgPanel(){
   var c=PCFG(), f2=function(id,l,v,ph){ return '<div class="field"><label for="'+id+'">'+esc(l)+'</label><input id="'+id+'" value="'+esc(v||'')+'" placeholder="'+esc(ph||'')+'" dir="ltr"></div>'; };
   return '<div class="panel" style="margin-top:14px"><h3 style="margin-bottom:8px">'+GL('Documents imprimés','الأوراق المطبوعة')+'</h3><p class="who" style="margin-bottom:10px">'+GL('Saison et réseaux sociaux affichés sur les reçus. Le QR « Suivez-nous » ouvre le lien Facebook.','الموسم وحسابات التواصل التي تظهر على الوصولات. رمز QR «Suivez-nous» يفتح رابط فيسبوك.')+'</p>'+
-   '<div class="grid2">'+f2('pcSeason',GL('Saison sportive','الموسم الرياضي'),c.season,sxSeason())+f2('pcFbUrl',GL('Lien Facebook (QR)','رابط فيسبوك (QR)'),c.fbUrl,'https://www.facebook.com/…')+f2('pcFb',GL('Facebook (texte affiché)','فيسبوك (النص الظاهر)'),c.fb,'facebook.com/…')+f2('pcIg','Instagram',c.instagram,'@…')+f2('pcTt','TikTok',c.tiktok,'@…')+f2('pcYt','YouTube',c.youtube,'@…')+f2('pcBank',GL('Banque','البنك'),c.bank,'BIAT, STB…')+f2('pcRib','RIB',c.rib,'00 000 0000000000000 00')+'</div>'+
+   '<div class="grid2">'+f2('pcSeason',GL('Saison sportive','الموسم الرياضي'),c.season,sxSeason())+f2('pcFbUrl',GL('Lien Facebook (QR)','رابط فيسبوك (QR)'),c.fbUrl,'https://www.facebook.com/…')+f2('pcFb',GL('Facebook (texte affiché)','فيسبوك (النص الظاهر)'),c.fb,'facebook.com/…')+f2('pcIg','Instagram',c.instagram,'@…')+f2('pcTt','TikTok',c.tiktok,'@…')+f2('pcYt','YouTube',c.youtube,'@…')+f2('pcGrace',GL('Délai avant annulation des impayés (jours)','مهلة إلغاء الاشتراكات غير المدفوعة (أيام)'),c.grace,'20')+f2('pcBank',GL('Banque','البنك'),c.bank,'BIAT, STB…')+f2('pcRib','RIB',c.rib,'00 000 0000000000000 00')+'</div>'+
    '<div class="field" style="margin-top:10px;max-width:420px"><label for="pcPaper">'+GL('Papier des reçus et bons','ورق الوصولات والسندات')+'</label><select id="pcPaper"><option value="a5"'+(c.paper!=='a4'?' selected':'')+'>'+GL('A5 paysage (feuille A5)','A5 أفقي (ورقة A5)')+'</option><option value="a4"'+(c.paper==='a4'?' selected':'')+'>'+GL('A4 portrait (2 copies sur une feuille, à découper)','A4 عمودي (نسختان في ورقة، تُقصّ من المنتصف)')+'</option></select><div class="who" style="margin-top:4px">'+GL('Dans la fenêtre d\'impression : marges « Aucune » et décocher « En-têtes et pieds de page ».','في نافذة الطباعة: الهوامش «بلا» وإلغاء تأشير «العناوين والتذييلات».')+'</div></div>'+'<label style="display:flex;gap:8px;align-items:center;margin-top:12px"><input type="checkbox" id="pcPdf"'+(c.pdf?' checked':'')+'> '+GL('Reçu : générer un fichier PDF (à ouvrir avec Foxit/Adobe) au lieu de la fenêtre d\'impression','الوصل: إنشاء ملف PDF (يُفتح ببرنامج Foxit/Adobe) بدل نافذة الطباعة')+'</label>'+'<div class="mf"><button class="btn pri" id="pcSave">'+GL('Enregistrer','حفظ')+'</button></div></div>';
 }
 function bindPrintCfg(){
   if(!$('pcSave')) return;
   $('pcSave').onclick=async function(){
-    var v=Object.assign({},PCFG(),{season:$('pcSeason').value.trim(),fbUrl:$('pcFbUrl').value.trim(),fb:$('pcFb').value.trim(),instagram:$('pcIg').value.trim(),tiktok:$('pcTt').value.trim(),youtube:$('pcYt').value.trim(),bank:$('pcBank').value.trim(),rib:$('pcRib').value.trim(),paper:($('pcPaper')?$('pcPaper').value:'a5'),pdf:!!($('pcPdf')&&$('pcPdf').checked)});
+    var v=Object.assign({},PCFG(),{season:$('pcSeason').value.trim(),fbUrl:$('pcFbUrl').value.trim(),fb:$('pcFb').value.trim(),instagram:$('pcIg').value.trim(),tiktok:$('pcTt').value.trim(),youtube:$('pcYt').value.trim(),bank:$('pcBank').value.trim(),grace:parseInt($('pcGrace').value,10)||20,rib:$('pcRib').value.trim(),paper:($('pcPaper')?$('pcPaper').value:'a5'),pdf:!!($('pcPdf')&&$('pcPdf').checked)});
     var r=await saveCfg('print',v); S.setErr=r&&r.error?r.error.message:''; render();
   };
 }
