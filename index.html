@@ -595,6 +595,26 @@ body.has-spot #accueil>.wrap,body.has-spot #accueil .hero-grid{position:relative
   .wk-c h4{font-size:1.15rem}
 }
 @media (prefers-reduced-motion:reduce){.wk-r.now .wk-tag:before,.wk-pan.fx{animation:none}}
+
+/* calm palette: navy + gold only */
+.wk{--a:var(--green-deep)}
+.wk-r{--a:var(--green-deep)}
+.wk-chip{min-height:40px;font-weight:600}
+.wk-chip[aria-pressed="true"]{background:var(--green-deep);border-color:var(--green-deep);color:#fff}
+.wk-d.we b{color:inherit}
+.wk-d[aria-selected="true"].we{background:var(--green-deep);border-color:var(--green-deep)}
+.wk-c{background:var(--surface);border:1.5px solid var(--line);border-inline-start:1.5px solid var(--line);box-shadow:0 1px 0 rgba(0,32,79,.04)}
+.wk-c p{color:var(--muted)}
+.wk-rail i{background:var(--green-deep)}
+.wk-r.soon .wk-c{border:2px dashed var(--line)}
+.wk-tag{background:var(--gold);color:var(--gold-ink)}
+.wk-r.now .wk-tag:before{background:var(--gold-ink)}
+.wk-r.now .wk-c{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 35%,transparent)}
+.wk-r.now .wk-rail i{background:var(--gold);box-shadow:0 0 0 5px var(--bg),0 0 0 8px color-mix(in srgb,var(--gold) 40%,transparent)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .wk-d[aria-selected="true"],:root:not([data-theme="light"]) .wk-chip[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:var(--gold-ink)}:root:not([data-theme="light"]) .wk-d[aria-selected="true"] small{color:var(--gold-ink)}:root:not([data-theme="light"]) .wk-rail i{background:var(--head)}}
+:root[data-theme="dark"] .wk-d[aria-selected="true"],:root[data-theme="dark"] .wk-chip[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:var(--gold-ink)}
+:root[data-theme="dark"] .wk-d[aria-selected="true"] small{color:var(--gold-ink)}
+:root[data-theme="dark"] .wk-rail i{background:var(--head)}
 </style>
 
 <header>
@@ -1517,17 +1537,16 @@ body.has-spot #accueil>.wrap,body.has-spot #accueil .hero-grid{position:relative
     });
     var bar=h("div",{class:"wk-bar",role:"group","aria-label":tt("schH")});
     function chip(k,txt,col){
-      var b=h("button",{type:"button",class:"wk-chip","aria-pressed":String(wkSel===k)},[h("i",{style:"--a:"+col}),document.createTextNode(txt)]);
+      var b=h("button",{type:"button",class:"wk-chip","aria-pressed":String(wkSel===k)},[document.createTextNode(txt)]);
       b.addEventListener("click",function(){wkSel=k;wkFx=true;renderSchedule()});return b;
     }
     if(real.length>1){bar.appendChild(chip("all",tt("schAll"),"#0b7d45"));real.forEach(function(k){bar.appendChild(chip(k,kn[k].n,kn[k].c))});C.appendChild(bar)}
     var lay=h("div",{class:"wk-lay"}),list=h("div",{class:"wk-days",role:"tablist"});
     days.forEach(function(d){
       var its=items.filter(function(x){return +x.day===d&&vis(x)}),seen={},dots=[];
-      its.forEach(function(x){var k=wkKey(x);if(!seen[k]){seen[k]=1;dots.push(h("i",{style:"background:"+kn[k].c}))}});
       var b=h("button",{type:"button",role:"tab",class:"wk-d"+(d>=5?" we":"")+(its.length?"":" none"),"aria-selected":String(d===wkDay)},[
         h("span",null,[h("b",null,[document.createTextNode(dayName(d)),d===dow?h("span",{class:"wk-td",text:tt("schToday")}):null]),h("small",{text:wkCount(its.length)})]),
-        h("span",{class:"dots"},dots)]);
+        null]);
       b.addEventListener("click",function(){wkDay=d;wkFx=true;renderSchedule()});list.appendChild(b);
     });
     lay.appendChild(list);
@@ -1540,7 +1559,7 @@ body.has-spot #accueil>.wrap,body.has-spot #accueil .hero-grid{position:relative
       var k=wkKey(x),soon=!!x.soon,isNow=x===cur,past=wkDay===dow&&!isNow&&!soon&&(wkMin(x.to)||wkMin(x.from)+90)<=nowM;
       var tag=isNow?tt("schNow"):(x===nxt?tt("schNext"):"");
       var sub=soon?tt("schSoon"):(ml(x.sub)||x.group||""),du=soon?"":wkDur(x.from,x.to);
-      tl.appendChild(h("li",{class:"wk-r"+(soon?" soon":"")+(isNow?" now":"")+(past?" past":""),style:"--a:"+kn[k].c},[
+      tl.appendChild(h("li",{class:"wk-r"+(soon?" soon":"")+(isNow?" now":"")+(past?" past":""),},[
         h("div",{class:"wk-t"},[h("b",{text:x.from}),x.to?h("span",{text:"→ "+x.to}):null]),
         h("div",{class:"wk-rail","aria-hidden":"true"},[h("i")]),
         h("div",{class:"wk-c"},[
