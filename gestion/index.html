@@ -1019,7 +1019,9 @@ function lvNow(mid,did){ var p=(S.lhAll||[]).filter(function(x){ return x.member
 function isFreeLv(mid,did){ var l=lvNow(mid,did); return !!(l&&feesCfg().free.indexOf(l)>-1); }
 function planDisc(pid){ var p=(S.plansAll||[]).filter(function(x){ return x.id===pid; })[0]; return p?p.discipline_id:null; }
 function freeMember(x){ var cur=(S.allSubs||[]).filter(function(u){ return u.member_id===x.id&&u.ends_on>=todayStr(); }); if(!cur.length){ var ds={}; (S.lhAll||[]).forEach(function(r){ if(r.member_id===x.id) ds[r.discipline_id]=1; }); var k=Object.keys(ds); return k.length>0&&k.some(function(d){ return isFreeLv(x.id,d); }); } return cur.every(function(u){ var d=planDisc(u.plan_id); return d&&isFreeLv(x.id,d); }); }
-function sibRank(m){ var k=phKey(m); if(!k) return 1; var sibs=(S.gmembers||[]).filter(function(x){ return x.status!=='left'&&phKey(x)===k&&(x.id===m.id||!freeMember(x)); }).sort(function(a,b){ return (a.code||0)-(b.code||0); }); var i=sibs.map(function(x){return x.id;}).indexOf(m.id); return i<0?sibs.length+1:i+1; }
+function phKeys(m){ var o=[]; [m&&m.guardian_phone,m&&m.phone].forEach(function(v){ var d=String(v||'').replace(/\D/g,''); if(d.length>=8){ d=d.slice(-8); if(o.indexOf(d)<0) o.push(d); } }); return o; }
+function phSame(a,b){ var ka=phKeys(a), kb=phKeys(b); return ka.some(function(k){ return kb.indexOf(k)>-1; }); }
+function sibRank(m){ if(!phKeys(m).length) return 1; var sibs=(S.gmembers||[]).filter(function(x){ return x.status!=='left'&&(x.id===m.id||phSame(x,m))&&(x.id===m.id||!freeMember(x)); }).sort(function(a,b){ return (a.code||0)-(b.code||0); }); var i=sibs.map(function(x){return x.id;}).indexOf(m.id); return i<0?sibs.length+1:i+1; }
 function discFor(m,plan,start){ var price=plan.price_millimes, f=feesCfg(), g=socFor(m.id,start||todayStr());
   if(isFreeLv(m.id,plan.discipline_id)){ var sp=f.freeScope[lvNow(m.id,plan.discipline_id)]||'plan'; return {amt:price,why:GL('Niveau gratuit','مستوى مجاني'),waiveReg:sp!=='plan'||!!(g&&g.reg),waiveIns:sp==='all'||!!(g&&g.ins)}; }
   var rank=sibRank(m), a=sibDisc(rank,price), why=a?GL('Remise fratrie (rang '+rank+')','تخفيض إخوة (الترتيب '+rank+')'):'';
@@ -1603,7 +1605,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b>'+t('app')+'</b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v50</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v52</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
@@ -1932,7 +1934,7 @@ function bindHover(){
     b.onclick=(function(old){ return function(ev){ hovHide(); return old.call(this,ev); }; })(b.onclick);
   });
 }
-function sibsOf(m){ var k=phKey(m); if(!k) return []; return (S.gmembers||S.members||[]).filter(function(x){ return x.id!==m.id&&x.status!=='left'&&phKey(x)===k; }); }
+function sibsOf(m){ if(!phKeys(m).length) return []; return (S.gmembers||S.members||[]).filter(function(x){ return x.id!==m.id&&x.status!=='left'&&phSame(x,m); }); }
 function sibBadge(m){
   var sb=sibsOf(m); if(!sb.length) return '';
   var links=sb.slice(0,2).map(function(x){ return '<button type="button" class="link" data-open="'+x.id+'" title="'+esc(x.last_name+' '+x.first_name)+'" style="font-size:12px;padding:0 3px;text-decoration:underline">'+esc(x.first_name)+'</button>'; }).join('·');
@@ -3622,7 +3624,7 @@ var DPROF_TPL={grp:{lv:false,cats:false,grp:true},free:{lv:false,cats:false,grp:
 function dprofPanel(){
   var cb=function(did,k,on){ return '<label style="display:inline-flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" data-dp="'+did+':'+k+'"'+(on?' checked':'')+'><span class="who">'+({lv:GL('Niveaux','المستويات'),cats:GL('Catégories d\'âge','الفئات العمرية'),grp:GL('Groupes','المجموعات'),free:GL('Gratuit (sans tarif)','مجاني (بلا معلوم)')})[k]+'</span></label>'; };
   var rows=(S.discs||[]).map(function(d){ var o=dprof(d.id);
-    return '<tr><td style="min-width:150px"><b>'+esc(nm(d))+'</b></td><td style="white-space:nowrap">'+cb(d.id,'lv',o.lv)+'</td><td style="white-space:nowrap">'+cb(d.id,'cats',o.cats)+'</td><td style="white-space:nowrap">'+cb(d.id,'grp',o.grp)+'</td><td style="white-space:nowrap">'+cb(d.id,'free',o.free)+'</td>'+
+    return '<tr><td style="min-width:150px"><b>'+esc(nm(d))+'</b></td><td style="white-space:nowrap">'+cb(d.id,'lv',o.lv)+'</td><td style="white-space:nowrap">'+cb(d.id,'cats',o.cats)+(o.cats?'<div style="margin-top:6px"><button type="button" class="btn sm" data-dcats="'+d.id+'">'+GL('Modifier les âges','تعديل الأعمار')+'</button> <span class="who">'+(((S.cfg.dcats||{})[d.id]||[]).length?GL('Tableau propre','جدول خاص'):GL('Tableau général','الجدول العام'))+'</span></div>':'')+'</td><td style="white-space:nowrap">'+cb(d.id,'grp',o.grp)+'</td><td style="white-space:nowrap">'+cb(d.id,'free',o.free)+'</td>'+
      '<td><select data-dptpl="'+d.id+'" style="background:var(--inp);border:1px solid var(--line);border-radius:8px;padding:6px 8px"><option value="">'+GL('Modèle…','قالب…')+'</option><option value="grp">'+GL('Séances par groupes','حصص بمجموعات')+'</option><option value="free">'+GL('Accès libre','دخول حر')+'</option><option value="acad">'+GL('Académie (tout activé)','أكاديمية (كل شيء مفعّل)')+'</option></select></td></tr>'; }).join('');
   return '<div class="panel" style="margin-top:14px"><h3 style="margin-bottom:6px">'+GL('Règles par discipline','قواعد كل اختصاص')+'</h3><p class="who" style="margin-bottom:10px">'+GL('Désactivez ce dont une discipline n\'a pas besoin : cela disparaît de ses écrans (aucune donnée n\'est supprimée).','أطفئ ما لا يحتاجه الاختصاص فيختفي من شاشاته (ولا يُحذف أي شيء من البيانات).')+'</p>'+
    '<div class="tw"><table style="min-width:680px"><tbody>'+(rows||'<tr><td class="who">'+GL('Aucune discipline.','لا اختصاصات.')+'</td></tr>')+'</tbody></table></div></div>';
@@ -3661,7 +3663,7 @@ function readCatRows(){
 }
 function readCatMode(){ S.catMode={cmode:$('cMode').value,smonth:parseInt($('cMonth').value,10)||9}; }
 function bindCats(){
-  document.querySelectorAll('[data-dcats]').forEach(function(b){ b.onclick=function(){ var id=b.getAttribute('data-dcats'); S.catScope=id; S.catDraft=JSON.parse(JSON.stringify((S.cfg.dcats||{})[id]||[])); S.catMode={cmode:S.cfg.cmode||'annee',smonth:S.cfg.smonth||9}; S.modal='cats'; render(); }; });
+  document.querySelectorAll('[data-dcats]').forEach(function(b){ b.onclick=function(){ var id=b.getAttribute('data-dcats'); S.catScope=id; S.catDraft=JSON.parse(JSON.stringify(((S.cfg.dcats||{})[id]&&(S.cfg.dcats||{})[id].length)?(S.cfg.dcats||{})[id]:cats())); S.catMode={cmode:S.cfg.cmode||'annee',smonth:S.cfg.smonth||9}; S.modal='cats'; render(); }; });
   document.querySelectorAll('[data-cpre]').forEach(function(b){ b.onclick=function(){ var k=b.getAttribute('data-cpre'); S.catDraft=CAT_PRESETS[k].rows.map(function(r){ return {n:r[0],ar:r[1],a:r[2],b:r[3]}; }); render(); }; });
   if($('bCats')) $('bCats').onclick=function(){ S.catScope=''; S.catDraft=JSON.parse(JSON.stringify(cats())); S.catMode={cmode:S.cfg.cmode||'annee',smonth:S.cfg.smonth||9}; S.modal='cats'; render(); };
   if(!$('fCats')) return;
@@ -6341,6 +6343,7 @@ async function loadView(){ qcWarm();
   if(S.view==='dash') await loadToday();
   if(S.view==='dash'&&S.modal==='attq') await loadAttendance();
   if(S.view==='settings'||S.view==='sports') await loadGroups();
+  if(S.view==='settings'&&!(S.discs&&S.discs.length)) await loadCatalog();
   if(S.view==='groups') await loadGroups();
   if(S.view==='coaches'||S.view==='coach') await loadCoachPay();
   render();
