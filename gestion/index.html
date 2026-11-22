@@ -932,7 +932,7 @@ fr:{
  training:'Entraînement', progress:'Niveaux', achievements:'Palmarès', parents:'Parents',  comms:'Communication', admin:'Administration', messages:'Messages', planning:'Planning', journal:'Journal d\'activité', reports:'Rapports', settings:'Réglages', back:'← Retour', sub:'Abonnement', noSub:'Aucun abonnement', newSub:'Nouvel abonnement', plan:'Formule', starts:'Début', ends:'Fin',
  payNow:'Enregistrer le paiement maintenant', amount:'Montant (TND)', method:'Mode', m:{cash:'Espèces',cheque:'Chèque',transfer:'Virement'},
  chq:'N° du chèque', bank:'Banque', due:'Date d\'encaissement', ref:'Référence du virement', ps:{received:'Reçu',pending:'En attente',cashed:'Encaissé',bounced:'Impayé',cancelled:'Annulé'},
- sS:{active:'En cours',soon:'Bientôt fini',expired:'Expiré',none:'Sans abonnement'}, daysLeft:'jours restants', daysAgo:'expiré depuis (jours)',
+ sS:{active:'En cours',soon:'Bientôt fini',expired:'Expiré',none:'Sans abonnement',unpaid:'Non payé'}, daysLeft:'jours restants', daysAgo:'expiré depuis (jours)',
  hist:'Paiements', noPay:'Aucun paiement.', date:'Date', disc:'Discipline', disciplines:'Disciplines', plans:'Formules et prix', nameFr:'Nom (FR)', nameAr:'Nom (AR)', months:'Durée (mois)', price:'Prix (TND)', addDisc:'Ajouter une discipline', addPlan:'Ajouter une formule', guardian:'Parent / tuteur', copy:'Copier', open:'Ouvrir', sub2:'Abonnement',
  users:'Utilisateurs', uName:'Nom', uRole:'Rôle', uActive:'Actif', uHelp:'Pour ajouter un utilisateur : créez son compte dans Supabase (Authentication > Users > Add user), puis réglez ici son rôle.', uSelf:'(vous)'
 },
@@ -972,7 +972,7 @@ ar:{
  training:'التدريب', progress:'المستويات والأحزمة', achievements:'الإنجازات والميداليات', parents:'الأولياء',  comms:'التواصل والتقارير', admin:'الإدارة', messages:'الرسائل', planning:'جدول الحصص', journal:'سجل النشاط', reports:'التقارير', settings:'الإعدادات', back:'→ رجوع', sub:'الاشتراك', noSub:'لا يوجد اشتراك', newSub:'اشتراك جديد', plan:'الصيغة', starts:'البداية', ends:'النهاية',
  payNow:'تسجيل الدفعة الآن', amount:'المبلغ (د.ت)', method:'الطريقة', m:{cash:'نقدًا',cheque:'شيك',transfer:'تحويل'},
  chq:'رقم الشيك', bank:'البنك', due:'تاريخ الصرف', ref:'مرجع التحويل', ps:{received:'مقبوض',pending:'معلّق',cashed:'مصروف',bounced:'مرتجع',cancelled:'ملغى'},
- sS:{active:'ساري',soon:'ينتهي قريبًا',expired:'منتهي',none:'بلا اشتراك'}, daysLeft:'يوم متبقٍّ', daysAgo:'منتهٍ منذ (يوم)',
+ sS:{active:'ساري',soon:'ينتهي قريبًا',expired:'منتهي',none:'بلا اشتراك',unpaid:'غير مدفوع'}, daysLeft:'يوم متبقٍّ', daysAgo:'منتهٍ منذ (يوم)',
  hist:'المدفوعات', noPay:'لا توجد مدفوعات.', date:'التاريخ', disc:'الرياضة', disciplines:'الرياضات', plans:'الصيغ والأسعار', nameFr:'الاسم (فرنسي)', nameAr:'الاسم (عربي)', months:'المدة (أشهر)', price:'السعر (د.ت)', addDisc:'إضافة رياضة', addPlan:'إضافة صيغة', guardian:'الولي', copy:'نسخ', open:'فتح', sub2:'الاشتراك',
  users:'المستخدمون', uName:'الاسم', uRole:'الدور', uActive:'مفعّل', uHelp:'لإضافة مستخدم: أنشئ حسابه في Supabase (Authentication ثم Users ثم Add user)، ثم حدّد دوره هنا.', uSelf:'(أنت)'
 }};
@@ -1032,7 +1032,13 @@ function discFor(m,plan,start){ var price=plan.price_millimes, f=feesCfg(), g=so
 
 function sibDisc(rank,price){ var f=feesCfg(); if(!f.sibOn||rank<2) return 0; var v=+(f.sib[Math.min(rank,4)])||0; return f.sibType==='pct'?Math.round(price*v/100):Math.round(v*1000); }
 function planLabel(p){ var d=(S.discs||[]).filter(function(x){return x.id===p.discipline_id;})[0]; return (d?nm(d)+' · ':'')+nm(p); }
-function subPill(st){ return '<span class="pill'+(st==='soon'?' s':(st==='expired'?' l':''))+'"'+(st==='none'?' style="background:var(--line);color:var(--mut)"':'')+'>'+t('sS')[st]+'</span>'; }
+function subStateB(ends,bal){ var st=subState(ends); return (bal>0&&(st==='active'||st==='soon'))?'unpaid':st; }
+function subBalOf(s){ var pl=planOf(s.plan_id), paid=(S.mpays||[]).filter(function(p){ return validPay(p)&&p.subscription_id===s.id&&p.direction!=='out'; }).reduce(function(t,p){ return t+Number(p.amount_millimes||0); },0); return Math.max(0,subDue(s,pl)-paid); }
+async function sxEncaisser(subId){ var x=(S.msubs||[]).filter(function(y){ return y.id===subId; })[0]; if(!x) return; var bal=subBalOf(x); if(bal<=0){ uiToast(GL('Cet abonnement est déjà payé.','هذا الاشتراك مدفوع بالكامل.')); return; }
+  var v=await uiPrompt(GL('Montant encaissé en espèces (DT). Pour chèque ou virement, utilisez la page Paiements.','المبلغ المقبوض نقداً (د). للشيك أو التحويل استعمل صفحة المدفوعات.'),{title:GL('Encaisser · reste ','قبض · المتبقي ')+money(bal),input:{val:String(bal/1000),type:'number'}}); if(v===null||v===undefined||v==='') return; var amt=Math.round(parseFloat(v)*1000); if(!(amt>0)){ uiToast(GL('Montant invalide.','مبلغ غير صالح.')); return; } if(amt>bal&&!await uiConfirm(GL('Le montant dépasse le reste à payer ('+money(bal)+'). Continuer ?','المبلغ أكبر من المتبقي ('+money(bal)+'). متابعة؟'))) return;
+  var r=await sb.from('payments').insert({kind:'member',direction:'in',member_id:S.memberId,subscription_id:x.id,amount_millimes:amt,method:'cash',status:'received',paid_on:todayStr()}).select().single(); if(r.error){ uiToast(r.error.message); return; }
+  await loadMember(); render(); if(r.data&&await uiConfirm(GL('Voulez-vous imprimer le reçu de paiement ?','هل تريد طباعة وصل الدفع؟'),{title:GL('Reçu de paiement','وصل الدفع'),icon:'printer',ok:GL('Oui, imprimer','نعم، اطبع'),cancel:GL('Non','لا')})) printReceipt(r.data.id); }
+function subPill(st){ return '<span class="pill'+((st==='soon'||st==='unpaid')?' s':(st==='expired'?' l':''))+'"'+(st==='none'?' style="background:var(--line);color:var(--mut)"':'')+'>'+t('sS')[st]+'</span>'; }
 function modal(title, inner){
   return '<div class="ov" id="ov"><div class="modal" role="dialog" aria-modal="true" aria-label="'+esc(title)+'"><div class="mh"><h3>'+esc(title)+'</h3><button class="x" type="button" data-close aria-label="'+t('cancel')+'">×</button></div>'+inner+'</div></div>';
 }
@@ -1605,7 +1611,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b>'+t('app')+'</b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v52</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v54</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
@@ -1950,7 +1956,7 @@ function rowsHtml(q){
     var del=canEditMembers()?'<button class="btn sm bad" data-del="'+m.id+'">'+(S.pendingDel===m.id?t('sure'):t('del'))+'</button>':'';
     return '<tr><td><div style="display:flex;align-items:center;gap:10px"><span style="position:relative;display:inline-flex;flex:none">'+avatarHtml(m,36)+payDot(m)+'</span>'+'<div><button class="link" data-open="'+m.id+'" data-hov="'+m.id+'"><b>'+esc(m.last_name)+' '+esc(m.first_name)+'</b></button><div class="who">'+codeStr(m)+'</div>'+sibBadge(m)+'</div></div></td>'+
       '<td>'+(c?esc(catLabel(c)):'—')+'</td>'+
-      '<td>'+subPill(subState((S.lastEnd||{})[m.id]))+'</td>'+
+      '<td>'+subPill(subStateB((S.lastEnd||{})[m.id],((S.bal||{})[m.id]||0)))+'</td>'+
       '<td class="num">'+esc(ageStrL(m.birth_date))+'</td>'+
       '<td class="num" dir="ltr">'+esc(m.phone||m.guardian_phone||'—')+'</td>'+
       '<td>'+(di?'<span class="pill s">'+di+' '+t('toFix')+'</span>':'<span class="pill">'+t('complete')+'</span>')+'</td>'+
@@ -2391,7 +2397,7 @@ async function loadMember(){
 function infoRow(l,v){ return v?'<div><div class="who">'+l+'</div><b>'+esc(v)+'</b></div>':''; }
 function memberHtml(){
   var m=S.member; if(!m) return '<div class="err">'+esc(S.memErr||'—')+'</div><button class="btn" id="bBack">'+t('back')+'</button>';
-  var last=S.msubs[0], st=subState(last&&last.ends_on), c=catOf(m);
+  var last=S.msubs[0], lbal=last?subBalOf(last):0, st=subStateB(last&&last.ends_on,lbal), c=catOf(m);
   var plan=last&&S.plansAll.filter(function(p){return p.id===last.plan_id;})[0];
   var left=last?dayDiff(last.ends_on,todayStr()):0;
   var ini=((m.first_name||'?')[0]+(m.last_name||'')[0]).toUpperCase();
@@ -2409,7 +2415,7 @@ function memberHtml(){
    dl.map(function(x){ var nf=(S.mfiles||[]).filter(function(f){return f.doc_type===x.d.id;}).length;
      return '<div style="display:flex;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line);flex-wrap:wrap"><span style="flex:1;min-width:160px">'+esc(docName(x.d))+(nf?' <span class="who">· '+nf+' '+t('files')+'</span>':'')+'</span><span class="who">'+esc(x.txt)+'</span><span class="pill'+(x.st==='ok'?'':x.st==='soon'?' s':' l')+'">'+t('dS')[x.st]+'</span></div>'; }).join('')+'</div>';
   var subBox='<div class="panel" style="margin-top:14px"><div class="bar" style="margin-bottom:8px"><h3 style="flex:1">'+t('sub')+'</h3>'+(canEditMembers()?'<button class="btn pri sm" id="bNewSub">'+t('newSub')+'</button>':'')+'</div>'+
-   (last?'<div><b>'+(plan?esc(planLabel(plan)):'—')+'</b></div><div class="who">'+last.starts_on+' → '+last.ends_on+' · '+(left>=0? left+' '+t('daysLeft') : t('daysAgo')+' '+(-left))+'</div>':'<div class="who">'+t('noSub')+'</div>')+activeSubsBox()+'</div>';
+   (last?'<div><b>'+(plan?esc(planLabel(plan)):'—')+'</b></div><div class="who">'+last.starts_on+' → '+last.ends_on+' · '+(lbal>0&&left>=0? '<b style="color:var(--bad)">'+GL('Non payé · reste ','غير مدفوع · المتبقي ')+money(lbal)+'</b> '+(canFin()||canEditMembers()?'<button class="btn sm pri" data-encsub="'+last.id+'">'+GL('Encaisser','قبض')+'</button>':'') : (left>=0? left+' '+t('daysLeft') : t('daysAgo')+' '+(-left)))+'</div>':'<div class="who">'+t('noSub')+'</div>')+activeSubsBox()+'</div>';
   var modals='';
   if(S.modal==='memedit') modals=memberFormModal(m);
   if(S.modal==='doc') modals=docModal(m);
@@ -2470,6 +2476,7 @@ function bindMember(){
   if($('bBack')) $('bBack').onclick=function(){ S.view='members'; loadView(); };
   document.querySelectorAll('[data-maw]').forEach(function(b){ b.onclick=function(){ var id=b.getAttribute('data-maw'); printAwards(awardItems((S.mcr||[]).filter(function(r){return r.id===id;}))); }; });
   if($('bNewSub')) $('bNewSub').onclick=async function(){ await ensureFreePlans(); S.showSub=true; render(); };
+  document.querySelectorAll('[data-encsub]').forEach(function(b){ b.onclick=function(){ sxEncaisser(b.getAttribute('data-encsub')); }; });
   document.querySelectorAll('[data-endsub]').forEach(function(b){ b.onclick=async function(){ var id=b.getAttribute('data-endsub'), x=(S.msubs||[]).filter(function(y){return y.id===id;})[0]; if(!x) return;
     if(!confirm(GL('Terminer cet abonnement maintenant ? (le membre ne sera plus compté dans cette discipline ; les montants dus restent inchangés)','إنهاء هذا الاشتراك الآن؟ (لن يُحسب اللاعب في هذا الاختصاص، وتبقى المبالغ المستحقة كما هي)'))) return;
     var e=addD(todayStr(),-1); if(e<x.starts_on) e=x.starts_on; var r=await sb.from('subscriptions').update({ends_on:e}).eq('id',id); if(r.error){ alert(r.error.message); return; } await loadMember(); render(); }; });
@@ -2525,6 +2532,11 @@ function bindMember(){
   $('fSub').onsubmit=async function(e){
     e.preventDefault(); var msg=$('sMsg'); msg.textContent='';
     var p=plan(); if(!p){ msg.textContent=t('plan'); return; }
+    try{ var ds0=$('sStart').value, same=(S.msubs||[]).filter(function(u){ var pu=planOf(u.plan_id); return pu&&pu.discipline_id===p.discipline_id&&u.ends_on>=ds0; });
+      if(same.length){ var unp=same.filter(function(u){ return subBalOf(u)>0; })[0];
+        if(unp){ if(await uiConfirm(GL('Ce membre a déjà un abonnement NON PAYÉ dans cette discipline (reste '+money(subBalOf(unp))+').\n\nOui = encaisser sur l\'abonnement existant (aucun nouvel abonnement).\nNon = créer quand même un nouvel abonnement.','لهذا العضو اشتراك غير مدفوع في نفس الاختصاص (المتبقي '+money(subBalOf(unp))+').\n\nنعم = سجّل الدفع على الاشتراك الموجود (دون إنشاء اشتراك جديد).\nلا = أنشئ اشتراكاً جديداً رغم ذلك.'),{title:GL('Abonnement existant','اشتراك موجود'),ok:GL('Oui, encaisser','نعم، سجّل الدفع'),cancel:GL('Non, créer','لا، أنشئ')})){ S.showSub=false; render(); await sxEncaisser(unp.id); return; } }
+        else if(!await uiConfirm(GL('Ce membre a déjà un abonnement en cours dans cette discipline. Créer un deuxième abonnement ?','لهذا العضو اشتراك ساري في نفس الاختصاص. هل تريد إنشاء اشتراك ثانٍ؟'),{title:GL('Doublon possible','تكرار محتمل'),ok:GL('Créer quand même','أنشئ رغم ذلك'),cancel:GL('Annuler','إلغاء')})) return; }
+    }catch(e1){}
     var r=await sb.from('subscriptions').insert({member_id:S.memberId,plan_id:p.id,starts_on:$('sStart').value,ends_on:$('sEnd').value,due_millimes:total(),discount_millimes:num('sDisc'),reg_millimes:num('sReg'),ins_millimes:num('sIns')}).select().single();
     if(r.error){ msg.textContent=r.error.message; return; }
     try{ var nstart=$('sStart').value, olds=(S.msubs||[]).filter(function(u){ var pu=planOf(u.plan_id); return pu&&pu.discipline_id!==p.discipline_id&&u.ends_on>=nstart; });
@@ -2769,11 +2781,11 @@ function payees(){ var o={}; (S.pays||[]).forEach(function(p){ if(p.kind!=='memb
 function payWho(p){ return p.kind==='member' ? (S.pnames[p.member_id]||'—') : (p.counterparty||'—'); }
 /* ---- رقابة: الإلغاء المرقّم + غلق الصندوق + الأرقام الناقصة ---- */
 function dayClosedSync(date){ return monthClosed(date)||(S.closings||[]).some(function(c){ return c.close_date===date&&!c.reopened_at; }); }
-function cashNet(date){ /* espèces attendues = solde cumulé de la caisse à la fin de la journée (ouverture + opérations espèces + mouvements banque↔caisse) */
-  var op=(S.cfg&&S.cfg.opening)||{cash:0,date:''}, mv=(S.cfg&&S.cfg.cashmoves)||[], a=op.cash||0, n=0;
-  (S.pays||[]).forEach(function(p){ if(p.method!=='cash'||!validPay(p)||p.paid_on>date) return; if(op.date&&p.paid_on<op.date) return; a+=(p.direction==='in'?1:-1)*Number(p.amount_millimes); if(p.paid_on===date) n++; });
-  mv.forEach(function(m){ if(m.date>date||(op.date&&m.date<op.date)) return; a+=(m.dir==='c2b'?-1:1)*m.amt; if(m.date===date) n++; });
-  return {a:a,n:n}; }
+function cashNet(date){ /* espèces attendues = opérations espèces de CETTE journée uniquement (chaque jour est clôturé séparément) ; cum = solde cumulé de la caisse (information) */
+  var op=(S.cfg&&S.cfg.opening)||{cash:0,date:''}, mv=(S.cfg&&S.cfg.cashmoves)||[], a=0, n=0, cum=op.cash||0;
+  (S.pays||[]).forEach(function(p){ if(p.method!=='cash'||!validPay(p)||p.paid_on>date) return; var v=(p.direction==='in'?1:-1)*Number(p.amount_millimes); if(!(op.date&&p.paid_on<op.date)) cum+=v; if(p.paid_on===date){ a+=v; n++; } });
+  mv.forEach(function(m){ if(m.date>date) return; var v=(m.dir==='c2b'?-1:1)*m.amt; if(!(op.date&&m.date<op.date)) cum+=v; if(m.date===date){ a+=v; n++; } });
+  return {a:a,n:n,cum:cum}; }
 function seqGaps(){
   var seqs=(S.pays||[]).map(function(p){ return p.receipt_seq; }).filter(Boolean), set={}; seqs.forEach(function(x){ set[x]=1; });
   var mx=seqs.reduce(function(a,b){ return Math.max(a,b); },0), miss=[]; for(var i=1;i<=mx;i++) if(!set[i]) miss.push(i); return {miss:miss,max:mx};
@@ -2801,7 +2813,7 @@ function ctlBanners(){
 function closeHtml(){
   if(!seeFin()) return '';
   var d=S.clDate||todayStr(), net=cashNet(d), cl=(S.closings||[]).filter(function(c){ return c.close_date===d&&!c.reopened_at; })[0], inp='background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:9px 12px';
-  var body='<div class="bar" style="gap:10px;flex-wrap:wrap;align-items:center"><input type="date" id="clDate" value="'+esc(d)+'" style="'+inp+'"><span>'+GL('Espèces attendues : ','النقد المسجَّل: ')+'<b>'+money(net.a)+'</b> <span class="who">('+net.n+' '+GL('opérations','عملية')+')</span></span></div>';
+  var body='<div class="bar" style="gap:10px;flex-wrap:wrap;align-items:center"><input type="date" id="clDate" value="'+esc(d)+'" style="'+inp+'"><span>'+GL('Espèces attendues : ','النقد المسجَّل: ')+'<b>'+money(net.a)+'</b> <span class="who">('+net.n+' '+GL('opérations','عملية')+')</span></span></div><div class="who" style="margin-top:4px">'+GL('Chaque journée est clôturée séparément. Solde cumulé de la caisse (information) : ','كل يوم يُغلق على حدة. الرصيد التراكمي للصندوق (للعلم): ')+'<b>'+money(net.cum)+'</b></div>';
   if(cl) body+='<div style="margin-top:10px"><span class="pill">'+di('lock','currentColor',14)+' '+GL('Journée clôturée','اليوم مغلق')+'</span> '+GL('Compté : ','المعدود: ')+'<b>'+money(cl.counted_millimes)+'</b> · '+GL('Écart : ','الفرق: ')+'<b style="color:'+(cl.diff_millimes?'var(--bad)':'var(--ok)')+'">'+(cl.diff_millimes>0?'+':'')+money(cl.diff_millimes)+'</b> <span class="who">· '+esc(cl.closed_by||'')+'</span>'+(cl.note?'<div class="who">'+esc(cl.note)+'</div>':'')+' <button class="btn sm pri" id="clPrint">'+GL('Imprimer le PV de clôture','طباعة محضر الغلق')+'</button>'+(isPres()?' <button class="btn sm" id="clReopen" data-cl="'+cl.id+'">'+GL('Rouvrir (motif)','إعادة الفتح (بسبب)')+'</button>':'')+'</div>';
   else if(canFin()) body+='<div class="bar" style="gap:8px;flex-wrap:wrap;align-items:flex-end;margin-top:10px"><span class="who" style="width:100%">'+GL('Billetage (facultatif) : le total se calcule seul.','عدّ الأوراق (اختياري): المجموع يُحسب تلقائياً.')+'</span>'+SX_BIL.map(function(x){ return '<label class="who">'+x[1]+'<br><input data-bil="'+x[0]+'" type="number" min="0" step="1" dir="ltr" style="'+inp+';width:78px"></label>'; }).join('')+'<label class="who">'+GL('Pièces (TND)','القطع (د)')+'<br><input data-bil="coins" type="number" min="0" step="0.001" dir="ltr" style="'+inp+';width:96px"></label><button class="btn sm" id="clProv" type="button">'+GL('Imprimer la situation','طباعة الوضعية')+'</button></div>'+'<div class="bar" style="gap:10px;flex-wrap:wrap;align-items:flex-end;margin-top:10px"><label>'+GL('Espèces comptées (TND)','النقد المعدود (د)')+'<br><input id="clCnt" type="number" step="0.001" min="0" dir="ltr" style="'+inp+';width:150px"></label><span id="clDiff" class="who"></span><label style="flex:1;min-width:180px">'+GL('Note (obligatoire si écart)','ملاحظة (إلزامية عند وجود فرق)')+'<br><input id="clNote" style="'+inp+';width:100%"></label><button class="btn pri" id="clGo">'+GL('Clôturer la journée','غلق اليوم')+'</button></div><div class="err" id="clMsg" role="alert"></div>';
   else body+='<div class="who" style="margin-top:8px">'+GL('Journée non clôturée.','اليوم غير مغلق بعد.')+'</div>';
@@ -6505,7 +6517,7 @@ function renderStation(){
     var stats='';
     if(ok){
       var left=r.daysLeft!=null?Math.max(0,r.daysLeft):0, tot=r.daysTotal>0?r.daysTotal:30, pct=Math.max(4,Math.min(100,Math.round(left*100/tot)));
-      stats='<div class="ststats"><div class="sttile"><b data-cu="'+(r.visitsMonth||0)+'">0</b><span>'+esc(GL('Visites ce mois','زيارات هذا الشهر'))+'</span></div><div class="sttile"><b data-cu="'+(r.visitsTotal||0)+'">0</b><span>'+esc(GL('Séances au total','مجموع الحصص'))+'</span></div><div class="sttile"><b><span data-cu="'+left+'" style="font-size:inherit;opacity:1;letter-spacing:0">0</span></b><span>'+esc(GL('jours d\'abonnement restants','يوماً متبقياً من الاشتراك'))+'</span><div class="bar"><i data-w="'+pct+'"></i></div></div></div>';
+      stats='<div class="ststats"><div class="sttile"><b data-cu="'+(r.visitsMonth||0)+'">0</b><span>'+esc(GL('Visites ce mois','زيارات هذا الشهر'))+'</span></div><div class="sttile"><b data-cu="'+(r.visitsTotal||0)+'">0</b><span>'+esc(GL('Séances au total','مجموع الحصص'))+'</span></div>'+(r.solde>0?'<div class="sttile"><b style="color:#f59e0b">'+esc(money(r.solde))+'</b><span>'+esc(GL('Reste à payer','المتبقي للدفع'))+'</span></div>':'<div class="sttile"><b><span data-cu="'+left+'" style="font-size:inherit;opacity:1;letter-spacing:0">0</span></b><span>'+esc(GL('jours d\'abonnement restants','يوماً متبقياً من الاشتراك'))+'</span><div class="bar"><i data-w="'+pct+'"></i></div></div>')+'</div>';
     }
     var extra='';
     if(ok&&r.bday) extra+='<div class="stbd">🎂 Joyeux anniversaire '+esc(m.first_name)+' ! · عيد ميلاد سعيد</div>';
