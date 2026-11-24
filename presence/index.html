@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SYNOX GYM</title>
+<title>SYNOX · Gestion Sportive</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&family=Inter:wght@400;600;700;800&family=Cairo:wght@400;600;700;800&family=Great+Vibes&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -48,6 +48,8 @@ h1,h2,h3{margin:0;text-wrap:balance}
 .auth{min-height:100%;display:grid;place-items:center;padding:24px 16px}
 .authcard{width:100%;max-width:400px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:16px}
 .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;letter-spacing:.5px}
+.logo small{display:block;font-size:9.5px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;opacity:.65;margin-top:1px}
+.logo .lt{display:flex;flex-direction:column;line-height:1.05}
 .logo i{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--acc2),var(--acc));display:grid;place-items:center;color:#fff;font-style:normal}
 .tools{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;align-items:center}
 .bellw{position:relative;display:inline-block}
@@ -78,7 +80,7 @@ h1,h2,h3{margin:0;text-wrap:balance}
 .nav svg{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .nav:hover{background:rgba(255,255,255,.07)}
 .nav.on{background:linear-gradient(135deg,var(--acc2),var(--acc));color:#fff}
-.mini .nav span,.mini .logo b{display:none}
+.mini .nav span,.mini .logo b,.mini .logo .lt{display:none}
 .mini .nav{justify-content:center}
 .grow{flex:1}
 .main{padding:20px 24px;min-width:0}
@@ -786,7 +788,7 @@ html[dir=rtl] #pa .v2 .fx{transform:scaleX(-1)}
 </style>
 </head>
 <body>
-<div id="app"><div style="min-height:100vh;display:grid;place-items:center;font-family:system-ui,sans-serif;color:#6B7194"><div style="text-align:center"><div style="width:56px;height:56px;border-radius:16px;background:#FF6B1A;color:#fff;font-weight:800;font-size:26px;display:grid;place-items:center;margin:0 auto 12px">S</div><div style="font-weight:800;color:#10163A;font-size:18px">SYNOX GYM</div><div style="margin-top:6px;font-size:13px">Chargement… · جارٍ التحميل…</div></div></div></div><div id="pa"></div>
+<div id="app"><div style="min-height:100vh;display:grid;place-items:center;font-family:system-ui,sans-serif;color:#6B7194"><div style="text-align:center"><div style="width:56px;height:56px;border-radius:16px;background:#FF6B1A;color:#fff;font-weight:800;font-size:26px;display:grid;place-items:center;margin:0 auto 12px">S</div><div style="font-weight:800;color:#10163A;font-size:18px">SYNOX</div><div style="margin-top:6px;font-size:13px">Chargement… · جارٍ التحميل…</div></div></div></div><div id="pa"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -914,7 +916,7 @@ var sb = DEMO ? makeLocalDb() : window.supabase.createClient(SUPABASE_URL, SUPAB
 /* ------------ الترجمة ------------ */
 var D = {
 fr:{
- app:'SYNOX GYM', email:'E-mail', password:'Mot de passe', name:'Nom complet',
+ app:'SYNOX', email:'E-mail', password:'Mot de passe', name:'Nom complet',
  login:'Se connecter', signup:'Créer un compte', haveAcc:'J\'ai déjà un compte', noAcc:'Créer un compte',
  logout:'Déconnexion', dash:'Tableau de bord', members:'Membres', payments:'Paiements', finance:'Finance & comptabilité', encais:'Encaissements', expenses:'Dépenses', treasury:'Caisse & banque', salaries:'Salaires', unpaid:'Impayés', compta:'Comptabilité', finrep:'Rapports financiers', soon:'Bientôt disponible',
  wait:'Votre compte est créé. Le gérant doit l\'activer avant que vous puissiez entrer.',
@@ -954,7 +956,7 @@ fr:{
  users:'Utilisateurs', uName:'Nom', uRole:'Rôle', uActive:'Actif', uHelp:'Pour ajouter un utilisateur : créez son compte dans Supabase (Authentication > Users > Add user), puis réglez ici son rôle.', uSelf:'(vous)'
 },
 ar:{
- app:'SYNOX GYM', email:'البريد الإلكتروني', password:'كلمة السر', name:'الاسم الكامل',
+ app:'SYNOX', email:'البريد الإلكتروني', password:'كلمة السر', name:'الاسم الكامل',
  login:'دخول', signup:'إنشاء حساب', haveAcc:'لدي حساب بالفعل', noAcc:'إنشاء حساب',
  logout:'خروج', dash:'لوحة القيادة', members:'الأعضاء', payments:'المدفوعات', finance:'المالية والمحاسبة', encais:'الاستخلاص', expenses:'المصاريف', treasury:'الصندوق والبنك', salaries:'الأجور', unpaid:'المتأخرات', compta:'المحاسبة', finrep:'التقارير المالية', soon:'قريبًا',
  wait:'تم إنشاء حسابك. يجب أن يفعّله المدير قبل أن تتمكن من الدخول.',
@@ -1486,7 +1488,7 @@ function renderAuth(msg, ok){
   var su=S.signupMode;
   $('app').innerHTML =
    '<div class="auth"><form class="authcard" id="fAuth" novalidate>'+toolsHtml()+
-   '<div class="logo"><i>S</i><span>'+t('app')+'</span></div>'+
+   '<div class="logo"><i>S</i><span class="lt"><span>'+t('app')+'</span><small>'+GL('Gestion Sportive','إدارة الرياضة')+'</small></span></div>'+
    (su?'<div class="field"><label for="aName">'+t('name')+'</label><input id="aName" autocomplete="name"></div>':'')+
    '<div class="field"><label for="aMail">'+t('email')+'</label><input id="aMail" type="email" autocomplete="'+(DEMO?'off':'email')+'" dir="ltr"'+(DEMO?' value="demo@synox.tn"':'')+'></div>'+
    '<div class="field"><label for="aPass">'+t('password')+'</label><input id="aPass" type="password" autocomplete="'+(DEMO?'off':(su?'new-password':'current-password'))+'" dir="ltr"'+(DEMO?' value="demo"':'')+'></div>'+
@@ -1528,7 +1530,7 @@ async function boot(){
 }
 
 function renderWait(){
-  $('app').innerHTML='<div class="auth"><div class="authcard">'+toolsHtml()+'<div class="logo"><i>S</i><span>'+t('app')+'</span></div>'+
+  $('app').innerHTML='<div class="auth"><div class="authcard">'+toolsHtml()+'<div class="logo"><i>S</i><span class="lt"><span>'+t('app')+'</span><small>'+GL('Gestion Sportive','إدارة الرياضة')+'</small></span></div>'+
     '<p>'+t('wait')+'</p><button class="btn" id="bOut">'+t('logout')+'</button></div></div>';
   bindTools(); $('bOut').onclick=logout;
 }
@@ -1679,8 +1681,8 @@ function shell(title, inner){
     var bd=i.gid==='finance'?finBadge('finance'):0; return '<button class="nav'+((cg&&cg[0]===i.gid)?' on':'')+'" data-v="'+target+'" title="'+t(i.key)+'">'+svg(i.key)+'<span>'+(i.key==='payments'?vT('payments'):t(i.key))+'</span>'+(bd?'<b class="nbd">'+bd+'</b>':'')+'</button>';
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
-   '<aside class="side"><div class="logo"><i>S</i><b>'+t('app')+'</b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.0.0</div>'+
+   '<aside class="side"><div class="logo"><i>S</i><b class="lt"><b>'+t('app')+'</b><small>'+GL('Gestion Sportive','إدارة الرياضة')+'</small></b></div>'+nav+'<div class="grow"></div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.1.0</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
@@ -3187,7 +3189,7 @@ function printPayslip_v1(c,ym){
    '<tr><td style="padding:4px 6px">'+GL('Déjà versé','المدفوع')+'</td><td class="num" style="text-align:end;padding:4px 6px">'+money(q.paid)+'</td></tr>'+
    '<tr style="font-weight:700"><td style="padding:4px 6px">'+GL('Reste','الباقي')+'</td><td class="num" style="text-align:end;padding:4px 6px">'+money(q.rest)+'</td></tr></tbody></table>';
   var sig='<div style="display:flex;justify-content:space-between;gap:30px;margin-top:34px;font-size:12px"><div style="flex:1;border-top:1px solid #000;padding-top:4px;text-align:center">'+GL('Signature du coach','توقيع المدرب')+'</div><div style="flex:1;border-top:1px solid #000;padding-top:4px;text-align:center">'+GL('Cachet et signature de l\'association','ختم وإمضاء الجمعية')+'</div></div>';
-  printNode('<h1>'+assocHead()+'</h1><h2 style="border:0;font-size:17px;margin:2px 0">'+GL('FICHE DE PAIE','كشف الأجر')+' — '+esc(mth)+'</h2><div class="meta">'+GL('Édité le','صدر في')+' '+esc(new Date().toLocaleString())+'</div>'+secTable(head,1)+secTable(det,1)+(q.secs.length?secTable(act,1):'')+(unp?'<h2>'+GL('Membres n\'ayant pas payé ce mois','الأعضاء الذين لم يدفعوا هذا الشهر')+'</h2>'+unp:'')+tot+sig+'<div class="foot">SYNOX GYM</div>');
+  printNode('<h1>'+assocHead()+'</h1><h2 style="border:0;font-size:17px;margin:2px 0">'+GL('FICHE DE PAIE','كشف الأجر')+' — '+esc(mth)+'</h2><div class="meta">'+GL('Édité le','صدر في')+' '+esc(new Date().toLocaleString())+'</div>'+secTable(head,1)+secTable(det,1)+(q.secs.length?secTable(act,1):'')+(unp?'<h2>'+GL('Membres n\'ayant pas payé ce mois','الأعضاء الذين لم يدفعوا هذا الشهر')+'</h2>'+unp:'')+tot+sig+'<div class="foot">SYNOX</div>');
 }
 function payslipText(c,ym){
   var q=coPay(c,ym), t=GL('Bonjour ','مرحباً ')+c.full_name+',\n'+GL('Votre fiche de paie ','كشف أجرك لشهر ')+ym.slice(5)+'/'+ym.slice(0,4)+' :\n';
@@ -3691,7 +3693,7 @@ async function camStart(){
 /* ---- بطاقة العضو (QR) ---- */
 function cardPanel(m){
   return '<div class="panel" id="cardBox" style="margin-top:14px;display:flex;gap:18px;align-items:center;flex-wrap:wrap"><div id="qr" style="background:#fff;padding:8px;border-radius:10px;min-width:166px;min-height:166px;display:grid;place-items:center;color:#000"></div>'+
-   '<div style="flex:1;min-width:180px"><div class="who">SYNOX GYM</div><h3 style="font-size:20px">'+esc(m.first_name+' '+m.last_name)+'</h3><div class="num" style="font-size:22px;font-weight:800;color:var(--acc)">'+codeStr(m)+'</div>'+
+   '<div style="flex:1;min-width:180px"><div class="who">SYNOX</div><h3 style="font-size:20px">'+esc(m.first_name+' '+m.last_name)+'</h3><div class="num" style="font-size:22px;font-weight:800;color:var(--acc)">'+codeStr(m)+'</div>'+
    '<button class="btn sm noprint" id="bPrintCard" style="margin-top:10px">'+t('printCard')+'</button></div></div>';
 }
 function bindCard(m){
@@ -3966,7 +3968,7 @@ function repExcel(){
 }
 function printRep(){
   var d=repData(), html='<h1>'+assocHead()+'</h1><h2 style="border:0;font-size:16px;margin:2px 0">'+esc(d.title)+'</h2><div class="meta">'+L('Période','الفترة')+' : '+esc(d.per)+(d.filt?' · '+esc(d.filt):'')+'<br>'+L('Édité le','صدر في')+' '+esc(new Date().toLocaleString())+' — '+esc(S.profile.full_name||'')+'</div><div class="kp">'+d.kp.map(function(k){ return '<div>'+esc(k[0])+'<b>'+esc(k[1])+'</b></div>'; }).join('')+'</div>'+
-    d.secs.map(function(x){ return '<div><h2>'+esc(x.h)+'</h2>'+secTable(x,1)+(x.note?'<div class="foot">'+esc(x.note)+'</div>':'')+'</div>'; }).join('')+'<div class="foot">SYNOX GYM</div>';
+    d.secs.map(function(x){ return '<div><h2>'+esc(x.h)+'</h2>'+secTable(x,1)+(x.note?'<div class="foot">'+esc(x.note)+'</div>':'')+'</div>'; }).join('')+'<div class="foot">SYNOX</div>';
   printNode(html);
 }
 
@@ -4125,7 +4127,7 @@ function printBoard(){
    '<div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:.3cm"><div><div style="font-size:6.5pt;font-weight:800;letter-spacing:2px;color:#C2410C">MEDJEZ EL BAB</div><div style="font-size:17pt;font-weight:900;line-height:1.05">'+sxE(nmA.toUpperCase())+'</div></div>'+
    '<div style="text-align:right"><div style="font-size:12pt;font-weight:800">Planning hebdomadaire</div><div style="font-size:6.5pt;color:#6B7194;margin-top:2px">'+sxE(sub)+'</div><div dir="rtl" style="font-size:8pt;font-weight:800;margin-top:2px">الجدول الأسبوعي</div></div></div>'+
    (B.order.length?boardInner(B):'<div style="padding:2cm;text-align:center;color:#6B7194">Aucune séance.</div>')+
-   '<div style="margin-top:auto;font-size:6pt;color:#6B7194;padding-top:.3cm">Édité le '+sxD(todayStr())+' · SYNOX GYM</div></div></div>';
+   '<div style="margin-top:auto;font-size:6pt;color:#6B7194;padding-top:.3cm">Édité le '+sxD(todayStr())+' · SYNOX</div></div></div>';
   sxPrint(html,'A4 landscape',true);
 }
 function planningHtml(){
@@ -4190,15 +4192,15 @@ function todayPanel(){
 
 /* ------------ الرسائل (واتساب / SMS) ------------ */
 var MSG_DEF={
-  sub:{fr:"Bonjour {prenom}, l'abonnement de {prenom} {nom} à SYNOX GYM se termine le {fin}. Merci de le renouveler. Cordialement.",ar:"السلام عليكم، اشتراك {prenom} {nom} في SYNOX GYM ينتهي بتاريخ {fin}. نرجو التجديد. شكراً."},
-  unpaid:{fr:"Bonjour {prenom}, il reste {solde} à régler pour l'abonnement de {prenom} {nom} à SYNOX GYM. Merci de passer à la réception.",ar:"السلام عليكم، بقي مبلغ {solde} لتسوية اشتراك {prenom} {nom} في SYNOX GYM. نرجو المرور على الاستقبال. شكراً."},
-  absent:{fr:"Bonjour, {prenom} {nom} n'est pas venu(e) à l'entraînement depuis {jours} jours. Tout va bien ? Nous espérons le/la revoir bientôt. SYNOX GYM.",ar:"السلام عليكم، لاحظنا غياب {prenom} {nom} عن التدريب منذ {jours} يوم. هل كل شيء على ما يرام؟ ننتظر عودته قريباً. SYNOX GYM."},
-  schedule:{fr:"Bonjour, voici l'emploi du temps de {prenom} {nom} à SYNOX GYM :\n{horaire}\nCordialement.",ar:"السلام عليكم، هذا جدول حصص {prenom} {nom} في SYNOX GYM:\n{horaire}\nشكراً."},
-  birthday:{fr:"Joyeux anniversaire {prenom} ! 🎂 Toute l'équipe de SYNOX GYM te souhaite une belle journée et plein de réussite.",ar:"كل عام وأنت بخير {prenom}! 🎂 يتمنى لك فريق SYNOX GYM يوماً سعيداً ومزيداً من النجاح."},
-  level:{fr:"Félicitations ! {prenom} {nom} a réussi l'examen de {sport} et passe au niveau : {niveau}. Toute l'équipe de SYNOX GYM est fière de lui/elle !",ar:"تهانينا! نجح {prenom} {nom} في اختبار {sport} وانتقل إلى المستوى: {niveau}. فريق SYNOX GYM فخور بإنجازه!"},
-  medal:{fr:"Félicitations ! {prenom} {nom} a obtenu : {niveau} ({sport}). Toute l'équipe de SYNOX GYM est fière de lui/elle !",ar:"تهانينا! حصل {prenom} {nom} على: {niveau} ({sport}). فريق SYNOX GYM فخور بإنجازه!"},
-  levelready:{fr:"Bonjour, {prenom} {nom} est prêt(e) pour l'examen de passage en {sport} (prochain niveau : {niveau}). Merci de confirmer sa participation. SYNOX GYM.",ar:"السلام عليكم، {prenom} {nom} جاهز للمشاركة في اختبار الترقية في {sport} (المستوى القادم: {niveau}). نرجو تأكيد حضوره. SYNOX GYM."},
-  free:{fr:"Bonjour {prenom}, message de SYNOX GYM : ",ar:"السلام عليكم، رسالة من SYNOX GYM: "}
+  sub:{fr:"Bonjour {prenom}, l'abonnement de {prenom} {nom} à SYNOX se termine le {fin}. Merci de le renouveler. Cordialement.",ar:"السلام عليكم، اشتراك {prenom} {nom} في SYNOX ينتهي بتاريخ {fin}. نرجو التجديد. شكراً."},
+  unpaid:{fr:"Bonjour {prenom}, il reste {solde} à régler pour l'abonnement de {prenom} {nom} à SYNOX. Merci de passer à la réception.",ar:"السلام عليكم، بقي مبلغ {solde} لتسوية اشتراك {prenom} {nom} في SYNOX. نرجو المرور على الاستقبال. شكراً."},
+  absent:{fr:"Bonjour, {prenom} {nom} n'est pas venu(e) à l'entraînement depuis {jours} jours. Tout va bien ? Nous espérons le/la revoir bientôt. SYNOX.",ar:"السلام عليكم، لاحظنا غياب {prenom} {nom} عن التدريب منذ {jours} يوم. هل كل شيء على ما يرام؟ ننتظر عودته قريباً. SYNOX."},
+  schedule:{fr:"Bonjour, voici l'emploi du temps de {prenom} {nom} à SYNOX :\n{horaire}\nCordialement.",ar:"السلام عليكم، هذا جدول حصص {prenom} {nom} في SYNOX:\n{horaire}\nشكراً."},
+  birthday:{fr:"Joyeux anniversaire {prenom} ! 🎂 Toute l'équipe de SYNOX te souhaite une belle journée et plein de réussite.",ar:"كل عام وأنت بخير {prenom}! 🎂 يتمنى لك فريق SYNOX يوماً سعيداً ومزيداً من النجاح."},
+  level:{fr:"Félicitations ! {prenom} {nom} a réussi l'examen de {sport} et passe au niveau : {niveau}. Toute l'équipe de SYNOX est fière de lui/elle !",ar:"تهانينا! نجح {prenom} {nom} في اختبار {sport} وانتقل إلى المستوى: {niveau}. فريق SYNOX فخور بإنجازه!"},
+  medal:{fr:"Félicitations ! {prenom} {nom} a obtenu : {niveau} ({sport}). Toute l'équipe de SYNOX est fière de lui/elle !",ar:"تهانينا! حصل {prenom} {nom} على: {niveau} ({sport}). فريق SYNOX فخور بإنجازه!"},
+  levelready:{fr:"Bonjour, {prenom} {nom} est prêt(e) pour l'examen de passage en {sport} (prochain niveau : {niveau}). Merci de confirmer sa participation. SYNOX.",ar:"السلام عليكم، {prenom} {nom} جاهز للمشاركة في اختبار الترقية في {sport} (المستوى القادم: {niveau}). نرجو تأكيد حضوره. SYNOX."},
+  free:{fr:"Bonjour {prenom}, message de SYNOX : ",ar:"السلام عليكم، رسالة من SYNOX: "}
 };
 S.msg={aud:'expiring',n:7,grp:'',lang:null,text:null,ids:null,ckind:'free'};
 function gotoMsg(ids,kind){ S.msg={aud:'custom',ids:ids,ckind:kind||'free',n:7,grp:'',lang:null,text:null}; S.view='messages'; S.showForm=false; S.modal=''; loadView(); }
@@ -4370,7 +4372,7 @@ function calcBal(subs,pays){
 }
 function printNode(html,landscape){
   var leg=html.indexOf('class="cert"')<0;
-  $('pa').innerHTML=leg?'<div class="sxl">'+html.replace(/<div class="foot">SYNOX GYM<\/div>\s*$/,'')+'<div class="sxl-f">'+sxQ('SYNOX|DOC|'+todayStr())+'<span style="flex:1">Édité le '+sxD(todayStr())+' par <b>'+sxE((S.profile&&S.profile.staff_code)||'—')+'</b> · SYNOX GYM</span><span>'+sxE(assoc().addr||'')+'</span></div></div>':html;
+  $('pa').innerHTML=leg?'<div class="sxl">'+html.replace(/<div class="foot">SYNOX<\/div>\s*$/,'')+'<div class="sxl-f">'+sxQ('SYNOX|DOC|'+todayStr())+'<span style="flex:1">Édité le '+sxD(todayStr())+' par <b>'+sxE((S.profile&&S.profile.staff_code)||'—')+'</b> · SYNOX</span><span>'+sxE(assoc().addr||'')+'</span></div></div>':html;
   if(leg) sxQrRender();
   var st=document.createElement('style'); st.id='pgs'; st.textContent='@media print{@page{size:A4 '+(landscape?'landscape':'portrait')+';margin:8mm}}'; document.head.appendChild(st);
   document.body.classList.add('pr'); try{ window.print(); }catch(e){}
@@ -4714,7 +4716,7 @@ function sxHead(tFr,tAr,perLbl,per){
   return (a.logo?'<img class="wm" src="'+sxE(a.logo)+'" alt="">':'')+'<div class="ph2">'+(a.logo?'<img src="'+sxE(a.logo)+'" alt="">':'')+'<div><b>MEJERDA SPORT</b><span>MEDJEZ EL BAB</span></div><div class="ar">جمعية '+sxE(String(a.nameAr||'مجردة الرياضية').replace(a.cityAr||'@@','').trim())+'<small>'+sxE(a.cityAr||'')+'</small></div></div>'+
    '<div class="ttl"><h1>'+tFr+sxAr(tAr)+'</h1><div class="per"><i>'+(perLbl||'Période · الفترة')+'</i><b>'+per+'</b></div></div>';
 }
-function sxFoot(n,N,extra){ return '<div class="pf" style="margin-top:auto">'+sxQ('SYNOX|'+(extra||'DOC')+'|'+todayStr())+'<span>Édité le '+sxD(todayStr())+' par <b>'+sxE((S.profile&&S.profile.staff_code)||'—')+'</b> · SYNOX GYM</span><span>Page '+n+' / '+N+'</span></div>'; }
+function sxFoot(n,N,extra){ return '<div class="pf" style="margin-top:auto">'+sxQ('SYNOX|'+(extra||'DOC')+'|'+todayStr())+'<span>Édité le '+sxD(todayStr())+' par <b>'+sxE((S.profile&&S.profile.staff_code)||'—')+'</b> · SYNOX</span><span>Page '+n+' / '+N+'</span></div>'; }
 function sxMonthName(ym){ var MO=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'], p=ym.split('-'); return MO[Number(p[1])-1]+' '+p[0]; }
 function sxSalaryPays(c,ym){
   var tag=ym.slice(5)+'/'+ym.slice(0,4), b=monthEnd(ym);
@@ -6050,7 +6052,7 @@ function bindAch(){
     var comps=achCompsFiltered(), lv=compLevels(), rs0=achResFiltered(), n={gold:0,silver:0,bronze:0}; rs0.forEach(function(r){ if(n[r.medal]!=null) n[r.medal]++; });
     var sec=rs(GL('Compétitions','المنافسات'),[[GL('Date','التاريخ'),'s'],[GL('Compétition','المنافسة'),'s'],[GL('Niveau','المستوى'),'s'],[GL('Athlètes','اللاعبون'),'n'],[GL('Or','ذهب'),'n'],[GL('Argent','فضة'),'n'],[GL('Bronze','برونز'),'n']],comps.map(function(c){ var r2=(S.crs||[]).filter(function(r){return r.competition_id===c.id;}); return [c.comp_date,c.name+(c.place?' — '+c.place:''),lv[c.level]||'',r2.length,r2.filter(function(r){return r.medal==='gold';}).length,r2.filter(function(r){return r.medal==='silver';}).length,r2.filter(function(r){return r.medal==='bronze';}).length]; }),{tot:1});
     var det=rs(GL('Médaillés','الفائزون'),[[GL('Athlète','اللاعب'),'s'],[GL('Compétition','المنافسة'),'s'],[GL('Catégorie / épreuve','الفئة / الجهاز'),'s'],[GL('Rang','المرتبة'),'s'],[GL('Médaille','الميدالية'),'s']],rs0.filter(function(r){return r.medal;}).sort(function(a,b){ return String(compOf(b.competition_id).comp_date).localeCompare(String(compOf(a.competition_id).comp_date)); }).map(function(r){ var m=memberById(r.member_id), c=compOf(r.competition_id); return [m?m.last_name+' '+m.first_name:'?',c.name,[r.category,r.event].filter(Boolean).join(' / '),r.rank||'',medalName(r.medal)]; }));
-    printNode('<h1>'+assocHead()+'</h1><h2 style="border:0;font-size:16px;margin:2px 0">'+GL('Bilan des compétitions','حصيلة المنافسات')+(S.ac.season?' — '+S.ac.season:'')+'</h2><div class="meta">'+med('gold')+' '+n.gold+' &nbsp;'+med('silver')+' '+n.silver+' &nbsp;'+med('bronze')+' '+n.bronze+' · '+GL('Édité le','صدر في')+' '+esc(new Date().toLocaleString())+'</div>'+secTable(sec,1)+'<h2>'+GL('Médaillés','الفائزون')+'</h2>'+secTable(det,1)+'<div class="foot">SYNOX GYM</div>'); };
+    printNode('<h1>'+assocHead()+'</h1><h2 style="border:0;font-size:16px;margin:2px 0">'+GL('Bilan des compétitions','حصيلة المنافسات')+(S.ac.season?' — '+S.ac.season:'')+'</h2><div class="meta">'+med('gold')+' '+n.gold+' &nbsp;'+med('silver')+' '+n.silver+' &nbsp;'+med('bronze')+' '+n.bronze+' · '+GL('Édité le','صدر في')+' '+esc(new Date().toLocaleString())+'</div>'+secTable(sec,1)+'<h2>'+GL('Médaillés','الفائزون')+'</h2>'+secTable(det,1)+'<div class="foot">SYNOX</div>'); };
   if($('fComp')){
     var fill=function(){ var c=S.compEdit?compOf(S.compEdit):null; $('cpRows').innerHTML=compRowsHtml($('cpDisc').value,c&&c.discipline_id===$('cpDisc').value?(S.crs||[]).filter(function(r){return r.competition_id===c.id;}):[]); };
     $('cpDisc').onchange=fill;
@@ -6119,7 +6121,7 @@ function debtModal(){
 }
 function printDebts(){
   var l=debtsList(), rows=l.map(function(d){ return [d.creditor,ctypeL(d.ctype),[d.origin,d.reason].filter(Boolean).join(' · '),money(d.amt),money(debtPaid(d)),money(debtRest(d))]; }).concat(['coach','staff','supplier','company'].filter(function(k){ return debtsByType()[k]; }).map(function(k){ return [GL('Sous-total · ','المجموع الفرعي · ')+ctypeL(k),'','','','',money(debtsByType()[k])]; })).concat([[GL('TOTAL','المجموع'),'','','','',money(debtsTotal())]]);
-  printNode('<h1>'+assocHead()+'</h1><h2 style="border:0;font-size:17px;margin:2px 0">'+GL('DETTES EN COURS','الديون المتبقية')+'</h2><div class="meta">'+GL('Édité le','صدر في')+' '+esc(new Date().toLocaleString())+'</div>'+secTable(rs('',[[GL('Créancier','الدائن'),'s'],[GL('Type','النوع'),'s'],[GL('Origine / motif','الأصل / السبب'),'s'],[GL('Dette','الدين'),'s'],[GL('Payé','المدفوع'),'s'],[GL('Reste','الباقي'),'s']],rows),1)+'<div class="foot">SYNOX GYM</div>');
+  printNode('<h1>'+assocHead()+'</h1><h2 style="border:0;font-size:17px;margin:2px 0">'+GL('DETTES EN COURS','الديون المتبقية')+'</h2><div class="meta">'+GL('Édité le','صدر في')+' '+esc(new Date().toLocaleString())+'</div>'+secTable(rs('',[[GL('Créancier','الدائن'),'s'],[GL('Type','النوع'),'s'],[GL('Origine / motif','الأصل / السبب'),'s'],[GL('Dette','الدين'),'s'],[GL('Payé','المدفوع'),'s'],[GL('Reste','الباقي'),'s']],rows),1)+'<div class="foot">SYNOX</div>');
 }
 function bindDebts(){
   if($('bDebts')) $('bDebts').onclick=async function(){ if(!(S.coaches&&S.coaches.length)){ var cc=await sb.from('coaches').select('*').order('full_name'); S.coaches=cc.data||[]; } S.modal='debts'; render(); };
@@ -6373,13 +6375,13 @@ async function printBilan_v1(v){
    '<h2>'+GL('Évolution mensuelle','التطور الشهري')+'</h2>'+secTable(rs('',[[GL('Mois','الشهر'),'s'],[GL('Recettes','المداخيل'),'s'],[GL('Dépenses','المصاريف'),'s'],[GL('Solde','الرصيد'),'s']],months),1)+
    '<h2>'+GL('Trésorerie à ce jour','الخزينة إلى اليوم')+'</h2>'+secTable(rs('',[[GL('Compte','الحساب'),'s'],[GL('Solde','الرصيد'),'s']],[[GL('Caisse','الصندوق'),money(T.cash)],[GL('Banque','البنك'),money(T.bank)],[GL('Total','المجموع'),money(T.cash+T.bank)]].concat(debtsTotal()>0?[[GL('Dettes antérieures restantes','الديون السابقة المتبقية'),'− '+money(debtsTotal())],[GL('Position nette','الوضع الصافي'),money(T.cash+T.bank-debtsTotal())]]:[])),1)+
    '<h2>'+GL('Activité de l\'association','نشاط الجمعية')+'</h2>'+secTable(act2,1)+
-   '<div style="display:flex;justify-content:space-between;gap:30px;margin-top:34px;font-size:12px"><div style="flex:1;border-top:1px solid #000;padding-top:4px;text-align:center">'+GL('Le trésorier','أمين المال')+'</div><div style="flex:1;border-top:1px solid #000;padding-top:4px;text-align:center">'+GL('Le président','الرئيس')+'</div></div><div class="foot">SYNOX GYM</div>');
+   '<div style="display:flex;justify-content:space-between;gap:30px;margin-top:34px;font-size:12px"><div style="flex:1;border-top:1px solid #000;padding-top:4px;text-align:center">'+GL('Le trésorier','أمين المال')+'</div><div style="flex:1;border-top:1px solid #000;padding-top:4px;text-align:center">'+GL('Le président','الرئيس')+'</div></div><div class="foot">SYNOX</div>');
 }
 async function printGrantReceipt_v1(p){
   var a=assoc(), no=rcNo(p), cat=(GRCATS.filter(function(c){return c[0]===p.category;})[0]||[])[S.lang==='ar'?2:1]||'';
   printNode('<h1>'+assocHead()+'</h1><div class="meta">'+esc(a.addr||'')+(a.tel?' · '+esc(a.tel):'')+'</div><h2 style="border:0;font-size:18px;text-align:center;margin:14px 0">'+GL('REÇU DE SUBVENTION / DON','وصل استلام إعانة / تبرّع')+' N° '+esc(no)+'</h2>'+
    '<p style="font-size:14px;line-height:2">'+GL('Nous avons reçu de ','استلمنا من ')+'<b>'+esc(p.counterparty||'—')+'</b> '+GL('la somme de ','مبلغاً قدره ')+'<b>'+money(p.amount_millimes)+'</b> ('+esc(amountWords(p.amount_millimes))+')<br>'+GL('Nature : ','الطبيعة: ')+'<b>'+esc(cat)+'</b> · '+GL('Mode : ','الطريقة: ')+'<b>'+esc(t('m')[p.method]||'')+'</b>'+(payDetail(p)?' ('+esc(payDetail(p))+')':'')+'<br>'+GL('Date : ','التاريخ: ')+'<b>'+esc(p.paid_on)+'</b>'+(p.notes?'<br>'+GL('Objet : ','الموضوع: ')+esc(p.notes):'')+'</p>'+
-   '<div style="display:flex;justify-content:space-between;margin-top:50px;font-size:12px"><div style="flex:1;text-align:center">'+GL('Le donateur / organisme','المانح / الجهة')+'</div><div style="flex:1;text-align:center">'+GL('Le trésorier — cachet et signature','أمين المال — الختم والإمضاء')+'</div></div><div class="foot">SYNOX GYM</div>');
+   '<div style="display:flex;justify-content:space-between;margin-top:50px;font-size:12px"><div style="flex:1;text-align:center">'+GL('Le donateur / organisme','المانح / الجهة')+'</div><div style="flex:1;text-align:center">'+GL('Le trésorier — cachet et signature','أمين المال — الختم والإمضاء')+'</div></div><div class="foot">SYNOX</div>');
 }
 function bindTreasury(){
   bindDebts();
