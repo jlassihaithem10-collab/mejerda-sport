@@ -48,6 +48,8 @@ h1,h2,h3{margin:0;text-wrap:balance}
 .auth{min-height:100%;display:grid;place-items:center;padding:24px 16px}
 .authcard{width:100%;max-width:400px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:16px}
 .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;letter-spacing:.5px}
+@keyframes clflash{0%{background:rgba(249,115,22,.28)}100%{background:transparent}}
+.clflash{animation:clflash 1.6s ease-out;border-radius:10px}
 .logo small{display:block;font-size:9.5px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;opacity:.65;margin-top:1px}
 .logo .lt{display:flex;flex-direction:column;line-height:1.05}
 .logo i{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--acc2),var(--acc));display:grid;place-items:center;color:#fff;font-style:normal}
@@ -1682,7 +1684,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b class="lt"><b>'+t('app')+'</b><small>'+GL('Gestion Sportive','إدارة الرياضة')+'</small></b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.1.0</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.1.1</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
@@ -2992,7 +2994,7 @@ function bindPayments(){
   if($('fCx')) $('fCx').onsubmit=async function(e){ e.preventDefault(); var rs=$('cxR').value.trim(); if(rs.length<5){ $('cxM').textContent=GL('Motif trop court (5 caractères minimum).','السبب قصير جداً (5 أحرف على الأقل).'); return; }
     var patch=S.cxMode==='no'?{cancel_state:'rejected',cancel_reject_reason:rs,cancel_decided_by:S.profile.full_name||'',cancel_decided_at:new Date().toISOString()}:{cancel_state:'pending',cancel_reason:rs,cancel_by:S.profile.full_name||'',cancel_at:new Date().toISOString(),cancel_reject_reason:null};
     var r=await payCtl(S.cxId,patch); if(r.error){ $('cxM').textContent=r.error.message; return; } S.modal=''; await loadPayments(); render(); };
-  document.querySelectorAll('[data-clpick]').forEach(function(b){ b.onclick=function(){ S.clDate=b.getAttribute('data-clpick'); render(); var f=$('clForm'); if(f&&f.scrollIntoView) f.scrollIntoView({behavior:'smooth',block:'start'}); }; });
+  document.querySelectorAll('[data-clpick]').forEach(function(b){ b.onclick=function(){ S.clDate=b.getAttribute('data-clpick'); render(); setTimeout(function(){ var f=$('clForm'); if(f){ if(f.scrollIntoView) f.scrollIntoView({behavior:'smooth',block:'start'}); f.classList.remove('clflash'); void f.offsetWidth; f.classList.add('clflash'); } uiToast(GL('Jour sélectionné : ','تم اختيار يوم: ')+S.clDate); },90); }; });
   if($('clDate')) $('clDate').onchange=function(){ S.clDate=$('clDate').value||todayStr(); render(); };
   if($('clCnt')){ var net=cashNet(S.clDate||todayStr()).a, upd=function(){ var c=Math.round(parseFloat($('clCnt').value||'0')*1000), df=c-net; if($('clCnt').value!==''&&c<0){ $('clDiff').innerHTML='<b style="color:var(--bad)">'+GL('Le montant compté ne peut pas être négatif.','المبلغ المعدود لا يمكن أن يكون سالبًا.')+'</b>'; return; } $('clDiff').innerHTML=$('clCnt').value===''?'':GL('Écart : ','الفرق: ')+'<b style="color:'+(df?'var(--bad)':'var(--ok)')+'">'+(df>0?'+':'')+money(df)+'</b>'; }; $('clCnt').oninput=upd; }
   var bilGet=function(){ var b={}, any=false; document.querySelectorAll('[data-bil]').forEach(function(i){ if(i.value!==''){ any=true; b[i.getAttribute('data-bil')]=i.getAttribute('data-bil')==='coins'?Math.round(parseFloat(i.value||'0')*1000):Math.max(0,parseInt(i.value,10)||0); } }); return any?b:null; };
