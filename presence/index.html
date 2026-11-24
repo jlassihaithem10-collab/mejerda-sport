@@ -499,6 +499,7 @@ tr:last-child td{border-bottom:0}
 #pa .sxk .kv{left:.34cm;top:3.03cm;width:4.9cm;display:grid;gap:.07cm}
 #pa .sxk .kv div{border-inline-start:.05cm solid #EBAA00;padding-inline-start:.14cm;line-height:1.15}
 #pa .sxk .kv small{display:block;font-size:5.4pt;color:#6b7280;letter-spacing:.2px}
+#pa .sxk .kv small .ar{font-size:6pt;line-height:1;font-weight:700;color:#4b5563;letter-spacing:0}
 #pa .sxk .kv b{display:block;font-size:7pt;font-weight:700;color:#2F3444}
 #pa .sxk .ph{left:6.02cm;top:.42cm;width:1.9cm;height:1.9cm;border-radius:50%;object-fit:cover;border:.07cm solid #EBAA00;background:#fff}
 #pa .sxk .qb{left:6.24cm;top:2.5cm;width:1.5cm;height:1.5cm;background:#fff;border-radius:.14cm;display:grid;place-items:center}
@@ -511,13 +512,13 @@ tr:last-child td{border-bottom:0}
 #pa .sxk .bk h4{display:flex;align-items:center;gap:.14cm;margin:0 0 .12cm;font-size:7pt;letter-spacing:1px;color:#EBAA00;font-weight:800}
 #pa .sxk .bk h4 img{width:.62cm;height:.62cm;object-fit:contain;background:#fff;border-radius:50%;padding:.03cm}
 #pa .sxk .bk h4 .ar{margin-inline-start:auto;margin-inline-end:.45cm;font-size:7.6pt;letter-spacing:0}
-#pa .sxk .bk .tg{text-align:center;margin-top:.2cm;line-height:1.5}#pa .sxk .bk .tg b{display:block;font-size:7.4pt;color:#fff;letter-spacing:.3px}#pa .sxk .bk .tg .ar{display:block;font-family:Cairo,sans-serif;font-size:8pt;color:#EBAA00;font-weight:700}
-#pa .sxk .bk .rl{display:grid;grid-template-columns:1.2fr .8fr;gap:.25cm;font-size:6.1pt;line-height:1.5;color:#e5e7eb;margin-top:.16cm}
+#pa .sxk .bk .tg{text-align:center;margin-top:.1cm;line-height:1.5}#pa .sxk .bk .tg b{display:block;font-size:7.4pt;color:#fff;letter-spacing:.3px}#pa .sxk .bk .tg .ar{display:block;font-family:Cairo,sans-serif;font-size:8pt;color:#EBAA00;font-weight:700}
+#pa .sxk .bk .rl{display:grid;grid-template-columns:1.2fr .8fr;gap:.25cm;font-size:6.1pt;line-height:1.5;color:#e5e7eb;margin-top:.08cm;white-space:nowrap}
 #pa .sxk .bk ol{margin:0;padding-inline-start:.3cm}
 #pa .sxk .bk .ar2{font-family:Cairo,sans-serif;direction:rtl;font-size:6.8pt;line-height:1.6}
-#pa .sxk .bk .sos{margin-top:.14cm;background:rgba(255,255,255,.1);border-radius:.12cm;padding:.07cm .14cm;display:flex;justify-content:space-between;font-size:6pt;color:#fff}
+#pa .sxk .bk .sos{margin-top:.08cm;background:rgba(255,255,255,.1);border-radius:.12cm;padding:.07cm .14cm;display:flex;justify-content:space-between;font-size:6pt;color:#fff}
 #pa .sxk .bk .sos b{color:#EBAA00}
-#pa .sxk .bk .soc{display:flex;gap:.25cm;justify-content:center;margin-top:.14cm;font-size:5.9pt;color:#e5e7eb}#pa .sxk .bk .soc svg{filter:brightness(0) invert(1);width:.28cm;height:.28cm}
+#pa .sxk .bk .soc{display:flex;gap:.25cm;justify-content:center;margin-top:.1cm;font-size:5.9pt;color:#e5e7eb}#pa .sxk .bk .soc svg{filter:brightness(0) invert(1);width:.28cm;height:.28cm}
 #pa .sxk .bk .soc span{display:inline-flex;gap:.05cm;align-items:center}
 #pa .sxk .bf{left:0;right:0;bottom:.12cm;text-align:center;font-size:4.9pt;line-height:1.35;color:#2F3444;font-weight:700;padding:0 .4cm;font-size:5.7pt}
 #pa .sxk{font-family:Inter,Cairo,Arial,sans-serif;color:#1f2937}#pa .sxk .ar{font-family:Cairo,sans-serif}#pa .sxk .wm{position:absolute;left:50%;transform:translate(-50%,-50%);filter:grayscale(1);pointer-events:none}#pa .sxk .qq .sxq{width:1.5cm;height:1.5cm;margin:0 auto}
@@ -1702,7 +1703,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b class="lt"><b>'+t('app')+'</b><small>'+GL('Gestion Sportive','إدارة الرياضة')+'</small></b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.3.1</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.3.2</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
@@ -4841,13 +4842,13 @@ function sxCardFront(m,grp){
    '<div class="abs hd">'+(a.logo?'<img src="'+sxE(a.logo)+'" alt="">':'')+'<div><b>MEJERDA SPORT</b><span>MEDJEZ EL BAB</span></div></div>'+
    '<div class="abs nm'+(full.length>20?' s':'')+'"><b>'+sxE(m.last_name)+'</b><span>'+sxE(m.first_name)+'</span></div><div class="abs ul"></div>'+
    '<div class="abs id">'+sxE(codeStr(m))+'</div>'+
-   '<div class="abs kv"><div><small>Discipline · الاختصاص</small><b>'+sxE(ds.join(', ')||'—')+'</b></div><div><small>Catégorie · الصنف</small><b>'+sxE(c?catLabel(c):'—')+'</b></div><div><small>Groupe · المجموعة</small><b>'+sxE(gs.join(', ')||'—')+'</b></div></div>'+
+   '<div class="abs kv"><div><small>Discipline <span class="ar">· الاختصاص</span></small><b>'+sxE(ds.join(', ')||'—')+'</b></div><div><small>Catégorie <span class="ar">· الصنف</span></small><b>'+sxE(c?catLabel(c):'—')+'</b></div><div><small>Groupe <span class="ar">· المجموعة</span></small><b>'+sxE(gs.join(', ')||'—')+'</b></div></div>'+
    '<img class="abs ph" src="'+sxE(m.photo||avatar)+'" alt=""><div class="abs qb">'+sxQ(codeStr(m))+'</div><div class="abs qt">Présence · الحضور</div>'+
    '<div class="abs ft"><span>Saison <b>'+sxE(sxSeason())+'</b></span><span>Valable jusqu\'au <b>30/06/'+(y0+1)+'</b></span></div></div></div>';
 }
 function sxCardBack(m){
   var a=assoc(), c=PCFG();
-  var R=['Carte personnelle et non cessible.','En cas de perte ou de dommage, prévenir le club.'], RA=['البطاقة شخصية ولا تُعار.','عند الضياع، يُبلَّغ النادي.'];
+  var R=['Carte personnelle et non cessible.','En cas de perte, prévenir le club.','Signaler tout changement de téléphone.'], RA=['البطاقة شخصية ولا تُعار.','عند الضياع، يُبلَّغ النادي.','أبلغ النادي بتغيّر رقم هاتفك.'];
   var em=m.emergency||m.guardian_phone||m.phone||'';
   return '<div class="card"><img class="bg" src="'+sxBgB()+'" alt="">'+(S._wm&&S._wm.b?'<img class="sxwm" src="'+S._wm.b+'" alt="">':'')+'<div class="in"><div class="abs bk"><h4>'+(a.logo?'<img src="'+sxE(a.logo)+'" alt="">':'')+'<span>MEJERDA SPORT</span></h4>'+
    '<div class="tg"><b>Discipline · Respect · Esprit d\'équipe</b><span class="ar">انضباط · احترام · روح الفريق</span></div>'+
@@ -4857,7 +4858,7 @@ function sxCardBack(m){
    '<div class="abs bf">Carte trouvée ? Merci de la rapporter au club<br>في حال العثور عليها يرجى إرجاعها إلى النادي</div></div></div>';
 }
 function sxWmMake(src,rgb,k){ return new Promise(function(res){ try{ var im=new Image(); im.onload=function(){ try{ var n=420, c=document.createElement('canvas'); c.width=n; c.height=n; var x=c.getContext('2d'); var r=Math.min(n/im.width,n/im.height); var w=im.width*r,h=im.height*r; x.drawImage(im,(n-w)/2,(n-h)/2,w,h); var d=x.getImageData(0,0,n,n), p=d.data; for(var i=0;i<p.length;i+=4){ var mn=Math.min(p[i],p[i+1],p[i+2]); var a=Math.max(0,(255-mn-18)/237); p[i]=rgb[0]; p[i+1]=rgb[1]; p[i+2]=rgb[2]; p[i+3]=Math.round(255*Math.min(1,a*k)*(p[i+3]/255)); } x.putImageData(d,0,0); res(c.toDataURL('image/png')); }catch(e){ res(''); } }; im.onerror=function(){ res(''); }; im.src=src; }catch(e){ res(''); } }); }
-async function sxCardData(){ try{ var lg=assoc().logo; if(lg&&(!S._wm||S._wm.src!==lg)){ S._wm={src:lg,f:await sxWmMake(lg,[47,52,68],.085),b:await sxWmMake(lg,[255,255,255],.075)}; } }catch(e){} try{ if(!S.groups||!S.groups.length) S.groups=(await sb.from('groups').select('*')).data||[]; if(!S.gm||!S.gm.length) S.gm=(await sb.from('group_members').select('*')).data||[]; }catch(e){} }
+async function sxCardData(){ try{ var lg=assoc().logo; if(lg&&(!S._wm||S._wm.src!==lg)){ S._wm={src:lg,f:await sxWmMake(lg,[47,52,68],.055),b:await sxWmMake(lg,[255,255,255],.075)}; } }catch(e){} try{ if(!S.groups||!S.groups.length) S.groups=(await sb.from('groups').select('*')).data||[]; if(!S.gm||!S.gm.length) S.gm=(await sb.from('group_members').select('*')).data||[]; }catch(e){} }
 async function printCards(list){
   if(!list.length) return; await sxCardData();
   var pages=[]; for(var i=0;i<list.length;i+=10) pages.push('<div class="pgk sxpg">'+list.slice(i,i+10).map(function(m){ return sxCardFront(m); }).join('')+'</div>');
