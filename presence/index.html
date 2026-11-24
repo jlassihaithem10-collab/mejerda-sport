@@ -1163,7 +1163,7 @@ function guardAsk(){
  '.uiT{display:flex;gap:10px;align-items:center;max-width:min(520px,calc(100vw - 32px));background:var(--card);color:var(--txt,inherit);border:1px solid var(--line);border-inline-start:4px solid var(--tc);border-radius:12px;padding:11px 16px;box-shadow:0 10px 30px rgba(0,0,0,.18);font-weight:600;font-size:14px;animation:uiIn .18s ease-out}'+
  '.uiT svg{color:var(--tc);flex:none}.uiT.out{opacity:0;transform:translateY(6px);transition:all .25s}'+
  '@keyframes uiIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}'+
- '.uiD .modal{max-width:460px;animation:uiIn .15s ease-out}.uiD .uiIco{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;background:color-mix(in srgb,var(--tc) 14%,transparent);color:var(--tc)}'+
+ '.uiD .modal{max-width:460px;animation:uiIn .15s ease-out}.uiD .uiMsg,.uiD .mb p,.uiD .uiBody{white-space:pre-line}.uiD .uiIco{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;background:color-mix(in srgb,var(--tc) 14%,transparent);color:var(--tc)}'+
  '.uiD table.uiSum{width:100%!important;min-width:0!important;table-layout:fixed;border-collapse:collapse;margin-top:6px}.uiD .uiSum td{padding:7px 4px;border-bottom:1px solid var(--line);white-space:normal;overflow-wrap:anywhere}.uiD .uiSum td:first-child{width:38%}'+'.uiSum td:last-child{text-align:end;font-weight:700}'+
  '.uiNote{margin-top:10px;font-size:13px;padding:9px 12px;border-radius:10px;background:color-mix(in srgb,var(--tc) 10%,transparent)}';
  document.head.appendChild(st); })();
@@ -1194,7 +1194,7 @@ function uiDlg(o){
     if(o.input){ var I=o.input; inp='<div class="field" style="margin-top:12px">'+(I.label?'<label for="uiIn">'+esc(I.label)+'</label>':'')+
       (I.multi?'<textarea id="uiIn" rows="3" placeholder="'+esc(I.ph||'')+'">'+esc(I.val||'')+'</textarea>':'<input id="uiIn" type="'+(I.type||'text')+'" autocomplete="off" placeholder="'+esc(I.ph||'')+'" value="'+esc(I.val||'')+'"'+(I.type==='password'?' dir="ltr"':'')+'>')+'</div>'; }
     d.innerHTML='<div class="modal" role="alertdialog" aria-modal="true" aria-labelledby="uiTt"><div style="display:flex;gap:12px;align-items:center;margin-bottom:12px"><span class="uiIco">'+di(o.icon||(o.danger?'alert':'check'),'currentColor',20)+'</span><h3 id="uiTt" style="font-size:17px">'+esc(o.title||GL('Confirmation','تأكيد'))+'</h3></div>'+
-      '<div style="line-height:1.7">'+(o.html||esc(o.msg||''))+'</div>'+inp+'<div class="err" id="uiE" role="alert"></div>'+
+      '<div style="line-height:1.7;white-space:pre-line">'+(o.html||esc(o.msg||''))+'</div>'+inp+'<div class="err" id="uiE" role="alert"></div>'+
       '<div class="mf">'+(o.cancel===false?'':'<button class="btn" type="button" id="uiNo">'+esc(o.cancel||t('cancel'))+'</button>')+'<button class="btn pri" type="button" id="uiOk"'+(o.danger?' style="background:var(--bad);border-color:var(--bad)"':'')+'>'+esc(o.ok||GL('Confirmer','تأكيد'))+'</button></div></div>';
     document.body.appendChild(d);
     var inEl=d.querySelector('#uiIn'), ok=d.querySelector('#uiOk');
@@ -1439,6 +1439,8 @@ function bellAll(){ var d=(S.bell&&S.bell.d)||null; if(!d) return []; var o=[];
   if(d.chq) o.push({k:'chq',n:d.chq,w:0,go:{v:'treasury'},fr:'Chèques arrivés à échéance',ar:'شيكات حان موعدها',fr2:'À déposer ou à vérifier',ar2:'للإيداع أو التحقق'});
   if(d.unc) o.push({k:'unc',n:d.unc,w:0,go:{v:'treasury'},fr:'Journées non clôturées',ar:'أيام لم يُغلق صندوقها',fr2:'Clôturer la caisse de chaque jour',ar2:'أغلق صندوق كل يوم'});
   var st=(S.stats&&S.stats.stale)||[]; if(st.length) o.push({k:'stale',n:st.length,w:1,go:{v:'dash'},fr:'Abonnements non payés depuis longtemps',ar:'اشتراكات غير مدفوعة منذ مدة',fr2:'Voir le tableau de bord',ar2:'افتح لوحة القيادة'});
+  if(d.dup) o.push({k:'dup',n:d.dup,w:0,go:{v:'members'},fr:'Abonnements en double possibles',ar:'اشتراكات مكررة محتملة',fr2:'Même discipline, périodes qui se chevauchent',ar2:'نفس الرياضة وفترات متداخلة'});
+  if(d.ng) o.push({k:'ng',n:d.ng,w:1,go:{v:'members'},fr:'Membres avec abonnement actif sans groupe',ar:'أعضاء باشتراك ساري بلا مجموعة',fr2:'Ils ne comptent pour aucun coach',ar2:'لا يُحتسبون لأي مدرب'});
   if(d.exp) o.push({k:'exp',n:d.exp,w:1,go:{exp:1},fr:'Abonnements qui expirent sous 7 jours',ar:'اشتراكات تنتهي خلال 7 أيام',fr2:'Penser aux relances de renouvellement',ar2:'ذكّر الأولياء بالتجديد'});
   if(d.bd) o.push({k:'bd',n:d.bd,w:1,go:{bd:1},fr:'Anniversaires (7 jours)',ar:'أعياد ميلاد خلال 7 أيام',fr2:'Envoyer des vœux',ar2:'أرسل التهاني'});
   return o; }
@@ -1450,7 +1452,8 @@ async function loadBell(force){ if(!bellVisible()) return; var now=Date.now(); i
     var res=await Promise.all([ q(sb.from('payments').select('id').eq('approval_state','pending')), q(sb.from('payments').select('id').eq('cancel_state','pending')),
       q(sb.from('payments').select('id,cheque_due_on').eq('method','cheque').eq('status','pending')),
       q(sb.from('payments').select('paid_on,method,direction,status,approval_state').gte('paid_on',addD(td,-14))), q(sb.from('cash_closings').select('close_date,reopened_at')),
-      q(sb.from('subscriptions').select('member_id,ends_on').gte('ends_on',td)), q(sb.from('members').select('id,birth_date,status').is('deleted_at',null)) ]);
+      q(sb.from('subscriptions').select('member_id,ends_on').gte('ends_on',td)), q(sb.from('members').select('id,birth_date,status').is('deleted_at',null)),
+      q(sb.from('subscriptions').select('id,member_id,plan_id,starts_on,ends_on,due_millimes').gte('ends_on',td).gt('due_millimes',0)), q(sb.from('group_members').select('member_id,group_id')), q(sb.from('groups').select('id,discipline_id')), q(sb.from('plans').select('id,discipline_id')) ]);
     var d={ap:res[0].length,cx:res[1].length,chq:res[2].filter(function(p){ return p.cheque_due_on&&p.cheque_due_on<=td; }).length,soc:((S.cfg&&S.cfg.social)||[]).filter(function(g){ return g.status==='pending'; }).length,unc:0,exp:0,bd:0};
     var closed={}; res[4].forEach(function(c){ if(!c.reopened_at) closed[c.close_date]=1; });
     var days={}; res[3].forEach(function(p){ if(p.method==='cash'&&validPay(p)&&p.paid_on<td) days[p.paid_on]=1; });
@@ -1460,6 +1463,11 @@ async function loadBell(force){ if(!bellVisible()) return; var now=Date.now(); i
     var mx={}; res[5].forEach(function(x){ if(act[x.member_id]&&(!mx[x.member_id]||x.ends_on>mx[x.member_id])) mx[x.member_id]=x.ends_on; });
     var lim=addD(td,7); Object.keys(mx).forEach(function(k){ if(mx[k]<=lim) d.exp++; });
     var y=+td.slice(0,4); Object.keys(act).forEach(function(k){ var bd=act[k].birth_date; if(!bd) return; var dt=bd.slice(5), c=y+'-'+dt; if(c<td) c=(y+1)+'-'+dt; if(c<=lim) d.bd++; });
+    try{ var pd={}; res[10].forEach(function(x){ pd[x.id]=x.discipline_id; }); var gd={}; res[9].forEach(function(x){ gd[x.id]=x.discipline_id; });
+      var inD={}; res[8].forEach(function(x){ if(gd[x.group_id]) inD[x.member_id+'|'+gd[x.group_id]]=1; });
+      var by={}, ng={}, dp={}; res[7].forEach(function(x){ if(!act[x.member_id]) return; var dc=pd[x.plan_id]; if(!dc) return; var k=x.member_id+'|'+dc; (by[k]=by[k]||[]).push(x); if(!inD[k]) ng[x.member_id]=1; });
+      Object.keys(by).forEach(function(k){ var a=by[k]; for(var i=0;i<a.length;i++) for(var j=i+1;j<a.length;j++){ if(a[i].starts_on<=a[j].ends_on&&a[j].starts_on<=a[i].ends_on&&Math.abs((Date.parse(a[i].starts_on)-Date.parse(a[j].starts_on))/86400000)<=7) dp[k]=1; } });
+      d.ng=Object.keys(ng).length; d.dup=Object.keys(dp).length; }catch(eB){ d.ng=0; d.dup=0; }
     S.bell.d=d; }catch(e){ console.warn(e); } bellPaint(); }
 function bellPaint(){ var it=bellItems(), n=it.reduce(function(a,x){ return a+x.n; },0), b=$('bBadge'); if(b){ b.textContent=n>99?'99+':String(n); b.hidden=!n; }
   var p=$('bPan'); if(p&&!p.hidden) p.innerHTML=bellPanel(); bellBind(); }
@@ -1684,7 +1692,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b class="lt"><b>'+t('app')+'</b><small>'+GL('Gestion Sportive','إدارة الرياضة')+'</small></b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.1.3</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.2.0</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
@@ -2610,8 +2618,19 @@ function bindMember(){
         if(unp){ if(await uiConfirm(GL('Ce membre a déjà un abonnement NON PAYÉ dans cette discipline (reste '+money(subBalOf(unp))+').\n\nOui = encaisser sur l\'abonnement existant (aucun nouvel abonnement).\nNon = créer quand même un nouvel abonnement.','لهذا العضو اشتراك غير مدفوع في نفس الاختصاص (المتبقي '+money(subBalOf(unp))+').\n\nنعم = سجّل الدفع على الاشتراك الموجود (دون إنشاء اشتراك جديد).\nلا = أنشئ اشتراكاً جديداً رغم ذلك.'),{title:GL('Abonnement existant','اشتراك موجود'),ok:GL('Oui, encaisser','نعم، سجّل الدفع'),cancel:GL('Non, créer','لا، أنشئ')})){ S.showSub=false; render(); await sxEncaisser(unp.id); return; } }
         else if(!await uiConfirm(GL('Ce membre a déjà un abonnement en cours dans cette discipline. Créer un deuxième abonnement ?','لهذا العضو اشتراك ساري في نفس الاختصاص. هل تريد إنشاء اشتراك ثانٍ؟'),{title:GL('Doublon possible','تكرار محتمل'),ok:GL('Créer quand même','أنشئ رغم ذلك'),cancel:GL('Annuler','إلغاء')})) return; }
     }catch(e1){}
+    var discReason='';
+    try{ var mm=S.member||{}, hasDC=((S.cfg||{}).dcats||{})[p.discipline_id]&&((S.cfg||{}).dcats||{})[p.discipline_id].length;
+      if(hasDC&&mm.birth_date&&!catOfD(mm,p.discipline_id)){ var dsc=(S.discs||[]).filter(function(x){return x.id===p.discipline_id;})[0];
+        if(!await uiConfirm(GL('Âge de l\'enfant : '+(ageYM(mm.birth_date)||'')+'. Il est HORS des catégories d\'âge de « '+(dsc?nm(dsc):'')+' ».\n\nContinuer quand même ?','عمر الطفل: '+(ageYM(mm.birth_date)||'')+'. وهو خارج الفئات العمرية لـ « '+(dsc?nm(dsc):'')+' ».\n\nهل تريد المتابعة رغم ذلك؟'),{title:GL('Âge hors catégorie','العمر خارج الفئة'),ok:GL('Continuer','تابع'),cancel:GL('Annuler','إلغاء')})) return; }
+      if(num('sDisc')>0&&!S.discWhy){ var rs0=await uiPrompt(GL('Une réduction de '+money(num('sDisc'))+' est appliquée. Indiquez le motif (obligatoire).','تم تطبيق تخفيض بقيمة '+money(num('sDisc'))+'. اكتب السبب (إلزامي).'),{title:GL('Motif de la réduction','سبب التخفيض'),input:{val:'',type:'text'}});
+        if(rs0===null||rs0===undefined||!String(rs0).trim()){ msg.textContent=GL('Motif de réduction obligatoire.','سبب التخفيض إلزامي.'); return; } discReason=String(rs0).trim(); }
+      var pay0=($('sPay')&&$('sPay').checked)?Math.round(parseFloat($('sAmt').value||'0')*1000):0, tot0=total(), dn=(S.member?(S.member.first_name+' '+S.member.last_name):'');
+      var dsc2=(S.discs||[]).filter(function(x){return x.id===p.discipline_id;})[0];
+      if(!await uiConfirm(GL(dn+'\n'+planLabel(p)+'\nTotal : '+money(tot0)+'\nPayé maintenant : '+money(pay0)+'\nReste : '+money(Math.max(0,tot0-pay0))+(pay0>tot0?'\n\n⚠ Le montant payé dépasse le total.':''),dn+'\n'+planLabel(p)+'\nالمجموع: '+money(tot0)+'\nالمدفوع الآن: '+money(pay0)+'\nالمتبقي: '+money(Math.max(0,tot0-pay0))+(pay0>tot0?'\n\n⚠ المبلغ المدفوع أكبر من المجموع.':'')),{title:GL('Vérifier avant d\'enregistrer','تحقق قبل الحفظ'),ok:GL('Enregistrer','سجّل'),cancel:GL('Corriger','تعديل')})) return;
+    }catch(eG){}
     var r=await sb.from('subscriptions').insert({member_id:S.memberId,plan_id:p.id,starts_on:$('sStart').value,ends_on:$('sEnd').value,due_millimes:total(),discount_millimes:num('sDisc'),reg_millimes:num('sReg'),ins_millimes:num('sIns')}).select().single();
     if(r.error){ msg.textContent=r.error.message; return; }
+    if(discReason){ try{ logAct('discount','subscriptions',{reason:discReason,amount:num('sDisc')},'id='+(r.data&&r.data.id)); }catch(eL){} }
     try{ var nstart=$('sStart').value, olds=(S.msubs||[]).filter(function(u){ var pu=planOf(u.plan_id); return pu&&pu.discipline_id!==p.discipline_id&&u.ends_on>=nstart; });
       if(olds.length&&confirm(GL('Ce membre a déjà un abonnement actif dans une autre discipline.\n\nOK = CHANGEMENT de discipline (l\'ancien abonnement est terminé la veille du nouveau).\nAnnuler = activité EN PLUS (les deux restent actifs).','لهذا اللاعب اشتراك ساري في اختصاص آخر.\n\nموافق = انتقال من اختصاص إلى آخر (يُنهى الاشتراك القديم قبل بداية الجديد بيوم).\nإلغاء = نشاط إضافي (يبقى الاثنان ساريين).'))){
         for(var oi=0;oi<olds.length;oi++){ var e2=addD(nstart,-1); if(e2<olds[oi].starts_on) e2=olds[oi].starts_on; await sb.from('subscriptions').update({ends_on:e2}).eq('id',olds[oi].id); } }
