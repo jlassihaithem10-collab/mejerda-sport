@@ -930,7 +930,7 @@ var D = {
 fr:{
  app:'SYNOX', email:'E-mail', password:'Mot de passe', name:'Nom complet',
  login:'Se connecter', signup:'Créer un compte', haveAcc:'J\'ai déjà un compte', noAcc:'Créer un compte',
- logout:'Déconnexion', dash:'Tableau de bord', members:'Membres', payments:'Paiements', finance:'Finance & comptabilité', encais:'Encaissements', expenses:'Dépenses', treasury:'Caisse & banque', salaries:'Salaires', unpaid:'Impayés', compta:'Comptabilité', finrep:'Rapports financiers', soon:'Bientôt disponible',
+ logout:'Déconnexion', dash:'Tableau de bord', members:'Membres', payments:'Paiements', finance:'Finance & comptabilité', encais:'Encaissements', expenses:'Dépenses', treasury:'Caisse & banque', salaries:'Salaires', unpaid:'Impayés', fees:'Inscription & assurance', compta:'Comptabilité', finrep:'Rapports financiers', soon:'Bientôt disponible',
  wait:'Votre compte est créé. Le gérant doit l\'activer avant que vous puissiez entrer.',
  checkMail:'Compte créé. Vérifiez votre e-mail pour confirmer, puis connectez-vous.',
  roles:{manager:'Gérant',reception:'Accueil',coach:'Entraîneur',treasurer:'Trésorier',president:'Président'},
@@ -970,7 +970,7 @@ fr:{
 ar:{
  app:'SYNOX', email:'البريد الإلكتروني', password:'كلمة السر', name:'الاسم الكامل',
  login:'دخول', signup:'إنشاء حساب', haveAcc:'لدي حساب بالفعل', noAcc:'إنشاء حساب',
- logout:'خروج', dash:'لوحة القيادة', members:'الأعضاء', payments:'المدفوعات', finance:'المالية والمحاسبة', encais:'الاستخلاص', expenses:'المصاريف', treasury:'الصندوق والبنك', salaries:'الأجور', unpaid:'المتأخرات', compta:'المحاسبة', finrep:'التقارير المالية', soon:'قريبًا',
+ logout:'خروج', dash:'لوحة القيادة', members:'الأعضاء', payments:'المدفوعات', finance:'المالية والمحاسبة', encais:'الاستخلاص', expenses:'المصاريف', treasury:'الصندوق والبنك', salaries:'الأجور', unpaid:'المتأخرات', fees:'التسجيل والتأمين', compta:'المحاسبة', finrep:'التقارير المالية', soon:'قريبًا',
  wait:'تم إنشاء حسابك. يجب أن يفعّله المدير قبل أن تتمكن من الدخول.',
  checkMail:'تم إنشاء الحساب. افتح بريدك لتأكيده ثم سجّل الدخول.',
  roles:{manager:'مدير',reception:'استقبال',coach:'مدرب',treasurer:'أمين المال',president:'الرئيس'},
@@ -1653,7 +1653,7 @@ function pwdDialog(){
 async function logout(){ qcDrop(); S._warm=false; await sb.auth.signOut(); S.user=null; S.profile=null; S.signupMode=false; renderAuth(); }
 
 IC.training=IC.groups; IC.comms=IC.messages; IC.admin=IC.users; IC.account=IC.users; IC.security=IC.users; IC.sports='<circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/><path d="M5.6 5.6c3 3 3 10.8 0 12.8M18.4 5.6c-3 3-3 10.8 0 12.8"/>'; D.fr.sports='Sports'; D.ar.sports='الرياضات'; D.fr.security='Sécurité et sauvegarde'; D.ar.security='الأمان والنسخ الاحتياطي'; D.fr.account='Mon compte'; D.ar.account='حسابي';
-var NAVG=[['dash',['dash']],['members',['members','parents']],['sports',['sports']],['attendance',['attendance']],['training',['groups','coaches','planning','progress','achievements']],['finance',['payments','expenses','treasury','salaries','unpaid','compta','finrep']],['comms',['messages','reports']],['cfg',['settings']],['admin',['users','security','journal','account']]];
+var NAVG=[['dash',['dash']],['members',['members','parents']],['sports',['sports']],['attendance',['attendance']],['training',['groups','coaches','planning','progress','achievements']],['finance',['payments','expenses','treasury','salaries','unpaid','fees','compta','finrep']],['comms',['messages','reports']],['cfg',['settings']],['admin',['users','security','journal','account']]];
 S.lastTab={};
 function psl(p,x){ x=x||p.status; if(p.direction==='out'){ var m=S.lang==='ar'?{received:'مدفوع',pending:'معلّق',cashed:'مسحوب',bounced:'مرفوض'}:{received:'Payé',pending:'En attente',cashed:'Débité',bounced:'Rejeté'}; if(m[x]) return m[x]; } return t('ps')[x]; }
 function viewOk(v){
@@ -1664,7 +1664,7 @@ function viewOk(v){
   if(v==='settings'||v==='users'||v==='security') return r==='manager';
   if(v==='sports') return r!=='coach';
   if(v==='payments'||v==='messages'||v==='unpaid') return r!=='coach';
-  if(v==='expenses'||v==='treasury'||v==='finrep'||v==='compta') return r==='manager'||r==='treasurer'||r==='president';
+  if(v==='expenses'||v==='treasury'||v==='finrep'||v==='compta'||v==='fees') return r==='manager'||r==='treasurer'||r==='president';
   if(v==='salaries') return r==='manager'||r==='treasurer'||r==='president';
   if(v==='parents') return r!=='coach'&&!DEMO;
   return true;
@@ -1675,7 +1675,7 @@ function navItems(){
   NAVG.forEach(function(g){ var vis=g[1].filter(viewOk); if(vis.length) out.push({gid:g[0],vis:vis,key:vis.length===1?vis[0]:g[0]}); });
   return out;
 }
-var FINV=['payments','expenses','treasury','salaries','unpaid','compta','finrep'];
+var FINV=['payments','expenses','treasury','salaries','unpaid','fees','compta','finrep'];
 function isFinV(v){ return FINV.indexOf(v)>-1; }
 function vT(v){ return v==='payments'?t('encais'):t(v); }
 function finBadge(v){ /* عدد الأشياء التي تنتظر عملاً */
@@ -1703,7 +1703,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b class="lt"><b>'+t('app')+'</b><small>'+GL('Gestion Sportive','إدارة الرياضة')+'</small></b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.3.2</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.4.0</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
@@ -2999,6 +2999,7 @@ function paymentsHtml(){
   }
   if(V==='salaries') return err+'<p class="who" style="margin:0 0 10px">'+GL('Rémunération de tous les coachs pour le mois choisi. « Payer » ouvre un bon de paiement prérempli ; la fiche de paie s\'imprime pour signature.','أجور كل المدربين للشهر المختار. «دفع» يفتح سند صرف معبّأ مسبقاً، وكشف الأجر يُطبع للإمضاء.')+'</p>'+coPayPanel()+form;
   if(V==='unpaid') return err+reportsHtml()+form;
+  if(V==='fees') return err+feesHtml();
   if(V==='compta') return err+comptaHtml()+form;
   if(V==='finrep') return err+'<div class="panel" style="margin-bottom:14px"><h3 style="margin-bottom:10px">'+GL('Documents officiels','الوثائق الرسمية')+'</h3><div class="bar" style="gap:10px;flex-wrap:wrap;align-items:center"><input type="month" id="frMonth" value="'+esc((S.pf&&S.pf.month)||todayStr().slice(0,7))+'" style="'+sty+'"><button class="btn pri" id="frMonthGo">'+di('printer','currentColor',16)+' '+GL('Rapport financier du mois','التقرير المالي للشهر')+'</button><button class="btn" id="bBilan">'+di('printer','currentColor',16)+' '+GL('Bilan financier et moral annuel','الحصيلة المالية والأدبية السنوية')+'</button></div><p class="who" style="margin-top:8px">'+GL('Pour l\'assemblée générale, le président et le commissaire aux comptes. Les tableaux ci-dessous servent à l\'analyse et à l\'export Excel.','للجلسة العامة والرئيس ومراقب الحسابات. الجداول أسفله للتحليل والتصدير إلى Excel.')+'</p></div>'+reportsHtml()+form;
   var inOnly=V==='payments', outOnly=V==='expenses';
@@ -6218,6 +6219,80 @@ function gUsed(gid){ return guse().filter(function(u){ return u.g===gid; }).redu
 function pAlloc(pid){ return guse().filter(function(u){ return u.p===pid; }).reduce(function(a,u){ return a+u.amt; },0); }
 function payById(id){ return (S.pays||[]).filter(function(p){ return p.id===id; })[0]; }
 
+/* ---------- رسوم التسجيل والتأمين / Frais d'inscription & assurance ---------- */
+async function loadFees(){
+  await loadCatalog();
+  var a=await sb.from('subscriptions').select('*'); S.fsubs=a.data||[];
+  var b=await sb.from('payments').select('*'); S.fpays=b.data||[];
+  var c=await sb.from('members').select('*').order('last_name'); S.gmembers=c.data||[];
+  if(!S.plansAll||!S.plansAll.length){ var pl=await sb.from('plans').select('*'); S.plansAll=pl.data||[]; }
+}
+function fpRange(){ var c=S.fp||(S.fp={ty:'season',ym:todayStr().slice(0,7),y:seasonStart().slice(0,4),d1:'',d2:'',f:'all'});
+  if(c.ty==='month') return {a:c.ym+'-01',b:monthEnd(c.ym)};
+  if(c.ty==='year') return {a:c.y+'-01-01',b:c.y+'-12-31'};
+  if(c.ty==='all') return {a:'2000-01-01',b:'2100-12-31'};
+  if(c.ty==='season'){ var sm=(S.cfg&&S.cfg.smonth)||9, y=Number(c.y), p2=('0'+sm).slice(-2); return {a:y+'-'+p2+'-01',b:addD((y+1)+'-'+p2+'-01',-1)}; }
+  return {a:c.d1||todayStr().slice(0,8)+'01',b:c.d2||todayStr()}; }
+function feesCompute(R){
+  var subs=S.fsubs||[], pays=S.fpays||[], rows=[], T={reg:0,ins:0,regN:{},insN:{},due:0,got:0,byDisc:{},byMonth:{}};
+  var plan={}; (S.plansAll||[]).forEach(function(p){ plan[p.id]=p; });
+  var mem={}; (S.gmembers||[]).forEach(function(m){ mem[m.id]=m; });
+  subs.forEach(function(sb0){
+    var rg=Number(sb0.reg_millimes||0), ins=Number(sb0.ins_millimes||0); if(!rg&&!ins) return;
+    var ps=pays.filter(function(x){ return x.subscription_id===sb0.id&&x.direction==='in'&&x.kind==='member'&&validPay(x); }).sort(function(x,y){ return String(x.paid_on)+String(x.created_at)<String(y.paid_on)+String(y.created_at)?-1:1; });
+    var remR=rg, remI=ins, gR=0, gI=0, cR=0, cI=0;
+    ps.forEach(function(p){ var a=Number(p.amount_millimes), tr=Math.min(a,remR); remR-=tr; a-=tr; var ti=Math.min(a,remI); remI-=ti; gR+=tr; gI+=ti;
+      if(p.paid_on>=R.a&&p.paid_on<=R.b){ cR+=tr; cI+=ti; var mo=String(p.paid_on).slice(0,7); var o=T.byMonth[mo]||(T.byMonth[mo]={r:0,i:0}); o.r+=tr; o.i+=ti; } });
+    var inP=sb0.starts_on>=R.a&&sb0.starts_on<=R.b; if(!inP&&!cR&&!cI) return;
+    var pl=plan[sb0.plan_id]||{}, d=discOf(pl.discipline_id), dn=d?nm(d):'—';
+    T.reg+=cR; T.ins+=cI;
+    if(inP){ T.due+=rg+ins; T.got+=gR+gI; if(rg) T.regN[sb0.member_id]=1; if(ins) T.insN[sb0.member_id]=1; }
+    var bd=T.byDisc[dn]||(T.byDisc[dn]={n:0,c:0,due:0}); bd.c+=cR+cI; if(inP){ bd.n++; bd.due+=rg+ins-gR-gI; }
+    rows.push({s:sb0,m:mem[sb0.member_id],dn:dn,pn:pl.name_fr||pl.name||'',rg:rg,gR:gR,ins:ins,gI:gI,cR:cR,cI:cI,inP:inP,st:(gR+gI>=rg+ins?'paid':(gR+gI>0?'part':'unpaid'))});
+  });
+  rows.sort(function(x,y){ return String(y.s.starts_on).localeCompare(String(x.s.starts_on)); });
+  return {rows:rows,T:T};
+}
+function feesHtml(){
+  var c=S.fp||(S.fp={ty:'season',ym:todayStr().slice(0,7),y:seasonStart().slice(0,4),d1:'',d2:'',f:'all'}), R=fpRange(), X=feesCompute(R), T=X.T, FC=feesCfg();
+  var sty='background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:9px 12px';
+  var per='<div class="bar" style="gap:8px;flex-wrap:wrap;margin-bottom:12px"><select id="fpTy" style="'+sty+'">'+[['month',GL('Mois','شهر')],['season',GL('Saison sportive','موسم رياضي')],['year',GL('Année civile','سنة')],['all',GL('Tout','الكل')],['custom',GL('Entre deux dates','بين تاريخين')]].map(function(x){ return '<option value="'+x[0]+'"'+(c.ty===x[0]?' selected':'')+'>'+x[1]+'</option>'; }).join('')+'</select>'+
+    (c.ty==='month'?'<input type="month" id="fpYm" value="'+esc(c.ym)+'" style="'+sty+'">':c.ty==='custom'?'<input type="date" id="fpD1" value="'+esc(R.a)+'" style="'+sty+'"><input type="date" id="fpD2" value="'+esc(R.b)+'" style="'+sty+'">':(c.ty==='all'?'':'<input type="number" id="fpY" min="2020" max="2100" value="'+esc(c.y)+'" style="'+sty+';width:110px">'+(c.ty==='season'?'<span class="who">'+esc(R.a+' → '+R.b)+'</span>':'')))+'</div>';
+  var k=function(l,v,col,sub){ return '<div class="kpi"><small>'+l+'</small><b style="font-size:22px'+(col?';color:'+col:'')+'">'+v+'</b>'+(sub?'<div class="who" style="margin-top:2px">'+sub+'</div>':'')+'</div>'; };
+  var nReg=Object.keys(T.regN).length, nIns=Object.keys(T.insN).length, rest=Math.max(0,T.due-T.got), rate=T.due?Math.round(100*T.got/T.due):0;
+  var kp='<div class="cards" style="margin-bottom:14px">'+
+    k(GL('Total encaissé (inscription + assurance)','المقبوض (تسجيل + تأمين)'),money(T.reg+T.ins),'var(--ok)',GL('dans la période (date de paiement)','في الفترة (حسب تاريخ الدفع)'))+
+    k(GL('Frais d\'inscription encaissés','رسوم التسجيل المقبوضة'),money(T.reg),'',GL('tarif actuel : ','التعرفة الحالية: ')+money(FC.reg))+
+    k(GL('Assurance encaissée','التأمين المقبوض'),money(T.ins),'',GL('tarif actuel : ','التعرفة الحالية: ')+money(FC.ins))+
+    k(GL('Nouveaux inscrits','المسجّلون الجدد'),String(nReg),'',GL('avec frais d\'inscription','بدفع رسوم تسجيل'))+
+    k(GL('Assurés','المؤمَّنون'),String(nIns),'',GL('avec assurance','بتأمين'))+
+    k(GL('Reste à encaisser','المتبقي قبضه'),money(rest),rest?'var(--bad)':'var(--ok)',GL('abonnements démarrés dans la période','اشتراكات بدأت في الفترة'))+
+    k(GL('Taux d\'encaissement','نسبة التحصيل'),rate+' %','',money(T.got)+' / '+money(T.due))+'</div>';
+  var mos=Object.keys(T.byMonth).sort(), mrow=mos.map(function(m){ var o=T.byMonth[m]; return '<tr><td class="num">'+esc(m)+'</td><td class="num" style="text-align:end">'+money(o.r)+'</td><td class="num" style="text-align:end">'+money(o.i)+'</td><td class="num" style="text-align:end"><b>'+money(o.r+o.i)+'</b></td></tr>'; }).join('');
+  var dn=Object.keys(T.byDisc).sort(), drow=dn.map(function(n){ var o=T.byDisc[n]; return '<tr><td>'+esc(n)+'</td><td class="num" style="text-align:end">'+o.n+'</td><td class="num" style="text-align:end">'+money(o.c)+'</td><td class="num" style="text-align:end;'+(o.due>0?'color:var(--bad)':'')+'">'+money(Math.max(0,o.due))+'</td></tr>'; }).join('');
+  var th=function(a){ return '<th'+(a?' style="text-align:end"':'')+'>'; };
+  var side='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-bottom:14px">'+
+    '<div class="panel"><h3 style="margin-bottom:8px">'+GL('Par mois (encaissé)','حسب الشهر (المقبوض)')+'</h3>'+(mrow?'<div class="tw" style="font-size:12.5px"><table><thead><tr><th>'+GL('Mois','الشهر')+'</th>'+th(1)+GL('Inscription','التسجيل')+'</th>'+th(1)+GL('Assurance','التأمين')+'</th>'+th(1)+GL('Total','المجموع')+'</th></tr></thead><tbody>'+mrow+'</tbody></table></div>':'<p class="who">'+GL('Rien encaissé sur cette période.','لا مقبوض في هذه الفترة.')+'</p>')+'</div>'+
+    '<div class="panel"><h3 style="margin-bottom:8px">'+GL('Par discipline','حسب الاختصاص')+'</h3>'+(drow?'<div class="tw" style="font-size:12.5px"><table><thead><tr><th>'+GL('Discipline','الاختصاص')+'</th>'+th(1)+GL('Abonnements','اشتراكات')+'</th>'+th(1)+GL('Encaissé','مقبوض')+'</th>'+th(1)+GL('Reste','متبقٍ')+'</th></tr></thead><tbody>'+drow+'</tbody></table></div>':'<p class="who">—</p>')+'</div></div>';
+  var flt=c.f||'all', rows=X.rows.filter(function(r){ return flt==='all'||r.st===flt; });
+  var pill=function(st){ return st==='paid'?'<span class="pill">'+GL('Payé','مدفوع')+'</span>':(st==='part'?'<span class="pill s">'+GL('Partiel','جزئي')+'</span>':'<span class="pill l">'+GL('Non payé','غير مدفوع')+'</span>'); };
+  var dr=rows.map(function(r){ var m=r.m||{}; return '<tr><td><button class="link" data-fmem="'+esc(r.s.member_id)+'" style="text-align:start"><b>'+esc(((m.last_name||'')+' '+(m.first_name||'')).trim()||'—')+'</b></button><div class="who" dir="ltr">'+esc(m.code?codeStr(m):'')+'</div></td><td>'+esc(r.dn)+'<div class="who">'+esc(r.pn)+'</div></td><td class="num">'+esc(r.s.starts_on)+'</td><td class="num" style="text-align:end">'+(r.rg?money(r.gR)+' / '+money(r.rg):'—')+'</td><td class="num" style="text-align:end">'+(r.ins?money(r.gI)+' / '+money(r.ins):'—')+'</td><td>'+pill(r.st)+'</td></tr>'; }).join('');
+  var fs='<select id="fpF" style="'+sty+'">'+[['all',GL('Tous','الكل')],['paid',GL('Payés','المدفوعة')],['part',GL('Partiels','الجزئية')],['unpaid',GL('Non payés','غير المدفوعة')]].map(function(x){ return '<option value="'+x[0]+'"'+(flt===x[0]?' selected':'')+'>'+x[1]+'</option>'; }).join('')+'</select>';
+  var det='<div class="panel"><div class="bar" style="gap:8px;margin-bottom:8px"><h3 style="margin:0">'+GL('Détail par abonnement','التفاصيل حسب الاشتراك')+' <span class="who">('+rows.length+')</span></h3><div style="flex:1"></div>'+fs+'</div>'+
+    (dr?'<div class="tw"><table><thead><tr><th>'+GL('Membre','العضو')+'</th><th>'+GL('Discipline · Plan','الاختصاص · الخطة')+'</th><th>'+GL('Début','البداية')+'</th>'+th(1)+GL('Inscription (payé / dû)','التسجيل (مدفوع / مستحق)')+'</th>'+th(1)+GL('Assurance (payé / dû)','التأمين (مدفوع / مستحق)')+'</th><th>'+GL('Statut','الحالة')+'</th></tr></thead><tbody>'+dr+'</tbody></table></div>':'<p class="who">'+GL('Aucun abonnement avec frais sur cette période.','لا اشتراكات بها رسوم في هذه الفترة.')+'</p>')+'</div>';
+  var note='<p class="who" style="margin:12px 0 0">'+GL('Règle : sur chaque abonnement, les premiers paiements couvrent d\'abord l\'inscription puis l\'assurance (comme pour le calcul de la part du coach). Les frais ne sont jamais réduits par une remise. Tarifs modifiables dans Réglages.','القاعدة: في كل اشتراك تغطّي أولى الدفعات رسم التسجيل ثم التأمين (كما في حساب نصيب المدرب). ولا تُخفَّض الرسوم بأي تخفيض. تُعدَّل التعرفة من الإعدادات.')+'</p>';
+  return per+kp+side+det+note;
+}
+function bindFees(){
+  var c=S.fp; if(!c) return;
+  if($('fpTy')) $('fpTy').onchange=function(){ c.ty=$('fpTy').value; render(); };
+  if($('fpYm')) $('fpYm').onchange=function(){ c.ym=$('fpYm').value||c.ym; render(); };
+  if($('fpY')) $('fpY').onchange=function(){ c.y=$('fpY').value||c.y; render(); };
+  if($('fpD1')) $('fpD1').onchange=function(){ c.d1=$('fpD1').value; render(); };
+  if($('fpD2')) $('fpD2').onchange=function(){ c.d2=$('fpD2').value; render(); };
+  if($('fpF')) $('fpF').onchange=function(){ c.f=$('fpF').value; render(); };
+  document.querySelectorAll('[data-fmem]').forEach(function(b){ b.onclick=function(){ S.memberId=b.getAttribute('data-fmem'); S.view='member'; S.showSub=false; S.modal=''; loadView(); }; });
+}
 function comptaHtml(){
   var c=S.cp||(S.cp={ty:'month',ym:todayStr().slice(0,7),y:todayStr().slice(0,4),d1:'',d2:''}), ct=S.ctab||'journal', R=cpRange();
   var sty='background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:9px 12px';
@@ -6465,6 +6540,7 @@ async function loadView(){ qcWarm();
   if(S.view==='member') await loadMember();
   if(isFinV(S.view)) await loadPayments();
   if(S.view==='salaries') await loadCoachPay();
+  if(S.view==='fees') await loadFees();
   if(S.view==='unpaid'||S.view==='finrep') await loadReports();
   if(S.view==='attendance') await loadAttendance();
   if(S.view==='reports') await loadReports();
@@ -6700,6 +6776,7 @@ function render(){
   if(S.view==='salaries') bindCoaches();
   if(S.view==='unpaid'||S.view==='finrep') bindReports();
   if(S.view==='compta') bindCompta();
+  if(S.view==='fees') bindFees();
   document.querySelectorAll('[data-cslip]').forEach(function(b){ b.onclick=function(){ printPayslip(coachOf(b.getAttribute('data-cslip')),cpMonth()); }; });
   document.querySelectorAll('[data-fgo]').forEach(function(b){ b.onclick=function(){ S.view=b.getAttribute('data-fgo'); S.modal=''; loadView(); }; });
   if($('frMonthGo')) $('frMonthGo').onclick=function(){ printFinMonth($('frMonth').value||todayStr().slice(0,7)); };
