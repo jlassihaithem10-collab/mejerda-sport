@@ -1447,6 +1447,7 @@ function bellAll(){ var d=(S.bell&&S.bell.d)||null; if(!d) return []; var o=[];
     if(d.ap) o.push({k:'ap',n:d.ap,w:0,go:{v:'payments'},fr:'Paiements en attente d\'approbation',ar:'مدفوعات تنتظر موافقتك',fr2:'Ouvrir les encaissements',ar2:'افتح صفحة المدفوعات'});
     if(d.cx) o.push({k:'cx',n:d.cx,w:0,go:{v:'payments'},fr:'Demandes d\'annulation à décider',ar:'طلبات إلغاء تنتظر قرارك',fr2:'Décision réservée au président',ar2:'القرار للرئيس'});
     if(d.soc) o.push({k:'soc',n:d.soc,w:0,go:{soc:1},fr:'Aides sociales en attente',ar:'طلبات مساعدة اجتماعية معلّقة',fr2:'Confirmer ou refuser',ar2:'أكّد أو ارفض'}); }
+  if(d.cd) o.push({k:'cd',n:d.cd,w:isPres()?0:1,go:{v:'salaries'},fr:isPres()?'Retenues sur salaire à décider':'Retenues proposées en attente du président',ar:isPres()?'اقتطاعات من أجور المدربين تنتظر قرارك':'اقتطاعات مقترحة تنتظر قرار الرئيس',fr2:isPres()?'Approuver ou refuser':'Ouvrir les salaires',ar2:isPres()?'وافق أو ارفض':'افتح صفحة الأجور'});
   if(d.chq) o.push({k:'chq',n:d.chq,w:0,go:{v:'treasury'},fr:'Chèques arrivés à échéance',ar:'شيكات حان موعدها',fr2:'À déposer ou à vérifier',ar2:'للإيداع أو التحقق'});
   if(d.unc) o.push({k:'unc',n:d.unc,w:0,go:{v:'treasury'},fr:'Journées non clôturées',ar:'أيام لم يُغلق صندوقها',fr2:'Clôturer la caisse de chaque jour',ar2:'أغلق صندوق كل يوم'});
   var st=(S.stats&&S.stats.stale)||[]; if(st.length) o.push({k:'stale',n:st.length,w:1,go:{v:'dash'},fr:'Abonnements non payés depuis longtemps',ar:'اشتراكات غير مدفوعة منذ مدة',fr2:'Voir le tableau de bord',ar2:'افتح لوحة القيادة'});
@@ -1479,6 +1480,7 @@ async function loadBell(force){ if(!bellVisible()) return; var now=Date.now(); i
       var by={}, ng={}, dp={}; res[7].forEach(function(x){ if(!act[x.member_id]) return; var dc=pd[x.plan_id]; if(!dc) return; var k=x.member_id+'|'+dc; (by[k]=by[k]||[]).push(x); if(!inD[k]) ng[x.member_id]=1; });
       Object.keys(by).forEach(function(k){ var a=by[k]; for(var i=0;i<a.length;i++) for(var j=i+1;j<a.length;j++){ if(a[i].starts_on<=a[j].ends_on&&a[j].starts_on<=a[i].ends_on&&Math.abs((Date.parse(a[i].starts_on)-Date.parse(a[j].starts_on))/86400000)<=7) dp[k]=1; } });
       d.ng=Object.keys(ng).length; d.dup=Object.keys(dp).length; }catch(eB){ d.ng=0; d.dup=0; }
+    try{ d.cd=(await q(sb.from('coach_deductions').select('id').eq('status','proposed'))).length; }catch(eC){ d.cd=0; }
     S.bell.d=d; }catch(e){ console.warn(e); } bellPaint(); }
 function bellPaint(){ var it=bellItems(), n=it.reduce(function(a,x){ return a+x.n; },0), b=$('bBadge'); if(b){ b.textContent=n>99?'99+':String(n); b.hidden=!n; }
   var p=$('bPan'); if(p&&!p.hidden) p.innerHTML=bellPanel(); bellBind(); }
@@ -1703,7 +1705,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b class="lt"><b>'+t('app')+'</b><small>'+GL('Gestion Sportive','إدارة الرياضة')+'</small></b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.4.0</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.5.0</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
@@ -2997,7 +2999,7 @@ function paymentsHtml(){
     var cqr=cq.map(function(p){ var due=p.cheque_due_on||'', late=due&&due<=td; return '<tr><td class="num"'+(late?' style="color:var(--bad);font-weight:700"':'')+'>'+esc(due||'—')+'</td><td>'+(p.direction==='in'?'↓ '+GL('À encaisser','للتحصيل'):'↑ '+GL('À débiter','للصرف'))+'</td><td><b>'+esc(payWho(p))+'</b><div class="who">'+esc(payTypeL(p))+'</div></td><td class="num">'+esc(p.cheque_number||'—')+'<div class="who">'+esc(p.cheque_bank||'')+'</div></td><td class="num" style="font-weight:700">'+money(p.amount_millimes)+'</td><td>'+(isMgr&&!dayClosedSync(p.paid_on)?'<select data-pst="'+p.id+'">'+['pending','cashed','bounced'].map(function(x){ return '<option value="'+x+'"'+(p.status===x?' selected':'')+'>'+psl(p,x)+'</option>'; }).join('')+'</select>':'<span class="pill s">'+psl(p)+'</span>')+'</td></tr>'; }).join('');
     return err+treasuryHtml()+closeHtml()+'<div class="panel"><h3 style="margin-bottom:8px">'+GL('Suivi des chèques en attente','متابعة الشيكات المعلّقة')+'</h3>'+(cq.length?'<div class="tw"><table><thead><tr><th>'+GL('Échéance','الاستحقاق')+'</th><th>'+GL('Sens','الاتجاه')+'</th><th>'+t('who')+'</th><th>'+GL('N° · banque','الرقم · البنك')+'</th><th>'+t('amount')+'</th><th>'+t('status')+'</th></tr></thead><tbody>'+cqr+'</tbody></table></div><p class="who" style="margin-top:8px">'+GL('En rouge : échéance atteinte, à déposer ou à vérifier à la banque.','بالأحمر: حلّ أجله، يُودع أو يُتابع مع البنك.')+'</p>':'<div class="empty">'+GL('Aucun chèque en attente.','لا توجد شيكات معلّقة.')+'</div>')+'</div>'+form;
   }
-  if(V==='salaries') return err+'<p class="who" style="margin:0 0 10px">'+GL('Rémunération de tous les coachs pour le mois choisi. « Payer » ouvre un bon de paiement prérempli ; la fiche de paie s\'imprime pour signature.','أجور كل المدربين للشهر المختار. «دفع» يفتح سند صرف معبّأ مسبقاً، وكشف الأجر يُطبع للإمضاء.')+'</p>'+coPayPanel()+form;
+  if(V==='salaries') return err+'<p class="who" style="margin:0 0 10px">'+GL('Rémunération de tous les coachs pour le mois choisi. « Payer » ouvre un bon de paiement prérempli ; la fiche de paie s\'imprime pour signature.','أجور كل المدربين للشهر المختار. «دفع» يفتح سند صرف معبّأ مسبقاً، وكشف الأجر يُطبع للإمضاء.')+'</p>'+coPayPanel()+dedPanel()+form;
   if(V==='unpaid') return err+reportsHtml()+form;
   if(V==='fees') return err+feesHtml();
   if(V==='compta') return err+comptaHtml()+form;
@@ -3179,11 +3181,82 @@ function coGroupStats(g,ym){
 var _own={};
 function ownerGroup(mid,disc){ var k=mid+'|'+disc; if(_own[k]!==undefined) return _own[k]; return null; }
 function buildOwners(){ _own={}; (S.gm||[]).forEach(function(x){ var g=(S.groups||[]).filter(function(y){ return y.id===x.group_id; })[0]; if(g){ var k=x.member_id+'|'+g.discipline_id; if(_own[k]===undefined) _own[k]=g.id; } }); }
+/* ---------- اقتطاعات المدربين / Retenues des coachs ---------- */
+function coDedOf(c,ym,st){ return (S.cded||[]).filter(function(x){ return x.coach_id===c.id&&x.month===ym&&(!st||x.status===st); }); }
+function dedKindL(k){ return k==='late'?GL('Retard','تأخر'):(k==='other'?GL('Autre','أخرى'):GL('Absence non justifiée','غياب غير مبرَّر')); }
+function dedLabel(x){ var d=String(x.occurred_on||'').split('-'); return dedKindL(x.kind)+' '+(d.length===3?d[2]+'/'+d[1]:'')+(x.reason?' — '+x.reason:''); }
+function coSchedMonth(c,ym){ var a=ym+'-01', b=monthEnd(ym), n=0; (S.groups||[]).filter(function(g){ return g.coach_id===c.id; }).forEach(function(g){ var sl=slotsOf(g); for(var d=a; d<=b; d=addD(d,1)){ var wd=new Date(d+'T12:00:00Z').getUTCDay(); sl.forEach(function(x){ if((x.days||[]).indexOf(wd)>-1) n++; }); } }); return n; }
+function coSessionValue(c,ym){ var n=coSchedMonth(c,ym), ty=c.pay_type||'monthly';
+  if(ty==='session') return {v:Number(c.session_rate_millimes||0),n:n,how:GL('tarif par séance','أجر الحصة')+' '+money(c.session_rate_millimes||0)};
+  if(ty==='monthly'&&n>0){ var bs=coPay(c,ym).base||Number(c.salary_millimes)||0; if(bs>0) return {v:Math.round(bs/n/500)*500,n:n,how:money(bs)+' ÷ '+n+' '+GL('séances prévues','حصة مبرمجة')}; }
+  return {v:0,n:n,how:''}; }
+function dedDlg(c0,ym){
+  var coaches=(S.coaches||[]).filter(function(c){ return c.active; });
+  var d=document.createElement('div'); d.className='ov uiD'; d.style.zIndex=300;
+  var sty='width:100%;background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:9px 12px';
+  d.innerHTML='<div class="modal" role="dialog" aria-modal="true"><h3 style="font-size:17px;margin-bottom:10px">'+GL('Proposer une retenue sur salaire','اقتراح اقتطاع من أجر مدرب')+'</h3>'+
+   '<div class="field"><label>'+GL('Coach','المدرب')+'</label><select id="dCo" style="'+sty+'">'+coaches.map(function(c){ return '<option value="'+c.id+'"'+(c0&&c0.id===c.id?' selected':'')+'>'+esc(c.full_name)+'</option>'; }).join('')+'</select></div>'+
+   '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px"><div class="field"><label>'+GL('Date de la séance','تاريخ الحصة')+'</label><input id="dDate" type="date" value="'+(ym===todayStr().slice(0,7)?todayStr():ym+'-01')+'" style="'+sty+'"></div>'+
+   '<div class="field"><label>'+GL('Type','النوع')+'</label><select id="dKind" style="'+sty+'"><option value="absence">'+GL('Absence non justifiée','غياب غير مبرَّر')+'</option><option value="late">'+GL('Retard','تأخر')+'</option><option value="other">'+GL('Autre','أخرى')+'</option></select></div></div>'+
+   '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px"><div class="field"><label>'+GL('Groupe','المجموعة')+'</label><select id="dGrp" style="'+sty+'"></select></div>'+
+   '<div class="field" id="dSesW"><label>'+GL('Nombre de séances','عدد الحصص')+'</label><input id="dSes" type="number" min="1" max="20" value="1" style="'+sty+'"></div></div>'+
+   '<div class="field" style="margin-top:8px"><label>'+GL('Montant (DT)','المبلغ (د.ت)')+'</label><input id="dAmt" type="number" min="0" step="0.5" style="'+sty+'" dir="ltr"><div class="who" id="dHow" style="margin-top:4px"></div></div>'+
+   '<div class="field" style="margin-top:8px"><label>'+GL('Motif (obligatoire)','السبب (إلزامي)')+'</label><textarea id="dWhy" rows="2" style="'+sty+'" placeholder="'+esc(GL('Ex. : absent sans prévenir, séance non assurée','مثال: غاب دون إعلام، الحصة لم تُنجز'))+'"></textarea></div>'+
+   '<p class="who" style="margin-top:8px">'+GL('La retenue ne s\'applique qu\'après l\'approbation du président. Elle apparaît sur la fiche de paie.','لا يُطبَّق الاقتطاع إلا بعد موافقة الرئيس، ويظهر في كشف الأجر.')+'</p>'+
+   '<div class="err" id="dErr" role="alert"></div><div class="mf"><button class="btn" type="button" id="dNo">'+t('cancel')+'</button><button class="btn pri" type="button" id="dOk">'+GL('Proposer','اقتراح')+'</button></div></div>';
+  document.body.appendChild(d);
+  var dirty=false, g=function(i){ return d.querySelector('#'+i); };
+  function cur(){ return coachOf(g('dCo').value); }
+  function refresh(){ var c=cur(), dt=g('dDate').value||todayStr(), m=dt.slice(0,7);
+    var gs=(S.groups||[]).filter(function(x){ return x.coach_id===c.id; }); var keep=g('dGrp').value;
+    g('dGrp').innerHTML='<option value="">—</option>'+gs.map(function(x){ return '<option value="'+x.id+'">'+esc(x.name)+'</option>'; }).join(''); if(keep) g('dGrp').value=keep;
+    var k=g('dKind').value; g('dSesW').style.display=k==='absence'?'':'none';
+    var sv=coSessionValue(c,m), n=Math.max(1,parseInt(g('dSes').value,10)||1), how=g('dHow');
+    if(k==='absence'&&sv.v>0){ if(!dirty) g('dAmt').value=(sv.v*n/1000).toFixed(3); how.textContent=GL('Prix de la séance : ','ثمن الحصة: ')+money(sv.v)+' ('+sv.how+') × '+n; }
+    else { if(!dirty&&k!=='absence') g('dAmt').value=g('dAmt').value; how.textContent=(k==='absence'?(sv.n?GL('Pas de prix de séance calculable pour ce mode de rémunération : saisissez le montant.','لا يمكن حساب ثمن الحصة لطريقة أجر هذا المدرب: اكتب المبلغ.'):GL('Aucune séance programmée pour ce coach ce mois-ci : saisissez le montant.','لا حصص مبرمجة لهذا المدرب في هذا الشهر: اكتب المبلغ.')):GL('Saisissez le montant fixé.','اكتب المبلغ المقرَّر.')); }
+  }
+  ['dCo','dDate','dKind','dSes'].forEach(function(i){ g(i).onchange=function(){ if(i==='dCo'||i==='dKind') dirty=false; refresh(); }; g(i).oninput=function(){ if(i==='dSes') refresh(); }; });
+  g('dAmt').oninput=function(){ dirty=true; };
+  function close(){ d.remove(); }
+  g('dNo').onclick=close; d.onmousedown=function(e){ if(e.target===d) close(); };
+  g('dOk').onclick=async function(){
+    var c=cur(), dt=g('dDate').value, k=g('dKind').value, why=g('dWhy').value.trim(), amt=Math.round(parseFloat(g('dAmt').value||'0')*1000), n=k==='absence'?Math.max(1,parseInt(g('dSes').value,10)||1):0, er=g('dErr');
+    if(!dt){ er.textContent=GL('Choisissez la date.','اختر التاريخ.'); return; }
+    if(!(amt>0)){ er.textContent=GL('Saisissez un montant supérieur à 0.','اكتب مبلغاً أكبر من 0.'); return; }
+    if(why.length<5){ er.textContent=GL('Le motif est obligatoire (5 caractères minimum).','السبب إلزامي (5 أحرف على الأقل).'); g('dWhy').focus(); return; }
+    var q=coPay(c,dt.slice(0,7)), taken=coDedOf(c,dt.slice(0,7)).filter(function(x){ return x.status==='proposed'||x.status==='approved'; }).reduce(function(a,x){ return a+Number(x.amount_millimes); },0);
+    if(q.base>0&&taken+amt>q.base){ er.textContent=GL('Le total des retenues de ce mois dépasserait le salaire ('+money(q.base)+').','مجموع اقتطاعات هذا الشهر سيتجاوز الأجر ('+money(q.base)+').'); return; }
+    if(!(await guardAsk())) return;
+    var sv=coSessionValue(c,dt.slice(0,7));
+    var row={coach_id:c.id,month:dt.slice(0,7),occurred_on:dt,group_id:g('dGrp').value||null,kind:k,sessions:n,amount_millimes:amt,calc_note:(k==='absence'&&sv.v>0?sv.how+' × '+n:null),reason:why};
+    g('dOk').disabled=true; var r=await sb.from('coach_deductions').insert(row);
+    if(r.error){ g('dOk').disabled=false; er.textContent=r.error.message; return; }
+    close(); logAct('insert','coach_deductions',{coach:c.full_name,month:row.month,kind:k,amount:amt,reason:why},''); uiToast(GL('Retenue proposée : en attente du président.','تم اقتراح الاقتطاع: ينتظر موافقة الرئيس.')); S.bell&&(S.bell.t=0); await loadCoachPay(); render(); loadBell(true);
+  };
+  refresh(); g('dCo').focus();
+}
+function dedPanel(){
+  var ym=cpMonth(), list=(S.cded||[]).filter(function(x){ return x.month===ym; }), pres=isPres(), canP=canFin();
+  var pill=function(st){ return st==='approved'?'<span class="pill">'+GL('Approuvée','موافَق عليه')+'</span>':(st==='proposed'?'<span class="pill s">'+GL('En attente du président','ينتظر الرئيس')+'</span>':(st==='rejected'?'<span class="pill l">'+GL('Refusée','مرفوض')+'</span>':'<span class="pill l">'+GL('Retirée','مسحوب')+'</span>')); };
+  var rows=list.map(function(x){ var c=coachOf(x.coach_id)||{full_name:'?'}, act='';
+    if(x.status==='proposed'){ if(pres) act='<button class="btn sm pri" data-dok="'+x.id+'">'+GL('Approuver','موافقة')+'</button> <button class="btn sm" data-dno="'+x.id+'">'+GL('Refuser','رفض')+'</button>'; else if(canP) act='<button class="btn sm" data-dwd="'+x.id+'">'+GL('Retirer','سحب')+'</button>'; }
+    return '<tr><td><b>'+esc(c.full_name)+'</b><div class="who">'+esc(dedKindL(x.kind))+(x.sessions?' · '+x.sessions+' '+GL('séance(s)','حصة'):'')+'</div></td><td class="num">'+esc(x.occurred_on)+'</td><td class="num" style="text-align:end;color:var(--bad);font-weight:700">− '+money(x.amount_millimes)+'</td><td>'+esc(x.reason||'')+(x.calc_note?'<div class="who">'+esc(x.calc_note)+'</div>':'')+(x.decision_note?'<div class="who">'+GL('Décision : ','القرار: ')+esc(x.decision_note)+'</div>':'')+'</td><td>'+pill(x.status)+'<div class="who">'+esc(x.proposed_by_name||'')+(x.decided_by_name?' → '+esc(x.decided_by_name):'')+'</div></td><td style="white-space:nowrap">'+act+'</td></tr>'; }).join('');
+  return '<div class="panel" style="margin-top:14px"><div class="bar" style="margin-bottom:8px"><h3 style="flex:1">'+GL('Retenues sur salaire du mois','اقتطاعات الأجور لهذا الشهر')+'</h3>'+(canP?'<button class="btn pri" id="bDedNew">+ '+GL('Proposer une retenue','اقتراح اقتطاع')+'</button>':'')+'</div>'+
+   (rows?'<div class="tw"><table><thead><tr><th>'+GL('Coach','المدرب')+'</th><th>'+GL('Séance','الحصة')+'</th><th style="text-align:end">'+GL('Montant','المبلغ')+'</th><th>'+GL('Motif','السبب')+'</th><th>'+GL('Statut','الحالة')+'</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div>':'<p class="who">'+GL('Aucune retenue ce mois-ci.','لا اقتطاعات في هذا الشهر.')+'</p>')+
+   '<p class="who" style="margin-top:8px">'+GL('Absence non justifiée : prix de la séance = salaire fixe ÷ séances programmées du mois. Seules les retenues approuvées par le président sont déduites du salaire et imprimées sur la fiche de paie.','غياب غير مبرَّر: ثمن الحصة = الأجر الثابت ÷ حصص الشهر المبرمجة. لا يُخصم من الأجر ولا يظهر في كشف الأجر إلا ما وافق عليه الرئيس.')+'</p></div>';
+}
+function bindDed(){
+  if($('bDedNew')) $('bDedNew').onclick=function(){ dedDlg(null,cpMonth()); };
+  var reload=async function(){ S.bell&&(S.bell.t=0); await loadCoachPay(); render(); loadBell(true); };
+  document.querySelectorAll('[data-dok]').forEach(function(b){ b.onclick=async function(){ var id=b.getAttribute('data-dok'); if(!(await uiConfirm(GL('Approuver cette retenue ? Elle sera déduite du salaire.','الموافقة على هذا الاقتطاع؟ سيُخصم من الأجر.')))) return; var r=await sb.from('coach_deductions').update({status:'approved'}).eq('id',id); if(r&&r.error){ uiToast(r.error.message); return; } uiToast(GL('Retenue approuvée.','تمت الموافقة على الاقتطاع.')); reload(); }; });
+  document.querySelectorAll('[data-dno]').forEach(function(b){ b.onclick=async function(){ var id=b.getAttribute('data-dno'); var why=await uiPrompt(GL('Motif du refus','سبب الرفض'),{title:GL('Refuser la retenue','رفض الاقتطاع'),input:{val:'',min:5}}); if(!why) return; var r=await sb.from('coach_deductions').update({status:'rejected',decision_note:why}).eq('id',id); if(r&&r.error){ uiToast(r.error.message); return; } uiToast(GL('Retenue refusée.','تم رفض الاقتطاع.')); reload(); }; });
+  document.querySelectorAll('[data-dwd]').forEach(function(b){ b.onclick=async function(){ var id=b.getAttribute('data-dwd'); if(!(await uiConfirm(GL('Retirer cette proposition ?','سحب هذا الاقتراح؟')))) return; var r=await sb.from('coach_deductions').update({status:'withdrawn'}).eq('id',id); if(r&&r.error){ uiToast(r.error.message); return; } reload(); }; });
+}
 function coAdj(c,ym){ var o=((S.cfg||{}).copay||{})[c.id+'|'+ym]; return o||{bonus:0,ded:0,note:''}; }
 function coPay(c,ym){
   var ty=c.pay_type||'monthly', lines=[], secs=[], b=monthEnd(ym), base=0; buildOwners();
   var tag=ym.slice(5)+'/'+ym.slice(0,4), paid=(S.cpays||[]).filter(function(p){ return p.kind==='salary'&&p.counterparty===c.full_name&&validPay(p)&&String(p.notes||'').indexOf('debt:')!==0&&(/\d\d\/\d{4}/.test(p.notes||'')?String(p.notes).indexOf(tag)>-1:(p.paid_on>=ym+'-01'&&p.paid_on<=b)); }).reduce(function(a,p){ return a+Number(p.amount_millimes); },0);
-  if(c.hired_on&&c.hired_on>b) return {type:ty,base:0,bonus:0,ded:0,note:'',due:0,paid:paid,rest:0,lines:[[GL('Pas encore embauché','لم يلتحق بعد'),'']],secs:[]};
+  if(c.hired_on&&c.hired_on>b) return {type:ty,base:0,bonus:0,ded:0,ded0:0,dlist:[],note:'',due:0,paid:paid,rest:0,lines:[[GL('Pas encore embauché','لم يلتحق بعد'),'']],secs:[]};
   var gs=(S.groups||[]).filter(function(g){ return g.coach_id===c.id; }), useFixed=false;
   gs.forEach(function(g){
     var P=gPay(g), t0=P.type||'default', v=P.v, st=coGroupStats(g,ym), amt=0, how='';
@@ -3195,10 +3268,10 @@ function coPay(c,ym){
   });
   if(ty==='monthly'&&(useFixed||!gs.length)){ base+=c.salary_millimes||0; lines.push([GL('Salaire mensuel fixe','الأجر الشهري الثابت'),money(c.salary_millimes||0)]); }
   secs.forEach(function(x){ if(x.type!=='fixed') lines.push([x.g.name+' — '+x.how,money(x.amt)]); });
-  var adj=coAdj(c,ym), bonus=adj.bonus||0, ded=adj.ded||0, due=Math.max(0,base+bonus-ded);
+  var adj=coAdj(c,ym), bonus=adj.bonus||0, ded0=adj.ded||0, dl=coDedOf(c,ym,'approved'), ded=ded0+dl.reduce(function(a,x){ return a+Number(x.amount_millimes); },0), due=Math.max(0,base+bonus-ded);
   var arr=debtsList().filter(function(d){ return d.coach_id===c.id; }).reduce(function(a,d){ return a+debtRest(d); },0); if(arr>0) lines.push([GL('Arriérés antérieurs restant dus (hors ce mois)','متأخرات سابقة متبقية (خارج هذا الشهر)'),money(arr)]);
-  if(bonus) lines.push([GL('Prime','منحة'),'+ '+money(bonus)]); if(ded) lines.push([GL('Retenue','خصم')+(adj.note?' ('+adj.note+')':''),'− '+money(ded)]);
-  return {type:ty,base:base,bonus:bonus,ded:ded,note:adj.note||'',due:due,paid:paid,rest:Math.max(0,due-paid),lines:lines,secs:secs};
+  if(bonus) lines.push([GL('Prime','منحة'),'+ '+money(bonus)]); if(ded0) lines.push([GL('Retenue','خصم')+(adj.note?' ('+adj.note+')':''),'− '+money(ded0)]); dl.forEach(function(x){ lines.push([GL('Retenue — ','خصم — ')+dedLabel(x),'− '+money(x.amount_millimes)]); });
+  return {type:ty,base:base,bonus:bonus,ded:ded,ded0:ded0,dlist:dl,note:adj.note||'',due:due,paid:paid,rest:Math.max(0,due-paid),lines:lines,secs:secs};
 }
 function coSecHtml(x){
   var st=x.st, d=discOf(x.g.discipline_id);
@@ -3217,7 +3290,7 @@ function printPayslip_v1(c,ym){
   var tot='<table style="width:100%;margin-top:10px;border-collapse:collapse;font-size:13px"><tbody>'+
    '<tr><td style="padding:4px 6px">'+GL('Total brut','المجموع')+'</td><td class="num" style="text-align:end;padding:4px 6px">'+money(q.base)+'</td></tr>'+
    (q.bonus?'<tr><td style="padding:4px 6px">'+GL('Prime','منحة')+'</td><td class="num" style="text-align:end;padding:4px 6px">+ '+money(q.bonus)+'</td></tr>':'')+
-   (q.ded?'<tr><td style="padding:4px 6px">'+GL('Retenue','خصم')+(q.note?' ('+esc(q.note)+')':'')+'</td><td class="num" style="text-align:end;padding:4px 6px">− '+money(q.ded)+'</td></tr>':'')+
+   (q.ded0?'<tr><td style="padding:4px 6px">'+GL('Retenue','خصم')+(q.note?' ('+esc(q.note)+')':'')+'</td><td class="num" style="text-align:end;padding:4px 6px">− '+money(q.ded0)+'</td></tr>':'')+(q.dlist||[]).map(function(x){ return '<tr><td style="padding:4px 6px">'+GL('Retenue — ','خصم — ')+esc(dedLabel(x))+'</td><td class="num" style="text-align:end;padding:4px 6px">− '+money(x.amount_millimes)+'</td></tr>'; }).join('')+
    '<tr style="font-weight:800;font-size:15px;border-top:2px solid #000"><td style="padding:6px">'+GL('NET À PAYER','صافي الأجر')+'</td><td class="num" style="text-align:end;padding:6px">'+money(q.due)+'</td></tr>'+
    '<tr><td style="padding:4px 6px">'+GL('Déjà versé','المدفوع')+'</td><td class="num" style="text-align:end;padding:4px 6px">'+money(q.paid)+'</td></tr>'+
    '<tr style="font-weight:700"><td style="padding:4px 6px">'+GL('Reste','الباقي')+'</td><td class="num" style="text-align:end;padding:4px 6px">'+money(q.rest)+'</td></tr></tbody></table>';
@@ -3236,7 +3309,7 @@ function coPayGo(c,ym){
 }
 async function loadCoachPay(){
   await loadGroups();
-  var p=await sb.from('payments').select('*'); S.cpays=p.data||[]; var at0=await sb.from('attendance').select('*'); S.catt=at0.data||[];
+  var p=await sb.from('payments').select('*'); S.cpays=p.data||[]; try{ var cd=await sb.from('coach_deductions').select('*').order('occurred_on',{ascending:false}); S.cded=cd.data||[]; }catch(eD){ S.cded=S.cded||[]; } var at0=await sb.from('attendance').select('*'); S.catt=at0.data||[];
   var mx=S.coaches.reduce(function(a,c){ return Math.max(a,c.code||0); },0), miss=S.coaches.filter(function(c){ return !c.code&&c.active; });
   for(var i=0;i<miss.length;i++){ miss[i].code=++mx; try{ await _rawFrom('coaches').update({code:miss[i].code}).eq('id',miss[i].id); }catch(e){} }
 }
@@ -3285,6 +3358,7 @@ function bindCoaches(){
   document.querySelectorAll('[data-cpay2]').forEach(function(b){ b.onclick=function(){ coPayGo(coachOf(b.getAttribute('data-cpay2')),cpMonth()); }; });
   if($('cpMonth')) $('cpMonth').onchange=function(){ S.cpm=$('cpMonth').value||''; render(); };
   if($('cShowIn')) $('cShowIn').onchange=function(){ S.cShowIn=$('cShowIn').checked; render(); };
+  bindDed();
   bindCoachForm();
 }
 function bindCoachForm(){
