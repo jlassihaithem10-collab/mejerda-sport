@@ -1728,7 +1728,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b class="lt"><b>'+t('app')+'</b><small>'+GL('Gestion Sportive','إدارة الرياضة')+'</small></b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.6.0</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.6.1</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
@@ -2431,7 +2431,7 @@ function bindMembers(){
   if($('fFam')) $('fFam').onchange=function(){ S.fFam=$('fFam').value; if(S.fDisc){ var f=famOfDisc(S.fDisc); if(S.fFam&&(!f||f.id!==S.fFam)) S.fDisc=''; } render(); }; if($('fDisc')) $('fDisc').onchange=function(){ S.fDisc=$('fDisc').value; $('tbMem').innerHTML=rowsHtml(q.value); $('mCount').textContent=(S.shown||0)+' / '+S.members.length+' '+GL('membres','عضو'); bindDel(); bindOpen(); }; if($('fCat')) $('fCat').onchange=function(){ S.fCat=$('fCat').value; $('tbMem').innerHTML=rowsHtml(q.value); $('mCount').textContent=(S.shown||0)+' / '+S.members.length+' '+GL('membres','عضو'); bindDel(); bindOpen(); };
   if($('fDocCk')) $('fDocCk').onchange=function(){ S.fDoc=$('fDocCk').checked; $('tbMem').innerHTML=rowsHtml(q.value); $('mCount').textContent=(S.shown||0)+' / '+S.members.length+' '+GL('membres','عضو'); bindDel(); bindOpen(); };
   if($('bAdd')) $('bAdd').onclick=function(){ S.showForm=true; render(); };
-  if($('bCards')) $('bCards').onclick=async function(){ var l=memFiltered($('qMem')?$('qMem').value:''); if(await uiConfirm(GL('Les cartes seront imprimées pour la liste affichée (filtres appliqués).','ستُطبع البطاقات للقائمة المعروضة (حسب الفلاتر).'),{title:GL('Imprimer ','طباعة ')+l.length+GL(' cartes ?',' بطاقة؟'),icon:'printer',ok:GL('Imprimer','طباعة')})) printCards(l); };
+  if($('bCards')) $('bCards').onclick=async function(){ var l=memFiltered($('qMem')?$('qMem').value:''); if(await uiConfirm(GL('Les cartes seront imprimées pour la liste affichée (filtres appliqués) : une page de recto puis une page de verso. Pour le recto-verso, choisissez « Recto verso — retourner sur le bord long ».','ستُطبع البطاقات للقائمة المعروضة (حسب الفلاتر): صفحة وجوه أمامية ثم صفحة ظهور. للطباعة على الوجهين اختر «الوجهين — القلب على الحافة الطويلة».'),{title:GL('Imprimer ','طباعة ')+l.length+GL(' cartes ?',' بطاقة؟'),icon:'printer',ok:GL('Imprimer','طباعة')})) printCards(l); };
   if($('bImp')) $('bImp').onclick=function(){ S.imp=null; S.modal='imp'; render(); };
   bindImport();
   document.querySelectorAll('[data-chip]').forEach(function(b){ b.onclick=function(){ toggleChip(b.getAttribute('data-chip')); render(); }; });
@@ -4991,7 +4991,15 @@ async function sxCardData(){ try{ var lg=assoc().logo; if(lg&&(!S._wm||S._wm.src
 function sxV(){ try{ return localStorage.getItem('cardStyle')!=='h'; }catch(e){ return true; } }
 async function printCards(list){
   if(!list.length) return; await sxCardData();
-  var v=sxV(), per=v?9:10, pages=[]; for(var i=0;i<list.length;i+=per) pages.push('<div class="pgk sxpg'+(v?' v':'')+'">'+list.slice(i,i+per).map(function(m){ return v?sxCardFrontV(m):sxCardFront(m); }).join('')+'</div>');
+  var v=sxV(), per=v?9:10, cols=v?3:2, pages=[];
+  function cell(m,back){ return back?(v?sxCardBackV(m):sxCardBack(m)):(v?sxCardFrontV(m):sxCardFront(m)); }
+  for(var i=0;i<list.length;i+=per){
+    var ch=list.slice(i,i+per);
+    pages.push('<div class="pgk sxpg'+(v?' v':'')+'">'+ch.map(function(m){ return cell(m,false); }).join('')+'</div>');
+    /* verso : même position que le recto après retournement (bord long) → colonnes inversées dans chaque ligne */
+    var bk=[]; for(var r=0;r<ch.length;r+=cols){ var row=ch.slice(r,r+cols), cells=[]; for(var c=0;c<cols;c++) cells.push(row[c]?cell(row[c],true):'<div class="card'+(v?' v':'')+'" style="visibility:hidden"></div>'); bk=bk.concat(cells.reverse()); }
+    pages.push('<div class="pgk sxpg'+(v?' v':'')+'">'+bk.join('')+'</div>');
+  }
   sxPrint('<div class="sxk">'+pages.join('')+'</div>','A4 portrait');
 }
 async function printOneCard(m){ await sxCardData(); sxPrint('<div class="sxk"><div class="one">'+(sxV()?sxCardFrontV(m)+sxCardBackV(m):sxCardFront(m)+sxCardBack(m))+'</div><div style="font:7pt Inter,sans-serif;color:#6b7280;padding:0 1.4cm">Découper le long du trait pointillé (la couleur déborde de 2 mm pour éviter le liseré blanc). · قصّ على الخط المنقّط (اللون يتجاوزه 2 مم لتفادي الحافة البيضاء).</div></div>','A4 portrait'); }
