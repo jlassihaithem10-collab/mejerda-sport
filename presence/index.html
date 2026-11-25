@@ -501,9 +501,10 @@ tr:last-child td{border-bottom:0}
 #pa .sxk .kv small{display:block;font-size:5.4pt;color:#6b7280;letter-spacing:.2px}
 #pa .sxk .kv small .ar{font-size:6pt;line-height:1;font-weight:700;color:#4b5563;letter-spacing:0}
 #pa .sxk .kv b{display:block;font-size:7pt;font-weight:700;color:#2F3444}
-#pa .sxk .ph{left:6.02cm;top:.42cm;width:1.9cm;height:1.9cm;border-radius:50%;object-fit:cover;border:.07cm solid #EBAA00;background:#fff}
-#pa .sxk .qb{left:6.24cm;top:2.5cm;width:1.5cm;height:1.5cm;background:#fff;border-radius:.14cm;display:grid;place-items:center}
-#pa .sxk .qb .sxq{width:1.3cm;height:1.3cm}
+#pa .sxk .ph{left:5.9cm;top:.22cm;width:2cm;height:2cm;border-radius:50%;object-fit:cover;border:.07cm solid #EBAA00;background:#fff}
+#pa .sxk .qb{left:5.98cm;top:2.38cm;width:1.84cm;height:2.04cm;background:#fff;border-radius:.14cm;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.06cm}
+#pa .sxk .qb .sxq{width:1.62cm;height:1.62cm}
+#pa .sxk .qb span{font-size:4.7pt;font-weight:700;color:#2F3444;letter-spacing:.2px;line-height:1;white-space:nowrap}
 #pa .sxk .qt{left:5.7cm;top:4.06cm;width:2.1cm;text-align:center;color:#fff;font-size:5.2pt;letter-spacing:.3px}
 #pa .sxk .ft{left:.34cm;bottom:.16cm;font-size:5.4pt;color:#6b7280;display:flex;flex-direction:column;gap:.02cm;line-height:1.25}
 #pa .sxk .ft b{color:#2F3444;letter-spacing:.3px}
@@ -1705,7 +1706,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b class="lt"><b>'+t('app')+'</b><small>'+GL('Gestion Sportive','إدارة الرياضة')+'</small></b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.5.0</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.5.1</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
@@ -4918,7 +4919,7 @@ function sxCardFront(m,grp){
    '<div class="abs nm'+(full.length>20?' s':'')+'"><b>'+sxE(m.last_name)+'</b><span>'+sxE(m.first_name)+'</span></div><div class="abs ul"></div>'+
    '<div class="abs id">'+sxE(codeStr(m))+'</div>'+
    '<div class="abs kv"><div><small>Discipline <span class="ar">· الاختصاص</span></small><b>'+sxE(ds.join(', ')||'—')+'</b></div><div><small>Catégorie <span class="ar">· الصنف</span></small><b>'+sxE(c?catLabel(c):'—')+'</b></div><div><small>Groupe <span class="ar">· المجموعة</span></small><b>'+sxE(gs.join(', ')||'—')+'</b></div></div>'+
-   '<img class="abs ph" src="'+sxE(m.photo||avatar)+'" alt=""><div class="abs qb">'+sxQ(codeStr(m))+'</div><div class="abs qt">Présence · الحضور</div>'+
+   '<img class="abs ph" src="'+sxE(m.photo||avatar)+'" alt=""><div class="abs qb">'+sxQ(codeStr(m))+'<span>Présence · الحضور</span></div>'+
    '<div class="abs ft"><span>Saison <b>'+sxE(sxSeason())+'</b></span><span>Valable jusqu\'au <b>30/06/'+(y0+1)+'</b></span></div></div></div>';
 }
 function sxCardBack(m){
