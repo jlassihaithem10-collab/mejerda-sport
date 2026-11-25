@@ -6868,7 +6868,7 @@ function renderStation(){
     var warns=[]; if(ok&&r.solde>0) warns.push(GL('Reste à payer : ','المتبقي للدفع: ')+money(r.solde)); if(ok&&r.docs&&r.docs.length) warns.push(GL('Dossier à compléter : ','ملف ناقص: ')+r.docs.join(', ')); if(r.warn) warns.push(r.warn);
     if(warns.length) extra+='<div class="stwarn">'+warns.map(esc).join('<br>')+'</div>';
     main='<div class="stcard '+(ok?'ok':'ko')+'"><div class="stph"><div class="pic">'+stAv(m,240)+'</div><div class="stbadge">'+(ok?'✓':'✕')+'</div></div><div>'+
-      '<div class="stwel">'+(ok?'Bienvenue '+esc(m.first_name)+'<div dir="rtl" style="font-size:.85em;margin-top:2px">مرحباً بك يا '+esc(m.first_name)+'</div>':esc(GL('Accès non autorisé','الدخول غير مسموح')))+'</div><div class="stnm">'+esc(m.first_name+' '+m.last_name)+'</div>'+
+      '<div class="stwel">'+(ok?'Bienvenue '+esc(m.first_name)+'<div dir="rtl" style="font-size:.85em;margin-top:2px;text-align:left">مرحباً بك يا '+esc(m.first_name)+'</div>':esc(GL('Accès non autorisé','الدخول غير مسموح')))+'</div><div class="stnm">'+esc(m.first_name+' '+m.last_name)+'</div>'+
       (ok?'<div class="stchips">'+chips+'</div>'+stats+extra:'<div class="stmsg">'+esc(r.msg||'')+'</div><div class="stsub">'+esc(GL('Merci de passer à l\'accueil.','يرجى التوجه إلى الاستقبال.'))+'</div>'+(warns.length?extra:''))+'</div></div>';
   } else if(r){
     main='<div class="stcard ko"><div class="stph"><div class="pic"><div class="stini">?</div></div><div class="stbadge">✕</div></div><div><div class="stwel">'+esc(GL('Accès non autorisé','الدخول غير مسموح'))+'</div><div class="stmsg">'+esc(r.msg||'')+'</div><div class="stsub">'+esc(GL('Merci de passer à l\'accueil.','يرجى التوجه إلى الاستقبال.'))+'</div></div></div>';
