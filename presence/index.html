@@ -92,6 +92,24 @@ h1,h2,h3{margin:0;text-wrap:balance}
 .who{font-size:12px;color:var(--mut)}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:20px}
 .kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.akp{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;position:relative;overflow:hidden;min-height:104px}
+.akp small{color:var(--mut);font-weight:700;font-size:12px;display:block}
+.akp b{display:block;font-size:30px;font-weight:800;line-height:1.1;margin-top:6px;font-variant-numeric:tabular-nums}
+.akp .sub{font-size:12px;color:var(--mut);margin-top:6px;line-height:1.4}
+.akp .chip{display:inline-block;border-radius:999px;padding:1px 8px;font-size:12px;font-weight:700;margin-inline-start:6px;vertical-align:middle}
+.akp .ring{position:absolute;inset-inline-end:14px;top:14px;width:58px;height:58px;border-radius:50%;display:grid;place-items:center}
+.akp .ring::after{content:"";position:absolute;inset:7px;border-radius:50%;background:var(--card)}
+.akp .ring span{position:relative;z-index:1;font-size:12px;font-weight:800}
+.ains{display:grid;gap:8px}.ains div{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:12px;background:var(--inp);border:1px solid var(--line);line-height:1.5}
+.ains i{width:10px;height:10px;border-radius:50%;margin-top:7px;flex:none}
+.agrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px;margin-bottom:14px}
+.abars{display:flex;align-items:stretch;gap:3px;height:150px}.abar{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:stretch;text-align:center}
+.abar em{font-style:normal;font-size:10px;font-weight:700;height:14px;color:var(--tx)}.abar .abx{flex:1;min-width:0;display:flex;align-items:flex-end;justify-content:center}
+.abar .abx i{display:block;flex:1 1 0;min-width:0;max-width:32px;border-radius:6px 6px 2px 2px;background:var(--acc)}.abar span{font-size:9px;color:var(--mut);margin-top:4px;white-space:nowrap;overflow:hidden}
+.agr{display:grid;grid-template-columns:minmax(90px,1.1fr) 2fr 46px;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line)}.agr:last-child{border:0}
+.agr .atr{height:10px;border-radius:99px;background:var(--line);overflow:hidden}.agr .atr i{display:block;height:100%;border-radius:99px}.agr small{grid-column:1/-1;color:var(--mut);font-size:11px;margin-top:-4px}
+.awl{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}.awl:last-child{border:0}.awl b{flex:1;font-size:14px}.awl span{color:var(--mut);font-size:12px}
+details.adt{border:1px solid var(--line);border-radius:12px;margin-bottom:10px;background:var(--card)}details.adt>summary{cursor:pointer;padding:12px 14px;font-weight:700;list-style:none}details.adt>summary::-webkit-details-marker{display:none}details.adt[open]>summary{border-bottom:1px solid var(--line)}details.adt>div{padding:12px 14px}
 .kpi small{color:var(--mut);font-weight:600}
 .kpi b{display:block;font-size:28px;font-weight:800;margin-top:4px;font-variant-numeric:tabular-nums}
 .dh{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
@@ -1728,7 +1746,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b class="lt"><b>'+t('app')+'</b><small>'+GL('Gestion Sportive','إدارة الرياضة')+'</small></b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.8.0</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.9.0</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
@@ -5625,6 +5643,62 @@ function attRepData(){
   }
   return {title:title,per:R.a===R.b?R.a:R.a+' → '+R.b,filt:filt,kp:kp,secs:secs,wide:nd>7&&nd<=31,absIds:absent.map(function(s){ return s.id; }),raw:{R:R,at:at,stat:stat,present:present,absent:absent,nOpen:nOpen,dates:dates}};
 }
+function attSmart(d){
+  var raw=d.raw, R=raw.R, at=raw.at, stat=raw.stat, one=R.a===R.b, td=todayStr(), nd=dayDiff(R.b,R.a)+1, pa=addD(R.a,-nd), pb=addD(R.a,-1);
+  var grpOf=function(id){ return (S.groups||[]).filter(function(g){return g.id===id;})[0]; };
+  var dOf=function(x){ var g=x.group_id&&grpOf(x.group_id); return x.discipline_id||(g&&g.discipline_id)||null; };
+  var prev=(S.ratt||[]).filter(function(x){ return x.att_date>=pa&&x.att_date<=pb&&(!AR.gid||x.group_id===AR.gid)&&(!AR.did||dOf(x)===AR.did); }).length;
+  var exp=stat.length, pr=raw.present.length, ab=raw.absent.length, rate=exp?Math.round(pr/exp*100):null, delta=prev>=5?Math.round((at.length-prev)/prev*100):null;
+  var lim=addD(td,-14), risk=stat.filter(function(s){ var l=lastAttOf(s.id); return s.m.status==='active'&&(!l||l<=lim); }).map(function(s){ return {s:s,l:lastAttOf(s.id)}; }).sort(function(a,b){ return String(a.l).localeCompare(String(b.l)); });
+  var never=risk.filter(function(r){ return !r.l; }).length;
+  var P=function(v){ return '<bdi dir="ltr">'+v+'&nbsp;%</bdi>'; };
+  var rcol=function(v){ return v==null?'var(--mut)':v>=70?'var(--ok)':v>=40?'#F59E0B':'var(--bad)'; };
+  var gnames=function(mid){ return (S.gm||[]).filter(function(x){return x.member_id===mid;}).map(function(x){ var g=grpOf(x.group_id); return g?g.name:''; }).filter(Boolean).join(', '); };
+  /* groupes */
+  var gs=(S.groups||[]).filter(function(g){ return (!AR.gid||g.id===AR.gid)&&(!AR.did||g.discipline_id===AR.did); }).map(function(g){ var r=at.filter(function(x){return x.group_id===g.id;}), dd={}; r.forEach(function(x){ dd[x.att_date]=1; }); var n=Object.keys(dd).length, den=n*groupCount(g.id); return {g:g,n:n,p:r.length,eff:groupCount(g.id),rt:den?Math.round(r.length/den*100):null}; });
+  var gAct=gs.filter(function(x){ return x.rt!=null; }).sort(function(a,b){ return b.rt-a.rt; }), gIdle=gs.filter(function(x){ return x.rt==null; });
+  var nogrp=at.filter(function(x){ return !x.group_id; }).length;
+  /* séries */
+  var ser=[], serT='';
+  if(one){ serT=L('Entrées par heure','الدخول حسب الساعة'); var hh={}; at.forEach(function(x){ if(x.created_at){ var h=new Date(x.created_at).getHours(); hh[h]=(hh[h]||0)+1; } }); var hk=Object.keys(hh).map(Number); if(hk.length){ for(var h=Math.min.apply(null,hk);h<=Math.max.apply(null,hk);h++) ser.push([h+'h',hh[h]||0]); } }
+  else if(nd<=62){ serT=L('Entrées par jour','الدخول حسب اليوم'); var cnt={}; at.forEach(function(x){ cnt[x.att_date]=(cnt[x.att_date]||0)+1; }); for(var i=0;i<nd;i++){ var dt=addD(R.a,i); ser.push([dt.slice(8),cnt[dt]||0]); } }
+  var wd=[0,0,0,0,0,0,0]; at.forEach(function(x){ wd[new Date(x.att_date+'T12:00:00Z').getUTCDay()]++; });
+  var wdo=[1,2,3,4,5,6,0].map(function(i){ var n=dayName(i); return [S.lang==='ar'?n:n.slice(0,3),wd[i],i]; }), wdMax=Math.max.apply(null,wd), wdTop=wd.indexOf(wdMax);
+  var bars=function(a){ var mx=Math.max.apply(null,a.map(function(x){return x[1];}).concat([1])); return '<div class="abars">'+a.map(function(x){ return '<div class="abar" title="'+esc(x[0])+' : '+x[1]+'"><em>'+(x[1]||'')+'</em><div class="abx"><i style="height:'+(x[1]?Math.max(6,Math.round(x[1]/mx*100)):2)+'%;'+(x[1]?'':'opacity:.25')+'"></i></div><span>'+esc(x[0])+'</span></div>'; }).join('')+'</div>'; };
+  /* KPI */
+  var chip=function(v){ if(v==null) return ''; var c=v>0?'var(--ok)':v<0?'var(--bad)':'var(--mut)'; return '<span class="chip" style="background:color-mix(in srgb,'+c+' 14%,transparent);color:'+c+'">'+(v>0?'▲ +':v<0?'▼ ':'')+'<bdi dir="ltr">'+v+'&nbsp;%</bdi></span>'; };
+  var k=function(l,v,sub,col){ return '<div class="akp"><small>'+esc(l)+'</small><b'+(col?' style="color:'+col+'"':'')+'>'+v+'</b><div class="sub">'+sub+'</div></div>'; };
+  var ring='<div class="akp"><small>'+L('Taux de présence','نسبة الحضور')+'</small><b style="color:'+rcol(rate)+'">'+(rate==null?'—':P(rate))+'</b><div class="sub">'+(exp?pr+' '+L('sur','من')+' '+exp+' '+L('membres attendus','عضواً منتظراً'):L('Aucun membre attendu','لا أعضاء منتظرون'))+'</div>'+(rate!=null?'<div class="ring" style="background:conic-gradient('+rcol(rate)+' '+rate+'%,var(--line) 0)"></div>':'')+'</div>';
+  var avg=nOpenAvg(at,raw.nOpen);
+  var kp='<div class="cards" style="margin-bottom:14px">'+ring+
+    k(L('Entrées','الدخول'),at.length+chip(delta),prev>0?L('Période précédente : ','الفترة السابقة: ')+prev:L('Rien à comparer sur la période précédente','لا شيء للمقارنة في الفترة السابقة'))+
+    k(L('Membres absents','الأعضاء الغائبون'),ab,ab?L('Aucune présence sur la période','دون أي حضور في الفترة'):L('Tout le monde est venu','الجميع حضر'),ab?'var(--bad)':'var(--ok)')+
+    k(L('À risque','في خطر الانقطاع'),risk.length,risk.length?L('Pas vus depuis 14 jours ou plus','غائبون منذ 14 يوماً فأكثر')+(never?' · '+never+' '+L('jamais venus','لم يحضروا قط'):''):L('Personne','لا أحد'),risk.length?'#F59E0B':'var(--ok)')+
+    k(L('Moyenne / jour','المعدل اليومي'),avg,raw.nOpen+' '+L('jour(s) avec présences','يوم فيه حضور'))+
+    '</div>';
+  /* insights */
+  var ins=[], I=function(tone,txt){ ins.push('<div><i style="background:'+({ok:'var(--ok)',warn:'#F59E0B',bad:'var(--bad)',info:'var(--vio)'})[tone]+'"></i><span>'+txt+'</span></div>'); };
+  if(!at.length) I('info',L('Aucune présence enregistrée sur cette période.','لم يُسجَّل أي حضور في هذه الفترة.'));
+  else{
+    if(rate!=null) I(rate>=70?'ok':rate>=40?'warn':'bad',L('<b>'+pr+' membre(s) sur '+exp+'</b> sont venus au moins une fois ('+P(rate)+').','<b>'+pr+' عضواً من '+exp+'</b> حضروا مرة واحدة على الأقل ('+P(rate)+').'));
+    if(delta!=null) I(delta>=0?'ok':'warn',L('Les entrées ont '+(delta>=0?'augmenté':'baissé')+' de <b>'+P(Math.abs(delta))+'</b> par rapport à la période précédente ('+prev+' → '+at.length+').','الدخول '+(delta>=0?'ارتفع':'انخفض')+' بنسبة <b>'+P(Math.abs(delta))+'</b> مقارنة بالفترة السابقة ('+prev+' ← '+at.length+').'));
+    if(!one&&wdMax>=3) I('info',L('Jour le plus chargé : <b>'+dayName(wdTop)+'</b> ('+wdMax+' entrées).','أكثر الأيام حضوراً: <b>'+dayName(wdTop)+'</b> ('+wdMax+' دخول).'));
+    if(gAct.length>=2){ var bst=gAct[0], wst=gAct[gAct.length-1]; I('ok',L('Meilleur taux : <b>'+esc(bst.g.name)+'</b> ('+P(bst.rt)+').','أعلى نسبة حضور: <b>'+esc(bst.g.name)+'</b> ('+P(bst.rt)+').')); if(wst.rt<bst.rt) I(wst.rt<40?'bad':'warn',L('Taux le plus faible : <b>'+esc(wst.g.name)+'</b> ('+P(wst.rt)+').','أضعف نسبة حضور: <b>'+esc(wst.g.name)+'</b> ('+P(wst.rt)+').')); }
+  }
+  if(risk.length) I('warn',L('<b>'+risk.length+' membre(s) actif(s)</b> n\'ont pas été vus depuis 14 jours ou plus'+(never?' (dont '+never+' jamais venus)':'')+' : voir « À contacter ».','<b>'+risk.length+' عضواً نشطاً</b> لم يحضروا منذ 14 يوماً فأكثر'+(never?' (منهم '+never+' لم يحضروا قط)':'')+': انظر «للتواصل».'));
+  if(nogrp) I('info',L('<b>'+nogrp+' entrée(s)</b> sans groupe : le scan n\'indique pas le groupe, elles ne comptent pas dans le taux par groupe.','<b>'+nogrp+' دخول</b> بلا مجموعة: المسح لا يحدّد المجموعة فلا تدخل في نسبة المجموعات.'));
+  var insH='<div class="panel" style="margin-bottom:14px"><h3 style="margin-bottom:10px">'+L('À retenir','أهم النقاط')+'</h3><div class="ains">'+ins.join('')+'</div></div>';
+  /* graphiques */
+  var ch1=ser.length?'<div class="panel"><h3 style="margin-bottom:6px">'+esc(serT)+'</h3>'+bars(ser)+'</div>':'';
+  var ch2=!one&&at.length?'<div class="panel"><h3 style="margin-bottom:6px">'+L('Par jour de la semaine','حسب أيام الأسبوع')+'</h3>'+bars(wdo)+'</div>':'';
+  var grH='';
+  if(gs.length){ grH='<div class="panel"><h3 style="margin-bottom:6px">'+L('Taux par groupe','نسبة الحضور حسب المجموعة')+'</h3>'+gAct.map(function(x){ return '<div class="agr"><b>'+esc(x.g.name)+'</b><div class="atr"><i style="width:'+Math.min(100,x.rt)+'%;background:'+rcol(x.rt)+'"></i></div><b style="text-align:end;color:'+rcol(x.rt)+'"><bdi dir="ltr">'+x.rt+'%</bdi></b><small>'+x.n+' '+L('séance(s)','حصة')+' · '+x.p+' '+L('présences','حضور')+' · '+x.eff+' '+L('inscrits','مسجّلين')+'</small></div>'; }).join('')+(gIdle.length?'<p class="who" style="margin:8px 0 0">'+L('Sans séance sur la période : ','بلا حصص في الفترة: ')+gIdle.map(function(x){ return esc(x.g.name); }).join(' · ')+'</p>':'')+(gAct.length?'':'<div class="empty">'+L('Aucune présence rattachée à un groupe.','لا حضور مرتبط بمجموعة.')+'</div>')+'</div>'; }
+  var top=raw.present.slice().sort(function(a,b){ return b.days-a.days||b.n-a.n; }).slice(0,5);
+  var tpH=top.length&&!one?'<div class="panel"><h3 style="margin-bottom:6px">'+L('Les plus assidus','الأكثر مواظبة')+'</h3>'+top.map(function(s,i){ return '<div class="awl"><span>'+(i+1)+'</span><b>'+esc(s.m.last_name+' '+s.m.first_name)+'</b><span>'+s.days+' '+L('jour(s)','يوم')+'</span></div>'; }).join('')+'</div>':'';
+  var wl=risk.slice(0,8), wlH='<div class="panel"><h3 style="margin-bottom:6px">'+L('À contacter','للتواصل')+(risk.length?' ('+risk.length+')':'')+'</h3>'+(wl.length?wl.map(function(r){ var m=r.s.m, ph=m.phone||m.guardian_phone||''; return '<div class="awl"><b>'+esc(m.last_name+' '+m.first_name)+'<br><span>'+esc(gnames(m.id))+'</span></b><span>'+(r.l?L('vu le ','آخر حضور ')+esc(r.l):L('jamais venu','لم يحضر قط'))+'</span>'+(ph?'<a class="btn sm" href="tel:'+esc(ph)+'" dir="ltr" style="text-decoration:none;color:var(--tx)">'+esc(ph)+'</a>':'')+'</div>'; }).join('')+(risk.length>wl.length?'<p class="who" style="margin:8px 0 0">+ '+(risk.length-wl.length)+' '+L('autres (voir le tableau « Absents » ci-dessous)','آخرون (انظر جدول «الغائبون» أدناه)')+'</p>':''):'<div class="empty">'+L('Aucun membre à risque.','لا أعضاء في خطر.')+'</div>')+'</div>';
+  return kp+insH+'<div class="agrid">'+ch1+ch2+'</div><div class="agrid">'+grH+wlH+tpH+'</div>';
+}
+function nOpenAvg(at,n){ return n?(at.length/n).toFixed(1):'—'; }
 function attRepHtml(){
   var d=attRepData(), R=rpRange(AR);
   var sty='background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:9px 12px;max-width:100%';
@@ -5637,8 +5711,8 @@ function attRepHtml(){
    '<select id="arGid" style="'+sty+'"><option value="">'+L('Tous les groupes','كل المجموعات')+'</option>'+o((S.groups||[]).map(function(x){return [x.id,x.name];}),AR.gid)+'</select>'+
    '<div style="flex:1"></div>'+(viewOk('messages')&&d.absIds.length?'<button class="btn" data-gomsg="absent" data-ids="'+d.absIds.join(',')+'">'+di('chat','currentColor',16)+' '+L('Message aux absents','رسالة للغائبين')+' ('+d.absIds.length+')</button>':'')+'<button class="btn" id="arXls">Excel</button><button class="btn pri" id="arPrint">'+L('Imprimer / PDF','طباعة / PDF')+'</button></div>';
   var per='<p class="who" style="margin:0 0 12px"><b>'+L('Période','الفترة')+' :</b> '+esc(d.per)+(d.filt?' · '+esc(d.filt):'')+'</p>';
-  var cards='<div class="cards dkr">'+d.kp.map(function(k){ return '<div class="kpi"><small>'+esc(k[0])+'</small><b style="font-size:22px">'+esc(k[1])+'</b></div>'; }).join('')+'</div>';
-  return bar+per+cards+d.secs.map(function(x){ return '<div class="panel" style="margin-bottom:14px"><h3 style="margin-bottom:8px">'+esc(x.h)+'</h3>'+secTable(x,0)+(x.note?'<p class="who" style="margin:8px 0 0">'+esc(x.note)+'</p>':'')+'</div>'; }).join('');
+  var det='<h3 style="margin:18px 0 8px">'+L('Détails (tableaux, pour impression et Excel)','التفاصيل (جداول للطباعة وExcel)')+'</h3>'+d.secs.map(function(x){ return '<details class="adt"><summary>'+esc(x.h)+' <span class="who">('+secRows(x).length+')</span></summary><div>'+secTable(x,0)+(x.note?'<p class="who" style="margin:8px 0 0">'+esc(x.note)+'</p>':'')+'</div></details>'; }).join('');
+  return bar+per+attSmart(d)+det;
 }
 function bindAttRep(){
   bindMsgBtns();
