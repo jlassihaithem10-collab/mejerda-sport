@@ -1418,8 +1418,8 @@ function catsFor(did){ var d=(S.cfg.dcats||{})[did]; return (d&&d.length)?d:cats
 function catOfD(m,did){ var a=refAge(m.birth_date); if(a==null) return null; return catsFor(did).filter(function(c){ return a>=c.a && a<=c.b; })[0]||null; }
 function catsByDisc(m){ var dc=S.cfg.dcats||{}; return Object.keys(memDiscs(m)).filter(function(did){ return dc[did]&&dc[did].length&&dprof(did).cats; }).map(function(did){ var d=(S.discs||[]).filter(function(x){return x.id===did;})[0], c=catOfD(m,did); return (d?nm(d):'')+' : '+(c?catLabel(c):GL('hors catégorie','خارج الفئات')); }).join(' · '); }
 var CAT_PRESETS={
- gymM:{fr:'Gym masculine',ar:'جمباز ذكور',rows:[['Baraem','براعم',6,7],['Adani','أداني',8,9],['Asaghir','أصاغر',10,12],['Qabl el Awasit','قبل الأواسط',13,15],['Awasit','أواسط',16,17],['Akaber','أكابر',18,99]]},
- gymF:{fr:'Gym féminine / rythmique',ar:'جمباز إناث / إيقاعي',rows:[['Dunayyat','دنوات',6,7],['Kriyyat','كريات',8,9],['Sghriyyat','صغريات',10,12],['Qabl el Wasatiyyat','قبل الوسطيات',13,15],['Wasatiyyat','وسطيات',16,17],['Kbriyyat','كبريات',18,99]]},
+ gymM:{fr:'Gym masculine',ar:'جمباز ذكور',rows:[['Baraem · Niv. 1','براعم · المستوى 1',6,7],['Adani · Niv. 2','أداني · المستوى 2',8,9],['Asaghir · Niv. 3','أصاغر · المستوى 3',10,11],['Qabl el Awasit','قبل الأواسط',12,12],['Awasit','أواسط',13,16],['Akaber','أكابر',17,99]]},
+ gymF:{fr:'Gym féminine / rythmique',ar:'جمباز إناث / إيقاعي',rows:[['Baraem · Niv. 1','براعم · المستوى 1',6,7],['Dunayyat · Niv. 2','دنيوات · المستوى 2',8,9],['Sghriyyat · Niv. 3','صغريات · المستوى 3',10,11],['Wasatiyyat','وسطيات',12,12],['Awasit','أواسط',13,16],['Akaber','أكابر',17,99]]},
  bask:{fr:'Basketball (FTBB)',ar:'كرة السلة',rows:[['U8','U8',7,8],['U10','U10',9,10],['U12','U12',11,12],['U14','U14',13,14],['U16','U16',15,16],['U18','U18',17,18],['U20','U20',19,20],['Seniors','أكابر',21,99]]}
 };
 function catLabel(c){ return (S.lang==='ar'&&c.ar)?c.ar:c.n; }
@@ -1750,7 +1750,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b class="lt"><b>'+t('app')+'</b><small>'+GL('Gestion Sportive','إدارة الرياضة')+'</small></b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.9.1</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.9.2</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
