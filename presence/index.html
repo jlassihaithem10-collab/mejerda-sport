@@ -531,8 +531,8 @@ tr:last-child td{border-bottom:0}
 #pa .sxk .ft{left:.34cm;bottom:.16cm;font-size:5.4pt;color:#6b7280;display:flex;flex-direction:column;gap:.02cm;line-height:1.25}
 #pa .sxk .ft b{color:#2F3444;letter-spacing:.3px}
 #pa .sxk .sxwm{position:absolute;left:50%;top:50%;width:4.1cm;height:4.1cm;margin:-2.05cm 0 0 -2.05cm;object-fit:contain;filter:drop-shadow(.5px .7px 0 rgba(255,255,255,.55)) drop-shadow(-.5px -.7px 0 rgba(0,0,0,.28));pointer-events:none}
-#pa .sxk .pgk.v{grid-template-columns:repeat(3,5.8cm);grid-auto-rows:8.96cm;column-gap:.5cm;padding:.4cm 1.3cm}
-#pa .sxk .card.v{width:5.8cm;height:8.96cm}#pa .sxk .card.v .in{width:5.4cm;height:8.56cm}
+#pa .sxk .pgk.v{grid-template-columns:repeat(var(--cols,3),calc(5.8cm*var(--k,1)));grid-auto-rows:calc(8.96cm*var(--k,1));column-gap:.5cm;padding:.4cm .5cm;justify-content:center}
+#pa .sxk .card.v{width:5.8cm;height:8.96cm;zoom:var(--k,1)}#pa .sxk .card.v .in{width:5.4cm;height:8.56cm}
 #pa .sxk .sxwm.v{width:3.9cm;height:3.9cm;margin:-1.95cm 0 0 -1.95cm;top:52%}
 #pa .sxk .vh{left:0;right:0;top:.28cm;text-align:center}#pa .sxk .vh img{display:block;margin:0 auto .08cm;width:.82cm;height:.82cm;object-fit:contain;background:#fff;border-radius:50%;padding:.035cm}
 #pa .sxk .vh b{display:block;font-size:8.4pt;letter-spacing:.6px;color:#fff;font-weight:800;line-height:1.1}#pa .sxk .vh span{display:block;font-size:5.4pt;letter-spacing:1.8px;color:#EBAA00;font-weight:700;margin-top:.03cm}
@@ -1751,7 +1751,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b class="lt"><b>'+t('app')+'</b><small>'+GL('Gestion Sportive','إدارة الرياضة')+'</small></b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.9.4</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.10.0</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
@@ -4605,12 +4605,14 @@ function printCfgPanel(){
   var c=PCFG(), f2=function(id,l,v,ph){ return '<div class="field"><label for="'+id+'">'+esc(l)+'</label><input id="'+id+'" value="'+esc(v||'')+'" placeholder="'+esc(ph||'')+'" dir="ltr"></div>'; };
   return '<div class="panel" style="margin-top:14px"><h3 style="margin-bottom:8px">'+GL('Documents imprimés','الأوراق المطبوعة')+'</h3><p class="who" style="margin-bottom:10px">'+GL('Saison et réseaux sociaux affichés sur les reçus. Le QR « Suivez-nous » ouvre le lien Facebook.','الموسم وحسابات التواصل التي تظهر على الوصولات. رمز QR «Suivez-nous» يفتح رابط فيسبوك.')+'</p>'+
    '<div class="grid2">'+f2('pcSeason',GL('Saison sportive','الموسم الرياضي'),c.season,sxSeason())+f2('pcFbUrl',GL('Lien Facebook (QR)','رابط فيسبوك (QR)'),c.fbUrl,'https://www.facebook.com/…')+f2('pcFb',GL('Facebook (texte affiché)','فيسبوك (النص الظاهر)'),c.fb,'facebook.com/…')+f2('pcIg','Instagram',c.instagram,'@…')+f2('pcTt','TikTok',c.tiktok,'@…')+f2('pcYt','YouTube',c.youtube,'@…')+f2('pcGrace',GL('Délai avant annulation des impayés (jours)','مهلة إلغاء الاشتراكات غير المدفوعة (أيام)'),c.grace,'20')+f2('pcBank',GL('Banque','البنك'),c.bank,'BIAT, STB…')+f2('pcRib','RIB',c.rib,'00 000 0000000000000 00')+'</div>'+
-   '<div class="field" style="margin-top:10px;max-width:420px"><label for="pcPaper">'+GL('Papier des reçus et bons','ورق الوصولات والسندات')+'</label><select id="pcPaper"><option value="a5"'+(c.paper!=='a4'?' selected':'')+'>'+GL('A5 paysage (feuille A5)','A5 أفقي (ورقة A5)')+'</option><option value="a4"'+(c.paper==='a4'?' selected':'')+'>'+GL('A4 portrait (2 copies sur une feuille, à découper)','A4 عمودي (نسختان في ورقة، تُقصّ من المنتصف)')+'</option></select><div class="who" style="margin-top:4px">'+GL('Dans la fenêtre d\'impression : marges « Aucune » et décocher « En-têtes et pieds de page ».','في نافذة الطباعة: الهوامش «بلا» وإلغاء تأشير «العناوين والتذييلات».')+'</div></div>'+'<label style="display:flex;gap:8px;align-items:center;margin-top:12px"><input type="checkbox" id="pcPdf"'+(c.pdf?' checked':'')+'> '+GL('Reçu : générer un fichier PDF (à ouvrir avec Foxit/Adobe) au lieu de la fenêtre d\'impression','الوصل: إنشاء ملف PDF (يُفتح ببرنامج Foxit/Adobe) بدل نافذة الطباعة')+'</label>'+'<div class="mf"><button class="btn pri" id="pcSave">'+GL('Enregistrer','حفظ')+'</button></div></div>';
+   '<div class="field" style="margin-top:10px;max-width:520px"><label for="pcCardW">'+GL('Largeur de la carte membre (cm) — la hauteur suit automatiquement','عرض بطاقة العضو (سم) — الارتفاع يتبع تلقائياً')+'</label><input id="pcCardW" type="number" step="0.1" min="5.4" max="9.5" value="'+esc(String(c.cardW||5.4))+'" dir="ltr" style="max-width:120px"><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"><button type="button" class="btn sm" data-cw="5.4">'+GL('Carte standard 5,4 × 8,56','بطاقة عادية 5.4 × 8.56')+'</button><button type="button" class="btn sm" data-cw="7.4">'+GL('Pochette B2 sûr 7,4 × 11,7','جيب B2 آمن 7.4 × 11.7')+'</button><button type="button" class="btn sm" data-cw="7.9">'+GL('Pochette B2 7,9 × 12,5','جيب B2 7.9 × 12.5')+'</button></div><div class="who" id="pcCardInfo" style="margin-top:4px"></div></div>'+'<div class="field" style="margin-top:10px;max-width:420px"><label for="pcPaper">'+GL('Papier des reçus et bons','ورق الوصولات والسندات')+'</label><select id="pcPaper"><option value="a5"'+(c.paper!=='a4'?' selected':'')+'>'+GL('A5 paysage (feuille A5)','A5 أفقي (ورقة A5)')+'</option><option value="a4"'+(c.paper==='a4'?' selected':'')+'>'+GL('A4 portrait (2 copies sur une feuille, à découper)','A4 عمودي (نسختان في ورقة، تُقصّ من المنتصف)')+'</option></select><div class="who" style="margin-top:4px">'+GL('Dans la fenêtre d\'impression : marges « Aucune » et décocher « En-têtes et pieds de page ».','في نافذة الطباعة: الهوامش «بلا» وإلغاء تأشير «العناوين والتذييلات».')+'</div></div>'+'<label style="display:flex;gap:8px;align-items:center;margin-top:12px"><input type="checkbox" id="pcPdf"'+(c.pdf?' checked':'')+'> '+GL('Reçu : générer un fichier PDF (à ouvrir avec Foxit/Adobe) au lieu de la fenêtre d\'impression','الوصل: إنشاء ملف PDF (يُفتح ببرنامج Foxit/Adobe) بدل نافذة الطباعة')+'</label>'+'<div class="mf"><button class="btn pri" id="pcSave">'+GL('Enregistrer','حفظ')+'</button></div></div>';
 }
 function bindPrintCfg(){
   if(!$('pcSave')) return;
+  var cwInfo=function(){ var w=parseFloat($('pcCardW').value)||5.4; $('pcCardInfo').textContent=GL('Taille finale : ','المقاس النهائي: ')+(Math.round(w*10)/10)+' × '+(Math.round(w*8.56/5.4*10)/10)+' cm · '+(function(){ var k=w/5.4; return Math.max(1,Math.floor(20.5/(5.8*k+.5)))*Math.max(1,Math.floor(28.9/(8.96*k))); })()+GL(' cartes par feuille A4',' بطاقات في ورقة A4'); };
+  document.querySelectorAll('[data-cw]').forEach(function(b){ b.onclick=function(){ $('pcCardW').value=b.getAttribute('data-cw'); cwInfo(); }; }); $('pcCardW').oninput=cwInfo; cwInfo();
   $('pcSave').onclick=async function(){
-    var v=Object.assign({},PCFG(),{season:$('pcSeason').value.trim(),fbUrl:$('pcFbUrl').value.trim(),fb:$('pcFb').value.trim(),instagram:$('pcIg').value.trim(),tiktok:$('pcTt').value.trim(),youtube:$('pcYt').value.trim(),bank:$('pcBank').value.trim(),grace:parseInt($('pcGrace').value,10)||20,rib:$('pcRib').value.trim(),paper:($('pcPaper')?$('pcPaper').value:'a5'),pdf:!!($('pcPdf')&&$('pcPdf').checked)});
+    var v=Object.assign({},PCFG(),{season:$('pcSeason').value.trim(),fbUrl:$('pcFbUrl').value.trim(),fb:$('pcFb').value.trim(),instagram:$('pcIg').value.trim(),tiktok:$('pcTt').value.trim(),youtube:$('pcYt').value.trim(),bank:$('pcBank').value.trim(),grace:parseInt($('pcGrace').value,10)||20,rib:$('pcRib').value.trim(),paper:($('pcPaper')?$('pcPaper').value:'a5'),pdf:!!($('pcPdf')&&$('pcPdf').checked),cardW:Math.min(9.5,Math.max(5.4,parseFloat($('pcCardW').value)||5.4))});
     var r=await saveCfg('print',v); S.setErr=r&&r.error?r.error.message:''; render();
   };
 }
@@ -5011,10 +5013,12 @@ function sxCardBackV(m){
    '<div class="abs vbf">Carte trouvée ? Merci de la rapporter au club<br>في حال العثور عليها يرجى إرجاعها إلى النادي</div></div></div>';
 }
 async function sxCardData(){ try{ var lg=assoc().logo; if(lg&&(!S._wm||S._wm.src!==lg)){ S._wm={src:lg,f:await sxWmMake(lg,[47,52,68],.055),b:await sxWmMake(lg,[255,255,255],.075)}; } }catch(e){} try{ if(!S.groups||!S.groups.length) S.groups=(await sb.from('groups').select('*')).data||[]; if(!S.gm||!S.gm.length) S.gm=(await sb.from('group_members').select('*')).data||[]; }catch(e){} }
+function sxK(){ var w=parseFloat(PCFG().cardW); return (w>=5.4&&w<=9.5)?w/5.4:1; }
+function sxDims(){ var k=sxK(); return {k:k,w:Math.round(5.4*k*10)/10,h:Math.round(8.56*k*10)/10}; }
 function sxV(){ try{ return localStorage.getItem('cardStyle')!=='h'; }catch(e){ return true; } }
 async function printCards(list){
   if(!list.length) return; await sxCardData();
-  var v=sxV(), per=v?9:10, cols=v?3:2, pages=[];
+  var v=sxV(), k=v?sxK():1, cols=v?Math.max(1,Math.floor((20+.5)/(5.8*k+.5))):2, rows=v?Math.max(1,Math.floor(28.9/(8.96*k))):5, per=v?cols*rows:10, pages=[];
   function cell(m,back){ return back?(v?sxCardBackV(m):sxCardBack(m)):(v?sxCardFrontV(m):sxCardFront(m)); }
   for(var i=0;i<list.length;i+=per){
     var ch=list.slice(i,i+per);
@@ -5023,9 +5027,9 @@ async function printCards(list){
     var bk=[]; for(var r=0;r<ch.length;r+=cols){ var row=ch.slice(r,r+cols), cells=[]; for(var c=0;c<cols;c++) cells.push(row[c]?cell(row[c],true):'<div class="card'+(v?' v':'')+'" style="visibility:hidden"></div>'); bk=bk.concat(cells.reverse()); }
     pages.push('<div class="pgk sxpg'+(v?' v':'')+'">'+bk.join('')+'</div>');
   }
-  sxPrint('<div class="sxk">'+pages.join('')+'</div>','A4 portrait');
+  sxPrint('<div class="sxk" style="--k:'+k+';--cols:'+cols+'">'+pages.join('')+'</div>','A4 portrait');
 }
-async function printOneCard(m){ await sxCardData(); sxPrint('<div class="sxk"><div class="one">'+(sxV()?sxCardFrontV(m)+sxCardBackV(m):sxCardFront(m)+sxCardBack(m))+'</div><div style="font:7pt Inter,sans-serif;color:#6b7280;padding:0 1.4cm">Découper le long du trait pointillé (la couleur déborde de 2 mm pour éviter le liseré blanc). · قصّ على الخط المنقّط (اللون يتجاوزه 2 مم لتفادي الحافة البيضاء).</div></div>','A4 portrait'); }
+async function printOneCard(m){ await sxCardData(); sxPrint('<div class="sxk" style="--k:'+(sxV()?sxK():1)+'"><div class="one">'+(sxV()?sxCardFrontV(m)+sxCardBackV(m):sxCardFront(m)+sxCardBack(m))+'</div><div style="font:7pt Inter,sans-serif;color:#6b7280;padding:0 1.4cm">Découper le long du trait pointillé (la couleur déborde de 2 mm pour éviter le liseré blanc). · قصّ على الخط المنقّط (اللون يتجاوزه 2 مم لتفادي الحافة البيضاء).</div></div>','A4 portrait'); }
 async function printPayslip(c,ym){
   var q=coPay(c,ym), per=sxMonthName(ym), D=function(id){ var d=discOf(id); return d?nm(d):''; };
   var discs=[]; q.secs.forEach(function(x){ var d=D(x.g.discipline_id); if(d&&discs.indexOf(d)<0) discs.push(d); }); if(!discs.length) discs=(c.disciplines||[]).map(D).filter(Boolean);
