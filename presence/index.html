@@ -1441,6 +1441,7 @@ function refAge(b){
   var sm=S.cfg.smonth||9, sy=(n.getMonth()+1>=sm)?n.getFullYear()+1:n.getFullYear();
   return sy-by;
 }
+function catShow(m){ var dc=S.cfg.dcats||{}, ds=Object.keys(memDiscs(m)); for(var i=0;i<ds.length;i++){ var did=ds[i]; if(dc[did]&&dc[did].length&&dprof(did).cats) return catOfD(m,did); } return catOf(m); }
 function catOf(m){
   var a=refAge(m.birth_date); if(a==null) return null;
   return cats().filter(function(c){ return a>=c.a && a<=c.b; })[0]||null;
@@ -1750,7 +1751,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b class="lt"><b>'+t('app')+'</b><small>'+GL('Gestion Sportive','إدارة الرياضة')+'</small></b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.9.2</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.9.3</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
@@ -2012,7 +2013,7 @@ function seeFin(){ return canFin()||isPres(); }
 function ageY(m){ var d=Date.parse(m.birth_date); return isNaN(d)?null:Math.floor((Date.now()-d)/31557600000); }
 var MCOLS=[
  {k:'name',text:true,l:function(){return t('last')+' / '+t('first');},v:function(m){return m.last_name+' '+m.first_name;},tv:function(m){return m.last_name+' '+m.first_name+' '+codeStr(m);}},
- {k:'cat',l:function(){return t('cat');},v:function(m){var c=catOf(m);return c?catLabel(c):'—';}},
+ {k:'cat',l:function(){return t('cat');},v:function(m){var c=catShow(m);return c?catLabel(c):'—';}},
  {k:'sub',l:function(){return t('sub2');},v:function(m){return t('sS')[subState((S.lastEnd||{})[m.id])]||'—';},sv:function(m){return (S.lastEnd||{})[m.id]||'';}},
  {k:'age',num:true,l:function(){return t('age');},v:ageY},
  {k:'phone',text:true,l:function(){return t('phone');},v:function(m){return m.phone||m.guardian_phone||'';},tv:function(m){return (m.phone||'')+' '+(m.guardian_phone||'');}},
@@ -2038,7 +2039,7 @@ function memFiltered0(q,skip){
   return S.members.filter(function(m){
     var cf=S.cf||{}; for(var k in cf){ if(k===skip||!cfActive(k)) continue; if(!colOk(m,mcol(k),cf[k])) return false; }
     if(q && (m.first_name+' '+m.last_name+' '+(m.phone||'')+' '+(m.guardian_phone||'')+' '+(m.city||'')+' '+codeStr(m)).toLowerCase().indexOf(q)<0) return false;
-    if(S.fFam||S.fDisc){ var md=memDiscs(m); if(S.fDisc){ if(!md[S.fDisc]) return false; } else { var okF=Object.keys(md).some(function(did){ var f=famOfDisc(did); return f&&f.id===S.fFam; }); if(!okF) return false; } } if(S.fCat){ var c=catOf(m); if(!c||c.n!==S.fCat) return false; }
+    if(S.fFam||S.fDisc){ var md=memDiscs(m); if(S.fDisc){ if(!md[S.fDisc]) return false; } else { var okF=Object.keys(md).some(function(did){ var f=famOfDisc(did); return f&&f.id===S.fFam; }); if(!okF) return false; } } if(S.fCat){ var c=catShow(m); if(!c||c.n!==S.fCat) return false; }
     if(S.fDoc && !docIssues(m)) return false;
     if(!advOk(m)) return false;
     return true;
@@ -2062,7 +2063,7 @@ function avatarHtml(m,sz){
 function hovHide(){ if(S.hovT){ clearTimeout(S.hovT); S.hovT=null; } var e=$('hovCard'); if(e) e.remove(); }
 function hovShow(btn){
   var m=(S.members||[]).filter(function(x){return x.id===btn.getAttribute('data-hov');})[0]; if(!m) return; hovHide();
-  var c=catOf(m), row=function(l,v){ return v?'<div style="display:flex;gap:8px;font-size:13px;padding:2px 0"><span class="who" style="min-width:92px">'+l+'</span><span style="flex:1;word-break:break-word">'+esc(v)+'</span></div>':''; };
+  var c=catShow(m), row=function(l,v){ return v?'<div style="display:flex;gap:8px;font-size:13px;padding:2px 0"><span class="who" style="min-width:92px">'+l+'</span><span style="flex:1;word-break:break-word">'+esc(v)+'</span></div>':''; };
   var g=m.guardian_name?m.guardian_name+(m.guardian_phone?' · '+m.guardian_phone:''):(m.guardian_phone||'');
   var h='<div id="hovCard" style="position:fixed;z-index:60;width:320px;max-width:calc(100vw - 24px);background:var(--card);color:var(--tx);border:1px solid var(--line);border-radius:16px;box-shadow:0 14px 40px rgba(0,0,0,.28);padding:14px;pointer-events:none">'+
    '<div style="display:flex;gap:12px;align-items:center;margin-bottom:8px">'+avatarHtml(m,64)+'<div style="min-width:0"><div style="font-weight:800;font-size:15px">'+esc(m.last_name+' '+m.first_name)+'</div><div class="who">'+codeStr(m)+'</div><div style="margin-top:4px">'+subPill(subStateB((S.lastEnd||{})[m.id],((S.bal||{})[m.id]||0)))+'</div></div></div>'+
@@ -2091,7 +2092,7 @@ function rowsHtml(q){
   S.shown=list.length;
   if(!list.length) return '<tr><td colspan="8" class="empty">'+t('none')+'</td></tr>';
   return list.map(function(m){
-    var c=catOf(m), di=docIssues(m);
+    var c=catShow(m), di=docIssues(m);
     var del=canEditMembers()?'<button class="btn sm bad" data-del="'+m.id+'">'+(S.pendingDel===m.id?t('sure'):t('del'))+'</button>':'';
     return '<tr><td><div style="display:flex;align-items:center;gap:10px"><span style="position:relative;display:inline-flex;flex:none">'+avatarHtml(m,36)+payDot(m)+'</span>'+'<div><button class="link" data-open="'+m.id+'" data-hov="'+m.id+'"><b>'+esc(m.last_name)+' '+esc(m.first_name)+'</b></button><div class="who">'+codeStr(m)+'</div>'+sibBadge(m)+'</div></div></td>'+
       '<td>'+(c?esc(catLabel(c)):'—')+'</td>'+
@@ -2233,7 +2234,7 @@ function bindRenew(){
 function membersHtml(){
   var imd=S.impDone; S.impDone=null; var rnd=S.renDone; S.renDone=null;
   var form=S.showForm?memberFormModal(null):(S.modal==='adv'?advModal():(S.modal==='imp'?impModal():(S.modal==='renew'?renewModal():(S.modal==='socall'?socAllModal():''))));
-  var copt='<option value="">'+t('allCats')+'</option>'+cats().map(function(c){ return '<option value="'+esc(c.n)+'"'+(S.fCat===c.n?' selected':'')+'>'+esc(catLabel(c))+'</option>'; }).join('');
+  var copt='<option value="">'+t('allCats')+'</option>'+(function(){ var dcs=S.cfg.dcats||{}, src=(S.fDisc&&dcs[S.fDisc]&&dcs[S.fDisc].length)?dcs[S.fDisc]:cats().concat(Object.keys(dcs).reduce(function(a,k){ return a.concat(dcs[k]||[]); },[])), seen={}; return src.filter(function(c){ if(seen[c.n]) return false; seen[c.n]=1; return true; }); })().map(function(c){ return '<option value="'+esc(c.n)+'"'+(S.fCat===c.n?' selected':'')+'>'+esc(catLabel(c))+'</option>'; }).join('');
   return (S.membersErr?'<div class="err">'+esc(t('loadErr')+S.membersErr)+'</div>':'')+(imd!=null?'<div class="okmsg" style="margin-bottom:10px">✓ '+imd+' '+GL('membres importés.','عضو تم استيراده.')+'</div>':'')+(rnd!=null?'<div class="okmsg" style="margin-bottom:10px">✓ '+rnd+' '+GL('abonnement(s) renouvelé(s). Encaissez-les depuis la fiche du membre ou « Impayés ».','اشتراك تم تجديده. حصّلها من ملف العضو أو من «غير المسدَّدين».')+'</div>':'')+form+
    '<div class="panel"><div class="bar"><input type="search" id="qMem" placeholder="'+t('search')+'" aria-label="'+t('search')+'">'+
    famDiscSel()+'<select id="fCat" aria-label="'+t('cat')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:9px 12px">'+copt+'</select>'+
@@ -2536,7 +2537,7 @@ async function loadMember(){
 function infoRow(l,v){ return v?'<div><div class="who">'+l+'</div><b>'+esc(v)+'</b></div>':''; }
 function memberHtml(){
   var m=S.member; if(!m) return '<div class="err">'+esc(S.memErr||'—')+'</div><button class="btn" id="bBack">'+t('back')+'</button>';
-  var last=S.msubs[0], lbal=last?subBalOf(last):0, st=subStateB(last&&last.ends_on,lbal), c=catOf(m);
+  var last=S.msubs[0], lbal=last?subBalOf(last):0, st=subStateB(last&&last.ends_on,lbal), c=catShow(m);
   var plan=last&&S.plansAll.filter(function(p){return p.id===last.plan_id;})[0];
   var left=last?dayDiff(last.ends_on,todayStr()):0;
   var ini=((m.first_name||'?')[0]+(m.last_name||'')[0]).toUpperCase();
@@ -3548,7 +3549,7 @@ function groupDetailModal(){
   mem.sort(function(a,b){ return a.m.last_name.localeCompare(b.m.last_name); });
   var inG={}; mem.forEach(function(x){ inG[x.m.id]=1; });
   var cand=S.gmembers.filter(function(m){ return m.status==='active' && !inG[m.id] && activeInDisc(m.id,g.discipline_id,todayStr()); });
-  var rows=mem.map(function(x){ var ct=catOf(x.m); return '<tr><td><b>'+esc(x.m.last_name+' '+x.m.first_name)+'</b></td><td class="num">'+esc(ageStrL(x.m.birth_date))+'</td><td>'+(ct?esc(catLabel(ct)):'—')+'</td><td>'+(ageFits(x.m,g)?'':'<span class="pill s">'+t('outAge')+'</span>')+'</td><td>'+(edit?'<button class="btn sm bad" data-grm="'+x.gm.id+'">'+t('remove')+'</button>':'')+'</td></tr>'; }).join('');
+  var rows=mem.map(function(x){ var ct=catShow(x.m); return '<tr><td><b>'+esc(x.m.last_name+' '+x.m.first_name)+'</b></td><td class="num">'+esc(ageStrL(x.m.birth_date))+'</td><td>'+(ct?esc(catLabel(ct)):'—')+'</td><td>'+(ageFits(x.m,g)?'':'<span class="pill s">'+t('outAge')+'</span>')+'</td><td>'+(edit?'<button class="btn sm bad" data-grm="'+x.gm.id+'">'+t('remove')+'</button>':'')+'</td></tr>'; }).join('');
   var copts=cand.map(function(m){ return '<option value="'+m.id+'">'+esc(m.last_name+' '+m.first_name)+' · '+esc(ageStrL(m.birth_date))+(ageFits(m,g)?'':' ('+t('outAge')+')')+'</option>'; }).join('');
   return modal(g.name,'<div class="who" style="margin-bottom:10px">'+esc((d?nm(d):'')+(l?' · '+nm(l):'')+' · '+(c?c.full_name:t('noCoachG'))+' · '+(schedStr(g)||'—'))+'<br>'+mem.length+(g.capacity?' / '+g.capacity:'')+' '+t('membersL')+'</div>'+
    (rows?'<div class="tw"><table style="min-width:420px"><tbody>'+rows+'</tbody></table></div>':'<div class="who">'+t('noMembersG')+'</div>')+
@@ -4010,7 +4011,7 @@ function repData(){
   else if(RP.rep==='mem'){
     var st=ms.map(mstate), nv=ms.filter(function(m){ return m.joined_on>=R.a&&m.joined_on<=R.b; });
     kp.push([L('Membres','الأعضاء'),ms.length],[L('Actifs','النشطون'),st.filter(function(x){return x==='actif';}).length],[L('Expirés','المنتهية'),st.filter(function(x){return x==='exp';}).length],[L('Sans abonnement','بلا اشتراك'),st.filter(function(x){return x==='sans';}).length],[L('Nouveaux (période)','جدد (الفترة)'),nv.length],[L('Renouvellements (période)','تجديدات (الفترة)'),mc.ren],[L('Mineurs','القاصرون'),ms.filter(function(m){ var a=ageYM(m.birth_date); return a&&a.y<18; }).length],[L('Suspendus','الموقوفون'),st.filter(function(x){return x==='susp';}).length]);
-    var cc={}; ms.forEach(function(m){ var c=catOf(m), k=c?catLabel(c):(m.birth_date?L('Hors catégorie','خارج الفئات'):L('Date de naissance manquante','تاريخ الميلاد ناقص')); cc[k]=(cc[k]||0)+1; });
+    var cc={}; ms.forEach(function(m){ var c=catShow(m), k=c?catLabel(c):(m.birth_date?L('Hors catégorie','خارج الفئات'):L('Date de naissance manquante','تاريخ الميلاد ناقص')); cc[k]=(cc[k]||0)+1; });
     var lastEnd=function(mid){ var e=''; S.asubs.forEach(function(x){ if(x.member_id===mid&&x.ends_on>e) e=x.ends_on; }); return e; };
     secs.push(cmp,
       rs(L('Nouveaux membres de la période','الأعضاء الجدد في الفترة'),[[L('Inscrit le','تاريخ التسجيل'),'d'],[L('Identifiant','المعرّف'),'s'],[L('Nom','الاسم'),'s'],[L('Âge','العمر'),'s'],[L('Téléphone','الهاتف'),'s']],nv.sort(function(a,b){return a.joined_on.localeCompare(b.joined_on);}).map(function(m){ return [m.joined_on,codeStr(m),m.last_name+' '+m.first_name,ageStrL(m.birth_date),m.phone||m.guardian_phone||'']; })),
@@ -4536,7 +4537,7 @@ function payDetail(p){
 async function printFiche_v1(){
   var m=S.member; if(!m) return;
   var ar=await sb.from('attendance').select('*').eq('member_id',m.id), att=(ar.data||[]).slice().sort(function(a,b){ return String(b.att_date).localeCompare(String(a.att_date)); }).slice(0,8);
-  var c=catOf(m), row=function(a,b){ return b?'<tr><th style="width:30%">'+esc(a)+'</th><td>'+esc(b)+'</td></tr>':''; };
+  var c=catShow(m), row=function(a,b){ return b?'<tr><th style="width:30%">'+esc(a)+'</th><td>'+esc(b)+'</td></tr>':''; };
   var subs=(S.msubs||[]).map(function(x){ var p=S.plansAll.filter(function(y){return y.id===x.plan_id;})[0]; return '<tr><td>'+esc(p?planLabel(p):'—')+'</td><td>'+esc(x.starts_on)+'</td><td>'+esc(x.ends_on)+'</td></tr>'; }).join('');
   var pays=(S.mpays||[]).map(function(x){ return '<tr><td>'+esc(x.paid_on)+'</td><td>'+esc(t('m')[x.method])+'</td><td>'+esc(money(x.amount_millimes))+'</td><td>'+esc(t('ps')[x.status])+'</td></tr>'; }).join('');
   var docs=docList(m).map(function(x){ return '<tr><td>'+esc(docName(x.d))+'</td><td>'+esc(x.txt)+'</td></tr>'; }).join('');
@@ -4775,7 +4776,7 @@ async function printReceipt(id){
   var rooms=[]; grs.forEach(function(g){ slotsOf(g).forEach(function(s){ if(s.room&&rooms.indexOf(s.room)<0) rooms.push(s.room); }); });
   var rest=null, due=null; if(sub&&plan){ due=subDue(sub,plan); var ap=(await sb.from('payments').select('*').eq('subscription_id',sub.id)).data||[]; rest=Math.max(0,due-ap.filter(function(x){ return x.status!=='cancelled'&&x.status!=='bounced'; }).reduce(function(s,x){ return s+Number(x.amount_millimes); },0)); }
   try{ await _rawFrom('receipt_prints').insert({payment_id:p.id}); }catch(e){}
-  var c=catOf(m); var opName=sxOp(p); try{ var cr=p.created_by?(await sb.from('profiles').select('full_name').eq('id',p.created_by).maybeSingle()).data:null; opName=(cr&&cr.full_name)||(S.profile&&S.profile.full_name)||opName; }catch(e){}
+  var c=catShow(m); var opName=sxOp(p); try{ var cr=p.created_by?(await sb.from('profiles').select('full_name').eq('id',p.created_by).maybeSingle()).data:null; opName=(cr&&cr.full_name)||(S.profile&&S.profile.full_name)||opName; }catch(e){}
   var items=[]; if(sub&&plan){ items.push(['Cotisation / Abonnement',sxM(plan.price_millimes)]); if(sub.discount_millimes>0) items.push(['Réduction',sxM(sub.discount_millimes),1]); if(sub.reg_millimes>0) items.push(['Droits d\'inscription',sxM(sub.reg_millimes)]); if(sub.ins_millimes>0) items.push(['Assurance (saison)',sxM(sub.ins_millimes)]); }
   var d={items:items,no:sxNo(p),date:sxD(p.paid_on),nom:((m.last_name||'')+' '+(m.first_name||'')).trim(),adh:codeStr(m),
     cat:[c?catLabel(c):'',disc?nm(disc):'',plan?nm(plan):''].filter(Boolean).join(' · '),salle:rooms.join(' · ')||(grs[0]?grs[0].name:''),
@@ -4952,7 +4953,7 @@ var SX_BG_F=null, SX_BG_B=null;
 function sxBgF(){ return SX_BG_F||(SX_BG_F=sxSvgUri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 896 580" preserveAspectRatio="none"><rect x="-20" y="-20" width="896" height="580" fill="#fff"/><polygon points="379,560 876,364 876,560" fill="#EBAA00"/><polygon points="446,-20 474,-20 612,492 590,492" fill="#e5e7eb"/><polygon points="464,-20 876,-20 876,363 598,488" fill="#2F3444"/><polygon points="876,363 876,412 640,505 598,488" fill="#20263A"/><polygon points="762,-20 876,-20 876,111 824,134" fill="#EBAA00"/></svg>')); }
 function sxBgB(){ return SX_BG_B||(SX_BG_B=sxSvgUri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -20 896 580" preserveAspectRatio="none"><rect x="-20" y="-20" width="896" height="580" fill="#2F3444"/><polygon points="799,-20 876,-20 876,58 830,72" fill="#EBAA00"/><polygon points="-20,560 -20,474 876,440 876,560" fill="#EBAA00"/><polygon points="-20,460 876,426 876,440 -20,474" fill="#20263A"/></svg>')); }
 function sxCardFront(m,grp){
-  var a=assoc(), c=catOf(m), ds=[], gs=[];
+  var a=assoc(), c=catShow(m), ds=[], gs=[];
   (S.gm||[]).forEach(function(x){ if(x.member_id===m.id){ var g=(S.groups||[]).filter(function(y){ return y.id===x.group_id; })[0]; if(g){ gs.push(g.name); var d=discOf(g.discipline_id); if(d&&ds.indexOf(nm(d))<0) ds.push(nm(d)); } } });
   var y0=Number(String(sxSeason()).slice(0,4))||Number(todayStr().slice(0,4));
   
@@ -4983,7 +4984,7 @@ var SX_BG_FV=null, SX_BG_BV=null;
 function sxBgFV(){ return SX_BG_FV||(SX_BG_FV=sxSvgUri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 896" preserveAspectRatio="none"><rect width="580" height="896" fill="#fff"/><polygon points="0,0 580,0 580,330 0,400" fill="#2F3444"/><polygon points="0,400 580,330 580,356 0,428" fill="#20263A"/><polygon points="0,820 580,780 580,896 0,896" fill="#EBAA00"/><polygon points="0,806 580,766 580,780 0,820" fill="#20263A"/><polygon points="470,0 580,0 580,96 524,116" fill="#EBAA00"/></svg>')); }
 function sxBgBV(){ return SX_BG_BV||(SX_BG_BV=sxSvgUri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 896" preserveAspectRatio="none"><rect width="580" height="896" fill="#2F3444"/><polygon points="470,0 580,0 580,96 524,116" fill="#EBAA00"/><polygon points="0,796 580,756 580,896 0,896" fill="#EBAA00"/><polygon points="0,782 580,742 580,756 0,796" fill="#20263A"/></svg>')); }
 function sxCardFrontV(m){
-  var a=assoc(), c=catOf(m), ds=[], gs=[];
+  var a=assoc(), c=catShow(m), ds=[], gs=[];
   (S.gm||[]).forEach(function(x){ if(x.member_id===m.id){ var g=(S.groups||[]).filter(function(y){ return y.id===x.group_id; })[0]; if(g){ gs.push(g.name); var d=discOf(g.discipline_id); if(d&&ds.indexOf(nm(d))<0) ds.push(nm(d)); } } });
   var y0=Number(String(sxSeason()).slice(0,4))||Number(todayStr().slice(0,4));
   var full=(m.last_name||'')+' '+(m.first_name||''), ini=((m.first_name||'?').trim().charAt(0)+(m.last_name||'').trim().charAt(0)).toUpperCase();
@@ -5232,7 +5233,7 @@ async function printMemberAttendance(mid){
   [0,50,75,100].forEach(function(v){ var y=H-B-(H-B-8)*v/100; svg+='<line x1="'+L+'" x2="'+W+'" y1="'+y.toFixed(1)+'" y2="'+y.toFixed(1)+'" stroke="'+(v===75?'#9b1c1c':'#e5e7eb')+'" stroke-width="'+(v===75?.8:.6)+'"'+(v===75?' stroke-dasharray="3 2"':'')+'/><text x="'+(L-4)+'" y="'+(y+2.5).toFixed(1)+'" font-size="6.5" text-anchor="end" fill="#6b7280">'+v+' %</text>'; });
   mon.forEach(function(p,i){ var x=L+10+i*((W-L-12)/12); if(p!=null){ var h=(H-B-8)*p/100, c=p>=75?'#2f7a4b':'#9b1c1c'; svg+='<path d="M'+x+','+(H-B)+' v'+(-Math.max(h-3,0))+' q0,-3 3,-3 h'+(bw-6)+' q3,0 3,3 v'+Math.max(h-3,0)+' z" fill="'+c+'"/><text x="'+(x+bw/2)+'" y="'+(H-B-h-3)+'" font-size="6.5" text-anchor="middle" fill="#374151" font-weight="700">'+p+'</text>'; }
     svg+='<text x="'+(x+bw/2)+'" y="'+(H-B+10)+'" font-size="6.5" text-anchor="middle" fill="#4b5563">'+MO[i]+'</text>'; });
-  var gs=(S.groups||[]).filter(function(g){ return gids.indexOf(g.id)>-1; }), co=gs[0]?coachOf(gs[0].coach_id):null, c=catOf(m);
+  var gs=(S.groups||[]).filter(function(g){ return gids.indexOf(g.id)>-1; }), co=gs[0]?coachOf(gs[0].coach_id):null, c=catShow(m);
   var html='<div class="sxd"><div class="p sxpg">'+sxHead('FICHE D\'ASSIDUITÉ','بطاقة المواظبة',null,'Saison '+sxE(ss))+
    '<div class="blk"><div class="g2" style="grid-template-columns:1fr 1fr 1fr"><div><i>Membre</i><b>'+sxE(m.last_name+' '+m.first_name)+'</b></div><div><i>N° · Catégorie</i><b>'+sxE(codeStr(m)+(c?' · '+catLabel(c):''))+'</b></div><div><i>Groupe · Coach</i><b>'+sxE((gs.map(function(g){return g.name;}).join(', ')||'—')+(co?' · '+co.full_name:''))+'</b></div></div></div>'+
    '<div class="kp"><div class="g"><i><span>Présence</span>'+sxAr('الحضور')+'</i><b>'+(nS?Math.round(nP*100/nS):0)+' %</b><small>sur la saison</small></div><div><i><span>Séances</span>'+sxAr('الحصص')+'</i><b>'+nP+' / '+nS+'</b><small>depuis septembre</small></div><div><i><span>Absences</span>'+sxAr('الغيابات')+'</i><b>'+(nS-nP)+'</b><small>séances manquées</small></div><div><i><span>Dernière présence</span></i><b style="font-size:9pt">'+(last?sxD(last):'—')+'</b></div></div>'+
@@ -5267,7 +5268,7 @@ async function printFiche(){
   var held={}, me={};
   at.forEach(function(x){ if(gids.indexOf(x.group_id)>-1) held[x.att_date]=1; if(x.member_id===m.id){ me[x.att_date]=1; held[x.att_date]=1; } });
   var hd=Object.keys(held).sort(), nS=hd.length, nP=hd.filter(function(d){ return me[d]; }).length, last12=hd.slice(-12);
-  var c=catOf(m), a0=ageYM(m.birth_date), subs=S.msubs||[], cur=subs[0], st=subState(cur&&cur.ends_on), pl=cur&&planOf(cur.plan_id);
+  var c=catShow(m), a0=ageYM(m.birth_date), subs=S.msubs||[], cur=subs[0], st=subState(cur&&cur.ends_on), pl=cur&&planOf(cur.plan_id);
   var pays=(S.mpays||[]).filter(validPay), due=0;
   subs.forEach(function(s){ var p0=planOf(s.plan_id), paid=pays.filter(function(p){ return p.subscription_id===s.id; }).reduce(function(t,p){ return t+Number(p.amount_millimes||0); },0); due+=Math.max(0,subDue(s,p0)-paid); });
   var dl=docList(m), dOk=dl.filter(function(x){ return x.st==='ok'||x.st==='soon'; }).length, dBad=dl.length-dOk;
@@ -5525,7 +5526,7 @@ async function printReceipt_v1(id){
   var rest=null; if(sub&&plan){ var ap=(await sb.from('payments').select('*').eq('subscription_id',sub.id)).data||[]; rest=Math.max(0,subDue(sub,plan)-ap.filter(function(x){ return x.status!=='cancelled'&&x.status!=='bounced'; }).reduce(function(a,x){ return a+Number(x.amount_millimes); },0)); }
   await _rawFrom('receipt_prints').insert({payment_id:p.id});
   var copies=((await sb.from('receipt_prints').select('*').eq('payment_id',p.id)).data||[]).length;
-  var a=assoc(), no=rcNo(p), room=grp&&slotsOf(grp).map(function(x){return x.room;}).filter(Boolean)[0]||'', c=catOf(m);
+  var a=assoc(), no=rcNo(p), room=grp&&slotsOf(grp).map(function(x){return x.room;}).filter(Boolean)[0]||'', c=catShow(m);
   var tm=p.created_at?new Date(p.created_at).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'';
   var next=sub?addD(sub.ends_on,1):'';
   var cell=function(l,v,hl){ return '<div class="rc'+(hl?' hl':'')+'"><small>'+esc(l)+'</small><b>'+esc(v||'—')+'</b></div>'; };
