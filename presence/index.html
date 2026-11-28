@@ -1751,7 +1751,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b class="lt"><b>'+t('app')+'</b><small>'+GL('Gestion Sportive','إدارة الرياضة')+'</small></b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.11.0</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.11.1</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
@@ -2535,6 +2535,7 @@ async function loadMember(){
   S.mgroups=(gall.data||[]).filter(function(g){ return ids.indexOf(g.id)>-1; }).map(function(g){ return g.name; }).join(', ');
 }
 function infoRow(l,v){ return v?'<div><div class="who">'+l+'</div><b>'+esc(v)+'</b></div>':''; }
+async function openTransfer(){ await ensureFreePlans(); S.trGroups=(await sb.from('groups').select('*')).data||[]; S.trMine=(await sb.from('group_members').select('*').eq('member_id',S.memberId)).data||[]; S.modal='transfer'; render(); }
 function trCur(){ var td=todayStr(), act=(S.msubs||[]).filter(function(x){ return x.ends_on>=td; }); var end=act.reduce(function(mx,x){ return x.ends_on>mx?x.ends_on:mx; },''); return {act:act,end:end}; }
 function trModal(m){
   var gs=(S.trGroups||[]), mine=(S.trMine||[]).map(function(x){ return x.group_id; }), cur=trCur();
@@ -2584,6 +2585,7 @@ function memberHtml(){
      '<div class="field"><label for="sPlan">'+t('plan')+'</label><select id="sPlan">'+opts+'</select></div>'+
      '<div class="field"><label for="sStart">'+t('starts')+'</label><input id="sStart" type="date" value="'+todayStr()+'"></div>'+
      '<div class="field"><label for="sEnd">'+t('ends')+'</label><input id="sEnd" type="date"></div></div>'+
+     '<div id="kBox" hidden style="margin-top:8px;padding:10px 12px;border-radius:10px;background:#FEF3C7;color:#92400E"><div style="font-weight:700;margin-bottom:6px">'+GL('Ce membre a déjà une activité en cours. Que voulez-vous faire ?','لهذا العضو نشاط ساري. ماذا تريد؟')+'</div><label style="display:flex;gap:8px;align-items:flex-start;margin-bottom:4px"><input type="radio" name="kKind" value="extra" checked> <span><b>'+GL('Activité EN PLUS','نشاط إضافي')+'</b> — '+GL('il garde l\'ancienne et ajoute celle-ci (remise 2e discipline possible)','يبقى في القديم ويضيف هذا (يُطبَّق تخفيض الاختصاص الثاني إن وُجد)')+'</span></label><label style="display:flex;gap:8px;align-items:flex-start"><input type="radio" name="kKind" value="change"> <span><b>'+GL('CHANGEMENT de discipline','تحويل إلى رياضة أخرى')+'</b> — '+GL('il quitte l\'ancienne (sans remise 2e discipline)','ينتقل من القديم إلى الجديد (دون تخفيض الاختصاص الثاني)')+'</span></label></div>'+
      '<div class="grid2" style="margin-top:8px"><div class="field"><label for="sReg">'+GL('Droits d\'inscription','رسوم التسجيل')+'</label><input id="sReg" type="number" step="0.001" min="0" dir="ltr"></div>'+
      '<div class="field"><label for="sIns">'+GL('Assurance','التأمين')+'</label><input id="sIns" type="number" step="0.001" min="0" dir="ltr"></div>'+
      '<div class="field"><label for="sDisc">'+GL('Remise fratrie','تخفيض الإخوة')+'</label><input id="sDisc" type="number" step="0.001" min="0" dir="ltr"></div></div>'+
@@ -2635,7 +2637,7 @@ function bindMember(){
   if($('bBack')) $('bBack').onclick=function(){ S.view='members'; loadView(); };
   document.querySelectorAll('[data-maw]').forEach(function(b){ b.onclick=function(){ var id=b.getAttribute('data-maw'); printAwards(awardItems((S.mcr||[]).filter(function(r){return r.id===id;}))); }; });
   if($('bNewSub')) $('bNewSub').onclick=async function(){ await ensureFreePlans(); S.showSub=true; render(); };
-  if($('bTransfer')) $('bTransfer').onclick=async function(){ await ensureFreePlans(); S.trGroups=(await sb.from('groups').select('*')).data||[]; S.trMine=(await sb.from('group_members').select('*').eq('member_id',S.memberId)).data||[]; S.modal='transfer'; render(); };
+  if($('bTransfer')) $('bTransfer').onclick=openTransfer;
   if($('fTr')){
     var trPlans=function(){ var g=(S.trGroups||[]).filter(function(x){ return x.id===$('tGroup').value; })[0]; return S.plansAll.filter(function(p){ return g&&p.discipline_id===g.discipline_id&&p.active; }); };
     var trCalc=function(){ var p=S.plansAll.filter(function(x){ return x.id===$('tPlan').value; })[0]; if(!p){ $('tSum').textContent=GL('Aucun tarif actif pour cette discipline.','لا توجد تعرفة فعّالة لهذا الاختصاص.'); return null; }
@@ -2696,6 +2698,8 @@ function bindMember(){
   if(!$('fSub')) return;
   $('sCancel').onclick=closeModal;
   function plan(){ return S.plansAll.filter(function(p){return p.id===$('sPlan').value;})[0]; }
+  function otherAct(p){ var st=$('sStart').value||todayStr(); return (S.msubs||[]).some(function(u){ var pu=planOf(u.plan_id); return pu&&pu.discipline_id!==p.discipline_id&&u.ends_on>=st; }); }
+  document.querySelectorAll('input[name=kKind]').forEach(function(r){ r.onchange=function(){ recalc(); }; });
   var FC=feesCfg(), isFirst=!(S.msubs||[]).length, hasIns=(S.msubs||[]).some(function(x){ return x.ins_millimes>0&&x.starts_on>=seasonStart(); }), hasReg=(S.msubs||[]).some(function(x){ return x.reg_millimes>0; });
   var rank=sibRank(S.member||{});
   function num(i){ return Math.max(0,Math.round(parseFloat($(i).value||'0')*1000)); }
@@ -2704,7 +2708,7 @@ function bindMember(){
   function recalc(){ var p=plan(); if(!p) return; $('sEnd').value=addMonths($('sStart').value||todayStr(),p.duration_months);
     $('sReg').value=((FC.reg&&!hasReg&&(FC.regWhen==='always'||isFirst)?FC.reg:0)/1000).toFixed(3);
     $('sIns').value=((FC.ins&&(FC.insWhen==='always'||!hasIns)?FC.ins:0)/1000).toFixed(3);
-    var dd=discFor(S.member||{},p,$('sStart').value); S.discWhy=dd.why; $('sDisc').value=(dd.amt/1000).toFixed(3); if(dd.waiveReg) $('sReg').value='0.000'; if(dd.waiveIns) $('sIns').value='0.000'; sum(); }
+    var kb=otherAct(p), chg=!!(document.querySelector('input[name=kKind]:checked')&&document.querySelector('input[name=kKind]:checked').value==='change'); $('kBox').hidden=!kb; var dd=discFor(S.member||{},p,$('sStart').value,kb&&chg); S.discWhy=dd.why; $('sDisc').value=(dd.amt/1000).toFixed(3); if(dd.waiveReg) $('sReg').value='0.000'; if(dd.waiveIns) $('sIns').value='0.000'; sum(); }
   $('sPlan').onchange=recalc; $('sStart').onchange=recalc; recalc();
   ['sReg','sIns','sDisc'].forEach(function(i){ $(i).oninput=sum; });
   if($('sMeth')) $('sMeth').onchange=function(){ var v=$('sMeth').value; $('xChq').hidden=$('xBank').hidden=$('xDue').hidden=(v!=='cheque'); $('xRef').hidden=(v!=='transfer'); };
@@ -2712,6 +2716,7 @@ function bindMember(){
   $('fSub').onsubmit=async function(e){
     e.preventDefault(); var msg=$('sMsg'); msg.textContent='';
     var p=plan(); if(!p){ msg.textContent=t('plan'); return; }
+    if(!$('kBox').hidden&&document.querySelector('input[name=kKind]:checked').value==='change'){ S.showSub=false; await openTransfer(); return; }
     try{ var ds0=$('sStart').value, same=(S.msubs||[]).filter(function(u){ var pu=planOf(u.plan_id); return pu&&pu.discipline_id===p.discipline_id&&u.ends_on>=ds0; });
       if(same.length){ var unp=same.filter(function(u){ return subBalOf(u)>0; })[0];
         if(unp){ if(await uiConfirm(GL('Ce membre a déjà un abonnement NON PAYÉ dans cette discipline (reste '+money(subBalOf(unp))+').\n\nOui = encaisser sur l\'abonnement existant (aucun nouvel abonnement).\nNon = créer quand même un nouvel abonnement.','لهذا العضو اشتراك غير مدفوع في نفس الاختصاص (المتبقي '+money(subBalOf(unp))+').\n\nنعم = سجّل الدفع على الاشتراك الموجود (دون إنشاء اشتراك جديد).\nلا = أنشئ اشتراكاً جديداً رغم ذلك.'),{title:GL('Abonnement existant','اشتراك موجود'),ok:GL('Oui, encaisser','نعم، سجّل الدفع'),cancel:GL('Non, créer','لا، أنشئ')})){ S.showSub=false; render(); await sxEncaisser(unp.id); return; } }
@@ -2730,10 +2735,6 @@ function bindMember(){
     var r=await sb.from('subscriptions').insert({member_id:S.memberId,plan_id:p.id,starts_on:$('sStart').value,ends_on:$('sEnd').value,due_millimes:total(),discount_millimes:num('sDisc'),reg_millimes:num('sReg'),ins_millimes:num('sIns')}).select().single();
     if(r.error){ msg.textContent=r.error.message; return; }
     if(discReason){ try{ logAct('discount','subscriptions',{reason:discReason,amount:num('sDisc')},'id='+(r.data&&r.data.id)); }catch(eL){} }
-    try{ var nstart=$('sStart').value, olds=(S.msubs||[]).filter(function(u){ var pu=planOf(u.plan_id); return pu&&pu.discipline_id!==p.discipline_id&&u.ends_on>=nstart; });
-      if(olds.length&&confirm(GL('Ce membre a déjà un abonnement actif dans une autre discipline.\n\nOK = CHANGEMENT de discipline (l\'ancien abonnement est terminé la veille du nouveau).\nAnnuler = activité EN PLUS (les deux restent actifs).','لهذا اللاعب اشتراك ساري في اختصاص آخر.\n\nموافق = انتقال من اختصاص إلى آخر (يُنهى الاشتراك القديم قبل بداية الجديد بيوم).\nإلغاء = نشاط إضافي (يبقى الاثنان ساريين).'))){
-        for(var oi=0;oi<olds.length;oi++){ var e2=addD(nstart,-1); if(e2<olds[oi].starts_on) e2=olds[oi].starts_on; await sb.from('subscriptions').update({ends_on:e2}).eq('id',olds[oi].id); } }
-    }catch(e0){}
     if($('sPay') && $('sPay').checked){
       var amt=Math.round(parseFloat($('sAmt').value||'0')*1000), meth=$('sMeth').value;
       if(amt>0){
