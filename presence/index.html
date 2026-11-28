@@ -1101,7 +1101,7 @@ function sibRank(m){ if(!phKeys(m).length) return 1; var sibs=(S.gmembers||[]).f
 function discFor(m,plan,start,noSecond){ var price=plan.price_millimes, f=feesCfg(), g=socFor(m.id,start||todayStr());
   if(isFreeLv(m.id,plan.discipline_id)){ var sp=f.freeScope[lvNow(m.id,plan.discipline_id)]||'plan'; return {amt:price,why:GL('Niveau gratuit','مستوى مجاني'),waiveReg:sp!=='plan'||!!(g&&g.reg),waiveIns:sp==='all'||!!(g&&g.ins)}; }
   var rank=sibRank(m), a=sibDisc(rank,price), why=a?GL('Remise fratrie (rang '+rank+')','تخفيض إخوة (الترتيب '+rank+')'):'';
-  var other=(S.msubs||[]).some(function(u){ return u.ends_on>=(start||todayStr())&&planDisc(u.plan_id)&&planDisc(u.plan_id)!==plan.discipline_id; });
+  var other=(S.msubs||[]).some(function(u){ var pu=planOf(u.plan_id), du=planDisc(u.plan_id); return u.ends_on>=(start||todayStr())&&du&&du!==plan.discipline_id&&pu&&pu.price_millimes>0&&!isFreeLv(m.id,du); });
   if(!noSecond&&other&&f.secondPct>0){ var b=Math.round(price*f.secondPct/100); if(b>a){ a=b; why=GL('2e discipline ('+f.secondPct+' %)','الاختصاص الثاني ('+f.secondPct+'%)'); } }
   if(g){ var sd=socPlanDisc(g,price); if(sd>=a){ a=sd; why=GL('Aide sociale','مساعدة اجتماعية'); } }
   return {amt:Math.min(a,price),why:why,waiveReg:!!(g&&g.reg),waiveIns:!!(g&&g.ins)}; }
@@ -1751,7 +1751,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b class="lt"><b>'+t('app')+'</b><small>'+GL('Gestion Sportive','إدارة الرياضة')+'</small></b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.11.2</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.11.3</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
