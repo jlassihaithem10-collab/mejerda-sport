@@ -1098,11 +1098,11 @@ function freeMember(x){ var cur=(S.allSubs||[]).filter(function(u){ return u.mem
 function phKeys(m){ var o=[]; [m&&m.guardian_phone,m&&m.phone].forEach(function(v){ var d=String(v||'').replace(/\D/g,''); if(d.length>=8){ d=d.slice(-8); if(o.indexOf(d)<0) o.push(d); } }); return o; }
 function phSame(a,b){ var ka=phKeys(a), kb=phKeys(b); return ka.some(function(k){ return kb.indexOf(k)>-1; }); }
 function sibRank(m){ if(!phKeys(m).length) return 1; var sibs=(S.gmembers||[]).filter(function(x){ return x.status!=='left'&&(x.id===m.id||phSame(x,m))&&(x.id===m.id||!freeMember(x)); }).sort(function(a,b){ return (a.code||0)-(b.code||0); }); var i=sibs.map(function(x){return x.id;}).indexOf(m.id); return i<0?sibs.length+1:i+1; }
-function discFor(m,plan,start){ var price=plan.price_millimes, f=feesCfg(), g=socFor(m.id,start||todayStr());
+function discFor(m,plan,start,noSecond){ var price=plan.price_millimes, f=feesCfg(), g=socFor(m.id,start||todayStr());
   if(isFreeLv(m.id,plan.discipline_id)){ var sp=f.freeScope[lvNow(m.id,plan.discipline_id)]||'plan'; return {amt:price,why:GL('Niveau gratuit','مستوى مجاني'),waiveReg:sp!=='plan'||!!(g&&g.reg),waiveIns:sp==='all'||!!(g&&g.ins)}; }
   var rank=sibRank(m), a=sibDisc(rank,price), why=a?GL('Remise fratrie (rang '+rank+')','تخفيض إخوة (الترتيب '+rank+')'):'';
   var other=(S.msubs||[]).some(function(u){ return u.ends_on>=(start||todayStr())&&planDisc(u.plan_id)&&planDisc(u.plan_id)!==plan.discipline_id; });
-  if(other&&f.secondPct>0){ var b=Math.round(price*f.secondPct/100); if(b>a){ a=b; why=GL('2e discipline ('+f.secondPct+' %)','الاختصاص الثاني ('+f.secondPct+'%)'); } }
+  if(!noSecond&&other&&f.secondPct>0){ var b=Math.round(price*f.secondPct/100); if(b>a){ a=b; why=GL('2e discipline ('+f.secondPct+' %)','الاختصاص الثاني ('+f.secondPct+'%)'); } }
   if(g){ var sd=socPlanDisc(g,price); if(sd>=a){ a=sd; why=GL('Aide sociale','مساعدة اجتماعية'); } }
   return {amt:Math.min(a,price),why:why,waiveReg:!!(g&&g.reg),waiveIns:!!(g&&g.ins)}; }
 
@@ -1751,7 +1751,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b class="lt"><b>'+t('app')+'</b><small>'+GL('Gestion Sportive','إدارة الرياضة')+'</small></b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.10.1</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.11.0</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
@@ -2535,6 +2535,24 @@ async function loadMember(){
   S.mgroups=(gall.data||[]).filter(function(g){ return ids.indexOf(g.id)>-1; }).map(function(g){ return g.name; }).join(', ');
 }
 function infoRow(l,v){ return v?'<div><div class="who">'+l+'</div><b>'+esc(v)+'</b></div>':''; }
+function trCur(){ var td=todayStr(), act=(S.msubs||[]).filter(function(x){ return x.ends_on>=td; }); var end=act.reduce(function(mx,x){ return x.ends_on>mx?x.ends_on:mx; },''); return {act:act,end:end}; }
+function trModal(m){
+  var gs=(S.trGroups||[]), mine=(S.trMine||[]).map(function(x){ return x.group_id; }), cur=trCur();
+  var curG=gs.filter(function(g){ return mine.indexOf(g.id)>-1; });
+  var cand=gs.filter(function(g){ return mine.indexOf(g.id)<0; });
+  var dn=function(did){ var d=(S.discs||[]).filter(function(x){return x.id===did;})[0]; return d?nm(d):'—'; };
+  var start=cur.end?addD(cur.end,1):todayStr();
+  var oldTxt=cur.act.map(function(x){ var pl=planOf(x.plan_id); return (pl?planLabel(pl):'—')+' ('+x.starts_on+' → '+x.ends_on+')'; }).join(' · ')||GL('Aucun abonnement en cours','لا يوجد اشتراك ساري');
+  return modal(GL('Changer de discipline','تحويل إلى رياضة أخرى'),'<form id="fTr" novalidate>'+
+   '<p class="who" style="margin-bottom:8px">'+GL('Abonnement actuel : ','الاشتراك الحالي: ')+'<b>'+esc(oldTxt)+'</b></p>'+
+   '<p class="who" style="margin-bottom:10px">'+GL('L\'ancien abonnement reste payé jusqu\'à sa fin (non modifié). Le nouveau commence le lendemain. Inscription et assurance déjà payées ne sont pas redemandées.','يبقى الاشتراك القديم مدفوعاً حتى نهايته دون تعديل، ويبدأ الجديد في اليوم الموالي. رسوم التسجيل والتأمين المدفوعة لا تُطلب من جديد.')+'</p>'+
+   '<div class="grid2"><div class="field"><label for="tGroup">'+GL('Nouveau groupe','المجموعة الجديدة')+'</label><select id="tGroup">'+cand.map(function(g){ return '<option value="'+g.id+'">'+esc(dn(g.discipline_id)+' · '+g.name)+'</option>'; }).join('')+'</select></div>'+
+   '<div class="field"><label for="tPlan">'+t('plan')+'</label><select id="tPlan"></select></div>'+
+   '<div class="field"><label for="tStart">'+GL('Début du nouvel abonnement','بداية الاشتراك الجديد')+'</label><input id="tStart" type="date" value="'+start+'"></div></div>'+
+   (curG.length?'<div class="field" style="margin-top:8px"><label>'+GL('Retirer des groupes actuels','إزالته من المجموعات الحالية')+'</label>'+curG.map(function(g){ return '<label style="display:flex;gap:8px;align-items:center;font-weight:500"><input type="checkbox" class="tOut" value="'+g.id+'" checked> '+esc(dn(g.discipline_id)+' · '+g.name)+'</label>'; }).join('')+'</div>':'')+
+   '<div class="who" id="tSum" style="margin:10px 0;font-weight:700"></div><div class="err" id="tMsg" role="alert"></div>'+
+   '<div class="mf"><button class="btn" type="button" data-close>'+t('cancel')+'</button><button class="btn pri" type="submit">'+GL('Transférer','تحويل')+'</button></div></form>');
+}
 function memberHtml(){
   var m=S.member; if(!m) return '<div class="err">'+esc(S.memErr||'—')+'</div><button class="btn" id="bBack">'+t('back')+'</button>';
   var last=S.msubs[0], lbal=last?subBalOf(last):0, st=subStateB(last&&last.ends_on,lbal), c=catShow(m);
@@ -2554,11 +2572,12 @@ function memberHtml(){
   var dossier='<div class="panel" style="margin-top:14px"><div class="bar" style="margin-bottom:8px"><h3 style="flex:1">'+t('dossier')+'</h3>'+(canEditMembers()?'<button class="btn sm" id="bDoc">'+t('editDossier')+'</button>':'')+'</div>'+
    dl.map(function(x){ var nf=(S.mfiles||[]).filter(function(f){return f.doc_type===x.d.id;}).length;
      return '<div style="display:flex;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line);flex-wrap:wrap"><span style="flex:1;min-width:160px">'+esc(docName(x.d))+(nf?' <span class="who">· '+nf+' '+t('files')+'</span>':'')+'</span><span class="who">'+esc(x.txt)+'</span><span class="pill'+(x.st==='ok'?'':x.st==='soon'?' s':' l')+'">'+t('dS')[x.st]+'</span></div>'; }).join('')+'</div>';
-  var subBox='<div class="panel" style="margin-top:14px"><div class="bar" style="margin-bottom:8px"><h3 style="flex:1">'+t('sub')+'</h3>'+(canEditMembers()?'<button class="btn pri sm" id="bNewSub">'+t('newSub')+'</button>':'')+'</div>'+
+  var subBox='<div class="panel" style="margin-top:14px"><div class="bar" style="margin-bottom:8px"><h3 style="flex:1">'+t('sub')+'</h3>'+(canEditMembers()?'<button class="btn sm" id="bTransfer" style="margin-inline-end:6px">'+GL('Changer de discipline','تحويل إلى رياضة أخرى')+'</button><button class="btn pri sm" id="bNewSub">'+t('newSub')+'</button>':'')+'</div>'+
    (last?'<div><b>'+(plan?esc(planLabel(plan)):'—')+'</b></div><div class="who">'+last.starts_on+' → '+last.ends_on+' · '+(lbal>0&&left>=0? '<b style="color:var(--bad)">'+GL('Non payé · reste ','غير مدفوع · المتبقي ')+money(lbal)+'</b> '+(canFin()||canEditMembers()?'<button class="btn sm pri" data-encsub="'+last.id+'">'+GL('Encaisser','قبض')+'</button>':'') : (left>=0? left+' '+t('daysLeft') : t('daysAgo')+' '+(-left)))+'</div>':'<div class="who">'+t('noSub')+'</div>')+activeSubsBox()+'</div>';
   var modals='';
   if(S.modal==='memedit') modals=memberFormModal(m);
   if(S.modal==='doc') modals=docModal(m);
+  if(S.modal==='transfer') modals=trModal(m);
   if(S.showSub){
     var opts=S.plansAll.filter(function(p){return p.active&&(!dprof(p.discipline_id).free||p.price_millimes===0);}).map(function(p){ return '<option value="'+p.id+'">'+esc(planLabel(p))+' — '+money(p.price_millimes)+'</option>'; }).join('');
     modals=modal(t('newSub'),'<form id="fSub" novalidate><div class="grid2">'+
@@ -2616,6 +2635,27 @@ function bindMember(){
   if($('bBack')) $('bBack').onclick=function(){ S.view='members'; loadView(); };
   document.querySelectorAll('[data-maw]').forEach(function(b){ b.onclick=function(){ var id=b.getAttribute('data-maw'); printAwards(awardItems((S.mcr||[]).filter(function(r){return r.id===id;}))); }; });
   if($('bNewSub')) $('bNewSub').onclick=async function(){ await ensureFreePlans(); S.showSub=true; render(); };
+  if($('bTransfer')) $('bTransfer').onclick=async function(){ await ensureFreePlans(); S.trGroups=(await sb.from('groups').select('*')).data||[]; S.trMine=(await sb.from('group_members').select('*').eq('member_id',S.memberId)).data||[]; S.modal='transfer'; render(); };
+  if($('fTr')){
+    var trPlans=function(){ var g=(S.trGroups||[]).filter(function(x){ return x.id===$('tGroup').value; })[0]; return S.plansAll.filter(function(p){ return g&&p.discipline_id===g.discipline_id&&p.active; }); };
+    var trCalc=function(){ var p=S.plansAll.filter(function(x){ return x.id===$('tPlan').value; })[0]; if(!p){ $('tSum').textContent=GL('Aucun tarif actif pour cette discipline.','لا توجد تعرفة فعّالة لهذا الاختصاص.'); return null; }
+      var FC=feesCfg(), hasIns=(S.msubs||[]).some(function(x){ return x.ins_millimes>0&&x.starts_on>=seasonStart(); }), hasReg=(S.msubs||[]).some(function(x){ return x.reg_millimes>0; });
+      var dd=discFor(S.member||{},p,$('tStart').value,true), reg=(FC.reg&&!hasReg&&FC.regWhen==='always')?FC.reg:0, ins=(FC.ins&&(FC.insWhen==='always'||!hasIns))?FC.ins:0;
+      if(dd.waiveReg) reg=0; if(dd.waiveIns) ins=0; var due=Math.max(0,p.price_millimes-dd.amt+reg+ins), end=addMonths($('tStart').value||todayStr(),p.duration_months);
+      $('tSum').textContent=GL('À payer : ','المطلوب: ')+money(due)+'  ('+money(p.price_millimes)+(dd.amt?' − '+money(dd.amt)+' '+dd.why:'')+(reg?' + '+money(reg):'')+(ins?' + '+money(ins):'')+') · '+GL('jusqu\'au ','حتى ')+end;
+      return {p:p,dd:dd,reg:reg,ins:ins,due:due,end:end}; };
+    var trFill=function(){ $('tPlan').innerHTML=trPlans().map(function(p){ return '<option value="'+p.id+'">'+esc(nm(p))+' — '+money(p.price_millimes)+'</option>'; }).join(''); trCalc(); };
+    $('tGroup').onchange=trFill; $('tPlan').onchange=trCalc; $('tStart').onchange=trCalc; trFill();
+    $('fTr').onsubmit=async function(e){ e.preventDefault(); var msg=$('tMsg'); msg.textContent=''; var c=trCalc(); if(!c||!$('tGroup').value){ msg.textContent=GL('Choisissez un groupe et un tarif.','اختر مجموعة وتعرفة.'); return; }
+      var m=S.member||{}, nm0=(m.first_name||'')+' '+(m.last_name||''), outs=[].slice.call(document.querySelectorAll('.tOut:checked')).map(function(x){ return x.value; });
+      if(!await uiConfirm(GL(nm0+'\nNouveau : '+planLabel(c.p)+'\nDu '+$('tStart').value+' au '+c.end+'\nÀ payer : '+money(c.due)+(outs.length?'\nRetiré de '+outs.length+' groupe(s).':''),nm0+'\nالجديد: '+planLabel(c.p)+'\nمن '+$('tStart').value+' إلى '+c.end+'\nالمطلوب: '+money(c.due)+(outs.length?'\nيُزال من '+outs.length+' مجموعة.':'')),{title:GL('Confirmer le transfert','تأكيد التحويل'),ok:GL('Transférer','تحويل'),cancel:GL('Corriger','تعديل')})) return;
+      if(outs.length){ var d1=await sb.from('group_members').delete().eq('member_id',S.memberId).in('group_id',outs); if(d1.error){ msg.textContent=d1.error.message; return; } }
+      var a1=await sb.from('group_members').insert({group_id:$('tGroup').value,member_id:S.memberId}); if(a1.error){ msg.textContent=a1.error.message; return; }
+      var r=await sb.from('subscriptions').insert({member_id:S.memberId,plan_id:c.p.id,starts_on:$('tStart').value,ends_on:c.end,due_millimes:c.due,discount_millimes:c.dd.amt,reg_millimes:c.reg,ins_millimes:c.ins}).select().single(); if(r.error){ msg.textContent=r.error.message; return; }
+      try{ logAct('transfer','subscriptions',{to_plan:c.p.id,from_groups:outs,to_group:$('tGroup').value,start:$('tStart').value},'id='+(r.data&&r.data.id)); }catch(eL){}
+      S.modal=''; await loadMember(); render();
+      if(c.due>0&&r.data&&await uiConfirm(GL('Encaisser maintenant le nouvel abonnement ?','هل تريد قبض ثمن الاشتراك الجديد الآن؟'),{title:GL('Paiement','الدفع'),ok:GL('Oui, encaisser','نعم، اقبض'),cancel:GL('Plus tard','لاحقاً')})) await sxEncaisser(r.data.id); };
+  }
   document.querySelectorAll('[data-encsub]').forEach(function(b){ b.onclick=function(){ sxEncaisser(b.getAttribute('data-encsub')); }; });
   document.querySelectorAll('[data-endsub]').forEach(function(b){ b.onclick=async function(){ var id=b.getAttribute('data-endsub'), x=(S.msubs||[]).filter(function(y){return y.id===id;})[0]; if(!x) return;
     if(!confirm(GL('Terminer cet abonnement maintenant ? (le membre ne sera plus compté dans cette discipline ; les montants dus restent inchangés)','إنهاء هذا الاشتراك الآن؟ (لن يُحسب اللاعب في هذا الاختصاص، وتبقى المبالغ المستحقة كما هي)'))) return;
