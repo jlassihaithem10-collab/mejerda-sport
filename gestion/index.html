@@ -1751,7 +1751,7 @@ function shell(title, inner){
   }).join('');
   return '<div class="shell'+(S.mini?' mini':'')+'">'+
    '<aside class="side"><div class="logo"><i>S</i><b class="lt"><b>'+t('app')+'</b><small>'+GL('Gestion Sportive','إدارة الرياضة')+'</small></b></div>'+nav+'<div class="grow"></div>'+
-   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.10.0</div>'+
+   '<button class="nav" id="bMini" title="'+t('collapse')+'">'+svg('menu')+'<span>'+t('collapse')+'</span></button><div class="who" style="padding:2px 16px;font-size:10px;opacity:.6">v1.10.1</div>'+
    '<button class="nav" id="bOut" title="'+t('logout')+'">'+svg('out')+'<span>'+t('logout')+'</span></button></aside>'+
    '<main class="main"><div class="top"><h1>'+esc(title)+'</h1><div class="sp"></div>'+
    (DEMO?'<span class="pill s">DÉMO</span>':'')+(S.profile.photo?'<img src="'+esc(S.profile.photo)+'" alt="" style="width:28px;height:28px;border-radius:50%;object-fit:cover">':'')+'<span class="who">'+esc(S.profile.full_name||'')+' · '+esc(t('roles')[S.profile.role])+'</span>'+(DEMO?'<select id="demoRole" title="'+GL('Tester un autre rôle (démo)','تجربة دور آخر (تجريبي)')+'" style="background:var(--inp);border:1px solid var(--line);border-radius:10px;padding:6px 8px">'+['manager','reception','treasurer','president','coach'].map(function(r){ return '<option value="'+r+'"'+(S.profile.role===r?' selected':'')+'>'+t('roles')[r]+'</option>'; }).join('')+'</select>':'')+toolsHtml()+'<button class="btn sm mob" id="bOut2" title="'+t('logout')+'">'+svg('out')+'</button></div>'+tabsHtml()+inner+'</main></div>';
@@ -2436,7 +2436,7 @@ function bindMemberForm(editId){
   (function(){ var pool=function(){ return S.membersAll||S.members||S.gmembers||[]; };
     var chk=function(){ var box=$('phDup'); if(!box){ box=document.createElement('div'); box.id='phDup'; box.className='who'; box.style.cssText='grid-column:1/-1;margin:-4px 0 6px;padding:8px 10px;border-radius:8px;background:#FEF3C7;color:#92400E;display:none'; var gp=$('mGPhone'); var fld=gp&&gp.closest('.field'); if(fld&&fld.parentNode) fld.parentNode.insertBefore(box,fld.nextSibling); else return; }
       var keys=[$('mPhone').value,$('mGPhone').value].map(function(x){ var d=String(x||'').replace(/\D/g,''); return d.length>=8?d.slice(-8):''; }).filter(Boolean);
-      var hit=pool().filter(function(x){ return String(x.id)!==String(editId||'')&&x.status!=='left'&&keys.indexOf(phKey(x))>-1; });
+      var hit=pool().filter(function(x){ return String(x.id)!==String(editId||'')&&x.status!=='left'&&phKeys(x).some(function(k){ return keys.indexOf(k)>-1; }); });
       if(!hit.length){ box.style.display='none'; return; }
       box.style.display='block'; box.textContent='⚠ '+GL('Ce numéro existe déjà : ','هذا الرقم مسجَّل مسبقاً: ')+hit.slice(0,4).map(function(x){ return (x.last_name||'')+' '+(x.first_name||''); }).join(' · ')+' — '+GL('même famille : la remise fratrie sera appliquée automatiquement. Vérifiez qu\'il ne s\'agit pas d\'un doublon.','نفس العائلة: يُطبَّق خصم الإخوة تلقائياً. تأكد أنه ليس تسجيلاً مكرراً.'); };
     ['mPhone','mGPhone'].forEach(function(id){ if($(id)){ $(id).addEventListener('input',chk); $(id).addEventListener('change',chk); } }); chk(); })();
